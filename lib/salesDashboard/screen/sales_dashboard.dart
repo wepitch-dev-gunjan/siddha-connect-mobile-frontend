@@ -29,7 +29,9 @@ class _SalesDashboardState extends State<SalesDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
-      drawer: const Drawer(),
+      drawer: const Drawer(
+        backgroundColor: AppColor.whiteColor,
+      ),
       appBar: AppBar(
         foregroundColor: AppColor.whiteColor,
         backgroundColor: AppColor.primaryColor,
