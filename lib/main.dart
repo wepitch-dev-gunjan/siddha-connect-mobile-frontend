@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:siddha_connect/auth/screens/splash_screen.dart';
 
 void main() {
   runApp(
@@ -15,9 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const ScreenUtilInit(
+      splitScreenMode: true,
+      minTextAdapt: true,
+      designSize: ScreenUtil.defaultSize,
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Siddha Connect',
-        home: SalesDashboard());
+        home: SplashScreen(),
+      ),
+    );
   }
 }
