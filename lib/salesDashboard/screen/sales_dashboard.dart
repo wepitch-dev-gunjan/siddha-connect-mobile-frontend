@@ -35,6 +35,7 @@ class _SalesDashboardState extends State<SalesDashboard> {
       appBar: AppBar(
         foregroundColor: AppColor.whiteColor,
         backgroundColor: AppColor.primaryColor,
+        titleSpacing: 10,
         title: SvgPicture.asset("assets/images/logo.svg"),
         actions: [
           Padding(
