@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../utils/common_style.dart';
 import '../../utils/sizes.dart';
 
@@ -65,49 +63,3 @@ class DatePIckerComponent extends StatelessWidget {
   }
 }
 
-class CusRadio extends StatelessWidget {
-  final String selectedOption, text, text1;
-  final ValueChanged<String?> onChanged;
-  final List<String> options;
-  final List<String> labels;
-
-  const CusRadio({
-    super.key,
-    required this.selectedOption,
-    required this.onChanged,
-    required this.options,
-    required this.labels,
-    required this.text,
-    required this.text1,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: 165,
-        height: 40.h,
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Radio(
-              value: 'wire',
-              groupValue: 0,
-              onChanged: (value) {},
-              activeColor: const Color(0xffFFBD11),
-            ),
-            Text(
-              text,
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-            ),
-            Radio(value: 0, groupValue: "YTD", onChanged: (value) {}),
-            Text(
-              text1,
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-            ),
-          ],
-        ));
-  }
-}

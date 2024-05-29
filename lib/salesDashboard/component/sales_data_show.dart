@@ -5,9 +5,11 @@ import '../screen/sales_dashboard.dart';
 import 'shimmer.dart';
 
 class SalesDashboardCard extends ConsumerWidget {
-  const SalesDashboardCard({
-    super.key,
-  });
+  final String selectedOption1, selectedOption2;
+  const SalesDashboardCard(
+      {super.key,
+      required this.selectedOption1,
+      required this.selectedOption2});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,11 +24,35 @@ class SalesDashboardCard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   DashboardComp(
-                    title: "YTD sell in volume",
+                    title:
+                        (selectedOption1 == 'YTD' && selectedOption2 == 'Value')
+                            ? "YTD sell in Value"
+                            : (selectedOption1 == 'MTD' &&
+                                    selectedOption2 == 'Value')
+                                ? "MTD sell in Value"
+                                : (selectedOption1 == 'YTD' &&
+                                        selectedOption2 == 'Volume')
+                                    ? "YTD sell in Volume"
+                                    : (selectedOption1 == 'MTD' &&
+                                            selectedOption2 == 'Volume')
+                                        ? "MTD sell in Volume"
+                                        : "MTD sell in Value",
                     value: data['td_sell_in'],
                   ),
                   DashboardComp(
-                    title: "LYTD sell in volume",
+                    title:
+                        (selectedOption1 == 'YTD' && selectedOption2 == 'Value')
+                            ? "LYTD sell in Value"
+                            : (selectedOption1 == 'MTD' &&
+                                    selectedOption2 == 'Value')
+                                ? "LMTD sell in Value"
+                                : (selectedOption1 == 'YTD' &&
+                                        selectedOption2 == 'Volume')
+                                    ? "LYTD sell in Volume"
+                                    : (selectedOption1 == 'MTD' &&
+                                            selectedOption2 == 'Volume')
+                                        ? "LMTD sell in Volume"
+                                        : "LMTD sell in Value",
                     value: data["ltd_sell_in"],
                   ),
                   DashboardComp(
@@ -43,14 +69,39 @@ class SalesDashboardCard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   DashboardComp(
-                    title: "YTD sell out volume",
+                    title:
+                        (selectedOption1 == 'YTD' && selectedOption2 == 'Value')
+                            ? "YTD sell out Value"
+                            : (selectedOption1 == 'MTD' &&
+                                    selectedOption2 == 'Value')
+                                ? "MTD sell out Value"
+                                : (selectedOption1 == 'YTD' &&
+                                        selectedOption2 == 'Volume')
+                                    ? "YTD sell out Volume"
+                                    : (selectedOption1 == 'MTD' &&
+                                            selectedOption2 == 'Volume')
+                                        ? "MTD sell out Volume"
+                                        : "MTD sell out Value",
                     value: data['td_sell_out'],
                   ),
                   DashboardComp(
-                    title: "YTD sell out volume",
+                    title:
+                        (selectedOption1 == 'YTD' && selectedOption2 == 'Value')
+                            ? "LYTD sell out Value"
+                            : (selectedOption1 == 'MTD' &&
+                                    selectedOption2 == 'Value')
+                                ? "LMTD sell out Value"
+                                : (selectedOption1 == 'YTD' &&
+                                        selectedOption2 == 'Volume')
+                                    ? "LYTD sell out Volume"
+                                    : (selectedOption1 == 'MTD' &&
+                                            selectedOption2 == 'Volume')
+                                        ? "LMTD sell out Volume"
+                                        : "LMTD sell out Value",
                     value: data["ltd_sell_out"],
                   ),
                   DashboardComp(
+                    titleSize: 14,
                     title: "Growth % \n",
                     value: data["sell_out_growth"],
                     valueColor: data["sell_out_growth"][0] == '-'
@@ -64,6 +115,6 @@ class SalesDashboardCard extends ConsumerWidget {
         },
         error: (error, stackTrace) =>
             const Center(child: Text("Something went wrong")),
-        loading: () =>const  DashboardShimmerEffect());
+        loading: () => const DashboardShimmerEffect());
   }
 }

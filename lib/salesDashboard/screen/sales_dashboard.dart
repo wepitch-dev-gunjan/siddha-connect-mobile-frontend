@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import 'package:siddha_connect/salesDashboard/repo/sales_dashboard_repo.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
@@ -35,7 +35,8 @@ class _SalesDashboardState extends State<SalesDashboard> {
       appBar: AppBar(
         foregroundColor: AppColor.whiteColor,
         backgroundColor: AppColor.primaryColor,
-        titleSpacing: 10,
+        titleSpacing: 0,
+        centerTitle: false,
         title: SvgPicture.asset("assets/images/logo.svg"),
         actions: [
           Padding(
@@ -52,35 +53,65 @@ class _SalesDashboardState extends State<SalesDashboard> {
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
-                  CusRadio(
-                    text1: "YTD",
-                    text: "MTD",
-                    selectedOption: selectedOption1,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption1 = value!;
-                      });
-                    },
-                    options: const ["YTD", "MTD"],
-                    labels: const ["YTD", "MTD"],
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      children: [
+                        CustomRadioButton(
+                            value: "YTD",
+                            groupValue: selectedOption1,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption1 = value!;
+                              });
+                            }),
+                        CustomRadioButton(
+                          value: "MTD",
+                          groupValue: selectedOption1,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedOption1 = value!;
+                            });
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                  const Spacer(),
-                  CusRadio(
-                    text1: "Value",
-                    text: "Volume",
-                    selectedOption: selectedOption1,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption1 = value!;
-                      });
-                    },
-                    options: const ["YTD", "MTD"],
-                    labels: const ["YTD", "MTD"],
-                  )
+                  Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      children: [
+                        CustomRadioButton(
+                            value: "Value",
+                            groupValue: selectedOption2,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption2 = value!;
+                              });
+                            }),
+                        CustomRadioButton(
+                            value: "Volume",
+                            groupValue: selectedOption2,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedOption2 = value!;
+                              });
+                            })
+                      ],
+                    ),
+                  ),
                 ],
               ),
               heightSizedBox(10.0),
@@ -94,21 +125,18 @@ class _SalesDashboardState extends State<SalesDashboard> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     children: [
-                      DatePIckerComponent(
-                        year: "2023",
-                        month: "April",
-                      ),
+                      DatePIckerComponent(year: "2023", month: "April"),
                       Spacer(),
-                      DatePIckerComponent(
-                        year: "2024",
-                        month: "April",
-                      ),
+                      DatePIckerComponent(year: "2024", month: "April"),
                     ],
                   ),
                 ),
               ),
 
-              const SalesDashboardCard(),
+              SalesDashboardCard(
+                selectedOption1: selectedOption1,
+                selectedOption2: selectedOption2,
+              ),
 
               //
             ],
