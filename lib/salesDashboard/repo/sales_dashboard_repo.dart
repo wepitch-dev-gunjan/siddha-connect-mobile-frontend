@@ -14,4 +14,14 @@ class SalesDashboardRepo {
       log(e.toString());
     }
   }
+
+  getChannelData() async {
+    try {
+      final response =
+          await ApiMethod(url: ApiUrl.getChannelData).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

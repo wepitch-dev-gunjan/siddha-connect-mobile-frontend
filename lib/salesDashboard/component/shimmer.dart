@@ -12,29 +12,31 @@ class DashboardShimmerEffect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.only(top: 10,),
-          child: Column(
+      padding: const EdgeInsets.only(
+        top: 10,
+      ),
+      child: Column(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ShimmerComp(),
-                  ShimmerComp(),
-                  ShimmerComp(),
-                ],
-              ),
-              heightSizedBox(10.0),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ShimmerComp(),
-                  ShimmerComp(),
-                  ShimmerComp(),
-                ],
-              ),
+              ShimmerComp(),
+              ShimmerComp(),
+              ShimmerComp(),
             ],
           ),
-        );
+          heightSizedBox(10.0),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ShimmerComp(),
+              ShimmerComp(),
+              ShimmerComp(),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

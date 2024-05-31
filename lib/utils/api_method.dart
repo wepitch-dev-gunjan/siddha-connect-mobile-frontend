@@ -17,8 +17,10 @@ class ApiMethod {
   Future getDioRequest() async {
     try {
       token != null ? headers['Authorization'] = "$token" : null;
-      Response response =
-          await dio.get(url, options: Options(headers: headers));
+      Response response = await dio.get(url);
+      log("$url");
+      log("StatusCode=${response.statusCode}");
+      log("data=${response.data}");
       if (response.statusCode == 200) {
         return response.data;
       } else {}
@@ -74,8 +76,11 @@ class ApiMethod {
 }
 
 class ApiUrl {
-  static const baseUrl = "https://siddha-connect-backend.vercel.app/";
-  static const getSalesDashboardData = "$baseUrl/sales/dashboard?td_format=MTD&end_date=2024-04-15&data_format=value&role=TSE";
+  static const baseUrl = "https://siddha-connect-backend.vercel.app";
+  static const getSalesDashboardData =
+      "$baseUrl/sales/dashboard?td_format=MTD&end_date=2024-04-15&data_format=value&role=TSE";
+  static const getChannelData =
+      "$baseUrl/sales/channel-wise?start_date=2024-03-01&end_date=2024-04-15";
   // static const getBrands = "$baseUrl/brand";
   // static const getOffers = "$baseUrl/offer";
   // static const sendOtp = "$baseUrl/otp";

@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     navigationPush(
                       context,
-                      SalesDashboard(),
+                      const SalesDashboard(),
                     );
                   },
                 ),
