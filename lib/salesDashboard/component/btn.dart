@@ -5,63 +5,6 @@ import '../../utils/common_style.dart';
 
 final selectedButtonProvider = StateProvider<bool>((ref) => true);
 
-// class FullSizeBtn extends ConsumerWidget {
-//   const FullSizeBtn({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final isSelected = ref.watch(selectedButtonProvider);
-
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 8),
-//       child: Row(
-//         children: <Widget>[
-//           Expanded(
-//             child: GestureDetector(
-//               onTap: () {
-//                 ref.read(selectedButtonProvider.notifier).state = !isSelected;
-//               },
-//               child: Container(
-//                 height: 50,
-//                 color: isSelected ? AppColor.primaryColor : AppColor.whiteColor,
-//                 child: Center(
-//                   child: Text(
-//                     'Segment\n(Price bucket)',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       color: isSelected ? Colors.white : Colors.black,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: GestureDetector(
-//               onTap: () {
-//                 ref.read(selectedButtonProvider.notifier).state = !isSelected;
-//               },
-//               child: Container(
-//                 height: 50,
-//                 color: isSelected ? AppColor.whiteColor : AppColor.primaryColor,
-//                 child: Center(
-//                   child: Text(
-//                     'Channel\n(DL.Category)',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       color: isSelected ? Colors.black : Colors.white,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class FullSizeBtn extends ConsumerWidget {
   const FullSizeBtn({super.key});
 

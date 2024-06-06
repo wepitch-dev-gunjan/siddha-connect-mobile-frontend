@@ -18,7 +18,7 @@ class ApiMethod {
     try {
       token != null ? headers['Authorization'] = "$token" : null;
       Response response = await dio.get(url);
-      log("$url");
+      log(url);
       log("StatusCode=${response.statusCode}");
       log("data=${response.data}");
       if (response.statusCode == 200) {

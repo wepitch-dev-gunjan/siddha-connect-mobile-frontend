@@ -3,13 +3,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
-
 import 'shimmer.dart';
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref)  {
   final getRepo =  ref.watch(salesRepoProvider).getSalesDashboardData();
   return getRepo;
 });
+
+
+
+// final getSalesDashboardProvider = FutureProvider.autoDispose.family<Map<String, dynamic>, List<String>>((ref, options) async {
+//   final selectedOption1 = options[0];
+//   final selectedOption2 = options[1];
+//   final salesRepo = ref.watch(salesRepoProvider);
+
+//   final data = await salesRepo.getSalesDashboardData( );
+//   return data;
+// });
+
 
 class SalesDashboardCard extends ConsumerWidget {
   const SalesDashboardCard({
