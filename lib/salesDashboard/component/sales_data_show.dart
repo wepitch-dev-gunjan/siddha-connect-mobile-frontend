@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'shimmer.dart';
 
-final getSalesDashboardProvider = FutureProvider.autoDispose((ref)  {
-  final getRepo =  ref.watch(salesRepoProvider).getSalesDashboardData();
+final getSalesDashboardProvider = FutureProvider.autoDispose((ref) {
+  final getRepo = ref.watch(salesRepoProvider).getSalesDashboardData();
   return getRepo;
 });
-
-
 
 // final getSalesDashboardProvider = FutureProvider.autoDispose.family<Map<String, dynamic>, List<String>>((ref, options) async {
 //   final selectedOption1 = options[0];
@@ -20,7 +19,6 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref)  {
 //   final data = await salesRepo.getSalesDashboardData( );
 //   return data;
 // });
-
 
 class SalesDashboardCard extends ConsumerWidget {
   const SalesDashboardCard({
@@ -75,6 +73,7 @@ class SalesDashboardCard extends ConsumerWidget {
                       value: data['ltd_sell_in'],
                     ),
                     DashboardComp(
+                      titleSize: 14.sp,
                       title: "Growth % \n",
                       value: data["sell_in_growth"],
                       valueColor: data["sell_out_growth"][0] == '-'
@@ -120,7 +119,7 @@ class SalesDashboardCard extends ConsumerWidget {
                       value: data["ltd_sell_out"],
                     ),
                     DashboardComp(
-                      titleSize: 14,
+                      titleSize: 14.sp,
                       title: "Growth % \n",
                       value: data["sell_out_growth"],
                       valueColor: data["sell_out_growth"][0] == '-'

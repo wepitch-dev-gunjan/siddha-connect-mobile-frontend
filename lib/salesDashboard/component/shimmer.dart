@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:siddha_connect/utils/sizes.dart';
@@ -109,7 +110,7 @@ class DashboardComp extends StatelessWidget {
       children: [
         Container(
           padding:
-              const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5),
+              EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w, bottom: 5.h),
           width: width(context) * 0.3,
           decoration: BoxDecoration(
               color: const Color(0xffF8F5F5),
@@ -121,7 +122,7 @@ class DashboardComp extends StatelessWidget {
                 title,
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
-                    fontSize: titleSize ?? 14,
+                    fontSize: titleSize ?? 13.sp,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xffA8A8A8),
                   ),
@@ -131,7 +132,7 @@ class DashboardComp extends StatelessWidget {
                 value,
                 style: GoogleFonts.leagueSpartan(
                   textStyle: TextStyle(
-                    fontSize: 26,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.w300,
                     color: valueColor ?? AppColor.primaryColor,
                   ),

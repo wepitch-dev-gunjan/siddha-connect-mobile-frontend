@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
@@ -18,14 +19,14 @@ class TopRadioButtons extends ConsumerWidget {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(top: 8, left: 10, right: 10, bottom: 10),
+              EdgeInsets.only(top: 8.h, left: 10.w, right: 10.w, bottom: 10.h),
           child: Row(
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  margin: const EdgeInsets.only(right: 5),
-                  height: 45,
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  margin: EdgeInsets.only(right: 5.w),
+                  height: 45.h,
                   width: width(context),
                   decoration: BoxDecoration(
                       border: Border.all(),
@@ -114,8 +115,8 @@ class CustomRadioButton extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
-              width: 20.0,
-              height: 20.0,
+              width: 20.w,
+              height: 20.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -128,8 +129,8 @@ class CustomRadioButton extends StatelessWidget {
               child: isSelected
                   ? Center(
                       child: Container(
-                        width: 10.0,
-                        height: 10.0,
+                        width: 10.w,
+                        height: 10.h,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColor.primaryColor,
@@ -143,7 +144,7 @@ class CustomRadioButton extends StatelessWidget {
               value,
               style: GoogleFonts.lato(
                   textStyle: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: Colors.black)),
             ),
