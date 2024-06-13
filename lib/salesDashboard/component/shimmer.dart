@@ -109,8 +109,7 @@ class DashboardComp extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding:
-              EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w, bottom: 5.h),
+          padding: EdgeInsets.only(top: 10.h, left: 10.w, bottom: 0.h),
           width: width(context) * 0.3,
           decoration: BoxDecoration(
               color: const Color(0xffF8F5F5),
@@ -123,6 +122,7 @@ class DashboardComp extends StatelessWidget {
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     fontSize: titleSize ?? 13.sp,
+                    letterSpacing: 0.0,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xffA8A8A8),
                   ),
@@ -132,7 +132,7 @@ class DashboardComp extends StatelessWidget {
                 value,
                 style: GoogleFonts.leagueSpartan(
                   textStyle: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.w300,
                     color: valueColor ?? AppColor.primaryColor,
                   ),

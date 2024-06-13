@@ -43,33 +43,33 @@ class SalesDashboardCard extends ConsumerWidget {
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
                               selectedOption2 == 'Value')
-                          ? "YTD sell in Value"
+                          ? "YTD Sell in Value"
                           : (selectedOption1 == 'MTD' &&
                                   selectedOption2 == 'Value')
-                              ? "MTD sell in Value"
+                              ? "MTD Sell in Value"
                               : (selectedOption1 == 'YTD' &&
                                       selectedOption2 == 'Volume')
-                                  ? "YTD sell in Volume"
+                                  ? "YTD Sell in Volume"
                                   : (selectedOption1 == 'MTD' &&
                                           selectedOption2 == 'Volume')
-                                      ? "MTD sell in Volume"
-                                      : "MTD sell in Value",
+                                      ? "MTD Sell in Volume"
+                                      : "MTD Sell in Value",
                       value: data['ltd_sell_in'],
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
                               selectedOption2 == 'Value')
-                          ? "LYTD sell in Value"
+                          ? "LYTD Sell in Value"
                           : (selectedOption1 == 'MTD' &&
                                   selectedOption2 == 'Value')
-                              ? "LMTD sell in Value"
+                              ? "LMTD Sell in Value"
                               : (selectedOption1 == 'YTD' &&
                                       selectedOption2 == 'Volume')
-                                  ? "LYTD sell in Volume"
+                                  ? "LYTD Sell in Volume"
                                   : (selectedOption1 == 'MTD' &&
                                           selectedOption2 == 'Volume')
-                                      ? "LMTD sell in Volume"
-                                      : "LMTD sell in Value",
+                                      ? "LMTD Sell in Volume"
+                                      : "LMTD Sell in Value",
                       value: data['ltd_sell_in'],
                     ),
                     DashboardComp(
@@ -82,7 +82,7 @@ class SalesDashboardCard extends ConsumerWidget {
                     ),
                   ],
                 ),
-                heightSizedBox(10.0),
+                heightSizedBox(5.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

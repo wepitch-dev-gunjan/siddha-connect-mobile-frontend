@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import 'tabels.dart';
 
@@ -24,18 +25,43 @@ class FullSizeBtn extends ConsumerWidget {
                     ref.read(selectedButtonProvider.notifier).state = true;
                   },
                   child: Container(
-                    height: 50,
-                    color: isSegmentSelected
-                        ? AppColor.primaryColor
-                        : AppColor.whiteColor,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: isSegmentSelected
+                            ? AppColor.primaryColor
+                            : AppColor.whiteColor,
+                        border: Border.all(width: 0.05)),
                     child: Center(
-                      child: Text(
-                        'Segment\n(Price bucket)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color:
-                              isSegmentSelected ? Colors.white : Colors.black,
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Segment\n',
+                              style: GoogleFonts.lato(
+                                color: isSegmentSelected
+                                    ? Colors.white
+                                    : Colors.black,
+                                textStyle: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              text: '(Price bucket)',
+                              style: GoogleFonts.lato(
+                                color: isSegmentSelected
+                                    ? Colors.white
+                                    : Colors.black, // Specify your colors here
+                                textStyle: const TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -47,18 +73,43 @@ class FullSizeBtn extends ConsumerWidget {
                     ref.read(selectedButtonProvider.notifier).state = false;
                   },
                   child: Container(
-                    height: 50,
-                    color: isSegmentSelected
-                        ? AppColor.whiteColor
-                        : AppColor.primaryColor,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: isSegmentSelected
+                            ? AppColor.whiteColor
+                            : AppColor.primaryColor,
+                        border: Border.all(width: 0.05)),
                     child: Center(
-                      child: Text(
-                        'Channel\n(DL.Category)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color:
-                              isSegmentSelected ? Colors.black : Colors.white,
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Channel\n',
+                              style: GoogleFonts.lato(
+                                color: isSegmentSelected
+                                    ? Colors.black
+                                    : Colors.white,
+                                textStyle: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              text: '(DL.Category)',
+                              style: GoogleFonts.lato(
+                                color: isSegmentSelected
+                                    ? Colors.black
+                                    : Colors.white, // Specify your colors here
+                                textStyle: const TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -68,43 +119,43 @@ class FullSizeBtn extends ConsumerWidget {
           ),
         ),
         if (isSegmentSelected)
-          const Padding(
-            padding: EdgeInsets.only(top: 100),
-            child: Text("No data"),
+          // const Padding(
+          //   padding: EdgeInsets.only(top: 100),
+          //   child: Text("No data"),
+          // )
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                DataTable(columns: const [
+                  DataColumn(
+                    label: Text(
+                      'Channel',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      '%\nContribution',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Last\nMonth ACH',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'TGT',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ], rows: const [])
+              ],
+            ),
           )
-        // SingleChildScrollView(
-        //   scrollDirection: Axis.horizontal,
-        //   child: Row(
-        //     children: [
-        //       DataTable(columns: const [
-        //         DataColumn(
-        //           label: Text(
-        //             'Channel',
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ),
-        //         DataColumn(
-        //           label: Text(
-        //             '%\nContribution',
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ),
-        //         DataColumn(
-        //           label: Text(
-        //             'Last\nMonth ACH',
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ),
-        //         DataColumn(
-        //           label: Text(
-        //             'TGT',
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ),
-        //       ], rows: const [])
-        //     ],
-        //   ),
-        // )
         else
           const ChannelTable()
       ],
@@ -120,7 +171,7 @@ class SmallCusBtn extends ConsumerWidget {
     final selectedIndex = ref.watch(selectedIndexProvider);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -129,22 +180,23 @@ class SmallCusBtn extends ConsumerWidget {
               ref.read(selectedIndexProvider.notifier).state = 0;
             },
             child: Container(
-              width: 82,
-              height: 35,
-              margin: const EdgeInsets.only(right: 10.0),
+              width: 70,
+              height: 30,
+              margin: const EdgeInsets.only(right: 15.0),
               decoration: BoxDecoration(
                 color: selectedIndex == 0
                     ? AppColor.primaryColor
                     : Colors.transparent,
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(color: AppColor.primaryColor, width: 1.0),
               ),
               child: Center(
                 child: Text(
                   'All',
-                  style: TextStyle(
-                    color: selectedIndex == 0 ? Colors.white : Colors.black,
-                  ),
+                  style: GoogleFonts.lato(
+                      color: selectedIndex == 0 ? Colors.white : Colors.black,
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 12)),
                 ),
               ),
             ),
@@ -160,25 +212,26 @@ class SmallCusBtn extends ConsumerWidget {
                           index + 1;
                     },
                     child: Container(
-                      width: 82,
-                      height: 35,
-                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                      width: 70,
+                      height: 30,
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
                       decoration: BoxDecoration(
                         color: selectedIndex == index + 1
                             ? AppColor.primaryColor
                             : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(5.0),
                         border: Border.all(
                             color: AppColor.primaryColor, width: 1.0),
                       ),
                       child: Center(
                         child: Text(
                           buttons[index + 1],
-                          style: TextStyle(
-                            color: selectedIndex == index + 1
-                                ? Colors.white
-                                : Colors.black,
-                          ),
+                          style: GoogleFonts.lato(
+                              color: selectedIndex == index + 1
+                                  ? Colors.white
+                                  : const Color(0xff999292),
+                              textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 12)),
                         ),
                       ),
                     ),

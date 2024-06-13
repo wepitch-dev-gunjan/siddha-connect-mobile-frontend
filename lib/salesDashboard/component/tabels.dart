@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
@@ -29,29 +31,30 @@ class ChannelTable extends ConsumerWidget {
                   headingRowColor: MaterialStateColor.resolveWith(
                     (states) => Colors.grey.shade300,
                   ),
-                  columns: const [
+                  columns: [
                     DataColumn(
-                      label: Text(
-                        'Channel',
-                        textAlign: TextAlign.center,
-                      ),
+                      label: Text('Channel',
+                          textAlign: TextAlign.center, style: topStyle),
                     ),
                     DataColumn(
                       label: Text(
                         '%\nContribution',
                         textAlign: TextAlign.center,
+                        style: topStyle,
                       ),
                     ),
                     DataColumn(
                       label: Text(
                         'Last\nMonth ACH',
                         textAlign: TextAlign.center,
+                        style: topStyle,
                       ),
                     ),
                     DataColumn(
                       label: Text(
                         'TGT',
                         textAlign: TextAlign.center,
+                        style: topStyle,
                       ),
                     ),
                   ],
@@ -173,3 +176,7 @@ class ChannelTable extends ConsumerWidget {
     );
   }
 }
+
+var topStyle = GoogleFonts.lato(
+  textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+);
