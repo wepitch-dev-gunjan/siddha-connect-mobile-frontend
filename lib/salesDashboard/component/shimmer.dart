@@ -123,7 +123,7 @@ class DashboardComp extends StatelessWidget {
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     fontSize: titleSize ?? 13.sp,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                     color: const Color(0xffA8A8A8),
                   ),
                 ),

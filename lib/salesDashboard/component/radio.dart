@@ -19,17 +19,17 @@ class TopRadioButtons extends ConsumerWidget {
       children: [
         Padding(
           padding:
-              EdgeInsets.only(top: 8.h, left: 10.w, right: 10.w, bottom: 10.h),
+              const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Row(
             children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
                   margin: EdgeInsets.only(right: 5.w),
-                  height: 45.h,
+                  height: 40.h,
                   width: width(context),
                   decoration: BoxDecoration(
-                      border: Border.all(),
+                      border: Border.all(width: .8),
                       borderRadius: BorderRadius.circular(8)),
                   child: Row(
                     children: [
@@ -55,11 +55,11 @@ class TopRadioButtons extends ConsumerWidget {
               ),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  height: 45,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  height: 40.h,
                   width: width(context),
                   decoration: BoxDecoration(
-                      border: Border.all(),
+                      border: Border.all(width: .8),
                       borderRadius: BorderRadius.circular(8)),
                   child: Row(
                     children: [
@@ -115,8 +115,8 @@ class CustomRadioButton extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
-              width: 20.w,
-              height: 20.h,
+              width: 15.w,
+              height: 16.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -129,8 +129,8 @@ class CustomRadioButton extends StatelessWidget {
               child: isSelected
                   ? Center(
                       child: Container(
-                        width: 10.w,
-                        height: 10.h,
+                        width: 7.w,
+                        height: 8.h,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColor.primaryColor,
@@ -145,7 +145,7 @@ class CustomRadioButton extends StatelessWidget {
               style: GoogleFonts.lato(
                   textStyle: const TextStyle(
                       fontSize: 10,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.black)),
             ),
             widthSizedBox(15.0)

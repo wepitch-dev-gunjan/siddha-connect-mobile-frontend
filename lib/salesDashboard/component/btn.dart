@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/main.dart';
 import '../../utils/common_style.dart';
+import 'tabels.dart';
 
 final selectedButtonProvider = StateProvider<bool>((ref) => true);
 
@@ -106,7 +106,7 @@ class FullSizeBtn extends ConsumerWidget {
         //   ),
         // )
         else
-          const CusTable()
+          const ChannelTable()
       ],
     );
   }

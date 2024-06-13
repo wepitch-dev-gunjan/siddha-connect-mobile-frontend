@@ -9,13 +9,13 @@ class DatePickerContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
-        height: 40.h,
+        height: 38.h,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: AppColor.primaryColor,
-            borderRadius: BorderRadius.circular(11)),
+            borderRadius: BorderRadius.circular(8)),
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
@@ -96,7 +96,9 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
           year,
           style: GoogleFonts.lato(
               textStyle: const TextStyle(
-                  color: AppColor.whiteColor, fontWeight: FontWeight.w600)),
+                  fontSize: 13,
+                  color: AppColor.whiteColor,
+                  fontWeight: FontWeight.w600)),
         ),
         const SizedBox(width: 13.0),
         InkWell(
@@ -112,6 +114,7 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
                 month,
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
+                    fontSize: 13,
                     color: AppColor.whiteColor,
                     fontWeight: FontWeight.w600,
                   ),
