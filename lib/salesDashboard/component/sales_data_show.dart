@@ -9,7 +9,6 @@ import 'shimmer.dart';
 class DashboardOptions {
   final String tdFormat;
   final String dataFormat;
-
   DashboardOptions({required this.tdFormat, required this.dataFormat});
 }
 
@@ -22,8 +21,8 @@ final selectedOptionsProvider = StateProvider<DashboardOptions>((ref) {
   );
 });
 
-final getSalesDashboardProvider =
-    FutureProvider<Map<String, dynamic>>((ref) async {
+final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
+
   final options = ref.watch(selectedOptionsProvider);
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
@@ -68,7 +67,7 @@ class SalesDashboardCard extends ConsumerWidget {
                                           selectedOption2 == 'volume')
                                       ? "MTD Sell in Volume"
                                       : "MTD Sell in Value",
-                      value: data['ltd_sell_in'],
+                      value: data['td_sell_in'],
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
@@ -151,6 +150,3 @@ class SalesDashboardCard extends ConsumerWidget {
         loading: () => const DashboardShimmerEffect());
   }
 }
-
-
-

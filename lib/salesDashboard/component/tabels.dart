@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
 
-final getChannelDataProvider = FutureProvider.autoDispose((ref) {
+final getChannelDataProvider = FutureProvider((ref) {
   final getChanelData = ref.watch(salesRepoProvider).getChannelData();
   return getChanelData;
 });
