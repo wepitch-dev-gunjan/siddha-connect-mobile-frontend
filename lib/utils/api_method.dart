@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 class ApiMethod {
@@ -7,23 +6,24 @@ class ApiMethod {
   final String url;
   final String? token;
   final Map? data;
+  final Map<String, dynamic>? queryParameters;
 
   Map<String, dynamic> headers = {
-    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': 'application/json; charset=utf-8'
   };
 
-  ApiMethod({required this.url, this.token, this.data});
+  ApiMethod({required this.url, this.token, this.data, this.queryParameters});
 
   Future getDioRequest() async {
     try {
+      log("url=====>---$url");
       token != null ? headers['Authorization'] = "$token" : null;
-      Response response = await dio.get(url);
-      log(url);
-      log("StatusCode=${response.statusCode}");
-      log("data=${response.data}");
+      Response response = await dio.get(url, queryParameters: queryParameters);
+      log("resp=====>---${response.data}");
+
       if (response.statusCode == 200) {
         return response.data;
-      } else {}
+      }
     } on DioException catch (err) {
       log("get statusCode ${err.response?.statusCode.toString()}");
       log("get type ${err.response?.data.toString()} ");
@@ -77,8 +77,7 @@ class ApiMethod {
 
 class ApiUrl {
   static const baseUrl = "https://siddha-connect-backend.vercel.app";
-  static const getSalesDashboardData =
-      "$baseUrl/sales/dashboard?td_format=MTD&end_date=2024-04-15&data_format=value&role=TSE";
+  static const getSalesDashboardData = "$baseUrl/sales/dashboard";
   static const getChannelData =
       "$baseUrl/sales/channel-wise?start_date=2024-03-01&end_date=2024-04-15";
   // static const getBrands = "$baseUrl/brand";

@@ -119,43 +119,7 @@ class FullSizeBtn extends ConsumerWidget {
           ),
         ),
         if (isSegmentSelected)
-          // const Padding(
-          //   padding: EdgeInsets.only(top: 100),
-          //   child: Text("No data"),
-          // )
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                DataTable(columns: const [
-                  DataColumn(
-                    label: Text(
-                      'Channel',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      '%\nContribution',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Last\nMonth ACH',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'TGT',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ], rows: const [])
-              ],
-            ),
-          )
+          const SegmentTable()
         else
           const ChannelTable()
       ],

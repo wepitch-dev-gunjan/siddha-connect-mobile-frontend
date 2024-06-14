@@ -5,15 +5,41 @@ import 'package:siddha_connect/utils/api_method.dart';
 final salesRepoProvider = Provider((ref) => SalesDashboardRepo());
 
 class SalesDashboardRepo {
-  getSalesDashboardData() async {
+  getSalesDashboardData( {String? tdFormet, String? dataFormet}) async {
     try {
-      final response =
-          await ApiMethod(url: ApiUrl.getSalesDashboardData).getDioRequest();
+      String url = ApiUrl.getSalesDashboardData;
+      if (tdFormet != null) {
+        url += '?td_format=$tdFormet';
+      }
+      if (dataFormet != null) {
+        url += '&data_format=$dataFormet';
+      }
+
+      final response = await ApiMethod(url: url, ).getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
     }
   }
+
+  // getSalesDashboardData({String? tdFormet, String? dataFormet}) async {
+  //   try {
+  //     Map<String, dynamic> queryParams = {};
+
+  //     if (tdFormet != null) {
+  //       queryParams['tdFormet'] = tdFormet;
+  //     }
+  //     if (dataFormet != null) {
+  //       queryParams['dataFormet'] = dataFormet;
+  //     }
+  //     final response = await ApiMethod(
+  //             url: ApiUrl.getSalesDashboardData, queryParameters: queryParams)
+  //         .getDioRequest();
+  //     return response;
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
   getChannelData() async {
     try {

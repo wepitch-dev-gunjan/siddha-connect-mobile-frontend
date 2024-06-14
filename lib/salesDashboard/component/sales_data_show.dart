@@ -6,19 +6,32 @@ import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'shimmer.dart';
 
-final getSalesDashboardProvider = FutureProvider.autoDispose((ref) {
-  final getRepo = ref.watch(salesRepoProvider).getSalesDashboardData();
-  return getRepo;
+class DashboardOptions {
+  final String tdFormat;
+  final String dataFormat;
+
+  DashboardOptions({required this.tdFormat, required this.dataFormat});
+}
+
+final selectedOptionsProvider = StateProvider<DashboardOptions>((ref) {
+  final selectedOption1 = ref.watch(selectedOption1Provider);
+  final selectedOption2 = ref.watch(selectedOption2Provider);
+  return DashboardOptions(
+    tdFormat: selectedOption1,
+    dataFormat: selectedOption2,
+  );
 });
 
-// final getSalesDashboardProvider = FutureProvider.autoDispose.family<Map<String, dynamic>, List<String>>((ref, options) async {
-//   final selectedOption1 = options[0];
-//   final selectedOption2 = options[1];
-//   final salesRepo = ref.watch(salesRepoProvider);
-
-//   final data = await salesRepo.getSalesDashboardData( );
-//   return data;
-// });
+final getSalesDashboardProvider =
+    FutureProvider<Map<String, dynamic>>((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final salesRepo = ref.watch(salesRepoProvider);
+  final data = await salesRepo.getSalesDashboardData(
+    tdFormet: options.tdFormat,
+    dataFormet: options.dataFormat,
+  );
+  return data;
+});
 
 class SalesDashboardCard extends ConsumerWidget {
   const SalesDashboardCard({
@@ -28,10 +41,11 @@ class SalesDashboardCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dashboardData = ref.watch(getSalesDashboardProvider);
-    final selectedOption1 = ref.watch(selectedOption1Provider);
-    final selectedOption2 = ref.watch(selectedOption2Provider);
     return dashboardData.when(
         data: (data) {
+          final selectedOption1 = ref.watch(selectedOption1Provider);
+          final selectedOption2 = ref.watch(selectedOption2Provider);
+
           return Padding(
             padding: const EdgeInsets.only(left: 5, right: 5),
             child: Column(
@@ -42,32 +56,32 @@ class SalesDashboardCard extends ConsumerWidget {
                   children: [
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
-                              selectedOption2 == 'Value')
+                              selectedOption2 == 'value')
                           ? "YTD Sell in Value"
                           : (selectedOption1 == 'MTD' &&
-                                  selectedOption2 == 'Value')
+                                  selectedOption2 == 'value')
                               ? "MTD Sell in Value"
                               : (selectedOption1 == 'YTD' &&
-                                      selectedOption2 == 'Volume')
+                                      selectedOption2 == 'volume')
                                   ? "YTD Sell in Volume"
                                   : (selectedOption1 == 'MTD' &&
-                                          selectedOption2 == 'Volume')
+                                          selectedOption2 == 'volume')
                                       ? "MTD Sell in Volume"
                                       : "MTD Sell in Value",
                       value: data['ltd_sell_in'],
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
-                              selectedOption2 == 'Value')
+                              selectedOption2 == 'value')
                           ? "LYTD Sell in Value"
                           : (selectedOption1 == 'MTD' &&
-                                  selectedOption2 == 'Value')
+                                  selectedOption2 == 'value')
                               ? "LMTD Sell in Value"
                               : (selectedOption1 == 'YTD' &&
-                                      selectedOption2 == 'Volume')
+                                      selectedOption2 == 'volume')
                                   ? "LYTD Sell in Volume"
                                   : (selectedOption1 == 'MTD' &&
-                                          selectedOption2 == 'Volume')
+                                          selectedOption2 == 'volume')
                                       ? "LMTD Sell in Volume"
                                       : "LMTD Sell in Value",
                       value: data['ltd_sell_in'],
@@ -76,7 +90,7 @@ class SalesDashboardCard extends ConsumerWidget {
                       titleSize: 14.sp,
                       title: "Growth % \n",
                       value: data["sell_in_growth"],
-                      valueColor: data["sell_out_growth"][0] == '-'
+                      valueColor: data["sell_in_growth"][0] == '-'
                           ? Colors.red
                           : Colors.green,
                     ),
@@ -88,34 +102,34 @@ class SalesDashboardCard extends ConsumerWidget {
                   children: [
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
-                              selectedOption2 == 'Value')
-                          ? "YTD sell out Value"
+                              selectedOption2 == 'value')
+                          ? "YTD Sell out Value"
                           : (selectedOption1 == 'MTD' &&
-                                  selectedOption2 == 'Value')
-                              ? "MTD sell out Value"
+                                  selectedOption2 == 'value')
+                              ? "MTD Sell out Value"
                               : (selectedOption1 == 'YTD' &&
-                                      selectedOption2 == 'Volume')
-                                  ? "YTD sell out Volume"
+                                      selectedOption2 == 'volume')
+                                  ? "YTD Sell out Volume"
                                   : (selectedOption1 == 'MTD' &&
-                                          selectedOption2 == 'Volume')
-                                      ? "MTD sell out Volume"
-                                      : "MTD sell out Value",
+                                          selectedOption2 == 'volume')
+                                      ? "MTD Sell out Volume"
+                                      : "MTD Sell out Value",
                       value: data['td_sell_out'],
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
-                              selectedOption2 == 'Value')
-                          ? "LYTD sell out Value"
+                              selectedOption2 == 'value')
+                          ? "LYTD Sell out Value"
                           : (selectedOption1 == 'MTD' &&
-                                  selectedOption2 == 'Value')
-                              ? "LMTD sell out Value"
+                                  selectedOption2 == 'value')
+                              ? "LMTD Sell out Value"
                               : (selectedOption1 == 'YTD' &&
-                                      selectedOption2 == 'Volume')
-                                  ? "LYTD sell out Volume"
+                                      selectedOption2 == 'volume')
+                                  ? "LYTD Sell out Volume"
                                   : (selectedOption1 == 'MTD' &&
-                                          selectedOption2 == 'Volume')
-                                      ? "LMTD sell out Volume"
-                                      : "LMTD sell out Value",
+                                          selectedOption2 == 'volume')
+                                      ? "LMTD Sell out Volume"
+                                      : "LMTD Sell out Value",
                       value: data["ltd_sell_out"],
                     ),
                     DashboardComp(
@@ -137,3 +151,6 @@ class SalesDashboardCard extends ConsumerWidget {
         loading: () => const DashboardShimmerEffect());
   }
 }
+
+
+

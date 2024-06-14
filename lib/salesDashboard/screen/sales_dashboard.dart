@@ -7,7 +7,6 @@ import '../component/btn.dart';
 import '../component/date_picker.dart';
 import '../component/sales_data_show.dart';
 
-
 class SalesDashboard extends StatefulWidget {
   const SalesDashboard({super.key});
 
@@ -16,9 +15,6 @@ class SalesDashboard extends StatefulWidget {
 }
 
 class _SalesDashboardState extends State<SalesDashboard> {
-  // String selectedOption1 = "YTD";
-  // String selectedOption2 = "Value";
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -39,4 +35,3 @@ class _SalesDashboardState extends State<SalesDashboard> {
     );
   }
 }
-

@@ -53,10 +53,10 @@ class DatePickerComponent extends StatefulWidget {
   });
 
   @override
-  _DatePickerComponentState createState() => _DatePickerComponentState();
+  DatePickerComponentState createState() => DatePickerComponentState();
 }
 
-class _DatePickerComponentState extends State<DatePickerComponent> {
+class DatePickerComponentState extends State<DatePickerComponent> {
   late String year;
   late String month;
   final List<String> months = [
