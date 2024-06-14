@@ -6,9 +6,7 @@ import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/common_style.dart';
 
 class DashboardShimmerEffect extends StatelessWidget {
-  const DashboardShimmerEffect({
-    super.key,
-  });
+  const DashboardShimmerEffect({super.key});
 
   @override
   Widget build(BuildContext context) {

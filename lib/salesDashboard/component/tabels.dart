@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
@@ -15,64 +16,92 @@ class ChannelTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final columnSpacing = screenWidth / 12;
     final channelData = ref.watch(getChannelDataProvider);
 
     return channelData.when(
       data: (data) {
-        log("Channel data=> $data");
         return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+          // scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              DataTable(
-                headingRowColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.grey.shade300,
+              Theme(
+                data: Theme.of(context).copyWith(
+                  dividerTheme: const DividerThemeData(
+                    color: Colors.white,
+                  ),
                 ),
-                columns: [
-                  DataColumn(
-                    label: Text('Channel',
-                        textAlign: TextAlign.center, style: topStyle),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      '%\nContribution',
-                      textAlign: TextAlign.center,
-                      style: topStyle,
+                child: Container(
+                  width: screenWidth,
+                  child: DataTable(
+                    dataRowMinHeight: 10,
+                    dataRowMaxHeight: 40,
+                    headingRowHeight: 50,
+                    dividerThickness: 2.5,
+                    columnSpacing: columnSpacing,
+                    headingRowColor: MaterialStateColor.resolveWith(
+                      (states) => const Color(0xffD9D9D9),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Last\nMonth ACH',
-                      textAlign: TextAlign.center,
-                      style: topStyle,
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'TGT',
-                      textAlign: TextAlign.center,
-                      style: topStyle,
-                    ),
-                  ),
-                ],
-                rows: List.generate(data.length, (index) {
-                  final row = data[index];
-                  return DataRow(cells: [
-                    DataCell(Text(row['Channel'])),
-                    DataCell(Text(row['Contribution'])),
-                    DataCell(Text(
-                      row['Last Month ACH'],
-                      style: TextStyle(
-                        color: row['%Gwth'].toString()[0] == '-'
-                            ? Colors.red
-                            : Colors.green,
+                    columns: [
+                      DataColumn(
+                        label: Text('Channel',
+                            textAlign: TextAlign.center, style: topStyle),
                       ),
-                    )),
-                    DataCell(
-                      Text(row['TGT']),
-                    ),
-                  ]);
-                }),
+                      DataColumn(
+                        label: Text(
+                          '%\nContribution',
+                          textAlign: TextAlign.center,
+                          style: topStyle,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Last\nMonth ACH',
+                          textAlign: TextAlign.center,
+                          style: topStyle,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'TGT',
+                          textAlign: TextAlign.center,
+                          style: topStyle,
+                        ),
+                      ),
+                    ],
+                    rows: List.generate(data.length, (index) {
+                      final row = data[index];
+                      return DataRow(
+                          color: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xffEEEEEE),
+                          ),
+                          cells: [
+                            DataCell(Text(row['Channel'])),
+                            DataCell(Text(
+                              row['Contribution'].toString(),
+                              style: TextStyle(
+                                color: getColorFromPercentage(
+                                    row['Contribution'].toString(),
+                                    const Color.fromARGB(255, 218, 215, 0),
+                                    const Color.fromRGBO(0, 192, 38, 1)),
+                              ),
+                            )),
+                            DataCell(Text(
+                              row['Last Month ACH'],
+                              style: TextStyle(
+                                color: row['%Gwth'].toString()[0] == '-'
+                                    ? Colors.red
+                                    : Colors.green,
+                              ),
+                            )),
+                            DataCell(
+                              Text(row['TGT']),
+                            ),
+                          ]);
+                    }),
+                  ),
+                ),
               ),
             ],
           ),
