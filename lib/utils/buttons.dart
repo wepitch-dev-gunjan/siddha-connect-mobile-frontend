@@ -17,7 +17,7 @@ class OutlinedBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width(context) * 0.9,
-      height: 50,
+      height: 48,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.black,
@@ -54,7 +54,7 @@ class Btn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width(context) * 0.9,
-      height: 50,
+      height: 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.primaryColor,

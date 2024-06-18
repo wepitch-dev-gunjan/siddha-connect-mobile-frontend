@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +7,6 @@ import 'package:siddha_connect/utils/navigation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
@@ -31,7 +29,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Siddha Connect',
-        home: SplashScreen(),
+        home:const SplashScreen(),
       ),
     );
   }

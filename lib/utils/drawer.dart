@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/uploadSalesData/upload_sales_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
@@ -73,7 +74,7 @@ class CusDrawer extends StatelessWidget {
                 ),
                 DrawerElement(
                   src: "assets/images/finance.svg",
-                  title: "Finance Dashboard ",
+                  title: "Finance Dashboard",
                   onTap: () {},
                 ),
                 DrawerElement(
@@ -84,7 +85,9 @@ class CusDrawer extends StatelessWidget {
                 DrawerElement(
                   src: "assets/images/upload.svg",
                   title: "Upload Sales Data",
-                  onTap: () {},
+                  onTap: () {
+                    navigationPush(context, const UploadSalesData());
+                  },
                 ),
               ],
             ),

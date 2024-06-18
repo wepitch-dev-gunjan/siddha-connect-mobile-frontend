@@ -5,7 +5,6 @@ import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
 import 'package:siddha_connect/utils/fields.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
-
 import '../../utils/buttons.dart';
 
 class LoginScreen extends StatelessWidget {

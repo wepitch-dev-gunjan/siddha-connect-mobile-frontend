@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
@@ -32,7 +30,7 @@ class ChannelTable extends ConsumerWidget {
                     color: Colors.white,
                   ),
                 ),
-                child: Container(
+                child: SizedBox(
                   width: screenWidth,
                   child: DataTable(
                     dataRowMinHeight: 10,
