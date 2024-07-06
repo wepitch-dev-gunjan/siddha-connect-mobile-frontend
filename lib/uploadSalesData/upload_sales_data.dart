@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +7,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/uploadSalesData/repo/upload_data_repo.dart';
 import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/common_style.dart';
+import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../utils/cus_appbar.dart';
 import '../utils/drawer.dart';
 
 final fileNameProvider = StateProvider<String?>((ref) => null);
+final filePathProvider = StateProvider<String?>((ref) => null);
+final isLoadingProvider = StateProvider<bool>((ref) => false);
 
-class UploadSalesData extends StatelessWidget {
+class UploadSalesData extends ConsumerWidget {
   const UploadSalesData({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(isLoadingProvider);
+
     return Scaffold(
       backgroundColor: AppColor.whiteColor,
       appBar: const CustomAppBar(),
@@ -30,7 +37,36 @@ class UploadSalesData extends StatelessWidget {
             children: [
               const UploadContainer(),
               heightSizedBox(30.0),
-              Btn(btnName: "Upload", onPressed: () {}),
+              if (isLoading)
+                const CircularProgressIndicator()
+              else
+                SvgPicture.asset("assets/images/uploadvector.svg"),
+              heightSizedBox(30.0),
+              Btn(
+                btnName: "Upload",
+                onPressed: () async {
+                  final filePath = ref.read(filePathProvider);
+                  if (filePath != null) {
+                    ref.read(isLoadingProvider.notifier).state = true;
+                    try {
+                      await ref
+                          .read(SalesDataUploadRepoProvider)
+                          .salesDataUpload(file: File(filePath));
+                    } catch (e) {
+                      // Handle the error
+                    } finally {
+                      ref.read(isLoadingProvider.notifier).state = false;
+                      ShowSnackBarMsg("Sales Data Upload Successfully",
+                          color: Colors.green);
+                    }
+                  } else {
+                    showErrorDialog(
+                      message: 'No file selected. Please upload a .csv file.',
+                      context: context,
+                    );
+                  }
+                },
+              ),
               heightSizedBox(10.0),
               Text(
                 "OR",
@@ -55,9 +91,7 @@ class UploadSalesData extends StatelessWidget {
 }
 
 class UploadContainer extends ConsumerWidget {
-  const UploadContainer({
-    super.key,
-  });
+  const UploadContainer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +122,7 @@ class UploadContainer extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      fileName ?? "Upload CSV Sales Data File",
+                      fileName ?? "Upload CSV Sales Data File",
                       style: GoogleFonts.lato(
                         textStyle: const TextStyle(
                           color: Color(0xff9F9D9D),
@@ -108,14 +142,12 @@ class UploadContainer extends ConsumerWidget {
             ),
           ),
         ),
-        heightSizedBox(30.0),
-        SvgPicture.asset("assets/images/uploadvector.svg")
       ],
     );
   }
 }
 
-Future<void> pickFile(BuildContext context, WidgetRef ref) async {
+Future pickFile(BuildContext context, WidgetRef ref) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles();
 
   if (result != null) {
@@ -124,6 +156,8 @@ Future<void> pickFile(BuildContext context, WidgetRef ref) async {
     if (file.extension == 'csv') {
       log('File name: ${file.name}');
       ref.read(fileNameProvider.notifier).state = file.name;
+      ref.read(filePathProvider.notifier).state = file.path;
+      return file.path;
     } else {
       showErrorDialog(
           message:
