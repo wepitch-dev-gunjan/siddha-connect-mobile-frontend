@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,13 +10,16 @@ import 'package:siddha_connect/uploadSalesData/repo/upload_data_repo.dart';
 import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/message.dart';
+import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
+import '../salesDashboard/screen/sales_dashboard.dart';
 import '../utils/cus_appbar.dart';
 import '../utils/drawer.dart';
 
-final fileNameProvider = StateProvider<String?>((ref) => null);
+final fileNameProvider = StateProvider.autoDispose<String?>((ref) => null);
 final filePathProvider = StateProvider<String?>((ref) => null);
 final isLoadingProvider = StateProvider<bool>((ref) => false);
+final isCancelRequestedProvider = StateProvider<bool>((ref) => false);
 
 class UploadSalesData extends ConsumerWidget {
   const UploadSalesData({super.key});
@@ -35,12 +37,7 @@ class UploadSalesData extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const UploadContainer(),
-              heightSizedBox(30.0),
-              if (isLoading)
-                const CircularProgressIndicator()
-              else
-                SvgPicture.asset("assets/images/uploadvector.svg"),
+              UploadContainer(isLoading: isLoading),
               heightSizedBox(30.0),
               Btn(
                 btnName: "Upload",
@@ -51,13 +48,21 @@ class UploadSalesData extends ConsumerWidget {
                     try {
                       await ref
                           .read(SalesDataUploadRepoProvider)
-                          .salesDataUpload(file: File(filePath));
+                          .salesDataUpload(
+                            file: File(filePath),
+                          );
+                      if (!ref.read(isCancelRequestedProvider)) {
+                        ShowSnackBarMsg(
+                          "Sales Data Upload Successfully",
+                          color: Colors.green,
+                        );
+                      }
                     } catch (e) {
                       // Handle the error
                     } finally {
                       ref.read(isLoadingProvider.notifier).state = false;
-                      ShowSnackBarMsg("Sales Data Upload Successfully",
-                          color: Colors.green);
+                      ref.read(filePathProvider.notifier).state = null;
+                      ref.read(fileNameProvider.notifier).state = null;
                     }
                   } else {
                     showErrorDialog(
@@ -79,7 +84,18 @@ class UploadSalesData extends ConsumerWidget {
                 ),
               ),
               heightSizedBox(10.0),
-              OutlinedBtn(btnName: "Cancel", onPressed: () {}),
+              OutlinedBtn(
+                btnName: "Cancel",
+                onPressed: () {
+                  if (!isLoading) {
+                    navigatePushReplacement(SalesDashboard());
+                  } else {
+                    ref.read(isCancelRequestedProvider.notifier).state = true;
+                    ref.read(isLoadingProvider.notifier).state = false;
+                    // Navigator.pop(context);
+                  }
+                },
+              ),
               heightSizedBox(20.0),
               const Divider(indent: 50.0, endIndent: 50.0)
             ],
@@ -91,7 +107,11 @@ class UploadSalesData extends ConsumerWidget {
 }
 
 class UploadContainer extends ConsumerWidget {
-  const UploadContainer({super.key});
+  final bool isLoading;
+  const UploadContainer({
+    super.key,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -142,6 +162,13 @@ class UploadContainer extends ConsumerWidget {
             ),
           ),
         ),
+        heightSizedBox(30.0),
+        if (isLoading)
+          const CircularProgressIndicator(
+            color: AppColor.primaryColor,
+          )
+        else
+          SvgPicture.asset("assets/images/uploadvector.svg"),
       ],
     );
   }
@@ -172,6 +199,7 @@ void showErrorDialog({required String message, required BuildContext context}) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: AppColor.whiteColor,
         title: const Text('Error'),
         content: Text(message),
         actions: [

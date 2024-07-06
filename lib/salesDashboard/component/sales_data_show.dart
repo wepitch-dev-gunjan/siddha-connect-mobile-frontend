@@ -22,7 +22,6 @@ final selectedOptionsProvider = StateProvider<DashboardOptions>((ref) {
 });
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
-
   final options = ref.watch(selectedOptionsProvider);
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
@@ -42,6 +41,12 @@ class SalesDashboardCard extends ConsumerWidget {
     final dashboardData = ref.watch(getSalesDashboardProvider);
     return dashboardData.when(
         data: (data) {
+          if (data == null || data.isEmpty) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 60),
+              child: Center(child: Text("No data available")),
+            );
+          }
           final selectedOption1 = ref.watch(selectedOption1Provider);
           final selectedOption2 = ref.watch(selectedOption2Provider);
 
