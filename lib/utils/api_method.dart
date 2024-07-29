@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:siddha_connect/uploadSalesData/upload_sales_data.dart';
 
 class ApiMethod {
   Dio dio = Dio();
@@ -32,16 +31,16 @@ class ApiMethod {
   }
 
   Future postDioRequest({required Map data}) async {
+    log("logindata$data");
     try {
       token != null ? headers['Authorization'] = "$token" : null;
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
-      if (response.statusCode == 200) {
-        return response.data;
-      }
-    } on DioException catch (err) {
-      log("post statusCode ${err.response?.statusCode.toString()}");
-      log("post type ${err.response?.data.toString()} ");
+      return response.data;
+    } on DioException  {
+      // log("post statusCode ${err.response?.statusCode.toString()}");
+      // log("post type ${err.response?.data.toString()} ");
+      rethrow;
     }
   }
 
@@ -95,8 +94,9 @@ class ApiUrl {
   static const getSalesDashboardData = "$baseUrl/sales/dashboard";
   static const getChannelData =
       "$baseUrl/sales/channel-wise?start_date=2024-03-01&end_date=2024-04-15";
-  static const UploadSalesData = "$baseUrl/sales";
-  // static const getOffers = "$baseUrl/offer";
+  static const uploadSalesData = "$baseUrl/sales";
+  static const userRegister = "$baseUrl/user/register";
+  static const userLogin = "$baseUrl/login";
   // static const sendOtp = "$baseUrl/otp";
   // static const verifyOtp = "$baseUrl/otp";
   // static const createUser = "$baseUrl/user";

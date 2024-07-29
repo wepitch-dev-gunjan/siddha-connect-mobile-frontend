@@ -127,6 +127,13 @@ class TxtField extends StatelessWidget {
                 color: Colors.black54,
                 fontWeight: FontWeight.w500),
             labelText: labelText,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: Colors.red, // Error border color
+                width: 1,
+              ),
+            ),
             enabledBorder: enabledBorder ??
                 OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -191,6 +198,13 @@ validateOTP(String value) {
   }
 }
 
+String? validatePosition(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please select a position';
+  }
+  return null;
+}
+
 validateEmail(String value) {
   bool validEmail = RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -201,6 +215,12 @@ validateEmail(String value) {
     return 'Invalid email address';
   } else {
     return null;
+  }
+}
+
+validatePassword(String value) {
+  if (value.isEmpty) {
+    return 'Password is Required.';
   }
 }
 

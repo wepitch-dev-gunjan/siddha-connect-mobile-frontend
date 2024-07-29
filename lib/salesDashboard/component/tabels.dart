@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
 
-final getChannelDataProvider = FutureProvider((ref) {
+final getChannelDataProvider = FutureProvider.autoDispose((ref) {
   final getChanelData = ref.watch(salesRepoProvider).getChannelData();
   return getChanelData;
 });
@@ -20,6 +20,13 @@ class ChannelTable extends ConsumerWidget {
 
     return channelData.when(
       data: (data) {
+        if (data == null || data.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 100),
+            child: Center(child: Text("No data available")),
+          );
+        }
+
         return SingleChildScrollView(
           // scrollDirection: Axis.vertical,
           child: Column(
@@ -71,7 +78,7 @@ class ChannelTable extends ConsumerWidget {
                     rows: List.generate(data.length, (index) {
                       final row = data[index];
                       return DataRow(
-                          color: MaterialStateColor.resolveWith(
+                          color: WidgetStateColor.resolveWith(
                             (states) => const Color(0xffEEEEEE),
                           ),
                           cells: [
@@ -129,61 +136,236 @@ class SegmentTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final columnSpacing = screenWidth / 12;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columns: const <DataColumn>[
-            DataColumn(label: Text('Price Band')),
-            DataColumn(
-                label: Text('%\nContribution', textAlign: TextAlign.center)),
-            DataColumn(label: Text('Value Target')),
-            DataColumn(label: Text('MTD Mar')),
-            DataColumn(label: Text('MTD Ach')),
-            DataColumn(label: Text('Pending Val')),
-            DataColumn(
-                label: Text('%\nExtrapolated', textAlign: TextAlign.center)),
-            DataColumn(label: Text('Grwth')),
-            DataColumn(label: Text('LM Ads')),
-            DataColumn(label: Text('CM Ads')),
-            DataColumn(label: Text('Req Ads')),
-            DataColumn(label: Text('D-1')),
-            DataColumn(label: Text('FTD')),
-          ],
-          rows: const <DataRow>[
-            DataRow(cells: <DataCell>[
-              DataCell(Text('Row 1, Col 1')),
-              DataCell(Text('Row 1, Col 2')),
-              DataCell(Text('Row 1, Col 3')),
-              DataCell(Text('Row 1, Col 4')),
-              DataCell(Text('Row 1, Col 5')),
-              DataCell(Text('Row 1, Col 1')),
-              DataCell(Text('Row 1, Col 2')),
-              DataCell(Text('Row 1, Col 3')),
-              DataCell(Text('Row 1, Col 4')),
-              DataCell(Text('Row 1, Col 5')),
-              DataCell(Text('Row 1, Col 3')),
-              DataCell(Text('Row 1, Col 4')),
-              DataCell(Text('Row 1, Col 5')),
-            ]),
-            DataRow(cells: <DataCell>[
-              DataCell(Text('Row 2, Col 1')),
-              DataCell(Text('Row 2, Col 2')),
-              DataCell(Text('Row 2, Col 3')),
-              DataCell(Text('Row 2, Col 4')),
-              DataCell(Text('Row 2, Col 5')),
-              DataCell(Text('Row 2, Col 1')),
-              DataCell(Text('Row 2, Col 2')),
-              DataCell(Text('Row 2, Col 3')),
-              DataCell(Text('Row 2, Col 4')),
-              DataCell(Text('Row 2, Col 5')),
-              DataCell(Text('Row 2, Col 1')),
-              DataCell(Text('Row 2, Col 2')),
-              DataCell(Text('Row 2, Col 2')),
-            ]),
-            // Add more rows as needed
-          ],
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            dividerTheme: const DividerThemeData(
+              color: Colors.white,
+            ),
+          ),
+          child: SizedBox(
+            // width: screenWidth,
+            child: DataTable(
+              dataRowMinHeight: 10,
+              dataRowMaxHeight: 40,
+              headingRowHeight: 50,
+              dividerThickness: 2.5,
+              columnSpacing: columnSpacing,
+              headingRowColor: MaterialStateColor.resolveWith(
+                (states) => const Color(0xffD9D9D9),
+              ),
+              columns: <DataColumn>[
+                DataColumn(
+                    label: Text(
+                  'Price Band',
+                  textAlign: TextAlign.center,
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  '%\nContribution',
+                  textAlign: TextAlign.center,
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'Value Target',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'MTD Mar',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'MTD Ach',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'Pending Val',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  '%\nExtrapolated',
+                  textAlign: TextAlign.center,
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'Grwth',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'LM Ads',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'CM Ads',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'Req Ads',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'D-1',
+                  style: topStyle,
+                )),
+                DataColumn(
+                    label: Text(
+                  'FTD',
+                  style: topStyle,
+                )),
+              ],
+              rows: [
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('100K')),
+                      DataCell(Text('78%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('10.4')),
+                      DataCell(Text('19.57')),
+                      DataCell(Text('0.57')),
+                      DataCell(Text('15.90')),
+                      DataCell(Text('20%')),
+                      DataCell(Text('10.4')),
+                      DataCell(Text('0.4')),
+                      DataCell(Text('0.57')),
+                      DataCell(Text('10.4')),
+                      DataCell(Text('17.28')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('70-100K')),
+                      DataCell(Text('80%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('17.8')),
+                      DataCell(Text('15.37')),
+                      DataCell(Text('1.87')),
+                      DataCell(Text('19.57')),
+                      DataCell(Text('78%')),
+                      DataCell(Text('19.57')),
+                      DataCell(Text('10.4')),
+                      DataCell(Text('10.4')),
+                      DataCell(Text('1.87')),
+                      DataCell(Text('19.57')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('40-70K')),
+                      DataCell(Text('75%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('16.8')),
+                      DataCell(Text('10.15')),
+                      DataCell(Text('2.70')),
+                      DataCell(Text('08.36')),
+                      DataCell(Text('37%')),
+                      DataCell(Text('2.70')),
+                      DataCell(Text('18.4')),
+                      DataCell(Text('2.70')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('10.17')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('30-40K')),
+                      DataCell(Text('77%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('18.8')),
+                      DataCell(Text('15.80')),
+                      DataCell(Text('0.57')),
+                      DataCell(Text('13.57')),
+                      DataCell(Text('52%')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('10.17')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('10.15')),
+                      DataCell(Text('2.70')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('20-30K')),
+                      DataCell(Text('63%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('12.2')),
+                      DataCell(Text('16.37')),
+                      DataCell(Text('0.68')),
+                      DataCell(Text('25.57')),
+                      DataCell(Text('44%')),
+                      DataCell(Text('0.68')),
+                      DataCell(Text('0.40')),
+                      DataCell(Text('0.68')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('10.44')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('15-20K')),
+                      DataCell(Text('86%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('14.8')),
+                      DataCell(Text('18.67')),
+                      DataCell(Text('0.57')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('45%')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('10.44')),
+                      DataCell(Text('16.57')),
+                      DataCell(Text('0.40')),
+                      DataCell(Text('0.68')),
+                    ]),
+                DataRow(
+                    color: WidgetStateColor.resolveWith(
+                      (states) => const Color(0xffEEEEEE),
+                    ),
+                    cells: const [
+                      DataCell(Text('10-15K')),
+                      DataCell(Text('82%')),
+                      DataCell(Text('17.28')),
+                      DataCell(Text('16.8')),
+                      DataCell(Text('15.37')),
+                      DataCell(Text('0.90')),
+                      DataCell(Text('19.57')),
+                      DataCell(Text('68%')),
+                      DataCell(Text('15.37')),
+                      DataCell(Text('8.4')),
+                      DataCell(Text('0.90')),
+                      DataCell(Text('0.90')),
+                      DataCell(Text('19.57')),
+                    ]),
+              ],
+            ),
+          ),
         ),
       ),
     );

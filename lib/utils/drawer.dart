@@ -7,8 +7,15 @@ import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
 import 'sizes.dart';
 
-class CusDrawer extends StatelessWidget {
+class CusDrawer extends StatefulWidget {
   const CusDrawer({super.key});
+
+  @override
+  State<CusDrawer> createState() => _CusDrawerState();
+}
+
+class _CusDrawerState extends State<CusDrawer> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class CusDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Color(0xff1F0A68),
+                        color: Colors.green,
                       ),
                     ),
                   ),
@@ -82,12 +89,31 @@ class CusDrawer extends StatelessWidget {
                   title: "Attendance",
                   onTap: () {},
                 ),
-                DrawerElement(
-                  src: "assets/images/upload.svg",
-                  title: "Upload Sales Data",
-                  onTap: () {
-                    navigationPush(context, const UploadSalesData());
-                  },
+                ExpansionTile(
+                  leading: SvgPicture.asset("assets/images/upload.svg"),
+                  title: Text(
+                    "Upload Sales Data",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  children: <Widget>[
+                    ListTile(
+                      title: Text("Option 1"),
+                      onTap: () {
+                        navigationPush(context, const UploadSalesData());
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Option 2"),
+                      onTap: () {
+                        navigationPush(context, const UploadSalesData());
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -118,8 +144,8 @@ class CusDrawer extends StatelessWidget {
 class DrawerElement extends StatelessWidget {
   final String src;
   final String title;
-
   final Function() onTap;
+  
   const DrawerElement({
     super.key,
     required this.src,
@@ -130,9 +156,7 @@ class DrawerElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: SvgPicture.asset(
-        src,
-      ),
+      leading: SvgPicture.asset(src),
       onTap: onTap,
       title: Text(
         title,
@@ -151,3 +175,4 @@ class DrawerElement extends StatelessWidget {
     );
   }
 }
+

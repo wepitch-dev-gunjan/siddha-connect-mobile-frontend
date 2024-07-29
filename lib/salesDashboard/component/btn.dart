@@ -119,13 +119,13 @@ class FullSizeBtn extends ConsumerWidget {
           ),
         ),
         if (isSegmentSelected)
-          const Padding(
-            padding: EdgeInsets.only(top: 100, left: 10, right: 10),
-            child: Center(
-              child: Text("Under Development.........."),
-            ),
-          )
-        // const SegmentTable()
+          // const Padding(
+          //   padding: EdgeInsets.only(top: 100, left: 10, right: 10),
+          //   child: Center(
+          //     child: Text("Under Development.........."),
+          //   ),
+          // )
+          const SegmentTable()
         else
           const ChannelTable()
       ],

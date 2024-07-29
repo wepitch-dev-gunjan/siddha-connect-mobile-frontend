@@ -31,11 +31,122 @@ class MyApp extends StatelessWidget {
         scaffoldMessengerKey: snackbarKey,
         debugShowCheckedModeBanner: false,
         title: 'Siddha Connect',
-        home:const SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(title: Text('Position Dropdown Example')),
+//         body: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: MyForm(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class MyForm extends StatefulWidget {
+//   @override
+//   _MyFormState createState() => _MyFormState();
+// }
+
+// class _MyFormState extends State<MyForm> {
+//   String? selectedPosition;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         TextFormField(
+//           decoration: InputDecoration(
+//             labelText: 'Password',
+//             border: OutlineInputBorder(),
+//           ),
+//           obscureText: true,
+//         ),
+//         SizedBox(height: 20),
+//         DropdownButtonFormField<String>(
+//           decoration: InputDecoration(
+//             labelText: 'Position',
+//             border: OutlineInputBorder(),
+//           ),
+//           value: selectedPosition,
+//           onChanged: (newValue) {
+//             setState(() {
+//               selectedPosition = newValue;
+//             });
+//           },
+//           items: <String>['Position 1', 'Position 2', 'Position 3']
+//               .map<DropdownMenuItem<String>>((String value) {
+//             return DropdownMenuItem<String>(
+//               value: value,
+//               child: Text(value),
+//             );
+//           }).toList(),
+//         ),
+//         DropdownButtonFormField<String>(
+//           decoration: InputDecoration(
+//             // contentPadding: contentPadding,
+//             labelText: "Position",
+//             border: OutlineInputBorder(
+//               borderRadius: BorderRadius.circular(8.0),
+//             ),
+//           ),
+//           items: [
+//             DropdownMenuItem(
+//               value: "Manager",
+//               child: Text("Manager"),
+//             ),
+//             DropdownMenuItem(
+//               value: "Developer",
+//               child: Text("Developer"),
+//             ),
+//             DropdownMenuItem(
+//               value: "Designer",
+//               child: Text("Designer"),
+//             ),
+//           ],
+//           onChanged: (value) {
+//             // Handle position selection
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // /// Example without a datasource
 // class DataTable2SimpleDemo extends StatelessWidget {

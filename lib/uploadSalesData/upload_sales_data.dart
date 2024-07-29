@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/uploadSalesData/repo/upload_data_repo.dart';
 import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/common_style.dart';
-import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
@@ -52,10 +51,8 @@ class UploadSalesData extends ConsumerWidget {
                             file: File(filePath),
                           );
                       if (!ref.read(isCancelRequestedProvider)) {
-                        ShowSnackBarMsg(
-                          "Sales Data Upload Successfully",
-                          color: Colors.green,
-                        );
+                       
+                        // navigatePushReplacement(SalesDashboard());
                       }
                     } catch (e) {
                       // Handle the error
@@ -88,7 +85,7 @@ class UploadSalesData extends ConsumerWidget {
                 btnName: "Cancel",
                 onPressed: () {
                   if (!isLoading) {
-                    navigatePushReplacement(SalesDashboard());
+                    navigatePushReplacement(const SalesDashboard());
                   } else {
                     ref.read(isCancelRequestedProvider.notifier).state = true;
                     ref.read(isLoadingProvider.notifier).state = false;

@@ -12,7 +12,8 @@ class DashboardOptions {
   DashboardOptions({required this.tdFormat, required this.dataFormat});
 }
 
-final selectedOptionsProvider = StateProvider<DashboardOptions>((ref) {
+final selectedOptionsProvider =
+    StateProvider.autoDispose<DashboardOptions>((ref) {
   final selectedOption1 = ref.watch(selectedOption1Provider);
   final selectedOption2 = ref.watch(selectedOption2Provider);
   return DashboardOptions(
@@ -32,9 +33,7 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
 });
 
 class SalesDashboardCard extends ConsumerWidget {
-  const SalesDashboardCard({
-    super.key,
-  });
+  const SalesDashboardCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
