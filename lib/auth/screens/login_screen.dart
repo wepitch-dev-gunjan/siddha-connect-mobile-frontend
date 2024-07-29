@@ -47,6 +47,7 @@ class LoginScreen extends ConsumerWidget {
                   TxtField(
                     contentPadding: contentPadding,
                     labelText: "Email",
+                    maxLines: 1,
                     controller: email,
                     validator: validateEmail,
                     keyboardType: TextInputType.emailAddress,
@@ -56,6 +57,7 @@ class LoginScreen extends ConsumerWidget {
                     contentPadding: contentPadding,
                     labelText: "Password",
                     controller: password,
+                    maxLines: 1,
                     keyboardType: TextInputType.visiblePassword,
                     validator: validatePassword,
                   ),

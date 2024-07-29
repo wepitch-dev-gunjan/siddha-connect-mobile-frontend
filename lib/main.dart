@@ -37,6 +37,64 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+// /// Example without a datasource
+// class DataTable2SimpleDemo extends StatelessWidget {
+//   const DataTable2SimpleDemo();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(16),
+//       child: DataTable2(
+      
+//           columnSpacing: 12,
+//           horizontalMargin: 12,
+//           minWidth: 600,
+//           columns: const [
+//             DataColumn2(
+//               label: Text('Price Band'),
+//               size: ColumnSize.L,
+//             ),
+//             DataColumn(
+//               label: Text('Column B'),
+//             ),
+//             DataColumn(
+//               label: Text('Column C'),
+//             ),
+//             DataColumn(
+//               label: Text('Column D'),
+//             ),
+//             DataColumn(
+//               label: Text('Column NUMBERS'),
+//               numeric: true,
+//             ),
+//           ],
+//           rows: List<DataRow>.generate(
+//               20,
+//               (index) => const DataRow(cells: [
+//                     DataCell(Text('A')),
+//                     DataCell(Text('B')),
+//                     DataCell(Text('C')),
+//                     DataCell(Text('D')),
+//                     DataCell(Text("E"))
+//                   ]))),
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
 // import 'package:flutter/material.dart';
 
 // void main() {
@@ -57,78 +115,6 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
-
-// class MyForm extends StatefulWidget {
-//   @override
-//   _MyFormState createState() => _MyFormState();
-// }
-
-// class _MyFormState extends State<MyForm> {
-//   String? selectedPosition;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         TextFormField(
-//           decoration: InputDecoration(
-//             labelText: 'Password',
-//             border: OutlineInputBorder(),
-//           ),
-//           obscureText: true,
-//         ),
-//         SizedBox(height: 20),
-//         DropdownButtonFormField<String>(
-//           decoration: InputDecoration(
-//             labelText: 'Position',
-//             border: OutlineInputBorder(),
-//           ),
-//           value: selectedPosition,
-//           onChanged: (newValue) {
-//             setState(() {
-//               selectedPosition = newValue;
-//             });
-//           },
-//           items: <String>['Position 1', 'Position 2', 'Position 3']
-//               .map<DropdownMenuItem<String>>((String value) {
-//             return DropdownMenuItem<String>(
-//               value: value,
-//               child: Text(value),
-//             );
-//           }).toList(),
-//         ),
-//         DropdownButtonFormField<String>(
-//           decoration: InputDecoration(
-//             // contentPadding: contentPadding,
-//             labelText: "Position",
-//             border: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(8.0),
-//             ),
-//           ),
-//           items: [
-//             DropdownMenuItem(
-//               value: "Manager",
-//               child: Text("Manager"),
-//             ),
-//             DropdownMenuItem(
-//               value: "Developer",
-//               child: Text("Developer"),
-//             ),
-//             DropdownMenuItem(
-//               value: "Designer",
-//               child: Text("Designer"),
-//             ),
-//           ],
-//           onChanged: (value) {
-//             // Handle position selection
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 
 
 

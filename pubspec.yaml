@@ -21,6 +21,7 @@ dependencies:
   shimmer: ^3.0.0
   data_table_2: ^2.5.15
   file_picker: ^8.0.5
+  flutter_secure_storage: ^9.2.2
 
  
 

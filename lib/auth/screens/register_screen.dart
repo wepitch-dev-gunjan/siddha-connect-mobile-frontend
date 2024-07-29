@@ -61,6 +61,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     contentPadding: contentPadding,
                     labelText: "Name",
                     controller: name,
+                    maxLines: 1,
                     validator: validateName,
                     keyboardType: TextInputType.name,
                   ),
@@ -68,6 +69,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   TxtField(
                     contentPadding: contentPadding,
                     labelText: "Email",
+                    maxLines: 1,
                     controller: email,
                     validator: validateEmail,
                     keyboardType: TextInputType.emailAddress,
@@ -76,6 +78,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   TxtField(
                     contentPadding: contentPadding,
                     labelText: "Password",
+                    maxLines: 1,
                     controller: password,
                     validator: validatePassword,
                     keyboardType: TextInputType.visiblePassword,
