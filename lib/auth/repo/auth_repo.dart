@@ -15,8 +15,16 @@ class AuthRepo {
     try {
       final response =
           await ApiMethod(url: ApiUrl.userRegister).postDioRequest(data: data);
+      log('response$response');
       return response;
-    } catch (e) {}
+    } on DioException catch (e) {
+      if (e.response?.data['message'] == 'User Already Exist') {
+        ShowSnackBarMsg("User Already Register. Plese Login",
+            color: Colors.red);
+      } else {
+        ShowSnackBarMsg("Something Went Wrong", color: Colors.red);
+      }
+    }
   }
 
   userLoginRepo({required Map data}) async {
@@ -24,9 +32,6 @@ class AuthRepo {
       final response =
           await ApiMethod(url: ApiUrl.userLogin).postDioRequest(data: data);
 
-      if (response['error'] == "Invalid credentials") {
-        ShowSnackBarMsg(response['error'], color: Colors.red);
-      }
       return response;
     } on DioException catch (e) {
       ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);

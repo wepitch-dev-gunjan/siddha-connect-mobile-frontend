@@ -31,13 +31,14 @@ class ApiMethod {
   }
 
   Future postDioRequest({required Map data}) async {
-    log("logindata$data");
     try {
       token != null ? headers['Authorization'] = "$token" : null;
+      log("logindata$data");
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
+      log("respnse${response.data}");
       return response.data;
-    } on DioException  {
+    } on DioException {
       // log("post statusCode ${err.response?.statusCode.toString()}");
       // log("post type ${err.response?.data.toString()} ");
       rethrow;

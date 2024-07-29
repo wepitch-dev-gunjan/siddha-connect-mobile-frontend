@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,25 +84,29 @@ class ChannelTable extends ConsumerWidget {
                           ),
                           cells: [
                             DataCell(Text(row['Channel'])),
-                            DataCell(Text(
-                              row['Contribution'].toString(),
-                              style: TextStyle(
-                                color: getColorFromPercentage(
-                                    row['Contribution'].toString(),
-                                    const Color.fromARGB(255, 218, 215, 0),
-                                    const Color.fromRGBO(0, 192, 38, 1)),
+                            DataCell(Center(
+                              child: Text(
+                                row['Contribution'].toString(),
+                                style: TextStyle(
+                                  color: getColorFromPercentage(
+                                      row['Contribution'].toString(),
+                                      const Color.fromARGB(255, 218, 215, 0),
+                                      const Color.fromRGBO(0, 192, 38, 1)),
+                                ),
                               ),
                             )),
-                            DataCell(Text(
-                              row['Last Month ACH'],
-                              style: TextStyle(
-                                color: row['%Gwth'].toString()[0] == '-'
-                                    ? Colors.red
-                                    : Colors.green,
+                            DataCell(Center(
+                              child: Text(
+                                row['Last Month ACH'],
+                                style: TextStyle(
+                                  color: row['%Gwth'].toString()[0] == '-'
+                                      ? Colors.red
+                                      : Colors.green,
+                                ),
                               ),
                             )),
                             DataCell(
-                              Text(row['TGT']),
+                              Center(child: Text(row['TGT'])),
                             ),
                           ]);
                     }),
@@ -138,6 +143,7 @@ class SegmentTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
+
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
@@ -167,10 +173,12 @@ class SegmentTable extends StatelessWidget {
                   style: topStyle,
                 )),
                 DataColumn(
-                    label: Text(
-                  '%\nContribution',
-                  textAlign: TextAlign.center,
-                  style: topStyle,
+                    label: Center(
+                  child: Text(
+                    '%\nContribution',
+                    textAlign: TextAlign.center,
+                    style: topStyle,
+                  ),
                 )),
                 DataColumn(
                     label: Text(
@@ -224,9 +232,11 @@ class SegmentTable extends StatelessWidget {
                   style: topStyle,
                 )),
                 DataColumn(
-                    label: Text(
-                  'FTD',
-                  style: topStyle,
+                    label: Center(
+                  child: Text(
+                    'FTD',
+                    style: topStyle,
+                  ),
                 )),
               ],
               rows: [
@@ -236,18 +246,18 @@ class SegmentTable extends StatelessWidget {
                     ),
                     cells: const [
                       DataCell(Text('100K')),
-                      DataCell(Text('78%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('10.4')),
-                      DataCell(Text('19.57')),
-                      DataCell(Text('0.57')),
-                      DataCell(Text('15.90')),
-                      DataCell(Text('20%')),
-                      DataCell(Text('10.4')),
-                      DataCell(Text('0.4')),
-                      DataCell(Text('0.57')),
-                      DataCell(Text('10.4')),
-                      DataCell(Text('17.28')),
+                      DataCell(Center(child: Text('78%'))),
+                      DataCell(Center(child: Text('17.28'))),
+                      DataCell(Center(child: Text('10.4'))),
+                      DataCell(Center(child: Text('19.57'))),
+                      DataCell(Center(child: Text('0.57'))),
+                      DataCell(Center(child: Text('15.90'))),
+                      DataCell(Center(child: Text('20%'))),
+                      DataCell(Center(child: Text('10.4'))),
+                      DataCell(Center(child: Text('0.4'))),
+                      DataCell(Center(child: Text('0.57'))),
+                      DataCell(Center(child: Text('10.4'))),
+                      DataCell(Center(child: Text('17.28'))),
                     ]),
                 DataRow(
                     color: WidgetStateColor.resolveWith(
@@ -255,18 +265,18 @@ class SegmentTable extends StatelessWidget {
                     ),
                     cells: const [
                       DataCell(Text('70-100K')),
-                      DataCell(Text('80%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('17.8')),
-                      DataCell(Text('15.37')),
-                      DataCell(Text('1.87')),
-                      DataCell(Text('19.57')),
-                      DataCell(Text('78%')),
-                      DataCell(Text('19.57')),
-                      DataCell(Text('10.4')),
-                      DataCell(Text('10.4')),
-                      DataCell(Text('1.87')),
-                      DataCell(Text('19.57')),
+                      DataCell(Center(child: Text('80%'))),
+                      DataCell(Center(child: Text('17.28'))),
+                      DataCell(Center(child: Text('17.8'))),
+                      DataCell(Center(child: Text('15.37'))),
+                      DataCell(Center(child: Text('1.87'))),
+                      DataCell(Center(child: Text('19.57'))),
+                      DataCell(Center(child: Text('78%'))),
+                      DataCell(Center(child: Text('19.57'))),
+                      DataCell(Center(child: Text('10.4'))),
+                      DataCell(Center(child: Text('10.4'))),
+                      DataCell(Center(child: Text('1.87'))),
+                      DataCell(Center(child: Text('19.57'))),
                     ]),
                 DataRow(
                     color: WidgetStateColor.resolveWith(

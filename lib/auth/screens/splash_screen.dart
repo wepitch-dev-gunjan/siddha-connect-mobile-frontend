@@ -18,11 +18,11 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    // ref.read(checkAuthorizeProvider);
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
-    });
+    ref.read(checkAuthorizeProvider);
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   Navigator.push(
+    //       context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    // });
     super.initState();
   }
 

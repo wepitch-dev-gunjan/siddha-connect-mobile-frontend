@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -118,16 +119,7 @@ class FullSizeBtn extends ConsumerWidget {
             ],
           ),
         ),
-        if (isSegmentSelected)
-          // const Padding(
-          //   padding: EdgeInsets.only(top: 100, left: 10, right: 10),
-          //   child: Center(
-          //     child: Text("Under Development.........."),
-          //   ),
-          // )
-          const SegmentTable()
-        else
-          const ChannelTable()
+        if (isSegmentSelected) const SegmentTable() else const ChannelTable()
       ],
     );
   }
