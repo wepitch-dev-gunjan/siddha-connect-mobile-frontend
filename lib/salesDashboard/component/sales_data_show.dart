@@ -26,8 +26,8 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
-    tdFormet: options.tdFormat,
-    dataFormet: options.dataFormat,
+    tdFormat: options.tdFormat,
+    dataFormat: options.dataFormat,
   );
   return data;
 });

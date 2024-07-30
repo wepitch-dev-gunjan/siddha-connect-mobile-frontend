@@ -11,7 +11,7 @@ import 'radio.dart';
 final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final getChanelData = await ref.watch(salesRepoProvider).getChannelData(
-      tdFormet: options.tdFormat, dataFormet: options.dataFormat);
+      tdFormat: options.tdFormat, dataFormat: options.dataFormat);
   return getChanelData;
 });
 
@@ -156,7 +156,7 @@ final selectedOptionsProvider =
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final getSegmentData = await ref.watch(salesRepoProvider).getSegmentData(
-      tdFormet: options.tdFormat, dataFormet: options.dataFormat);
+      tdFormat: options.tdFormat, dataFormat: options.dataFormat);
   return getSegmentData;
 });
 

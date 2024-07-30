@@ -30,10 +30,10 @@ class AuthController {
             .watch(secureStoargeProvider)
             .writeData(key: 'authToken', value: res['token']);
       } else {
-        ref
-            .watch(secureStoargeProvider)
-            .writeData(key: 'authToken', value: res['token']);
-        navigateTo( const StatusScreen());
+        ShowSnackBarMsg('You are not verified user');
+        // ref
+        //     .watch(secureStoargeProvider)
+        //     .writeData(key: 'authToken', value: res['token']);
       }
 
       return res;

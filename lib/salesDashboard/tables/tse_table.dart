@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/salesDashboard/component/tabels.dart';
 import '../../utils/common_style.dart';
+import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
 
 final getTseDataProvider = FutureProvider.autoDispose((ref) async {
@@ -18,6 +18,7 @@ class TseTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedOption2 = ref.watch(selectedOption2Provider);
     final tseData = ref.watch(getTseDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
@@ -66,22 +67,26 @@ class TseTable extends ConsumerWidget {
                         )),
                         DataColumn(
                             label: Text(
-                          'TARGET VOL.',
+                          selectedOption2 == "value"
+                              ? 'TARGET VAL.'
+                              : "TARGET VOL.",
                           style: topStyle,
                         )),
                         DataColumn(
                             label: Text(
-                          'ADS',
+                          'AVG. DAY SALE',
                           style: topStyle,
                         )),
                         DataColumn(
                             label: Text(
-                          'DRR',
+                          'DAILY REG. AVG.',
                           style: topStyle,
                         )),
                         DataColumn(
                             label: Text(
-                          'PENDING VAL.',
+                          selectedOption2 == "value"
+                              ? 'PENDING VAL.'
+                              : 'PENDING VOL.',
                           style: topStyle,
                         )),
                         DataColumn(
@@ -107,15 +112,24 @@ class TseTable extends ConsumerWidget {
                                   child:
                                       Text(row['LMTD SELL OUT'].toString()))),
                               DataCell(Center(
-                                  child:
-                                      Text(row['TARGET VOLUME'].toString()))),
-                              DataCell(Text(row['AVERAGE DAY SALE']
-                                  .truncate()
-                                  .toString())),
-                              DataCell(Text(
-                                  row['DAILY REQUIRED AVERAGE'].toString())),
+                                  child: Text(row[selectedOption2 == "value"
+                                          ? 'TARGET VALUE'
+                                          : "TARGET VOLUME"]
+                                      .toString()))),
                               DataCell(Center(
-                                  child: Text(row['VOL PENDING'].toString()))),
+                                child: Text(row['AVERAGE DAY SALE']
+                                    .truncate()
+                                    .toString()),
+                              )),
+                              DataCell(Center(
+                                child: Text(
+                                    row['DAILY REQUIRED AVERAGE'].toString()),
+                              )),
+                              DataCell(Center(
+                                  child: Text(row[selectedOption2 == "value"
+                                          ? 'VAL PENDING'
+                                          : "VOL PENDING"]
+                                      .toString()))),
                               DataCell(Center(
                                   child: Text(row['% GWTH'].toString()))),
                             ]);

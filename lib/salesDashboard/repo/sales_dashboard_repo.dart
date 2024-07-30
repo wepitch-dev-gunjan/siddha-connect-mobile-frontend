@@ -5,16 +5,9 @@ import 'package:siddha_connect/utils/api_method.dart';
 final salesRepoProvider = Provider((ref) => SalesDashboardRepo());
 
 class SalesDashboardRepo {
-  getSalesDashboardData({String? tdFormet, String? dataFormet}) async {
+  getSalesDashboardData({String? tdFormat, String? dataFormat}) async {
     try {
-      String url = ApiUrl.getSalesDashboardData;
-      if (tdFormet != null) {
-        url += '?td_format=$tdFormet';
-      }
-      if (dataFormet != null) {
-        url += '&data_format=$dataFormet';
-      }
-
+    String url = urlFormat(ApiUrl.getSalesDashboardData, tdFormat, dataFormat);
       final response = await ApiMethod(
         url: url,
       ).getDioRequest();
@@ -24,15 +17,9 @@ class SalesDashboardRepo {
     }
   }
 
-  getChannelData({String? tdFormet, String? dataFormet}) async {
+  getChannelData({String? tdFormat, String? dataFormat}) async {
     try {
-      String url = ApiUrl.getChannelData;
-      if (tdFormet != null) {
-        url += '?td_format=$tdFormet';
-      }
-      if (dataFormet != null) {
-        url += '&data_format=$dataFormet';
-      }
+    String url = urlFormat(ApiUrl.getChannelData, tdFormat, dataFormat);
       final response = await ApiMethod(url: url).getDioRequest();
       return response;
     } catch (e) {
@@ -40,15 +27,9 @@ class SalesDashboardRepo {
     }
   }
 
-  getSegmentData({String? tdFormet, String? dataFormet}) async {
+  getSegmentData({String? tdFormat, String? dataFormat}) async {
     try {
-      String url = ApiUrl.getSegmentData;
-      if (tdFormet != null) {
-        url += '?td_format=$tdFormet';
-      }
-      if (dataFormet != null) {
-        url += '&data_format=$dataFormet';
-      }
+     String url = urlFormat(ApiUrl.getSegmentData, tdFormat, dataFormat);
       final response = await ApiMethod(url: url).getDioRequest();
       return response;
     } catch (e) {
