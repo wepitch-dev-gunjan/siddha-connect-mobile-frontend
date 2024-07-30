@@ -1,12 +1,17 @@
+import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
+import 'radio.dart';
 
-final getChannelDataProvider = FutureProvider.autoDispose((ref) {
-  final getChanelData = ref.watch(salesRepoProvider).getChannelData();
+final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getChanelData = await ref.watch(salesRepoProvider).getChannelData(
+      tdFormet: options.tdFormat, dataFormet: options.dataFormat);
   return getChanelData;
 });
 
@@ -132,252 +137,215 @@ class ChannelTable extends ConsumerWidget {
   }
 }
 
-var topStyle = GoogleFonts.lato(
-  textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
-);
+class DashboardOptions {
+  final String tdFormat;
+  final String dataFormat;
+  DashboardOptions({required this.tdFormat, required this.dataFormat});
+}
 
-class SegmentTable extends StatelessWidget {
+final selectedOptionsProvider =
+    StateProvider.autoDispose<DashboardOptions>((ref) {
+  final selectedOption1 = ref.watch(selectedOption1Provider);
+  final selectedOption2 = ref.watch(selectedOption2Provider);
+  return DashboardOptions(
+    tdFormat: selectedOption1,
+    dataFormat: selectedOption2,
+  );
+});
+
+final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getSegmentData = await ref.watch(salesRepoProvider).getSegmentData(
+      tdFormet: options.tdFormat, dataFormet: options.dataFormat);
+  return getSegmentData;
+});
+
+class SegmentTable extends ConsumerWidget {
   const SegmentTable({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final segmentData = ref.watch(getSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            dividerTheme: const DividerThemeData(
-              color: Colors.white,
+    return segmentData.when(
+      data: (data) {
+        log("Segment Data=>$data");
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                dividerTheme: const DividerThemeData(
+                  color: Colors.white,
+                ),
+              ),
+              child: SizedBox(
+                // width: screenWidth,
+                child: DataTable(
+                    dataRowMinHeight: 10,
+                    dataRowMaxHeight: 40,
+                    headingRowHeight: 50,
+                    dividerThickness: 2.5,
+                    columnSpacing: columnSpacing,
+                    headingRowColor: MaterialStateColor.resolveWith(
+                      (states) => const Color(0xffD9D9D9),
+                    ),
+                    columns: <DataColumn>[
+                      DataColumn(
+                          label: Text(
+                        'PRICE BAND',
+                        textAlign: TextAlign.center,
+                        style: topStyle,
+                      )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          '%\nContribution',
+                          textAlign: TextAlign.center,
+                          style: topStyle,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'Target Value',
+                        style: topStyle,
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'MTD SO',
+                        style: topStyle,
+                      )),
+                      DataColumn(
+                          label: Text(
+                        'LMTD SO',
+                        style: topStyle,
+                      )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'MTD Ach',
+                      //   style: topStyle,
+                      // )),
+
+                      // DataColumn(
+                      //     label: Text(
+                      //   '%\nExtrapolated',
+                      //   textAlign: TextAlign.center,
+                      //   style: topStyle,
+                      // )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'Grwth',
+                      //   style: topStyle,
+                      // )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'LM Ads',
+                      //   style: topStyle,
+                      // )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'CM Ads',
+                      //   style: topStyle,
+                      // )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'Req Ads',
+                      //   style: topStyle,
+                      // )),
+                      // DataColumn(
+                      //     label: Text(
+                      //   'D-1',
+                      //   style: topStyle,
+                      // )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          'FTD',
+                          style: topStyle,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          'Pending Val',
+                          style: topStyle,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          'DRR',
+                          style: topStyle,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          'ADS',
+                          style: topStyle,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Center(
+                        child: Text(
+                          '% GWTH',
+                          style: topStyle,
+                        ),
+                      )),
+                    ],
+                    rows: List.generate(data.length, (index) {
+                      final row = data[index];
+                      return DataRow(
+                          color: WidgetStateColor.resolveWith(
+                            (states) => const Color(0xffEEEEEE),
+                          ),
+                          cells: [
+                            DataCell(Center(child: Text(row['_id']))),
+                            DataCell(Center(
+                                child: Text(
+                              row['CONTRIBUTION %'],
+                            ))),
+                            DataCell(Center(
+                                child: Text(row['TARGET VALUE'].toString()))),
+                            DataCell(Center(
+                                child: Text(row['MTD SELL OUT'].toString()))),
+                            DataCell(Center(
+                                child: Text(row['LMTD SELL OUT'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['FTD'].toString()))),
+                            DataCell(Center(
+                                child: Text(row['VAL PENDING'].toString()))),
+                            DataCell(
+                                Text(row['DAILY REQUIRED AVERAGE'].toString())),
+                            DataCell(Text(
+                                row['AVERAGE DAY SALE'].truncate().toString())),
+                            DataCell(
+                                Center(child: Text(row['% GWTH'].toString()))),
+                          ]);
+                    })),
+              ),
             ),
           ),
-          child: SizedBox(
-            // width: screenWidth,
-            child: DataTable(
-              dataRowMinHeight: 10,
-              dataRowMaxHeight: 40,
-              headingRowHeight: 50,
-              dividerThickness: 2.5,
-              columnSpacing: columnSpacing,
-              headingRowColor: MaterialStateColor.resolveWith(
-                (states) => const Color(0xffD9D9D9),
-              ),
-              columns: <DataColumn>[
-                DataColumn(
-                    label: Text(
-                  'Price Band',
-                  textAlign: TextAlign.center,
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Center(
-                  child: Text(
-                    '%\nContribution',
-                    textAlign: TextAlign.center,
-                    style: topStyle,
-                  ),
-                )),
-                DataColumn(
-                    label: Text(
-                  'Value Target',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'MTD Mar',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'MTD Ach',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'Pending Val',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  '%\nExtrapolated',
-                  textAlign: TextAlign.center,
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'Grwth',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'LM Ads',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'CM Ads',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'Req Ads',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Text(
-                  'D-1',
-                  style: topStyle,
-                )),
-                DataColumn(
-                    label: Center(
-                  child: Text(
-                    'FTD',
-                    style: topStyle,
-                  ),
-                )),
-              ],
-              rows: [
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('100K')),
-                      DataCell(Center(child: Text('78%'))),
-                      DataCell(Center(child: Text('17.28'))),
-                      DataCell(Center(child: Text('10.4'))),
-                      DataCell(Center(child: Text('19.57'))),
-                      DataCell(Center(child: Text('0.57'))),
-                      DataCell(Center(child: Text('15.90'))),
-                      DataCell(Center(child: Text('20%'))),
-                      DataCell(Center(child: Text('10.4'))),
-                      DataCell(Center(child: Text('0.4'))),
-                      DataCell(Center(child: Text('0.57'))),
-                      DataCell(Center(child: Text('10.4'))),
-                      DataCell(Center(child: Text('17.28'))),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('70-100K')),
-                      DataCell(Center(child: Text('80%'))),
-                      DataCell(Center(child: Text('17.28'))),
-                      DataCell(Center(child: Text('17.8'))),
-                      DataCell(Center(child: Text('15.37'))),
-                      DataCell(Center(child: Text('1.87'))),
-                      DataCell(Center(child: Text('19.57'))),
-                      DataCell(Center(child: Text('78%'))),
-                      DataCell(Center(child: Text('19.57'))),
-                      DataCell(Center(child: Text('10.4'))),
-                      DataCell(Center(child: Text('10.4'))),
-                      DataCell(Center(child: Text('1.87'))),
-                      DataCell(Center(child: Text('19.57'))),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('40-70K')),
-                      DataCell(Text('75%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('16.8')),
-                      DataCell(Text('10.15')),
-                      DataCell(Text('2.70')),
-                      DataCell(Text('08.36')),
-                      DataCell(Text('37%')),
-                      DataCell(Text('2.70')),
-                      DataCell(Text('18.4')),
-                      DataCell(Text('2.70')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('10.17')),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('30-40K')),
-                      DataCell(Text('77%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('18.8')),
-                      DataCell(Text('15.80')),
-                      DataCell(Text('0.57')),
-                      DataCell(Text('13.57')),
-                      DataCell(Text('52%')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('10.17')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('10.15')),
-                      DataCell(Text('2.70')),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('20-30K')),
-                      DataCell(Text('63%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('12.2')),
-                      DataCell(Text('16.37')),
-                      DataCell(Text('0.68')),
-                      DataCell(Text('25.57')),
-                      DataCell(Text('44%')),
-                      DataCell(Text('0.68')),
-                      DataCell(Text('0.40')),
-                      DataCell(Text('0.68')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('10.44')),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('15-20K')),
-                      DataCell(Text('86%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('14.8')),
-                      DataCell(Text('18.67')),
-                      DataCell(Text('0.57')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('45%')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('10.44')),
-                      DataCell(Text('16.57')),
-                      DataCell(Text('0.40')),
-                      DataCell(Text('0.68')),
-                    ]),
-                DataRow(
-                    color: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffEEEEEE),
-                    ),
-                    cells: const [
-                      DataCell(Text('10-15K')),
-                      DataCell(Text('82%')),
-                      DataCell(Text('17.28')),
-                      DataCell(Text('16.8')),
-                      DataCell(Text('15.37')),
-                      DataCell(Text('0.90')),
-                      DataCell(Text('19.57')),
-                      DataCell(Text('68%')),
-                      DataCell(Text('15.37')),
-                      DataCell(Text('8.4')),
-                      DataCell(Text('0.90')),
-                      DataCell(Text('0.90')),
-                      DataCell(Text('19.57')),
-                    ]),
-              ],
-            ),
+        );
+      },
+      error: (error, stackTrace) => const Center(
+        child: Text("Something Went Wrong"),
+      ),
+      loading: () => Padding(
+        padding: const EdgeInsets.only(top: 150),
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: AppColor.primaryColor,
           ),
         ),
       ),
     );
   }
 }
+
+var topStyle = GoogleFonts.lato(
+  textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+);

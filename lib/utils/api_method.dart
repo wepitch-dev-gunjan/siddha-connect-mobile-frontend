@@ -93,12 +93,17 @@ class ApiMethod {
 class ApiUrl {
   static const baseUrl = "https://www.siddhaconnect.com";
   static const getSalesDashboardData = "$baseUrl/sales/dashboard";
-  static const getChannelData =
-      "$baseUrl/sales/channel-wise?start_date=2024-03-01&end_date=2024-04-15";
+  static const getChannelData = "$baseUrl/sales/channel-wise";
+  static const getSegmentData = "$baseUrl/sales/segment-wise";
+  static const getTseData = "$baseUrl/sales/tse-wise";
+  static const getAbmData = "$baseUrl/sales/abm-wise";
+  static const getAreaData = "$baseUrl/sales/cluster-wise";
+    static const getAsmData = "$baseUrl/sales/asm-wise";
+    static const getRsoData = "$baseUrl/sales/rso-wise";
   static const uploadSalesData = "$baseUrl/sales";
   static const userRegister = "$baseUrl/user/register";
   static const userLogin = "$baseUrl/login";
-  // static const sendOtp = "$baseUrl/otp";
+
   // static const verifyOtp = "$baseUrl/otp";
   // static const createUser = "$baseUrl/user";
 }

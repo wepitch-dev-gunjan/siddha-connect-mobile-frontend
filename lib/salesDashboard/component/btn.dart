@@ -1,11 +1,25 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/salesDashboard/component/tabels.dart';
 import '../../utils/common_style.dart';
-import 'tabels.dart';
 
 final selectedButtonProvider = StateProvider<bool>((ref) => true);
+
+class FullSizeBtnConditional extends ConsumerWidget {
+  const FullSizeBtnConditional({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(selectedIndexProvider);
+    if (selectedIndex != 0) {
+      return Text(
+          "data"); // Return an empty widget if a small button is selected
+    }
+    return const FullSizeBtn(); // Return FullSizeBtn if 'All' is selected
+  }
+}
 
 class FullSizeBtn extends ConsumerWidget {
   const FullSizeBtn({super.key});
@@ -53,7 +67,7 @@ class FullSizeBtn extends ConsumerWidget {
                               style: GoogleFonts.lato(
                                 color: isSegmentSelected
                                     ? Colors.white
-                                    : Colors.black, // Specify your colors here
+                                    : Colors.black,
                                 textStyle: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w500,
@@ -101,7 +115,7 @@ class FullSizeBtn extends ConsumerWidget {
                               style: GoogleFonts.lato(
                                 color: isSegmentSelected
                                     ? Colors.black
-                                    : Colors.white, // Specify your colors here
+                                    : Colors.white,
                                 textStyle: const TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w500,
@@ -208,6 +222,6 @@ class SmallCusBtn extends ConsumerWidget {
   }
 }
 
-final buttons = ['All', 'TSE', 'Area', 'ABM', 'ASM', 'TL', 'RSO'];
+final buttons = ['All', 'TSE', 'AREA', 'ABM', 'ASM', 'RSO'];
 
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
