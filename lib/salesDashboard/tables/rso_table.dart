@@ -7,9 +7,11 @@ import '../repo/sales_dashboard_repo.dart';
 
 final getRsoDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getRsoData = await ref
-      .watch(salesRepoProvider)
-      .getRsoData(tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+  final getRsoData = await ref.watch(salesRepoProvider).getRsoData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getRsoData;
 });
 
@@ -79,7 +81,7 @@ class RsoTable extends ConsumerWidget {
                         )),
                         DataColumn(
                             label: Text(
-                          'DRR',
+                          'DAILY REQ. AVG.',
                           style: topStyle,
                         )),
                         DataColumn(
@@ -119,8 +121,11 @@ class RsoTable extends ConsumerWidget {
                               DataCell(Text(row['AVERAGE DAY SALE']
                                   .truncate()
                                   .toString())),
-                              DataCell(Text(
-                                  row['DAILY REQUIRED AVERAGE'].toString())),
+                              DataCell(Center(
+                                child: Text(row['DAILY REQUIRED AVERAGE']
+                                    .truncate()
+                                    .toString()),
+                              )),
                               DataCell(Center(
                                   child: Text(row[selectedOption2 == "value"
                                           ? 'VAL PENDING'

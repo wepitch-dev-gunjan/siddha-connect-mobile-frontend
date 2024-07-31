@@ -7,20 +7,6 @@ import '../../utils/common_style.dart';
 
 final selectedButtonProvider = StateProvider<bool>((ref) => true);
 
-class FullSizeBtnConditional extends ConsumerWidget {
-  const FullSizeBtnConditional({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = ref.watch(selectedIndexProvider);
-    if (selectedIndex != 0) {
-      return Text(
-          "data"); // Return an empty widget if a small button is selected
-    }
-    return const FullSizeBtn(); // Return FullSizeBtn if 'All' is selected
-  }
-}
-
 class FullSizeBtn extends ConsumerWidget {
   const FullSizeBtn({super.key});
 

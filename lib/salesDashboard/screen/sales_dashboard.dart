@@ -21,7 +21,6 @@ class SalesDashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedBtn = ref.watch(selectedIndexProvider);
-    log("SelectedBtn=$selectedBtn");
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -38,12 +37,13 @@ class SalesDashboard extends ConsumerWidget {
               const DatePickerContainer(),
               const SalesDashboardCard(),
               const SmallCusBtn(),
-              if (selectedBtn == 0) const FullSizeBtn(),
-              if (selectedBtn == 1) const TseTable(),
-              if (selectedBtn == 2) const AreaTable(),
-              if (selectedBtn == 3) const AbmTable(),
-              if (selectedBtn == 4) const AsmTable(),
-              if (selectedBtn == 5) const RsoTable(),
+              // if (selectedBtn == 0) TseTable(),
+              // if (selectedBtn == 1) const TseTable(),
+              // if (selectedBtn == 2) const AreaTable(),
+              // if (selectedBtn == 3) const AbmTable(),
+              // if (selectedBtn == 4) const AsmTable(),
+              // if (selectedBtn == 5) const RsoTable(),
+              const FullSizeBtn()
             ],
           ),
         ),

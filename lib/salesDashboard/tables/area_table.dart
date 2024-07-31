@@ -8,9 +8,11 @@ import '../repo/sales_dashboard_repo.dart';
 
 final getAreaDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getAreaData = await ref
-      .watch(salesRepoProvider)
-      .getAreaData(tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+  final getAreaData = await ref.watch(salesRepoProvider).getAreaData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getAreaData;
 });
 
@@ -80,7 +82,7 @@ class AreaTable extends ConsumerWidget {
                         )),
                         DataColumn(
                             label: Text(
-                          'DRR',
+                          'DAILY REQ. AVG.',
                           style: topStyle,
                         )),
                         DataColumn(
@@ -120,8 +122,11 @@ class AreaTable extends ConsumerWidget {
                               DataCell(Text(row['AVERAGE DAY SALE']
                                   .truncate()
                                   .toString())),
-                              DataCell(Text(
-                                  row['DAILY REQUIRED AVERAGE'].toString())),
+                              DataCell(Center(
+                                child: Text(row['DAILY REQUIRED AVERAGE']
+                                    .truncate()
+                                    .toString()),
+                              )),
                               DataCell(Center(
                                   child: Text(row[selectedOption2 == "value"
                                           ? 'VAL PENDING'

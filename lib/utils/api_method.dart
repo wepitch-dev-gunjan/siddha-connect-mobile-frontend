@@ -16,31 +16,24 @@ class ApiMethod {
 
   Future getDioRequest() async {
     try {
-      log("url=====>---$url");
       token != null ? headers['Authorization'] = "$token" : null;
       Response response = await dio.get(url, queryParameters: queryParameters);
-      log("resp=====>---${response.data}");
-
       if (response.statusCode == 200) {
         return response.data;
       }
     } on DioException catch (err) {
-      log("get statusCode ${err.response?.statusCode.toString()}");
-      log("get type ${err.response?.data.toString()} ");
+      // log("get statusCode ${err.response?.statusCode.toString()}");
+      // log("get type ${err.response?.data.toString()} ");
     }
   }
 
   Future postDioRequest({required Map data}) async {
     try {
       token != null ? headers['Authorization'] = "$token" : null;
-      log("logindata$data");
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
-      log("respnse${response.data}");
       return response.data;
     } on DioException {
-      // log("post statusCode ${err.response?.statusCode.toString()}");
-      // log("post type ${err.response?.data.toString()} ");
       rethrow;
     }
   }
@@ -56,8 +49,8 @@ class ApiMethod {
         return response.data;
       }
     } on DioException catch (err) {
-      log("post statusCode ${err.response?.statusCode.toString()}");
-      log("post type ${err.response?.data.toString()} ");
+      // log("post statusCode ${err.response?.statusCode.toString()}");
+      // log("post type ${err.response?.data.toString()} ");
     }
   }
 
@@ -70,8 +63,8 @@ class ApiMethod {
         return response.data;
       }
     } on DioException catch (err) {
-      log("post statusCode ${err.response?.statusCode.toString()}");
-      log("post type ${err.response?.data.toString()} ");
+      // log("post statusCode ${err.response?.statusCode.toString()}");
+      // log("post type ${err.response?.data.toString()} ");
     }
   }
 
@@ -84,8 +77,8 @@ class ApiMethod {
         return response.data;
       }
     } on DioException catch (err) {
-      log("post statusCode ${err.response?.statusCode.toString()}");
-      log("post type ${err.response?.data.toString()} ");
+      // log("post statusCode ${err.response?.statusCode.toString()}");
+      // log("post type ${err.response?.data.toString()} ");
     }
   }
 }
@@ -98,8 +91,8 @@ class ApiUrl {
   static const getTseData = "$baseUrl/sales/tse-wise";
   static const getAbmData = "$baseUrl/sales/abm-wise";
   static const getAreaData = "$baseUrl/sales/cluster-wise";
-    static const getAsmData = "$baseUrl/sales/asm-wise";
-    static const getRsoData = "$baseUrl/sales/rso-wise";
+  static const getAsmData = "$baseUrl/sales/asm-wise";
+  static const getRsoData = "$baseUrl/sales/rso-wise";
   static const uploadSalesData = "$baseUrl/sales";
   static const userRegister = "$baseUrl/user/register";
   static const userLogin = "$baseUrl/login";

@@ -1,9 +1,9 @@
 import 'dart:developer';
-
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'radio.dart';
@@ -11,7 +11,10 @@ import 'radio.dart';
 final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final getChanelData = await ref.watch(salesRepoProvider).getChannelData(
-      tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getChanelData;
 });
 
@@ -140,23 +143,42 @@ class ChannelTable extends ConsumerWidget {
 class DashboardOptions {
   final String tdFormat;
   final String dataFormat;
-  DashboardOptions({required this.tdFormat, required this.dataFormat});
+  final String firstDate;
+  final String lastDate;
+
+  DashboardOptions(
+      {required this.tdFormat,
+      required this.dataFormat,
+      required this.firstDate,
+      required this.lastDate});
 }
 
 final selectedOptionsProvider =
     StateProvider.autoDispose<DashboardOptions>((ref) {
   final selectedOption1 = ref.watch(selectedOption1Provider);
   final selectedOption2 = ref.watch(selectedOption2Provider);
+  // final firstDate = ref.watch(firstDateProvider);
+  // final lastDate = ref.watch(lastDateProvider);
+  final DateTime firstDate = ref.watch(firstDateProvider);
+  final DateTime lastDate = ref.watch(lastDateProvider);
+  final String formattedFirstDate = DateFormat('yyyy-MM-dd').format(firstDate);
+  final String formattedLastDate = DateFormat('yyyy-MM-dd').format(lastDate);
+  log("firstDate 1$firstDate");
+  log("lastDate 2$lastDate");
   return DashboardOptions(
-    tdFormat: selectedOption1,
-    dataFormat: selectedOption2,
-  );
+      tdFormat: selectedOption1,
+      dataFormat: selectedOption2,
+      firstDate: formattedFirstDate,
+      lastDate: formattedLastDate);
 });
 
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final getSegmentData = await ref.watch(salesRepoProvider).getSegmentData(
-      tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getSegmentData;
 });
 
@@ -165,13 +187,13 @@ class SegmentTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedOption2 = ref.watch(selectedOption2Provider);
     final segmentData = ref.watch(getSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
 
     return segmentData.when(
       data: (data) {
-        log("Segment Data=>$data");
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
@@ -190,7 +212,7 @@ class SegmentTable extends ConsumerWidget {
                     headingRowHeight: 50,
                     dividerThickness: 2.5,
                     columnSpacing: columnSpacing,
-                    headingRowColor: MaterialStateColor.resolveWith(
+                    headingRowColor: WidgetStateColor.resolveWith(
                       (states) => const Color(0xffD9D9D9),
                     ),
                     columns: <DataColumn>[
@@ -210,7 +232,9 @@ class SegmentTable extends ConsumerWidget {
                       )),
                       DataColumn(
                           label: Text(
-                        'Target Value',
+                        selectedOption2 == 'value'
+                            ? 'TARGET VALUE'
+                            : 'TARGET VOLUME',
                         style: topStyle,
                       )),
                       DataColumn(
@@ -270,7 +294,9 @@ class SegmentTable extends ConsumerWidget {
                       DataColumn(
                           label: Center(
                         child: Text(
-                          'Pending Val',
+                          selectedOption2 == 'value'
+                              ? 'PENDING VAL.'
+                              : 'PENDING VOL.',
                           style: topStyle,
                         ),
                       )),
@@ -309,7 +335,10 @@ class SegmentTable extends ConsumerWidget {
                               row['CONTRIBUTION %'],
                             ))),
                             DataCell(Center(
-                                child: Text(row['TARGET VALUE'].toString()))),
+                                child: Text(row[selectedOption2 == 'value'
+                                        ? 'TARGET VALUE'
+                                        : "TARGET VOLUME"]
+                                    .toString()))),
                             DataCell(Center(
                                 child: Text(row['MTD SELL OUT'].toString()))),
                             DataCell(Center(
@@ -317,7 +346,10 @@ class SegmentTable extends ConsumerWidget {
                             DataCell(
                                 Center(child: Text(row['FTD'].toString()))),
                             DataCell(Center(
-                                child: Text(row['VAL PENDING'].toString()))),
+                                child: Text(row[selectedOption2 == 'value'
+                                        ? 'VAL PENDING'
+                                        : 'VOL PENDING']
+                                    .toString()))),
                             DataCell(
                                 Text(row['DAILY REQUIRED AVERAGE'].toString())),
                             DataCell(Text(

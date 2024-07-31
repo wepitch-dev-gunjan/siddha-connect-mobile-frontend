@@ -1,16 +1,31 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 
-class DatePickerContainer extends StatelessWidget {
+final firstDateProvider = StateProvider<DateTime>((ref) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, 1);
+});
+
+final lastDateProvider = StateProvider<DateTime>((ref) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);
+});
+
+class DatePickerContainer extends ConsumerWidget {
   const DatePickerContainer({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final DateTime now = DateTime.now();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final DateTime firstDate = ref.watch(firstDateProvider);
+    final DateTime lastDate = ref.watch(lastDateProvider);
+
+    log("first$firstDate");
+    log("Last$lastDate");
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -26,19 +41,21 @@ class DatePickerContainer extends StatelessWidget {
           child: Row(
             children: [
               DatePickerComponent(
-                key: const Key('firstDatePicker'),
-                initialYear: now.year.toString(),
-                initialMonth: _monthName(now.month),
-                intialDay: "01",
-                dateType: 'First',
+                initialYear: firstDate.year.toString(),
+                initialMonth: _monthName(firstDate.month),
+                initialDay: _formatDay(firstDate.day),
+                onDatePicked: (pickedDate) {
+                  ref.read(firstDateProvider.notifier).state = pickedDate;
+                },
               ),
               const Spacer(),
               DatePickerComponent(
-                key: const Key('secondDatePicker'),
-                initialYear: now.year.toString(),
-                initialMonth: _monthName(now.month),
-                intialDay: _formatDay(now.day),
-                dateType: 'Second',
+                initialYear: lastDate.year.toString(),
+                initialMonth: _monthName(lastDate.month),
+                initialDay: _formatDay(lastDate.day),
+                onDatePicked: (pickedDate) {
+                  ref.read(lastDateProvider.notifier).state = pickedDate;
+                },
               ),
             ],
           ),
@@ -84,15 +101,15 @@ Future<DateTime?> selectDate(BuildContext context) async {
 class DatePickerComponent extends StatefulWidget {
   final String initialYear;
   final String initialMonth;
-  final String intialDay;
-  final String dateType;
+  final String initialDay;
+  final Function(DateTime) onDatePicked;
 
   const DatePickerComponent({
     super.key,
     required this.initialYear,
     required this.initialMonth,
-    required this.intialDay,
-    required this.dateType,
+    required this.initialDay,
+    required this.onDatePicked,
   });
 
   @override
@@ -123,9 +140,7 @@ class DatePickerComponentState extends State<DatePickerComponent> {
     super.initState();
     year = widget.initialYear;
     month = widget.initialMonth;
-    day = widget.intialDay;
-
-    log('${widget.dateType} initial date: $day $month $year');
+    day = widget.initialDay;
   }
 
   String _formatDay(int day) {
@@ -138,8 +153,7 @@ class DatePickerComponentState extends State<DatePickerComponent> {
       month = months[pickedDate.month - 1];
       day = _formatDay(pickedDate.day);
     });
-
-    log('${widget.dateType} updated date: $day $month $year');
+    widget.onDatePicked(pickedDate);
   }
 
   @override

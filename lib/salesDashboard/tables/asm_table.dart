@@ -8,9 +8,11 @@ import '../repo/sales_dashboard_repo.dart';
 
 final getAsmDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getAsmData = await ref
-      .watch(salesRepoProvider)
-      .getAsmData(tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+  final getAsmData = await ref.watch(salesRepoProvider).getAsmData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getAsmData;
 });
 
@@ -80,7 +82,7 @@ class AsmTable extends ConsumerWidget {
                         )),
                         DataColumn(
                             label: Text(
-                          'DRR',
+                          'DAILY REQ. AVG.',
                           style: topStyle,
                         )),
                         DataColumn(
@@ -120,8 +122,11 @@ class AsmTable extends ConsumerWidget {
                               DataCell(Text(row['AVERAGE DAY SALE']
                                   .truncate()
                                   .toString())),
-                              DataCell(Text(
-                                  row['DAILY REQUIRED AVERAGE'].toString())),
+                              DataCell(Center(
+                                child: Text(row['DAILY REQUIRED AVERAGE']
+                                    .truncate()
+                                    .toString()),
+                              )),
                               DataCell(Center(
                                   child: Text(row[selectedOption2 == "value"
                                           ? 'VAL PENDING'

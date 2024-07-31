@@ -7,9 +7,11 @@ import '../repo/sales_dashboard_repo.dart';
 
 final getTseDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getTseData = await ref
-      .watch(salesRepoProvider)
-      .getTseData(tdFormat: options.tdFormat, dataFormat: options.dataFormat);
+  final getTseData = await ref.watch(salesRepoProvider).getTseData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate);
   return getTseData;
 });
 
@@ -79,7 +81,7 @@ class TseTable extends ConsumerWidget {
                         )),
                         DataColumn(
                             label: Text(
-                          'DAILY REG. AVG.',
+                          'DAILY REQ. AVG.',
                           style: topStyle,
                         )),
                         DataColumn(
@@ -122,8 +124,9 @@ class TseTable extends ConsumerWidget {
                                     .toString()),
                               )),
                               DataCell(Center(
-                                child: Text(
-                                    row['DAILY REQUIRED AVERAGE'].toString()),
+                                child: Text(row['DAILY REQUIRED AVERAGE']
+                                    .truncate()
+                                    .toString()),
                               )),
                               DataCell(Center(
                                   child: Text(row[selectedOption2 == "value"
