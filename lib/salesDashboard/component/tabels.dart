@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
+import 'package:siddha_connect/salesDashboard/tables/tse_table.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
+import 'btn.dart';
 import 'radio.dart';
 
 final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
@@ -145,31 +147,41 @@ class DashboardOptions {
   final String dataFormat;
   final String firstDate;
   final String lastDate;
+  final String? name;
+  final String? position;
 
   DashboardOptions(
       {required this.tdFormat,
       required this.dataFormat,
       required this.firstDate,
-      required this.lastDate});
+      required this.lastDate,
+      this.name,
+      this.position});
 }
 
 final selectedOptionsProvider =
     StateProvider.autoDispose<DashboardOptions>((ref) {
   final selectedOption1 = ref.watch(selectedOption1Provider);
   final selectedOption2 = ref.watch(selectedOption2Provider);
-  // final firstDate = ref.watch(firstDateProvider);
-  // final lastDate = ref.watch(lastDateProvider);
+
+  final position = ref.watch(selectedPositionProvider);
+  final name = ref.watch(selectedItemProvider);
+
+  log("Position$position");
+  log("name$name");
+
   final DateTime firstDate = ref.watch(firstDateProvider);
   final DateTime lastDate = ref.watch(lastDateProvider);
   final String formattedFirstDate = DateFormat('yyyy-MM-dd').format(firstDate);
   final String formattedLastDate = DateFormat('yyyy-MM-dd').format(lastDate);
-  log("firstDate 1$firstDate");
-  log("lastDate 2$lastDate");
+
   return DashboardOptions(
       tdFormat: selectedOption1,
       dataFormat: selectedOption2,
       firstDate: formattedFirstDate,
-      lastDate: formattedLastDate);
+      lastDate: formattedLastDate,
+      name: name,
+      position: position);
 });
 
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {

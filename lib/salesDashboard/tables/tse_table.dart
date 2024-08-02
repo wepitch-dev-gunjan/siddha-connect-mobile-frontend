@@ -1,159 +1,99 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/salesDashboard/component/tabels.dart';
-import '../../utils/common_style.dart';
-import '../component/radio.dart';
-import '../repo/sales_dashboard_repo.dart';
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:siddha_connect/salesDashboard/component/tabels.dart';
+// import '../../utils/fields.dart';
+// import '../../utils/providers.dart';
+// import '../repo/sales_dashboard_repo.dart';
 
-final getTseDataProvider = FutureProvider.autoDispose((ref) async {
-  final options = ref.watch(selectedOptionsProvider);
-  final getTseData = await ref.watch(salesRepoProvider).getTseData(
-      tdFormat: options.tdFormat,
-      dataFormat: options.dataFormat,
-      firstDate: options.firstDate,
-      lastDate: options.lastDate);
-  return getTseData;
-});
+// final tseProvider = StateProvider<String?>((ref) => null);
 
-class TseTable extends ConsumerWidget {
-  const TseTable({super.key});
+// final segmentDataProvider = FutureProvider.autoDispose((ref) async {
+//   final options = ref.watch(selectedOptionsProvider);
+//   final getTseData = await ref.watch(salesRepoProvider).segmentWiseData(
+//       tdFormat: options.tdFormat,
+//       dataFormat: options.dataFormat,
+//       firstDate: options.firstDate,
+//       lastDate: options.lastDate,
+//       name: options.name,
+//       position: options.position
+//       );
+//   return getTseData;
+// });
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedOption2 = ref.watch(selectedOption2Provider);
-    final tseData = ref.watch(getTseDataProvider);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final columnSpacing = screenWidth / 12;
 
-    return tseData.when(
-      data: (data) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                dividerTheme: const DividerThemeData(
-                  color: Colors.white,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: SizedBox(
-                  child: DataTable(
-                      dataRowMinHeight: 10,
-                      dataRowMaxHeight: 40,
-                      headingRowHeight: 50,
-                      dividerThickness: 2.5,
-                      columnSpacing: columnSpacing,
-                      headingRowColor: WidgetStateColor.resolveWith(
-                        (states) => const Color(0xffD9D9D9),
-                      ),
-                      columns: [
-                        DataColumn(
-                            label: Center(
-                          child: Text('Name', style: topStyle),
-                        )),
-                        DataColumn(
-                            label: Center(
-                          child: Text(
-                            'MTD SO',
-                            textAlign: TextAlign.center,
-                            style: topStyle,
-                          ),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'LMTD SO',
-                          style: topStyle,
-                        )),
-                        DataColumn(
-                            label: Text(
-                          selectedOption2 == "value"
-                              ? 'TARGET VAL.'
-                              : "TARGET VOL.",
-                          style: topStyle,
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'AVG. DAY SALE',
-                          style: topStyle,
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'DAILY REQ. AVG.',
-                          style: topStyle,
-                        )),
-                        DataColumn(
-                            label: Text(
-                          selectedOption2 == "value"
-                              ? 'PENDING VAL.'
-                              : 'PENDING VOL.',
-                          style: topStyle,
-                        )),
-                        DataColumn(
-                            label: Center(
-                          child: Text(
-                            '%\nGWTH',
-                            textAlign: TextAlign.center,
-                            style: topStyle,
-                          ),
-                        )),
-                      ],
-                      rows: List.generate(data.length, (index) {
-                        final row = data[index];
-                        return DataRow(
-                            color: WidgetStateColor.resolveWith(
-                              (states) => const Color(0xffEEEEEE),
-                            ),
-                            cells: [
-                              DataCell(Text(row['_id'])),
-                              DataCell(Center(
-                                  child: Text(row['MTD SELL OUT'].toString()))),
-                              DataCell(Center(
-                                  child:
-                                      Text(row['LMTD SELL OUT'].toString()))),
-                              DataCell(Center(
-                                  child: Text(row[selectedOption2 == "value"
-                                          ? 'TARGET VALUE'
-                                          : "TARGET VOLUME"]
-                                      .toString()))),
-                              DataCell(Center(
-                                child: Text(row['AVERAGE DAY SALE']
-                                    .truncate()
-                                    .toString()),
-                              )),
-                              DataCell(Center(
-                                child: Text(row['DAILY REQUIRED AVERAGE']
-                                    .truncate()
-                                    .toString()),
-                              )),
-                              DataCell(Center(
-                                  child: Text(row[selectedOption2 == "value"
-                                          ? 'VAL PENDING'
-                                          : "VOL PENDING"]
-                                      .toString()))),
-                              DataCell(Center(
-                                  child: Text(row['% GWTH'].toString()))),
-                            ]);
-                      })),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      error: (error, stackTrace) => const Center(
-        child: Text("Something Went Wrong"),
-      ),
-      loading: () => const Padding(
-        padding: EdgeInsets.only(top: 150),
-        child: Center(
-          child: CircularProgressIndicator(
-            color: AppColor.primaryColor,
-          ),
-        ),
-      ),
-    );
-  }
-}
+
+// class OpenDropDawn extends ConsumerStatefulWidget {
+//   const OpenDropDawn({super.key});
+
+//   @override
+//   ConsumerState<ConsumerStatefulWidget> createState() => _TSETabelState();
+// }
+
+// class _TSETabelState extends ConsumerState<OpenDropDawn> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final getSubordinates = ref.watch(subordinateProvider);
+//     final segment = ref.watch(segmentDataProvider);
+
+//     return Padding(
+//       padding: const EdgeInsets.only(left: 8, right: 8, top: 10),
+//       child: Column(
+//         children: [
+//           getSubordinates.when(
+//             data: (data) {
+//               List<String> tseList = List<String>.from(data['TSE']);
+//               return DropdownButtonFormField<String>(
+//                 style: const TextStyle(
+//                     fontSize: 16.0, height: 1.5, color: Colors.black87),
+//                 decoration: InputDecoration(
+//                     fillColor: const Color(0XFFfafafa),
+//                     contentPadding: const EdgeInsets.symmetric(
+//                         vertical: 8.0, horizontal: 12.0),
+//                     errorStyle: const TextStyle(color: Colors.red),
+//                     labelStyle: const TextStyle(
+//                         fontSize: 15.0,
+//                         color: Colors.black54,
+//                         fontWeight: FontWeight.w500),
+//                     enabledBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                         borderSide: const BorderSide(
+//                           color: Colors.black12,
+//                         )),
+//                     errorBorder: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(8),
+//                       borderSide: const BorderSide(
+//                         color: Colors.red, // Error border color
+//                         width: 1,
+//                       ),
+//                     ),
+//                     focusedBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                         borderSide: const BorderSide(
+//                             color: Color(0xff1F0A68), width: 1)),
+//                     labelText: "TSE",
+//                     border: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(5),
+//                         borderSide:
+//                             const BorderSide(color: Colors.amber, width: 0.5))),
+//                 value: selectedPosition,
+//                 onChanged: (newValue) {
+//                   ref.read(selectedPositionProvider.notifier).state = newValue;
+//                 },
+//                 items: tseList.map<DropdownMenuItem<String>>((String value) {
+//                   return DropdownMenuItem<String>(
+//                     value: value,
+//                     child: Text(value),
+//                   );
+//                 }).toList(),
+//                 validator: validatePosition,
+//               );
+//             },
+//             error: (error, stackTrace) => const Text("Error loading TSE data"),
+//             loading: () => const CircularProgressIndicator(),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

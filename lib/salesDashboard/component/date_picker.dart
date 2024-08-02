@@ -24,9 +24,6 @@ class DatePickerContainer extends ConsumerWidget {
     final DateTime firstDate = ref.watch(firstDateProvider);
     final DateTime lastDate = ref.watch(lastDateProvider);
 
-    log("first$firstDate");
-    log("Last$lastDate");
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
+import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
+import 'package:siddha_connect/utils/status_screen.dart';
 
 import '../../utils/navigation.dart';
 import '../../utils/secure_storage.dart';
@@ -19,10 +21,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     ref.read(checkAuthorizeProvider);
-    // Future.delayed(const Duration(seconds: 2), () {
-    //   Navigator.push(
-    //       context, MaterialPageRoute(builder: (context) => LoginScreen()));
-    // });
     super.initState();
   }
 
@@ -51,12 +49,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
   String isLogin = await ref.watch(secureStoargeProvider).readData('authToken');
-
-  log("token=> $isLogin");
-
-  log(isLogin.toString());
   if (isLogin.isNotEmpty) {
-    navigateTo(const SalesDashboard());
+    final profileStatus = await ref.watch(profileStatusControllerProvider);
+    if (profileStatus['verified'] == false) {
+      navigateTo(const StatusScreen());
+    } else {
+      navigateTo(const SalesDashboard());
+    }
   } else {
     navigateTo(LoginScreen());
   }

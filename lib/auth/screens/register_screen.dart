@@ -16,6 +16,8 @@ import '../../utils/sizes.dart';
 
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+final selectedPositionProvider = StateProvider<String?>((ref) => null);
+
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -122,7 +124,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         selectedPosition = newValue;
                       });
                     },
-                    items: ['TSE', 'Position 2', 'Position 3']
+                    items: ['TSE', 'RSO', 'Position 3']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -135,6 +137,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   Btn(
                     btnName: 'Sign Up',
                     onPressed: () {
+                      log("selescted$selectedPosition");
                       if (formKey.currentState!.validate()) {
                         ref
                             .read(authControllerProvider)
@@ -186,6 +189,62 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomDropdownButtonFormField extends StatelessWidget {
+  final String? labelText, label;
+  final List<String> items;
+  final String? value;
+  final Function(String?) onChanged;
+  final String? Function(String?)? validator;
+
+  const CustomDropdownButtonFormField(
+      {super.key,
+      this.labelText,
+      required this.items,
+      this.value,
+      required this.onChanged,
+      this.validator,
+      this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      style:
+          const TextStyle(fontSize: 16.0, height: 1.5, color: Colors.black87),
+      decoration: InputDecoration(
+        fillColor: const Color(0XFFfafafa),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        errorStyle: const TextStyle(color: Colors.red),
+        labelStyle: const TextStyle(
+            fontSize: 15.0, color: Colors.black54, fontWeight: FontWeight.w500),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColor.primaryColor)),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Color(0xff1F0A68), width: 1)),
+        labelText: labelText,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.amber, width: 0.5)),
+      ),
+      value: value,
+      onChanged: onChanged,
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      validator: validator,
     );
   }
 }

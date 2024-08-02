@@ -24,13 +24,13 @@ class AuthController {
   registerController({required Map data}) async {
     try {
       final res = await authRepo.userRegisterRepo(data: data);
-      if (res['user']['verified'] == true) {
-        navigateTo(const SalesDashboard());
+      if (res['user']['verified'] == false) {
+        navigateTo(const StatusScreen());
         ref
             .watch(secureStoargeProvider)
             .writeData(key: 'authToken', value: res['token']);
       } else {
-        ShowSnackBarMsg('You are not verified user');
+        // ShowSnackBarMsg('You are not verified user');
         // ref
         //     .watch(secureStoargeProvider)
         //     .writeData(key: 'authToken', value: res['token']);
@@ -45,12 +45,15 @@ class AuthController {
       final res = await authRepo.userLoginRepo(data: data);
       if (res['message'] == 'User logged in successfully' &&
           res['verified'] == true) {
-        ref
+      await  ref
             .read(secureStoargeProvider)
             .writeData(key: 'authToken', value: "${res['token']}");
         navigateTo(const SalesDashboard());
       } else {
-        ShowSnackBarMsg("You are not Verified User!", color: Colors.red);
+       await ref
+            .read(secureStoargeProvider)
+            .writeData(key: 'authToken', value: "${res['token']}");
+        navigateTo(const StatusScreen());
       }
       return res;
     } catch (e) {}
