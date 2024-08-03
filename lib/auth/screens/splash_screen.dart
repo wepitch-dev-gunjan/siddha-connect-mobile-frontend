@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
-import 'package:siddha_connect/utils/status_screen.dart';
+import 'package:siddha_connect/auth/screens/status_screen.dart';
 
 import '../../utils/navigation.dart';
 import '../../utils/secure_storage.dart';
@@ -27,6 +27,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,7 +57,8 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     } else {
       navigateTo(const SalesDashboard());
     }
-  } else {
+  }
+   else {
     navigateTo(LoginScreen());
   }
 });

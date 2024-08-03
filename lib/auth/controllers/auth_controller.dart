@@ -7,7 +7,7 @@ import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
-import 'package:siddha_connect/utils/status_screen.dart';
+import 'package:siddha_connect/auth/screens/status_screen.dart';
 
 final authControllerProvider = Provider.autoDispose((ref) {
   final authRepo = ref.watch(authRepoProvider);
@@ -30,10 +30,11 @@ class AuthController {
             .watch(secureStoargeProvider)
             .writeData(key: 'authToken', value: res['token']);
       } else {
-        // ShowSnackBarMsg('You are not verified user');
-        // ref
-        //     .watch(secureStoargeProvider)
-        //     .writeData(key: 'authToken', value: res['token']);
+         ref
+            .watch(secureStoargeProvider)
+            .writeData(key: 'authToken', value: res['token']);
+        navigateTo(const SalesDashboard());
+       
       }
 
       return res;
@@ -45,12 +46,12 @@ class AuthController {
       final res = await authRepo.userLoginRepo(data: data);
       if (res['message'] == 'User logged in successfully' &&
           res['verified'] == true) {
-      await  ref
+        await ref
             .read(secureStoargeProvider)
             .writeData(key: 'authToken', value: "${res['token']}");
         navigateTo(const SalesDashboard());
       } else {
-       await ref
+        await ref
             .read(secureStoargeProvider)
             .writeData(key: 'authToken', value: "${res['token']}");
         navigateTo(const StatusScreen());

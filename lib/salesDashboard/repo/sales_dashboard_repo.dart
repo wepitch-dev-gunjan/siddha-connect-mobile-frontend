@@ -42,14 +42,12 @@ class SalesDashboardRepo {
     }
   }
 
-  getSegmentData(
+  getSegmentAllData(
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
       String? lastDate}) async {
     try {
-      log("firstTimE$firstDate");
-      log("lastTime$lastDate");
       String url = urlFormat(
           ApiUrl.getSegmentData, tdFormat, dataFormat, firstDate, lastDate);
       final response = await ApiMethod(url: url).getDioRequest();
@@ -67,41 +65,16 @@ class SalesDashboardRepo {
       String? name,
       String? position}) async {
     try {
-      log("lastTseDate$lastDate");
-      log("FirstTseDate$firstDate");
-
       String url = urlFormatTse(ApiUrl.getDropDawn, tdFormat, dataFormat,
-          firstDate, lastDate, name,position);
-      log("urltse$url");
+          firstDate, lastDate, name, position);
       final response = await ApiMethod(url: url).getDioRequest();
-      log("tseResp$response");
+
       return response;
     } catch (e) {
       log(e.toString());
       return null;
     }
   }
-
-  // getDropDawn({String? name, String? position}) async {
-  //   try {
-  //     String subordinateUrl = ApiUrl.getDropDawn;
-  //     if (position != null) {
-  //       subordinateUrl += '?position=$position';
-  //     }
-  //     if (name != null) {
-  //       subordinateUrl += position != null ? '&name=$name' : '?name=$name';
-  //     }
-
-  //     log("Constructed URL: $subordinateUrl");
-
-  //     final response = await ApiMethod(url: subordinateUrl).getDioRequest();
-  //     log("Subordinate response: ${response}");
-  //     return response;
-  //   } catch (e) {
-  //     log("Error in getAllSubordinates: $e");
-  //     return null;
-  //   }
-  // }
 
   getAbmData(
       {String? tdFormat,
@@ -243,8 +216,8 @@ String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
 
   if (name != null) {
     url += (firstDate != null || lastDate != null || dataFormat != null)
-        ? '&tse=$name'
-        : '&tse=$name';
+        ? '&$position=$name'
+        : '&$position=$name';
   }
 
   return url;

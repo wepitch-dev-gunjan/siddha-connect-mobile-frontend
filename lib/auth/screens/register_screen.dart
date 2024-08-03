@@ -14,9 +14,6 @@ import '../../utils/fields.dart';
 import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
 
-final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-final selectedPositionProvider = StateProvider<String?>((ref) => null);
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -30,7 +27,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController position = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   String? selectedPosition;
+    @override
+  void dispose() {
+ 
+    name.dispose();
+    email.dispose();
+    password.dispose();
+    position.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +132,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         selectedPosition = newValue;
                       });
                     },
-                    items: ['TSE', 'RSO', 'Position 3']
+                    items: ['ZSM', 'ABM', 'RSO', 'ASE', 'ASM', 'TSE']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -137,7 +145,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   Btn(
                     btnName: 'Sign Up',
                     onPressed: () {
-                      log("selescted$selectedPosition");
+                      log("selectedPosition: $selectedPosition");
                       if (formKey.currentState!.validate()) {
                         ref
                             .read(authControllerProvider)
@@ -192,6 +200,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 }
+
 
 class CustomDropdownButtonFormField extends StatelessWidget {
   final String? labelText, label;

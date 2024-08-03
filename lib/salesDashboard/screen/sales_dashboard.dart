@@ -34,13 +34,9 @@ class SalesDashboard extends ConsumerWidget {
               const DatePickerContainer(),
               const SalesDashboardCard(),
               const SmallCusBtn(),
-              // if (selectedBtn == 0) TseTable(),
-              // if (selectedBtn == 2) OpenDropDawn(),
-              // if (selectedBtn == 2) const AreaTable(),
-              // if (selectedBtn == 3) const AbmTable(),
-              // if (selectedBtn == 4) const AsmTable(),
-              // if (selectedBtn == 5) const RsoTable(),
-              const FullSizeBtn()
+              FullSizeBtn()
+              // if (selectedBtn == 0) const FullSizeBtn(),
+              // if (selectedBtn != 0) const FullSizeBtn(),
             ],
           ),
         ),

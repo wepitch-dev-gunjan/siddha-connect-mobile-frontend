@@ -11,9 +11,9 @@ import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
-import '../salesDashboard/screen/sales_dashboard.dart';
-import '../utils/cus_appbar.dart';
-import '../utils/drawer.dart';
+import '../../salesDashboard/screen/sales_dashboard.dart';
+import '../../utils/cus_appbar.dart';
+import '../../utils/drawer.dart';
 
 final fileNameProvider = StateProvider.autoDispose<String?>((ref) => null);
 final filePathProvider = StateProvider<String?>((ref) => null);

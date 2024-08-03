@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/uploadSalesData/upload_sales_data.dart';
+import 'package:siddha_connect/auth/screens/login_screen.dart';
+import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
+import 'secure_storage.dart';
 import 'sizes.dart';
 
 class CusDrawer extends StatefulWidget {
@@ -115,6 +118,50 @@ class _CusDrawerState extends State<CusDrawer> {
                     ),
                   ],
                 ),
+                Consumer(builder:
+                    (BuildContext context, WidgetRef ref, Widget? child) {
+                  return ListTile(
+                      leading: const Icon(Icons.logout, color: Colors.red),
+                      title: Text(
+                        "Logout",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.red),
+                        ),
+                      ),
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Logout'),
+                              content: const Text(
+                                  'Are you sure you want to logout?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('No'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Yes'),
+                                  onPressed: () {
+                                    ref
+                                        .read(secureStoargeProvider)
+                                        .deleteData("authToken");
+                                       
+                                    navigateTo(LoginScreen());
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      });
+                })
               ],
             ),
           ),
@@ -145,7 +192,7 @@ class DrawerElement extends StatelessWidget {
   final String src;
   final String title;
   final Function() onTap;
-  
+
   const DrawerElement({
     super.key,
     required this.src,
@@ -175,4 +222,3 @@ class DrawerElement extends StatelessWidget {
     );
   }
 }
-
