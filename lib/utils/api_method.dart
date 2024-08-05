@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiMethod {
   Dio dio = Dio();
@@ -96,21 +97,20 @@ class ApiMethod {
 }
 
 class ApiUrl {
-  static const baseUrl = "https://www.siddhaconnect.com";
-  static const getSalesDashboardData = "$baseUrl/sales/dashboard";
-  static const getChannelData = "$baseUrl/sales/channel-wise";
-  static const getSegmentData = "$baseUrl/sales/segment-wise";
-  static const tseSegmentData = "$baseUrl/sales/segment-wise/tse";
-  static const getAbmData = "$baseUrl/sales/abm-wise";
-  static const getAreaData = "$baseUrl/sales/cluster-wise";
-  static const getAsmData = "$baseUrl/sales/asm-wise";
-  static const getRsoData = "$baseUrl/sales/rso-wise";
-  static const uploadSalesData = "$baseUrl/sales";
-  static const userRegister = "$baseUrl/user/register";
-  static const userLogin = "$baseUrl/login";
-  static const getProfile = "$baseUrl/userForUser";
-  static const getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
-    static const getDropDawn = "$baseUrl/sales/segment-wise/";
-  // static const verifyOtp = "$baseUrl/otp";
-  // static const createUser = "$baseUrl/user";
+  static String baseUrl = dotenv.env['BASEURL']??"";
+  static String getSalesDashboardData = "$baseUrl/sales/dashboard";
+  static String getChannelData = "$baseUrl/sales/channel-wise";
+  static String getSegmentData = "$baseUrl/sales/segment-wise";
+  static String tseSegmentData = "$baseUrl/sales/segment-wise/tse";
+  static String getAbmData = "$baseUrl/sales/abm-wise";
+  static String getAreaData = "$baseUrl/sales/cluster-wise";
+  static String getAsmData = "$baseUrl/sales/asm-wise";
+  static String getRsoData = "$baseUrl/sales/rso-wise";
+  static String uploadSalesData = "$baseUrl/sales";
+  static String userRegister = "$baseUrl/user/register";
+  static String userLogin = "$baseUrl/login";
+  static String getProfile = "$baseUrl/userForUser";
+  static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
+    static String getDropDawn = "$baseUrl/sales/segment-wise/";
+
 }
