@@ -1,40 +1,29 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
-import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_table.dart';
 
-final positionWiseSegmentDataProvider = FutureProvider.autoDispose((ref) async {
+final modelWiseDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getPositionSegmentData =
-      await ref.watch(salesRepoProvider).getSegmentWiseData(
-            tdFormat: options.tdFormat,
-            dataFormat: options.dataFormat,
-            firstDate: options.firstDate,
-            lastDate: options.lastDate,
-            name: options.name,
-            position: options.position,
-          );
-  return getPositionSegmentData;
+  final getModelData = await ref.watch(salesRepoProvider).getModelWiseData(
+        firstDate: options.firstDate,
+        lastDate: options.lastDate,
+      );
+  return getModelData;
 });
 
-class SegmentTablePositionWise extends ConsumerWidget {
-  const SegmentTablePositionWise({super.key});
+class ModelTable extends ConsumerWidget {
+  const ModelTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log("Segment Table Done 2");
-
-    final selectedOption2 = ref.watch(selectedOption2Provider);
-    final segmentData = ref.watch(positionWiseSegmentDataProvider);
+    final modelData = ref.watch(modelWiseDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
 
-    return segmentData.when(
+    return modelData.when(
       data: (data) {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -66,46 +55,53 @@ class SegmentTablePositionWise extends ConsumerWidget {
                       DataColumn(
                           label: Center(
                         child: Text(
-                          '%\nContribution',
+                          'MARKET NAME',
                           textAlign: TextAlign.center,
                           style: topStyle,
                         ),
                       )),
                       DataColumn(
                           label: Text(
-                        'MTD SO',
+                        'MODEL NAME',
                         style: topStyle,
                       )),
                       DataColumn(
                           label: Text(
-                        'LMTD SO',
+                        'MODEL TARGET',
                         style: topStyle,
                       )),
                       DataColumn(
                           label: Text(
-                        selectedOption2 == 'value'
-                            ? 'TARGET VALUE'
-                            : 'TARGET VOLUME',
+                        "LMTD",
                         style: topStyle,
                       )),
                       DataColumn(
                           label: Center(
                         child: Text(
-                          selectedOption2 == 'value'
-                              ? 'PENDING VALUE'
-                              : 'PENDING VOLUME',
+                          "MTD",
                           style: topStyle,
                         ),
                       )),
                       DataColumn(
-                          label: Center(child: Text('FTD', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('DRR', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('ADS', style: topStyle))),
+                          label:
+                              Center(child: Text('FTD VOL.', style: topStyle))),
                       DataColumn(
                           label:
                               Center(child: Text('% GWTH', style: topStyle))),
+                      DataColumn(
+                          label: Center(child: Text('ADS', style: topStyle))),
+                      DataColumn(
+                          label: Center(child: Text('% DP', style: topStyle))),
+                      DataColumn(
+                          label:
+                              Center(child: Text('MTK STK.', style: topStyle))),
+                      DataColumn(
+                          label:
+                              Center(child: Text('DMDD STK', style: topStyle))),
+                      DataColumn(
+                          label: Center(child: Text('M+S', style: topStyle))),
+                      DataColumn(
+                          label: Center(child: Text('DOS', style: topStyle))),
                     ],
                     rows: List.generate(data.length, (index) {
                       final row = data[index];
@@ -114,31 +110,37 @@ class SegmentTablePositionWise extends ConsumerWidget {
                             (states) => const Color(0xffEEEEEE),
                           ),
                           cells: [
-                            DataCell(Center(child: Text(row['_id']))),
+                            DataCell(Center(
+                                child: Text(row['Price Band'] != ""
+                                    ? row['Price Band']
+                                    : 'N/A'))),
+                            DataCell(Center(
+                                child: Text(row['Market Name'] != ""
+                                    ? row['Market Name']
+                                    : "N/A"))),
+                            DataCell(Center(
+                                child: Text(row['MODEL NAME'].toString()))),
+                            DataCell(Center(
+                                child: Text(row['Model Target'].toString()))),
                             DataCell(
-                                Center(child: Text(row['CONTRIBUTION %']))),
-                            DataCell(Center(
-                                child: Text(row['MTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row['LMTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'TARGET VALUE'
-                                        : "TARGET VOLUME"]
-                                    .toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'VAL PENDING'
-                                        : 'VOL PENDING']
-                                    .toString()))),
-                            DataCell(Text(row['FTD'].toString())),
-                            DataCell(Text(row['DAILY REQUIRED AVERAGE']
-                                .truncate()
-                                .toString())),
-                            DataCell(Text(
-                                row['AVERAGE DAY SALE'].truncate().toString())),
+                                Center(child: Text(row['LMTD'].toString()))),
                             DataCell(
-                                Center(child: Text(row['% GWTH'].toString()))),
+                                Center(child: Text(row['MTD'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['FTD Vol'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['% Gwth'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['ADS'].toString()))),
+                            DataCell(Center(child: Text(row['DP'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['Mkt Stk'].toString()))),
+                            DataCell(Center(
+                                child: Text(row['Dmdd Stk'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['M+S'].toString()))),
+                            DataCell(
+                                Center(child: Text(row['DOS'].toString()))),
                           ]);
                     })),
               ),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -61,7 +60,6 @@ class SegmentTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log("Segment Table Done 1");
     final selectedOption2 = ref.watch(selectedOption2Provider);
     final segmentData = ref.watch(getSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;

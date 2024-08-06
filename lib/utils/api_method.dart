@@ -23,7 +23,6 @@ class ApiMethod {
       Response response =
           await dio.get(url, options: Options(headers: headers));
       if (response.statusCode == 200) {
-       
         return response.data;
       }
     } on DioException catch (err) {
@@ -85,8 +84,6 @@ class ApiMethod {
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
       if (response.statusCode == 200) {
-
-      
         return response.data;
       }
     } on DioException catch (err) {
@@ -96,21 +93,18 @@ class ApiMethod {
   }
 }
 
+
+
 class ApiUrl {
-  static String baseUrl = dotenv.env['BASEURL']??"";
+  static String baseUrl = dotenv.env['BASEURL'] ??"";
   static String getSalesDashboardData = "$baseUrl/sales/dashboard";
   static String getChannelData = "$baseUrl/sales/channel-wise";
   static String getSegmentData = "$baseUrl/sales/segment-wise";
-  static String tseSegmentData = "$baseUrl/sales/segment-wise/tse";
-  static String getAbmData = "$baseUrl/sales/abm-wise";
-  static String getAreaData = "$baseUrl/sales/cluster-wise";
-  static String getAsmData = "$baseUrl/sales/asm-wise";
-  static String getRsoData = "$baseUrl/sales/rso-wise";
   static String uploadSalesData = "$baseUrl/sales";
   static String userRegister = "$baseUrl/user/register";
   static String userLogin = "$baseUrl/login";
   static String getProfile = "$baseUrl/userForUser";
   static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
-    static String getDropDawn = "$baseUrl/sales/segment-wise/";
-
+  static String getDropDawn = "$baseUrl/sales/segment-wise/";
+   static String getModelData = "$baseUrl/model-data";
 }

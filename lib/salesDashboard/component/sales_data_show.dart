@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
+import '../../utils/providers.dart';
 import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
+import '../tables/segment_table.dart';
 import 'shimmer.dart';
 
 class DashboardOptions {
@@ -12,22 +14,30 @@ class DashboardOptions {
   DashboardOptions({required this.tdFormat, required this.dataFormat});
 }
 
-final selectedOptionsProvider =
-    StateProvider.autoDispose<DashboardOptions>((ref) {
-  final selectedOption1 = ref.watch(selectedOption1Provider);
-  final selectedOption2 = ref.watch(selectedOption2Provider);
-  return DashboardOptions(
-    tdFormat: selectedOption1,
-    dataFormat: selectedOption2,
-  );
-});
+// final selectedOptionsProvider =
+//     StateProvider.autoDispose<DashboardOptions>((ref) {
+//   final selectedOption1 = ref.watch(selectedOption1Provider);
+//   final selectedOption2 = ref.watch(selectedOption2Provider);
+//   return DashboardOptions(
+//     tdFormat: selectedOption1,
+//     dataFormat: selectedOption2,
+//   );
+// });
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
+
   final options = ref.watch(selectedOptionsProvider);
+   final user = await ref.watch(userProvider.future);
+  final name = user['name']?.trim() ?? '';
+  final position = user['position']?.trim() ?? '';
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
     tdFormat: options.tdFormat,
     dataFormat: options.dataFormat,
+    firstDate: options.firstDate,
+    lastDate: options.lastDate,
+    position: position,
+    name: name
   );
   return data;
 });

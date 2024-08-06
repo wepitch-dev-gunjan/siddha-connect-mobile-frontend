@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,7 +5,6 @@ import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
 import 'package:siddha_connect/auth/screens/status_screen.dart';
-
 import '../../utils/navigation.dart';
 import '../../utils/secure_storage.dart';
 

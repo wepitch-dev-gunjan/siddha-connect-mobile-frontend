@@ -7,8 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/controllers/auth_controller.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/utils/common_style.dart';
-
-import '../../salesDashboard/screen/sales_dashboard.dart';
 import '../../utils/buttons.dart';
 import '../../utils/fields.dart';
 import '../../utils/navigation.dart';

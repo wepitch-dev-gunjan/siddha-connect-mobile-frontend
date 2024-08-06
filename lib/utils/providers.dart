@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
-
 import '../salesDashboard/repo/sales_dashboard_repo.dart';
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getProfile = await ref.watch(profileRepoProvider).getProfile();
   return getProfile;
 });
-
 
 
 final userProvider = FutureProvider.autoDispose<Map<String, String>>((ref) async {

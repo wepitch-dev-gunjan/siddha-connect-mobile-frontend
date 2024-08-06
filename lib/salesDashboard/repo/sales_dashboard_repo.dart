@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/api_method.dart';
-import 'package:siddha_connect/utils/secure_storage.dart';
 
 final salesRepoProvider =
     Provider.autoDispose((ref) => SalesDashboardRepo(ref: ref));
@@ -14,10 +13,13 @@ class SalesDashboardRepo {
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
-      String? lastDate}) async {
+      String? lastDate,
+      String? position,
+      String? name}) async {
     try {
       String url = urlFormat(ApiUrl.getSalesDashboardData, tdFormat, dataFormat,
-          firstDate, lastDate);
+          firstDate, lastDate, position, name);
+      log("dashboardurl$url");
       final response = await ApiMethod(
         url: url,
       ).getDioRequest();
@@ -27,14 +29,16 @@ class SalesDashboardRepo {
     }
   }
 
-  getChannelData(
+  getChannelWiseData(
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
-      String? lastDate}) async {
+      String? lastDate,
+      String? position,
+      String? name}) async {
     try {
-      String url = urlFormat(
-          ApiUrl.getChannelData, tdFormat, dataFormat, firstDate, lastDate);
+      String url = urlFormat(ApiUrl.getChannelData, tdFormat, dataFormat,
+          firstDate, lastDate, position, name);
       final response = await ApiMethod(url: url).getDioRequest();
       return response;
     } catch (e) {
@@ -46,10 +50,12 @@ class SalesDashboardRepo {
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
-      String? lastDate}) async {
+      String? lastDate,
+      String? position,
+      String? name}) async {
     try {
-      String url = urlFormat(
-          ApiUrl.getSegmentData, tdFormat, dataFormat, firstDate, lastDate);
+      String url = urlFormat(ApiUrl.getSegmentData, tdFormat, dataFormat,
+          firstDate, lastDate, position, name);
       final response = await ApiMethod(url: url).getDioRequest();
       return response;
     } catch (e) {
@@ -57,7 +63,7 @@ class SalesDashboardRepo {
     }
   }
 
-  segmentWiseData(
+  getSegmentWiseData(
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
@@ -76,62 +82,16 @@ class SalesDashboardRepo {
     }
   }
 
-  getAbmData(
+  getModelWiseData(
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
-      String? lastDate}) async {
+      String? lastDate,
+      String? name,
+      String? position}) async {
     try {
-      String url = urlFormat(
-          ApiUrl.getAbmData, tdFormat, dataFormat, firstDate, lastDate);
-      final response = await ApiMethod(url: url).getDioRequest();
-      return response;
-    } catch (e) {
-      log(e.toString());
-      return null;
-    }
-  }
-
-  getAreaData(
-      {String? tdFormat,
-      String? dataFormat,
-      String? firstDate,
-      String? lastDate}) async {
-    try {
-      String url = urlFormat(
-          ApiUrl.getAreaData, tdFormat, dataFormat, firstDate, lastDate);
-      final response = await ApiMethod(url: url).getDioRequest();
-      return response;
-    } catch (e) {
-      log(e.toString());
-      return null;
-    }
-  }
-
-  getAsmData(
-      {String? tdFormat,
-      String? dataFormat,
-      String? firstDate,
-      String? lastDate}) async {
-    try {
-      String url = urlFormat(
-          ApiUrl.getAsmData, tdFormat, dataFormat, firstDate, lastDate);
-      final response = await ApiMethod(url: url).getDioRequest();
-      return response;
-    } catch (e) {
-      log(e.toString());
-      return null;
-    }
-  }
-
-  getRsoData(
-      {String? tdFormat,
-      String? dataFormat,
-      String? firstDate,
-      String? lastDate}) async {
-    try {
-      String url = urlFormat(
-          ApiUrl.getRsoData, tdFormat, dataFormat, firstDate, lastDate);
+      String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
+          firstDate, lastDate, name, position);
       final response = await ApiMethod(url: url).getDioRequest();
       return response;
     } catch (e) {
@@ -149,11 +109,7 @@ class SalesDashboardRepo {
       if (name != null) {
         subordinateUrl += position != null ? '&name=$name' : '?name=$name';
       }
-
-      log("Constructed URL: $subordinateUrl");
-
       final response = await ApiMethod(url: subordinateUrl).getDioRequest();
-      log("Subordinate response: ${response}");
       return response;
     } catch (e) {
       log("Error in getAllSubordinates: $e");
@@ -162,30 +118,39 @@ class SalesDashboardRepo {
   }
 }
 
-String urlFormat(String baseUrl, String? tdFormat, String? dataFormat,
-    String? firstDate, String? lastDate) {
+String urlFormat(
+  String baseUrl,
+  String? tdFormat,
+  String? dataFormat,
+  String? firstDate,
+  String? lastDate,
+  String? position,
+  String? name,
+) {
   String url = baseUrl;
+  List<String> params = [];
 
   if (tdFormat != null) {
-    url += '?td_format=$tdFormat';
+    params.add('td_format=$tdFormat');
   }
-
   if (dataFormat != null) {
-    url += tdFormat != null
-        ? '&data_format=$dataFormat'
-        : '?data_format=$dataFormat';
+    params.add('data_format=$dataFormat');
   }
-
   if (firstDate != null) {
-    url += (tdFormat != null || dataFormat != null)
-        ? '&start_date=$firstDate'
-        : '?start_date=$firstDate';
+    params.add('start_date=$firstDate');
+  }
+  if (lastDate != null) {
+    params.add('end_date=$lastDate');
+  }
+  if (position != null) {
+    params.add('position=$position');
+  }
+  if (name != null) {
+    params.add('name=$name');
   }
 
-  if (lastDate != null) {
-    url += (tdFormat != null || dataFormat != null || firstDate != null)
-        ? '&end_date=$lastDate'
-        : '?end_date=$lastDate';
+  if (params.isNotEmpty) {
+    url += '?${params.join('&')}';
   }
 
   return url;
@@ -194,31 +159,83 @@ String urlFormat(String baseUrl, String? tdFormat, String? dataFormat,
 String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
     String? firstDate, String? lastDate, String? name, String? position) {
   String url = baseUrl;
-
   if (position != null) {
-    url += position;
+    url += position.toLowerCase();
   }
 
-  if (firstDate != null) {
-    url +=
-        position != null ? '?start_date=$firstDate' : '?start_date=$firstDate';
-  }
+  Map<String, String?> queryParams = {
+    'start_date': firstDate,
+    'end_date': lastDate,
+    'data_format': dataFormat,
+    if (position != null && name != null) position: name,
+  };
 
-  if (lastDate != null) {
-    url += firstDate != null ? '&end_date=$lastDate' : '?data_format=$lastDate';
-  }
+  String queryString = queryParams.entries
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
 
-  if (dataFormat != null) {
-    url += (firstDate != null || lastDate != null)
-        ? '&data_format=$dataFormat'
-        : '?data_format=$dataFormat';
-  }
-
-  if (name != null) {
-    url += (firstDate != null || lastDate != null || dataFormat != null)
-        ? '&$position=$name'
-        : '&$position=$name';
+  if (queryString.isNotEmpty) {
+    url += '?$queryString';
   }
 
   return url;
 }
+
+
+// String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
+//     String? firstDate, String? lastDate, String? name, String? position) {
+//   String url = baseUrl;
+//   if (position != null) {
+//     url += position;
+//   }
+//   if (firstDate != null) {
+//     url +=
+//         position != null ? '?start_date=$firstDate' : '?start_date=$firstDate';
+//   }
+//   if (lastDate != null) {
+//     url += firstDate != null ? '&end_date=$lastDate' : '?data_format=$lastDate';
+//   }
+//   if (dataFormat != null) {
+//     url += (firstDate != null || lastDate != null)
+//         ? '&data_format=$dataFormat'
+//         : '?data_format=$dataFormat';
+//   }
+//   if (name != null) {
+//     url += (firstDate != null || lastDate != null || dataFormat != null)
+//         ? '&$position=$name'
+//         : '&$position=$name';
+//   }
+
+//   return url;
+// }
+
+
+// String urlFormat(String baseUrl, String? tdFormat, String? dataFormat,
+//     String? firstDate, String? lastDate) {
+//   String url = baseUrl;
+
+//   if (tdFormat != null) {
+//     url += '?td_format=$tdFormat';
+//   }
+
+//   if (dataFormat != null) {
+//     url += tdFormat != null
+//         ? '&data_format=$dataFormat'
+//         : '?data_format=$dataFormat';
+//   }
+
+//   if (firstDate != null) {
+//     url += (tdFormat != null || dataFormat != null)
+//         ? '&start_date=$firstDate'
+//         : '?start_date=$firstDate';
+//   }
+
+//   if (lastDate != null) {
+//     url += (tdFormat != null || dataFormat != null || firstDate != null)
+//         ? '&end_date=$lastDate'
+//         : '?end_date=$lastDate';
+//   }
+
+//   return url;
+// }

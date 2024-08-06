@@ -1,10 +1,6 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/auth/repo/auth_repo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
-import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
 import 'package:siddha_connect/auth/screens/status_screen.dart';
@@ -25,16 +21,15 @@ class AuthController {
     try {
       final res = await authRepo.userRegisterRepo(data: data);
       if (res['user']['verified'] == false) {
-        navigateTo(const StatusScreen());
         ref
             .watch(secureStoargeProvider)
             .writeData(key: 'authToken', value: res['token']);
+        navigateTo(const StatusScreen());
       } else {
-         ref
+        ref
             .watch(secureStoargeProvider)
             .writeData(key: 'authToken', value: res['token']);
         navigateTo(const SalesDashboard());
-       
       }
 
       return res;

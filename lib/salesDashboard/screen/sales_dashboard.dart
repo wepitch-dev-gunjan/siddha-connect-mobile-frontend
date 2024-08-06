@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,24 +15,24 @@ class SalesDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(getProfileProvider);
-    final selectedBtn = ref.watch(selectedIndexProvider);
+    // final userProfile = ref.watch(getProfileProvider);
+    // final selectedBtn = ref.watch(selectedIndexProvider);
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
         SystemNavigator.pop();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: AppColor.whiteColor,
-        drawer: const CusDrawer(),
-        appBar: const CustomAppBar(),
+        drawer: CusDrawer(),
+        appBar: CustomAppBar(),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const TopRadioButtons(),
-              const DatePickerContainer(),
-              const SalesDashboardCard(),
-              const SmallCusBtn(),
+              TopRadioButtons(),
+              DatePickerContainer(),
+              SalesDashboardCard(),
+              SmallCusBtn(),
               FullSizeBtn()
               // if (selectedBtn == 0) const FullSizeBtn(),
               // if (selectedBtn != 0) const FullSizeBtn(),

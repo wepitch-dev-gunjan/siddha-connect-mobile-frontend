@@ -9,7 +9,7 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
      final userProfile = ref.watch(getProfileProvider);
-    return Scaffold(
+    return const Scaffold(
       body: Column(children: [Center(child: Text("data"),)],),
     );
   }

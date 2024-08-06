@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/utils/common_style.dart';
-import 'package:siddha_connect/utils/cus_appbar.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 
 class StatusScreen extends ConsumerWidget {

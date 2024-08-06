@@ -105,13 +105,13 @@ class _CusDrawerState extends State<CusDrawer> {
                   ),
                   children: <Widget>[
                     ListTile(
-                      title: Text("Option 1"),
+                      title: const Text("Option 1"),
                       onTap: () {
                         navigationPush(context, const UploadSalesData());
                       },
                     ),
                     ListTile(
-                      title: Text("Option 2"),
+                      title: const Text("Option 2"),
                       onTap: () {
                         navigationPush(context, const UploadSalesData());
                       },

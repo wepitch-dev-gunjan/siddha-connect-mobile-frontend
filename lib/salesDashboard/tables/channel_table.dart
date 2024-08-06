@@ -5,10 +5,9 @@ import '../repo/sales_dashboard_repo.dart';
 import 'segment_position_wise.dart';
 import 'segment_table.dart';
 
-
 final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final getChanelData = await ref.watch(salesRepoProvider).getChannelData(
+  final getChanelData = await ref.watch(salesRepoProvider).getChannelWiseData(
       tdFormat: options.tdFormat,
       dataFormat: options.dataFormat,
       firstDate: options.firstDate,
@@ -24,7 +23,7 @@ class ChannelTable extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
     final channelData = ref.watch(getChannelDataProvider);
-
+    
     return channelData.when(
       data: (data) {
         if (data == null || data.isEmpty) {
@@ -33,9 +32,7 @@ class ChannelTable extends ConsumerWidget {
             child: Center(child: Text("No data available")),
           );
         }
-
         return SingleChildScrollView(
-          // scrollDirection: Axis.vertical,
           child: Column(
             children: [
               Theme(
@@ -52,7 +49,7 @@ class ChannelTable extends ConsumerWidget {
                     headingRowHeight: 50,
                     dividerThickness: 2.5,
                     columnSpacing: columnSpacing,
-                    headingRowColor: MaterialStateColor.resolveWith(
+                    headingRowColor: WidgetStateColor.resolveWith(
                       (states) => const Color(0xffD9D9D9),
                     ),
                     columns: [
@@ -137,5 +134,3 @@ class ChannelTable extends ConsumerWidget {
     );
   }
 }
-
-

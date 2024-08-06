@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,9 @@ import '../../utils/common_style.dart';
 
 final firstDateProvider = StateProvider<DateTime>((ref) {
   final now = DateTime.now();
-  return DateTime(now.year, now.month, 1);
+  final previousMonth = now.month == 1 ? 12 : now.month - 1;
+  final year = now.month == 1 ? now.year - 1 : now.year;
+  return DateTime(year, previousMonth, 1);
 });
 
 final lastDateProvider = StateProvider<DateTime>((ref) {

@@ -1,22 +1,22 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/salesDashboard/tables/channel_table.dart';
+import 'package:siddha_connect/salesDashboard/tables/model_table.dart';
 import 'package:siddha_connect/salesDashboard/tables/segment_position_wise.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
 import '../tables/segment_table.dart';
 
-final selectedButtonProvider = StateProvider<bool>((ref) => true);
+final selectedButtonProvider = StateProvider<int>((ref) => 0);
 
 class FullSizeBtn extends ConsumerWidget {
   const FullSizeBtn({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSegmentSelected = ref.watch(selectedButtonProvider);
+    final selectedButtonIndex = ref.watch(selectedButtonProvider);
     final selectedBtn = ref.watch(selectedIndexProvider);
 
     return Column(
@@ -24,108 +24,100 @@ class FullSizeBtn extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: 8),
           child: Row(
-            children: <Widget>[
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    ref.read(selectedButtonProvider.notifier).state = true;
-                  },
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: isSegmentSelected
-                            ? AppColor.primaryColor
-                            : AppColor.whiteColor,
-                        border: Border.all(width: 0.05)),
-                    child: Center(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Segment\n',
-                              style: GoogleFonts.lato(
-                                color: isSegmentSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                textStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            TextSpan(
-                              text: '(Price bucket)',
-                              style: GoogleFonts.lato(
-                                color: isSegmentSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                textStyle: const TextStyle(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
+            children: [
+              SegmentedButton(
+                title: 'Segment',
+                subtitle: '(Price bucket)',
+                isSelected: selectedButtonIndex == 0,
+                onTap: () =>
+                    ref.read(selectedButtonProvider.notifier).state = 0,
               ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    ref.read(selectedButtonProvider.notifier).state = false;
-                  },
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: isSegmentSelected
-                            ? AppColor.whiteColor
-                            : AppColor.primaryColor,
-                        border: Border.all(width: 0.05)),
-                    child: Center(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Channel\n',
-                              style: GoogleFonts.lato(
-                                color: isSegmentSelected
-                                    ? Colors.black
-                                    : Colors.white,
-                                textStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            TextSpan(
-                              text: '(DL.Category)',
-                              style: GoogleFonts.lato(
-                                color: isSegmentSelected
-                                    ? Colors.black
-                                    : Colors.white,
-                                textStyle: const TextStyle(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
+              SegmentedButton(
+                title: 'Channel',
+                subtitle: '(DL.Category)',
+                isSelected: selectedButtonIndex == 1,
+                onTap: () =>
+                    ref.read(selectedButtonProvider.notifier).state = 1,
+              ),
+              SegmentedButton(
+                title: 'Model',
+                subtitle: '(Some Info)',
+                isSelected: selectedButtonIndex == 2,
+                onTap: () =>
+                    ref.read(selectedButtonProvider.notifier).state = 2,
               ),
             ],
           ),
         ),
-        if (isSegmentSelected) selectedBtn==0? SegmentTable():SegmentTablePositionWise() else const ChannelTable()
+        if (selectedButtonIndex == 0)
+          selectedBtn == 0
+              ? const SegmentTable()
+              : const SegmentTablePositionWise()
+        else if (selectedButtonIndex == 1)
+          const ChannelTable()
+        else
+          const ModelTable(),
       ],
+    );
+  }
+}
+
+class SegmentedButton extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const SegmentedButton({
+    required this.title,
+    required this.subtitle,
+    required this.isSelected,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 45,
+          decoration: BoxDecoration(
+            color: isSelected ? AppColor.primaryColor : AppColor.whiteColor,
+            border: Border.all(width: 0.05),
+          ),
+          child: Center(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$title\n',
+                    style: GoogleFonts.lato(
+                      color: isSelected ? Colors.white : Colors.black,
+                      textStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  TextSpan(
+                    text: subtitle,
+                    style: GoogleFonts.lato(
+                      color: isSelected ? Colors.white : Colors.black,
+                      textStyle: const TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
