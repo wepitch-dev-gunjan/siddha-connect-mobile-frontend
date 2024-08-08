@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 
-final selectedOption1Provider = StateProvider<String>((ref) => 'YTD');
+final selectedOption1Provider = StateProvider<String>((ref) => 'MTD');
 final selectedOption2Provider = StateProvider<String>((ref) => 'value');
 
 class TopRadioButtons extends ConsumerWidget {
@@ -23,66 +23,76 @@ class TopRadioButtons extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  margin: EdgeInsets.only(right: 5.w),
-                  height: 40.h,
-                  width: width(context),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: .8),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Row(
-                    children: [
-                      CustomRadioButton(
-                          value: "YTD",
-                          displayValue: "YTD",
+                child: GestureDetector(
+                  onTap: () {
+                    ref.read(selectedOption1Provider.notifier).state = "YTD";
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    margin: EdgeInsets.only(right: 5.w),
+                    height: 40.h,
+                    width: width(context),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: .8),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      children: [
+                        CustomRadioButton(
+                            value: "YTD",
+                            displayValue: "YTD",
+                            groupValue: selectedOption1,
+                            onChanged: (value) {
+                              ref.read(selectedOption1Provider.notifier).state =
+                                  value!;
+                            }),
+                        const Spacer(),
+                        CustomRadioButton(
+                          value: "MTD",
+                          displayValue: "MTD",
                           groupValue: selectedOption1,
                           onChanged: (value) {
                             ref.read(selectedOption1Provider.notifier).state =
                                 value!;
-                          }),
-                      const Spacer(),
-                      CustomRadioButton(
-                        value: "MTD",
-                        displayValue: "MTD",
-                        groupValue: selectedOption1,
-                        onChanged: (value) {
-                          ref.read(selectedOption1Provider.notifier).state =
-                              value!;
-                        },
-                      )
-                    ],
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  height: 40.h,
-                  width: width(context),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: .8),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Row(
-                    children: [
-                      CustomRadioButton(
-                          value: "value",
-                          displayValue: "Value",
-                          groupValue: selectedOption2,
-                          onChanged: (value) {
-                            ref.read(selectedOption2Provider.notifier).state =
-                                value!;
-                          }),
-                      const Spacer(),
-                      CustomRadioButton(
-                          value: "volume",
-                          displayValue: "Volume",
-                          groupValue: selectedOption2,
-                          onChanged: (value) {
-                            ref.read(selectedOption2Provider.notifier).state =
-                                value!;
-                          })
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    ref.read(selectedOption2Provider.notifier).state = "value";
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    height: 40.h,
+                    width: width(context),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: .8),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Row(
+                      children: [
+                        CustomRadioButton(
+                            value: "value",
+                            displayValue: "Value",
+                            groupValue: selectedOption2,
+                            onChanged: (value) {
+                              ref.read(selectedOption2Provider.notifier).state =
+                                  value!;
+                            }),
+                        const Spacer(),
+                        CustomRadioButton(
+                            value: "volume",
+                            displayValue: "Volume",
+                            groupValue: selectedOption2,
+                            onChanged: (value) {
+                              ref.read(selectedOption2Provider.notifier).state =
+                                  value!;
+                            })
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -161,8 +171,6 @@ class CustomRadioButton extends StatelessWidget {
     );
   }
 }
-
-
 
 
 

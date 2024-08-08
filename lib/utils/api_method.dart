@@ -28,7 +28,7 @@ class ApiMethod {
     } on DioException catch (err) {
       log("get statusCode: ${err.response?.statusCode.toString()}");
       log("get type: ${err.response?.data.toString()}");
-    } 
+    }
   }
 
   Future postDioRequest({required Map data}) async {
@@ -93,10 +93,8 @@ class ApiMethod {
   }
 }
 
-
-
 class ApiUrl {
-  static String baseUrl = dotenv.env['BASEURL'] ??"";
+  static String baseUrl = dotenv.env['BASEURL'] ?? "";
   static String getSalesDashboardData = "$baseUrl/sales/dashboard";
   static String getChannelData = "$baseUrl/sales/channel-wise";
   static String getSegmentData = "$baseUrl/sales/segment-wise";
@@ -106,5 +104,8 @@ class ApiUrl {
   static String getProfile = "$baseUrl/userForUser";
   static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
   static String getDropDawn = "$baseUrl/sales/segment-wise/";
-   static String getModelData = "$baseUrl/model-data";
+  static String getModelData = "$baseUrl/model-data";
+  static String uploadModelData = "$baseUrl/model-data";
+  static String uploadChannelTargets = "$baseUrl/channel-targets";
+  static String uploadSegmentTargets = "$baseUrl/segment-targets";
 }

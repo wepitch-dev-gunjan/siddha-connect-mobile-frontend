@@ -51,7 +51,6 @@ class UploadSalesData extends ConsumerWidget {
                             file: File(filePath),
                           );
                       if (!ref.read(isCancelRequestedProvider)) {
-                       
                         // navigatePushReplacement(SalesDashboard());
                       }
                     } catch (e) {
@@ -138,13 +137,18 @@ class UploadContainer extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      fileName ?? "Upload CSV Sales Data File",
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                          color: Color(0xff9F9D9D),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 4.0),
+                      child: Text(
+                        fileName ?? "Upload CSV Sales Data File",
+                        maxLines: 1,
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            color: Color(0xff9F9D9D),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),

@@ -25,128 +25,142 @@ class ModelTable extends ConsumerWidget {
 
     return modelData.when(
       data: (data) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                dividerTheme: const DividerThemeData(
-                  color: Colors.white,
+        return data.isEmpty
+            ? const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: Center(
+                  child: Text("No data found"),
                 ),
-              ),
-              child: SizedBox(
-                child: DataTable(
-                    dataRowMinHeight: 10,
-                    dataRowMaxHeight: 40,
-                    headingRowHeight: 50,
-                    dividerThickness: 2.5,
-                    columnSpacing: columnSpacing,
-                    headingRowColor: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffD9D9D9),
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      dividerTheme: const DividerThemeData(
+                        color: Colors.white,
+                      ),
                     ),
-                    columns: <DataColumn>[
-                      DataColumn(
-                          label: Text(
-                        'PRICE BAND',
-                        textAlign: TextAlign.center,
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          'MARKET NAME',
-                          textAlign: TextAlign.center,
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'MODEL NAME',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'MODEL TARGET',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        "LMTD",
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          "MTD",
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label:
-                              Center(child: Text('FTD VOL.', style: topStyle))),
-                      DataColumn(
-                          label:
-                              Center(child: Text('% GWTH', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('ADS', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('% DP', style: topStyle))),
-                      DataColumn(
-                          label:
-                              Center(child: Text('MTK STK.', style: topStyle))),
-                      DataColumn(
-                          label:
-                              Center(child: Text('DMDD STK', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('M+S', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('DOS', style: topStyle))),
-                    ],
-                    rows: List.generate(data.length, (index) {
-                      final row = data[index];
-                      return DataRow(
-                          color: WidgetStateColor.resolveWith(
-                            (states) => const Color(0xffEEEEEE),
+                    child: SizedBox(
+                      child: DataTable(
+                          dataRowMinHeight: 10,
+                          dataRowMaxHeight: 40,
+                          headingRowHeight: 50,
+                          dividerThickness: 2.5,
+                          columnSpacing: columnSpacing,
+                          headingRowColor: WidgetStateColor.resolveWith(
+                            (states) => const Color(0xffD9D9D9),
                           ),
-                          cells: [
-                            DataCell(Center(
-                                child: Text(row['Price Band'] != ""
-                                    ? row['Price Band']
-                                    : 'N/A'))),
-                            DataCell(Center(
-                                child: Text(row['Market Name'] != ""
-                                    ? row['Market Name']
-                                    : "N/A"))),
-                            DataCell(Center(
-                                child: Text(row['MODEL NAME'].toString()))),
-                            DataCell(Center(
-                                child: Text(row['Model Target'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['LMTD'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['MTD'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['FTD Vol'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['% Gwth'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['ADS'].toString()))),
-                            DataCell(Center(child: Text(row['DP'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['Mkt Stk'].toString()))),
-                            DataCell(Center(
-                                child: Text(row['Dmdd Stk'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['M+S'].toString()))),
-                            DataCell(
-                                Center(child: Text(row['DOS'].toString()))),
-                          ]);
-                    })),
-              ),
-            ),
-          ),
-        );
+                          columns: <DataColumn>[
+                            DataColumn(
+                                label: Text(
+                              'PRICE BAND',
+                              textAlign: TextAlign.center,
+                              style: topStyle,
+                            )),
+                            DataColumn(
+                                label: Center(
+                              child: Text(
+                                'MARKET NAME',
+                                textAlign: TextAlign.center,
+                                style: topStyle,
+                              ),
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'MODEL NAME',
+                              style: topStyle,
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'MODEL TARGET',
+                              style: topStyle,
+                            )),
+                            DataColumn(
+                                label: Text(
+                              "LMTD",
+                              style: topStyle,
+                            )),
+                            DataColumn(
+                                label: Center(
+                              child: Text(
+                                "MTD",
+                                style: topStyle,
+                              ),
+                            )),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('FTD VOL.', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('% GWTH', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('ADS', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('% DP', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('MTK STK.', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('DMDD STK', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('M+S', style: topStyle))),
+                            DataColumn(
+                                label: Center(
+                                    child: Text('DOS', style: topStyle))),
+                          ],
+                          rows: List.generate(data.length, (index) {
+                            final row = data[index];
+                            return DataRow(
+                                color: WidgetStateColor.resolveWith(
+                                  (states) => const Color(0xffEEEEEE),
+                                ),
+                                cells: [
+                                  DataCell(Center(
+                                      child: Text(row['Price Band'] != ""
+                                          ? row['Price Band']
+                                          : 'N/A'))),
+                                  DataCell(Center(
+                                      child: Text(row['Market Name'] != ""
+                                          ? row['Market Name']
+                                          : "N/A"))),
+                                  DataCell(Center(
+                                      child:
+                                          Text(row['MODEL NAME'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(
+                                          row['Model Target'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['LMTD'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['MTD'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['FTD Vol'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['% Gwth'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['ADS'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['DP'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['Mkt Stk'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['Dmdd Stk'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['M+S'].toString()))),
+                                  DataCell(Center(
+                                      child: Text(row['DOS'].toString()))),
+                                ]);
+                          })),
+                    ),
+                  ),
+                ),
+              );
       },
       error: (error, stackTrace) => const Center(
         child: Text("Something Went Wrong"),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,8 +26,6 @@ class SegmentTablePositionWise extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log("Segment Table Done 2");
-
     final selectedOption2 = ref.watch(selectedOption2Provider);
     final segmentData = ref.watch(positionWiseSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
@@ -48,99 +45,102 @@ class SegmentTablePositionWise extends ConsumerWidget {
               ),
               child: SizedBox(
                 child: DataTable(
-                    dataRowMinHeight: 10,
-                    dataRowMaxHeight: 40,
-                    headingRowHeight: 50,
-                    dividerThickness: 2.5,
-                    columnSpacing: columnSpacing,
-                    headingRowColor: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffD9D9D9),
-                    ),
-                    columns: <DataColumn>[
-                      DataColumn(
-                          label: Text(
-                        'PRICE BAND',
+                  dataRowMinHeight: 10,
+                  dataRowMaxHeight: 40,
+                  headingRowHeight: 50,
+                  dividerThickness: 2.5,
+                  columnSpacing: columnSpacing,
+                  headingRowColor: WidgetStateColor.resolveWith(
+                    (states) => const Color(0xffD9D9D9),
+                  ),
+                  columns: <DataColumn>[
+                    DataColumn(
+                        label: Text(
+                      'PRICE BAND',
+                      textAlign: TextAlign.center,
+                      style: topStyle,
+                    )),
+                    DataColumn(
+                        label: Center(
+                      child: Text(
+                        '%\nContribution',
                         textAlign: TextAlign.center,
                         style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          '%\nContribution',
-                          textAlign: TextAlign.center,
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'MTD SO',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'LMTD SO',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
+                      ),
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'MTD SO',
+                      style: topStyle,
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'LMTD SO',
+                      style: topStyle,
+                    )),
+                    DataColumn(
+                        label: Text(
+                      selectedOption2 == 'value'
+                          ? 'TARGET VALUE'
+                          : 'TARGET VOLUME',
+                      style: topStyle,
+                    )),
+                    DataColumn(
+                        label: Center(
+                      child: Text(
                         selectedOption2 == 'value'
-                            ? 'TARGET VALUE'
-                            : 'TARGET VOLUME',
+                            ? 'PENDING VALUE'
+                            : 'PENDING VOLUME',
                         style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          selectedOption2 == 'value'
-                              ? 'PENDING VALUE'
-                              : 'PENDING VOLUME',
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Center(child: Text('FTD', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('DRR', style: topStyle))),
-                      DataColumn(
-                          label: Center(child: Text('ADS', style: topStyle))),
-                      DataColumn(
-                          label:
-                              Center(child: Text('% GWTH', style: topStyle))),
-                    ],
-                    rows: List.generate(data.length, (index) {
+                      ),
+                    )),
+                    DataColumn(
+                        label: Center(child: Text('FTD', style: topStyle))),
+                    DataColumn(
+                        label: Center(child: Text('DRR', style: topStyle))),
+                    DataColumn(
+                        label: Center(child: Text('ADS', style: topStyle))),
+                    DataColumn(
+                        label: Center(child: Text('% GWTH', style: topStyle))),
+                  ],
+                  rows: List.generate(
+                    data.length,
+                    (index) {
                       final row = data[index];
                       return DataRow(
-                          color: WidgetStateColor.resolveWith(
-                            (states) => const Color(0xffEEEEEE),
-                          ),
-                          cells: [
-                            DataCell(Center(child: Text(row['_id']))),
-                            DataCell(
-                                Center(child: Text(row['CONTRIBUTION %']))),
-                            DataCell(Center(
-                                child: Text(row['MTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row['LMTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'TARGET VALUE'
-                                        : "TARGET VOLUME"]
-                                    .toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'VAL PENDING'
-                                        : 'VOL PENDING']
-                                    .toString()))),
-                            DataCell(Text(row['FTD'].toString())),
-                            DataCell(Text(row['DAILY REQUIRED AVERAGE']
-                                .truncate()
-                                .toString())),
-                            DataCell(Text(
-                                row['AVERAGE DAY SALE'].truncate().toString())),
-                            DataCell(
-                                Center(child: Text(row['% GWTH'].toString()))),
-                          ]);
-                    })),
+                        color: WidgetStateColor.resolveWith(
+                          (states) => const Color(0xffEEEEEE),
+                        ),
+                        cells: [
+                          DataCell(Center(child: Text(row['_id']))),
+                          DataCell(Center(child: Text(row['CONTRIBUTION %']))),
+                          DataCell(Center(
+                              child: Text(row['MTD SELL OUT'].toString()))),
+                          DataCell(Center(
+                              child: Text(row['LMTD SELL OUT'].toString()))),
+                          DataCell(Center(
+                              child: Text(row[selectedOption2 == 'value'
+                                      ? 'TARGET VALUE'
+                                      : "TARGET VOLUME"]
+                                  .toString()))),
+                          DataCell(Center(
+                              child: Text(row[selectedOption2 == 'value'
+                                      ? 'VAL PENDING'
+                                      : 'VOL PENDING']
+                                  .toString()))),
+                          DataCell(Text(row['FTD'].toString())),
+                          DataCell(Text(row['DAILY REQUIRED AVERAGE']
+                              .truncate()
+                              .toString())),
+                          DataCell(Text(
+                              row['AVERAGE DAY SALE'].truncate().toString())),
+                          DataCell(
+                              Center(child: Text(row['% GWTH'].toString()))),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),

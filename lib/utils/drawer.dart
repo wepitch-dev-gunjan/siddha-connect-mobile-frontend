@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
+import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
+import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
+import 'package:siddha_connect/uploadSalesData/upload_model_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
@@ -75,27 +78,10 @@ class _CusDrawerState extends State<CusDrawer> {
                     color: Colors.black.withOpacity(0.09),
                   )),
                 ),
-                DrawerElement(
-                  src: "assets/images/dashboard.svg",
-                  title: "Sales Dashboard",
-                  onTap: () {
-                    navigationPush(context, const SalesDashboard());
-                  },
-                ),
-                DrawerElement(
-                  src: "assets/images/finance.svg",
-                  title: "Finance Dashboard",
-                  onTap: () {},
-                ),
-                DrawerElement(
-                  src: "assets/images/attendance.svg",
-                  title: "Attendance",
-                  onTap: () {},
-                ),
                 ExpansionTile(
-                  leading: SvgPicture.asset("assets/images/upload.svg"),
+                  leading: SvgPicture.asset("assets/images/dashboard.svg"),
                   title: Text(
-                    "Upload Sales Data",
+                    "Sales",
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -103,20 +89,110 @@ class _CusDrawerState extends State<CusDrawer> {
                       ),
                     ),
                   ),
-                  children: <Widget>[
+                  children: [
                     ListTile(
-                      title: const Text("Option 1"),
+                      title: Text(
+                        "Sales Dashboard",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        navigationPush(context, const SalesDashboard());
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        "Sales Data Upload",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                       onTap: () {
                         navigationPush(context, const UploadSalesData());
                       },
                     ),
                     ListTile(
-                      title: const Text("Option 2"),
+                      title: Text(
+                        "Model Data Upload",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                       onTap: () {
-                        navigationPush(context, const UploadSalesData());
+                        navigationPush(context, const UploadModelData());
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        "Segment Target Upload",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        navigationPush(context, const UploadSegmentTarget());
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        "Channel Target Upload",
+                        style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        navigationPush(context, const UploadChannelTarget());
                       },
                     ),
                   ],
+                ),
+                ExpansionTile(
+                  leading: SvgPicture.asset("assets/images/finance.svg"),
+                  title: Text(
+                    "Finance",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  children: [
+                    ListTile(
+                      title: const Text("Finance Dashboard"),
+                      onTap: () {
+                        navigationPush(context, const UploadSalesData());
+                      },
+                    ),
+                    ListTile(
+                      title: const Text("Upload Finance Data"),
+                      onTap: () {
+                        // navigationPush(context, const UploadSalesData());
+                      },
+                    ),
+                    ListTile(
+                      title: const Text("Payment Calculator"),
+                      onTap: () {
+                        // navigationPush(context, const UploadSalesData());
+                      },
+                    ),
+                  ],
+                ),
+                DrawerElement(
+                  src: "assets/images/attendance.svg",
+                  title: "Attendance",
+                  onTap: () {},
                 ),
                 Consumer(builder:
                     (BuildContext context, WidgetRef ref, Widget? child) {
@@ -152,7 +228,7 @@ class _CusDrawerState extends State<CusDrawer> {
                                     ref
                                         .read(secureStoargeProvider)
                                         .deleteData("authToken");
-                                       
+
                                     navigateTo(LoginScreen());
                                   },
                                 ),
