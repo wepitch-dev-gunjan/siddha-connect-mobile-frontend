@@ -2,15 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../salesDashboard/screen/sales_dashboard.dart';
-import '../utils/buttons.dart';
-import '../utils/common_style.dart';
-import '../utils/cus_appbar.dart';
-import '../utils/drawer.dart';
-import '../utils/navigation.dart';
-import '../utils/sizes.dart';
-import 'repo/upload_data_repo.dart';
-import 'screens/upload_sales_data.dart';
+import '../../salesDashboard/screen/sales_dashboard.dart';
+import '../../utils/buttons.dart';
+import '../../utils/common_style.dart';
+import '../../utils/cus_appbar.dart';
+import '../../utils/drawer.dart';
+import '../../utils/navigation.dart';
+import '../../utils/sizes.dart';
+import '../repo/upload_data_repo.dart';
+import 'upload_sales_data.dart';
+import 'upload_segment_target.dart';
 
 class UploadModelData extends ConsumerWidget {
   const UploadModelData({super.key});
@@ -28,6 +29,7 @@ class UploadModelData extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const TopBarHeading(title: "Model Data Upload"),
               UploadContainer(isLoading: isLoading),
               heightSizedBox(30.0),
               Btn(
@@ -38,7 +40,7 @@ class UploadModelData extends ConsumerWidget {
                     ref.read(isLoadingProvider.notifier).state = true;
                     try {
                       await ref
-                          .read(SalesDataUploadRepoProvider)
+                          .read(salesDataUploadRepoProvider)
                           .modelDataUpload(
                             file: File(filePath),
                           );

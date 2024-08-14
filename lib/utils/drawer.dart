@@ -6,7 +6,7 @@ import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
-import 'package:siddha_connect/uploadSalesData/upload_model_data.dart';
+import 'package:siddha_connect/uploadSalesData/screens/upload_model_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';

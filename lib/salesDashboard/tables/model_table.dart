@@ -125,10 +125,9 @@ class ModelTable extends ConsumerWidget {
                                       child: Text(row['Price Band'] != ""
                                           ? row['Price Band']
                                           : 'N/A'))),
-                                  DataCell(Center(
-                                      child: Text(row['Market Name'] != ""
-                                          ? row['Market Name']
-                                          : "N/A"))),
+                                  DataCell(Text(row['Market Name'] != ""
+                                      ? row['Market Name']
+                                      : "N/A")),
                                   DataCell(Center(
                                       child:
                                           Text(row['MODEL NAME'].toString()))),
@@ -153,8 +152,7 @@ class ModelTable extends ConsumerWidget {
                                       child: Text(row['Dmdd Stk'].toString()))),
                                   DataCell(Center(
                                       child: Text(row['M+S'].toString()))),
-                                  DataCell(Center(
-                                      child: Text(row['DOS'].toString()))),
+                                  DataCell(Text(row['DOS'].toString())),
                                 ]);
                           })),
                     ),

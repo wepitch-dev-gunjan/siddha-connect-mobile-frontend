@@ -11,6 +11,7 @@ import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
 import '../repo/upload_data_repo.dart';
 import 'upload_sales_data.dart';
+import 'upload_segment_target.dart';
 
 class UploadChannelTarget extends ConsumerWidget {
   const UploadChannelTarget({super.key});
@@ -28,6 +29,7 @@ class UploadChannelTarget extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const TopBarHeading(title: "Channel Target Upload"),
               UploadContainer(isLoading: isLoading),
               heightSizedBox(30.0),
               Btn(
@@ -38,7 +40,7 @@ class UploadChannelTarget extends ConsumerWidget {
                     ref.read(isLoadingProvider.notifier).state = true;
                     try {
                       await ref
-                          .read(SalesDataUploadRepoProvider)
+                          .read(salesDataUploadRepoProvider)
                           .channelTargetUpload(
                             file: File(filePath),
                           );

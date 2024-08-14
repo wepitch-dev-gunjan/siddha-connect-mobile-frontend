@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import '../../salesDashboard/screen/sales_dashboard.dart';
 import '../../utils/message.dart';
 import '../../utils/navigation.dart';
 
-final SalesDataUploadRepoProvider = Provider((ref) {
+final salesDataUploadRepoProvider = Provider((ref) {
   return SalesDataUploadRepo();
 });
 

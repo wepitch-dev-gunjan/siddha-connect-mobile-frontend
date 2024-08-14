@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import '../../salesDashboard/screen/sales_dashboard.dart';
@@ -28,6 +30,7 @@ class UploadSegmentTarget extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const TopBarHeading(title: "Segment Target Upload"),
               UploadContainer(isLoading: isLoading),
               heightSizedBox(30.0),
               Btn(
@@ -38,12 +41,11 @@ class UploadSegmentTarget extends ConsumerWidget {
                     ref.read(isLoadingProvider.notifier).state = true;
                     try {
                       await ref
-                          .read(SalesDataUploadRepoProvider)
+                          .read(salesDataUploadRepoProvider)
                           .segmentTargetUpload(
                             file: File(filePath),
                           );
                       if (!ref.read(isCancelRequestedProvider)) {
-                       
                         // navigatePushReplacement(SalesDashboard());
                       }
                     } catch (e) {
@@ -91,6 +93,33 @@ class UploadSegmentTarget extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TopBarHeading extends StatelessWidget {
+  final String title;
+  const TopBarHeading({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset("assets/images/dashboard.svg", height: 25, width: 25),
+        widthSizedBox(10.0),
+        Text(
+          title,
+          style: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

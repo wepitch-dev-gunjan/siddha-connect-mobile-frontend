@@ -14,6 +14,7 @@ import 'package:siddha_connect/utils/sizes.dart';
 import '../../salesDashboard/screen/sales_dashboard.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/drawer.dart';
+import 'upload_segment_target.dart';
 
 final fileNameProvider = StateProvider.autoDispose<String?>((ref) => null);
 final filePathProvider = StateProvider<String?>((ref) => null);
@@ -36,6 +37,7 @@ class UploadSalesData extends ConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+                  const TopBarHeading(title: "Sales Data Upload"),
               UploadContainer(isLoading: isLoading),
               heightSizedBox(30.0),
               Btn(
@@ -46,12 +48,11 @@ class UploadSalesData extends ConsumerWidget {
                     ref.read(isLoadingProvider.notifier).state = true;
                     try {
                       await ref
-                          .read(SalesDataUploadRepoProvider)
+                          .read(salesDataUploadRepoProvider)
                           .salesDataUpload(
                             file: File(filePath),
                           );
                       if (!ref.read(isCancelRequestedProvider)) {
-                        // navigatePushReplacement(SalesDashboard());
                       }
                     } catch (e) {
                       // Handle the error
