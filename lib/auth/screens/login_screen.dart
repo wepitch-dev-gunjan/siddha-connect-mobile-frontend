@@ -9,16 +9,11 @@ import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/buttons.dart';
 
-
-
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
-
-
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +92,7 @@ class LoginScreen extends ConsumerWidget {
                       btnName: "Sign up",
                       onPressed: () {
                         navigateTo(const RegisterScreen());
-                      })
+                      }),
                 ],
               ),
             ),
@@ -107,5 +102,3 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 }
-
-

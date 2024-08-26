@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/auth/repo/auth_repo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
@@ -44,6 +46,7 @@ class AuthController {
         await ref
             .read(secureStoargeProvider)
             .writeData(key: 'authToken', value: "${res['token']}");
+
         navigateTo(const SalesDashboard());
       } else {
         await ref
@@ -53,5 +56,24 @@ class AuthController {
       }
       return res;
     } catch (e) {}
+  }
+
+  dealerRegisterController({required Map data}) async {
+    try {
+      final res = await authRepo.dealerRegisterRepo(data: data);
+      if (res['data']['verified'] == false) {
+        await ref
+            .read(secureStoargeProvider)
+            .writeData(key: 'authToken', value: "${res['token']}");
+        navigatePushReplacement(const StatusScreen());
+        return res;
+      } else {
+        navigatePushReplacement(const SalesDashboard());
+      }
+      return res;
+    } catch (e) {
+      print('Error in dealerRegisterController: $e');
+      throw e;
+    }
   }
 }

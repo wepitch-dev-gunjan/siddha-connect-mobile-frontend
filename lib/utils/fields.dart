@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // //  Selected Date
-Future selectDate(BuildContext context) async {
-  final DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(1950),
-    lastDate: DateTime.now(),
-  );
+// Future selectDate(BuildContext context) async {
+//   final DateTime? pickedDate = await showDatePicker(
+//     context: context,
+//     initialDate: DateTime.now(),
+//     firstDate: DateTime(1950),
+//     lastDate: DateTime.now(),
+//   );
 
-  if (pickedDate != null) {
-    final String formattedDate =
-        "${pickedDate.day.toString().padLeft(2, '0')}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.year}";
-    return formattedDate;
-  }
-}
+//   if (pickedDate != null) {
+//     final String formattedDate =
+//         "${pickedDate.day.toString().padLeft(2, '0')}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.year}";
+//     return formattedDate;
+//   }
+// }
 
 // //  Selected Time
 Future selectTime(BuildContext context) async {
@@ -54,6 +54,7 @@ class TxtField extends StatelessWidget {
   final Widget? suffixIcon, prefixIcon;
   final TextAlign? textAlign;
   final EdgeInsets? contentPadding;
+  final bool? obscureText;
 
   final bool? readOnly, filled, border;
   final Color? fillColor;
@@ -61,37 +62,39 @@ class TxtField extends StatelessWidget {
   final bool? enabled;
   final InputBorder? enabledBorder;
 
-  const TxtField(
-      {super.key,
-      this.headTxt,
-      this.enabled,
-      this.cursorHeight,
-      this.contentPadding,
-      this.textAlign,
-      this.decoration,
-      this.controller,
-      this.labelText,
-      this.errorText,
-      this.inputFormatters,
-      this.keyboardType,
-      this.initialValue,
-      this.maxLength,
-      this.minLines,
-      this.maxLines,
-      this.onSaved,
-      this.onChanged,
-      this.readOnly,
-      this.onTap,
-      this.suffixIcon,
-      this.prefixIcon,
-      this.hintText,
-      this.border = true,
-      this.filled,
-      this.fillColor,
-      this.validator,
-      this.style,
-      this.onTapOutside,
-      this.enabledBorder});
+  const TxtField({
+    super.key,
+    this.headTxt,
+    this.enabled,
+    this.cursorHeight,
+    this.contentPadding,
+    this.textAlign,
+    this.decoration,
+    this.controller,
+    this.labelText,
+    this.errorText,
+    this.inputFormatters,
+    this.keyboardType,
+    this.initialValue,
+    this.maxLength,
+    this.minLines,
+    this.maxLines,
+    this.onSaved,
+    this.onChanged,
+    this.readOnly,
+    this.onTap,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.hintText,
+    this.border = true,
+    this.filled,
+    this.fillColor,
+    this.validator,
+    this.style,
+    this.onTapOutside,
+    this.enabledBorder,
+    this.obscureText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +113,7 @@ class TxtField extends StatelessWidget {
         maxLines: maxLines,
         minLines: minLines,
         maxLength: maxLength,
+        obscureText: obscureText ?? false,
         controller: controller,
         onSaved: onSaved,
         keyboardType: keyboardType,

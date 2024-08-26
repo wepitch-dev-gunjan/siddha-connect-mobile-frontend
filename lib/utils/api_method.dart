@@ -32,6 +32,8 @@ class ApiMethod {
   }
 
   Future postDioRequest({required Map data}) async {
+    log(url);
+    log(data.toString());
     try {
       if (token != null) {
         headers['Authorization'] = "$token";
@@ -100,6 +102,7 @@ class ApiUrl {
   static String getSegmentData = "$baseUrl/sales/segment-wise";
   static String uploadSalesData = "$baseUrl/sales";
   static String userRegister = "$baseUrl/user/register";
+  static String dealerRegister = "$baseUrl/add-dealer";
   static String userLogin = "$baseUrl/login";
   static String getProfile = "$baseUrl/userForUser";
   static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";

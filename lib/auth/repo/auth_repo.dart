@@ -37,4 +37,15 @@ class AuthRepo {
       ShowSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
     }
   }
+
+  dealerRegisterRepo({required Map data}) async {
+    try {
+      final response = await ApiMethod(url: ApiUrl.dealerRegister)
+          .postDioRequest(data: data);
+      return response;
+    } on DioException catch (e) {
+      ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
+      return null;
+    }
+  }
 }
