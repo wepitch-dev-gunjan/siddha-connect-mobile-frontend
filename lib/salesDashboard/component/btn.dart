@@ -5,6 +5,7 @@ import 'package:siddha_connect/salesDashboard/tables/channel_table.dart';
 import 'package:siddha_connect/salesDashboard/tables/model_table.dart';
 import 'package:siddha_connect/salesDashboard/tables/segment_position_wise.dart';
 import 'package:siddha_connect/utils/sizes.dart';
+import '../../auth/screens/splash_screen.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
 import '../tables/segment_table.dart';
@@ -131,108 +132,117 @@ class SmallCusBtn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDealer = ref.watch(dealerRoleProvider);
     final selectedIndex = ref.watch(selectedIndexProvider);
     final selectedPosition = ref.watch(selectedPositionProvider);
     final subOrdinates = ref.watch(subordinateProvider);
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  ref.read(selectedIndexProvider.notifier).state = 0;
-                  ref.read(selectedPositionProvider.notifier).state = 'All';
-                  ref.read(selectedItemProvider.notifier).state = null;
-                },
-                child: Container(
-                  width: 70,
-                  height: 30,
-                  margin: const EdgeInsets.only(right: 15.0),
-                  decoration: BoxDecoration(
-                    color: selectedIndex == 0
-                        ? AppColor.primaryColor
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(5.0),
-                    border:
-                        Border.all(color: AppColor.primaryColor, width: 1.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'All',
-                      style: GoogleFonts.lato(
-                          color:
-                              selectedIndex == 0 ? Colors.white : Colors.black,
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 12)),
+    return isDealer == 'dealer'
+        ? const SizedBox()
+        : Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        ref.read(selectedIndexProvider.notifier).state = 0;
+                        ref.read(selectedPositionProvider.notifier).state =
+                            'All';
+                        ref.read(selectedItemProvider.notifier).state = null;
+                      },
+                      child: Container(
+                        width: 70,
+                        height: 30,
+                        margin: const EdgeInsets.only(right: 15.0),
+                        decoration: BoxDecoration(
+                          color: selectedIndex == 0
+                              ? AppColor.primaryColor
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                              color: AppColor.primaryColor, width: 1.0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'All',
+                            style: GoogleFonts.lato(
+                                color: selectedIndex == 0
+                                    ? Colors.white
+                                    : Colors.black,
+                                textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 12)),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: subOrdinates.when(
-                    data: (data) {
-                      final positions = data['positions'];
+                    Expanded(
+                        child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: subOrdinates.when(
+                          data: (data) {
+                            final positions = data['positions'];
 
-                      return Row(
-                        children: List.generate(positions.length, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              ref.read(selectedIndexProvider.notifier).state =
-                                  index + 1;
-                              ref
-                                  .read(selectedPositionProvider.notifier)
-                                  .state = positions[index];
-                              ref.read(selectedItemProvider.notifier).state =
-                                  null;
-                            },
-                            child: Container(
-                              width: 70,
-                              height: 30,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                color: selectedIndex == index + 1
-                                    ? AppColor.primaryColor
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(5.0),
-                                border: Border.all(
-                                    color: AppColor.primaryColor, width: 1.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  positions[index],
-                                  style: GoogleFonts.lato(
+                            return Row(
+                              children:
+                                  List.generate(positions.length, (index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(selectedIndexProvider.notifier)
+                                        .state = index + 1;
+                                    ref
+                                        .read(selectedPositionProvider.notifier)
+                                        .state = positions[index];
+                                    ref
+                                        .read(selectedItemProvider.notifier)
+                                        .state = null;
+                                  },
+                                  child: Container(
+                                    width: 70,
+                                    height: 30,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    decoration: BoxDecoration(
                                       color: selectedIndex == index + 1
-                                          ? Colors.white
-                                          : const Color(0xff999292),
-                                      textStyle: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12)),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      );
-                    },
-                    error: (error, stackTrace) =>
-                        const Text("Something went wrong"),
-                    loading: () => const Text("Loading....")),
-              )),
-            ],
-          ),
-          heightSizedBox(8.0),
-          if (selectedIndex != 0)
-            CusDropdown(selectedPosition: selectedPosition),
-        ],
-      ),
-    );
+                                          ? AppColor.primaryColor
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      border: Border.all(
+                                          color: AppColor.primaryColor,
+                                          width: 1.0),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        positions[index],
+                                        style: GoogleFonts.lato(
+                                            color: selectedIndex == index + 1
+                                                ? Colors.white
+                                                : const Color(0xff999292),
+                                            textStyle: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12)),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                          },
+                          error: (error, stackTrace) =>
+                              const Text("Something went wrong"),
+                          loading: () => const Text("Loading....")),
+                    )),
+                  ],
+                ),
+                heightSizedBox(8.0),
+                if (selectedIndex != 0)
+                  CusDropdown(selectedPosition: selectedPosition),
+              ],
+            ),
+          );
   }
 }
 

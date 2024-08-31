@@ -116,6 +116,63 @@ class SalesDashboardRepo {
       return null;
     }
   }
+
+  getDealerSegmetData({
+    String? startDate,
+    String? endDate,
+    String? dataFormat,
+    String? dealerCode,
+    String? tdFormat,
+  }) async {
+    try {
+      String url = dealerSegmentUrl(ApiUrl.getDealerSegmentData, startDate,
+          endDate, dataFormat, dealerCode, tdFormat);
+
+      final response = await ApiMethod(url: url).getDioRequest();
+      log("dealrSegmentData$response");
+      return response;
+    } catch (e) {}
+  }
+
+  getDealerDashboardData(
+      {String? startDate,
+      String? endDate,
+      String? dataFormat,
+      String? dealerCode,
+      String? tdFormat}) async {
+    try {
+      String url = dealerSegmentUrl(ApiUrl.getDealerDashboardData, startDate,
+          endDate, dataFormat, dealerCode, tdFormat);
+
+      final response = await ApiMethod(url: url).getDioRequest();
+      log("dealrSegmentData$response");
+      return response;
+    } catch (e) {}
+  }
+}
+
+String dealerSegmentUrl(String baseUrl, String? startDate, String? endDate,
+    String? dataFormat, String? dealerCode, String? tdFormat) {
+  String url = baseUrl;
+
+  Map<String, String?> queryParams = {
+    'start_date': startDate,
+    'end_date': endDate,
+    'data_format': dataFormat,
+    'td_format': tdFormat,
+    if (dealerCode != null) 'dealer_code': dealerCode,
+  };
+
+  String queryString = queryParams.entries
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
+
+  if (queryString.isNotEmpty) {
+    url += '?$queryString';
+  }
+
+  return url;
 }
 
 String urlFormat(

@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/api_method.dart';
 import 'package:siddha_connect/utils/message.dart';
 
+import '../../utils/secure_storage.dart';
+
 final authRepoProvider = Provider.autoDispose((ref) => AuthRepo(ref));
 
 class AuthRepo {
@@ -18,12 +20,7 @@ class AuthRepo {
       log('response$response');
       return response;
     } on DioException catch (e) {
-      if (e.response?.data['message'] == 'User Already Exist') {
-        ShowSnackBarMsg("User Already Register. Plese Login",
-            color: Colors.red);
-      } else {
-        ShowSnackBarMsg("Something Went Wrong", color: Colors.red);
-      }
+      ShowSnackBarMsg("${e.response?.data['message']}", color: Colors.red);
     }
   }
 
@@ -47,5 +44,20 @@ class AuthRepo {
       ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
       return null;
     }
+  }
+
+  isDealerVerified() async {
+    try {
+      final token =
+          await ref.watch(secureStoargeProvider).readData('authToken');
+
+      log("token112233$token");
+
+      final response =
+          await ApiMethod(url: ApiUrl.isDealerVerified, token: token)
+              .getDioRequest();
+      log("respppp$response");
+      return response;
+    } catch (e) {}
   }
 }

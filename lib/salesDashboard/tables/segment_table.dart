@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import '../../utils/common_style.dart';
 import '../component/btn.dart';
@@ -55,13 +56,28 @@ final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   return getSegmentData;
 });
 
+final getDealerDataProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final dealerCode = ref.watch(dealerCodeProvider);
+  final getSegmentData = await ref.watch(salesRepoProvider).getDealerSegmetData(
+      dataFormat: options.dataFormat,
+      startDate: options.firstDate,
+      endDate: options.lastDate,
+      dealerCode: dealerCode);
+  return getSegmentData;
+});
+
 class SegmentTable extends ConsumerWidget {
   const SegmentTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final role = ref.read(dealerRoleProvider);
+
     final selectedOption2 = ref.watch(selectedOption2Provider);
-    final segmentData = ref.watch(getSegmentDataProvider);
+    final segmentData = role == 'dealer'
+        ? ref.watch(getDealerDataProvider)
+        : ref.watch(getSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
 

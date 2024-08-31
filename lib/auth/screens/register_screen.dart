@@ -12,6 +12,8 @@ import '../../utils/fields.dart';
 import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
 
+final passwordHideProvider = StateProvider<bool>((ref) => false);
+
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -20,24 +22,26 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  TextEditingController name = TextEditingController();
+  TextEditingController code = TextEditingController();
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController position = TextEditingController();
+  // TextEditingController position = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String? selectedPosition;
+  // String? selectedPosition;
   @override
   void dispose() {
-    name.dispose();
+    code.dispose();
     email.dispose();
     password.dispose();
-    position.dispose();
+    // position.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isPasswordHide = ref.watch(passwordHideProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
@@ -66,8 +70,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   heightSizedBox(50.0),
                   TxtField(
                     contentPadding: contentPadding,
-                    labelText: "Name",
-                    controller: name,
+                    labelText: "Code",
+                    controller: code,
                     maxLines: 1,
                     validator: validateName,
                     keyboardType: TextInputType.name,
@@ -82,62 +86,81 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                   heightSizedBox(15.0),
+
                   TxtField(
                     contentPadding: contentPadding,
                     labelText: "Password",
                     maxLines: 1,
+                    obscureText: !isPasswordHide,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        ref.read(passwordHideProvider.notifier).state =
+                            !isPasswordHide;
+                      },
+                      icon: Icon(isPasswordHide
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                    ),
                     controller: password,
-                    validator: validatePassword,
                     keyboardType: TextInputType.visiblePassword,
+                    validator: validatePassword,
                   ),
-                  heightSizedBox(15.0),
-                  DropdownButtonFormField(
-                    style: const TextStyle(
-                        fontSize: 16.0, height: 1.5, color: Colors.black87),
-                    decoration: InputDecoration(
-                        fillColor: const Color(0XFFfafafa),
-                        contentPadding: contentPadding,
-                        errorStyle: const TextStyle(color: Colors.red),
-                        labelStyle: const TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w500),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Colors.black12,
-                            )),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Colors.red, // Error border color
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                                color: Color(0xff1F0A68), width: 1)),
-                        labelText: "Position",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(
-                                color: Colors.amber, width: 0.5))),
-                    value: selectedPosition,
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedPosition = newValue;
-                      });
-                    },
-                    items: ['ZSM', 'ABM', 'RSO', 'ASE', 'ASM', 'TSE']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    validator: validatePosition,
-                  ),
+                  // TxtField(
+                  //   contentPadding: contentPadding,
+                  //   labelText: "Password",
+                  //   maxLines: 1,
+                  //   controller: password,
+                  //   validator: validatePassword,
+                  //   keyboardType: TextInputType.visiblePassword,
+                  // ),
+                  // heightSizedBox(15.0),
+                  // DropdownButtonFormField(
+                  //   style: const TextStyle(
+                  //       fontSize: 16.0, height: 1.5, color: Colors.black87),
+                  //   decoration: InputDecoration(
+                  //       fillColor: const Color(0XFFfafafa),
+                  //       contentPadding: contentPadding,
+                  //       errorStyle: const TextStyle(color: Colors.red),
+                  //       labelStyle: const TextStyle(
+                  //           fontSize: 15.0,
+                  //           color: Colors.black54,
+                  //           fontWeight: FontWeight.w500),
+                  //       enabledBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(8),
+                  //           borderSide: const BorderSide(
+                  //             color: Colors.black12,
+                  //           )),
+                  //       errorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(8),
+                  //         borderSide: const BorderSide(
+                  //           color: Colors.red, // Error border color
+                  //           width: 1,
+                  //         ),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(8),
+                  //           borderSide: const BorderSide(
+                  //               color: Color(0xff1F0A68), width: 1)),
+                  //       labelText: "Position",
+                  //       border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(5),
+                  //           borderSide: const BorderSide(
+                  //               color: Colors.amber, width: 0.5))),
+                  //   value: selectedPosition,
+                  //   onChanged: (newValue) {
+                  //     setState(() {
+                  //       selectedPosition = newValue;
+                  //     });
+                  //   },
+                  //   items: ['ZSM', 'ABM', 'RSO', 'ASE', 'ASM', 'TSE']
+                  //       .map<DropdownMenuItem<String>>((String value) {
+                  //     return DropdownMenuItem<String>(
+                  //       value: value,
+                  //       child: Text(value),
+                  //     );
+                  //   }).toList(),
+                  //   validator: validatePosition,
+                  // ),
                   heightSizedBox(15.0),
                   // Btn(
                   //   btnName: 'Sign Up',
@@ -174,17 +197,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       // // Get the IMEI number before proceeding
                       // String? imeiNumber = await getDeviceId();
 
-                      log("selectedPosition: $selectedPosition");
+                   
                       if (formKey.currentState!.validate()) {
-                        // Proceed with the original registration process including the IMEI number
                         ref
                             .read(authControllerProvider)
                             .registerController(data: {
-                          'name': name.text,
+                          'code': code.text,
                           'email': email.text,
                           'password': password.text,
-                          "position": selectedPosition.toString(),
-                      
                         });
                       }
                     },
@@ -208,6 +228,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     onPressed: () {
                       navigationPush(context, DelarRegisterScreen());
                     },
+                  ),
+                  heightSizedBox(8.0),
+                  Text(
+                    "OR",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff7F7F7F),
+                      ),
+                    ),
                   ),
                   heightSizedBox(8.0),
                   Row(

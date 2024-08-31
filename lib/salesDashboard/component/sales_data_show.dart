@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import '../../utils/providers.dart';
 import '../../utils/sizes.dart';
@@ -25,20 +26,31 @@ class DashboardOptions {
 // });
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
-
   final options = ref.watch(selectedOptionsProvider);
-   final user = await ref.watch(userProvider.future);
+  final user = await ref.watch(userProvider.future);
   final name = user['name']?.trim() ?? '';
   final position = user['position']?.trim() ?? '';
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
-    tdFormat: options.tdFormat,
-    dataFormat: options.dataFormat,
-    firstDate: options.firstDate,
-    lastDate: options.lastDate,
-    position: position,
-    name: name
-  );
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate,
+      position: position,
+      name: name);
+  return data;
+});
+
+final getDealerDashboardProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final dealerCode = ref.watch(dealerCodeProvider);
+  final salesRepo = ref.watch(salesRepoProvider);
+  final data = await salesRepo.getDealerDashboardData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      startDate: options.firstDate,
+      endDate: options.lastDate,
+      dealerCode: dealerCode);
   return data;
 });
 
@@ -47,7 +59,10 @@ class SalesDashboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboardData = ref.watch(getSalesDashboardProvider);
+    final dealerRole = ref.watch(dealerRoleProvider);
+    final dashboardData = dealerRole == 'dealer'
+        ? ref.watch(getDealerDashboardProvider)
+        : ref.watch(getSalesDashboardProvider);
     return dashboardData.when(
         data: (data) {
           if (data == null || data.isEmpty) {

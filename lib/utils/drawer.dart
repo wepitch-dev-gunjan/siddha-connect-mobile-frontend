@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
+import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
@@ -13,18 +15,20 @@ import 'common_style.dart';
 import 'secure_storage.dart';
 import 'sizes.dart';
 
-class CusDrawer extends StatefulWidget {
+class CusDrawer extends ConsumerStatefulWidget {
   const CusDrawer({super.key});
 
   @override
-  State<CusDrawer> createState() => _CusDrawerState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CusDrawerState();
 }
 
-class _CusDrawerState extends State<CusDrawer> {
+class _CusDrawerState extends ConsumerState<CusDrawer> {
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    final dealer = ref.watch(dealerRoleProvider);
+    final name = ref.read(dealerNameProvider);
     return Drawer(
       shape: const BeveledRectangleBorder(),
       width: 270,
@@ -45,7 +49,7 @@ class _CusDrawerState extends State<CusDrawer> {
                 heightSizedBox(10.0),
                 Center(
                   child: Text(
-                    'SIDDHA',
+                    dealer == 'dealer' ? name! : "SIDDHA",
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -78,85 +82,96 @@ class _CusDrawerState extends State<CusDrawer> {
                     color: Colors.black.withOpacity(0.09),
                   )),
                 ),
-                ExpansionTile(
-                  leading: SvgPicture.asset("assets/images/dashboard.svg"),
-                  title: Text(
-                    "Sales",
-                    style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "Sales Dashboard",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                dealer == 'dealer'
+                    ? DrawerElement(
+                        src: "assets/images/dashboard.svg",
+                        title: "Sales Dashboard",
+                        onTap: () {
+                          navigationPush(context, const SalesDashboard());
+                        },
+                      )
+                    : ExpansionTile(
+                        leading:
+                            SvgPicture.asset("assets/images/dashboard.svg"),
+                        title: Text(
+                          "Sales",
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                      ),
-                      onTap: () {
-                        navigationPush(context, const SalesDashboard());
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Sales Data Upload",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              "Sales Dashboard",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              navigationPush(context, const SalesDashboard());
+                            },
                           ),
-                        ),
-                      ),
-                      onTap: () {
-                        navigationPush(context, const UploadSalesData());
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Model Data Upload",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                          ListTile(
+                            title: Text(
+                              "Sales Data Upload",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              navigationPush(context, const UploadSalesData());
+                            },
                           ),
-                        ),
-                      ),
-                      onTap: () {
-                        navigationPush(context, const UploadModelData());
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Segment Target Upload",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                          ListTile(
+                            title: Text(
+                              "Model Data Upload",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              navigationPush(context, const UploadModelData());
+                            },
                           ),
-                        ),
-                      ),
-                      onTap: () {
-                        navigationPush(context, const UploadSegmentTarget());
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Channel Target Upload",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w600,
+                          ListTile(
+                            title: Text(
+                              "Segment Target Upload",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              navigationPush(
+                                  context, const UploadSegmentTarget());
+                            },
                           ),
-                        ),
+                          ListTile(
+                            title: Text(
+                              "Channel Target Upload",
+                              style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              navigationPush(
+                                  context, const UploadChannelTarget());
+                            },
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        navigationPush(context, const UploadChannelTarget());
-                      },
-                    ),
-                  ],
-                ),
                 ExpansionTile(
                   leading: SvgPicture.asset("assets/images/finance.svg"),
                   title: Text(

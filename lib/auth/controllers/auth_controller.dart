@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/auth/repo/auth_repo.dart';
 import 'package:siddha_connect/salesDashboard/screen/sales_dashboard.dart';
@@ -22,6 +21,7 @@ class AuthController {
   registerController({required Map data}) async {
     try {
       final res = await authRepo.userRegisterRepo(data: data);
+      log("res$res");
       if (res['user']['verified'] == false) {
         ref
             .watch(secureStoargeProvider)
@@ -61,6 +61,7 @@ class AuthController {
   dealerRegisterController({required Map data}) async {
     try {
       final res = await authRepo.dealerRegisterRepo(data: data);
+      log("resDealer$res");
       if (res['data']['verified'] == false) {
         await ref
             .read(secureStoargeProvider)
@@ -70,6 +71,7 @@ class AuthController {
       } else {
         navigatePushReplacement(const SalesDashboard());
       }
+
       return res;
     } catch (e) {
       print('Error in dealerRegisterController: $e');
