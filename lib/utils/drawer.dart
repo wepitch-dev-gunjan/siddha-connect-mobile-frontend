@@ -5,15 +5,29 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
+import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_model_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
+import 'package:siddha_connect/utils/providers.dart';
+import '../auth/repo/auth_repo.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
 import 'secure_storage.dart';
 import 'sizes.dart';
+
+final userProfileProvider = FutureProvider.autoDispose((ref) async {
+  final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
+  return getprofileStatus;
+});
+
+final dealerProfileProvider = FutureProvider.autoDispose((ref) async {
+  final getDealerVerified =
+      await ref.watch(authRepoProvider).isDealerVerified();
+  return getDealerVerified;
+});
 
 class CusDrawer extends ConsumerStatefulWidget {
   const CusDrawer({super.key});
@@ -28,7 +42,10 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
   @override
   Widget build(BuildContext context) {
     final dealer = ref.watch(dealerRoleProvider);
-    final name = ref.read(dealerNameProvider);
+    final userData = dealer == "dealer"
+        ? ref.watch(dealerProfileProvider)
+        : ref.watch(userProfileProvider);
+
     return Drawer(
       shape: const BeveledRectangleBorder(),
       width: 270,
@@ -41,22 +58,29 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 heightSizedBox(20.0),
                 ClipOval(
                   child: Image.asset(
-                    "assets/images/image.png",
-                    height: 88,
-                    width: 88,
+                    "assets/images/noImage.png",
+                    height: 100,
+                    width: 100,
                   ),
                 ),
                 heightSizedBox(10.0),
-                Center(
-                  child: Text(
-                    dealer == 'dealer' ? name! : "SIDDHA",
-                    style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.green,
+                userData.when(
+                  data: (data) => Center(
+                    child: Text(
+                      data != null ? data['name'] : "N/A",
+                      style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
+                  ),
+                  error: (error, stackTrace) =>
+                      const Text("Something Went Wrong"),
+                  loading: () => const Center(
+                    child: Text("Loading..."),
                   ),
                 ),
                 heightSizedBox(20.0),
@@ -172,38 +196,46 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           ),
                         ],
                       ),
-                ExpansionTile(
-                  leading: SvgPicture.asset("assets/images/finance.svg"),
-                  title: Text(
-                    "Finance",
-                    style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                dealer == 'dealer'
+                    ? DrawerElement(
+                        src: "assets/images/finance.svg",
+                        title: "Finance Dashboard",
+                        onTap: () {
+                          navigationPush(context, const SalesDashboard());
+                        },
+                      )
+                    : ExpansionTile(
+                        leading: SvgPicture.asset("assets/images/finance.svg"),
+                        title: Text(
+                          "Finance",
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        children: [
+                          ListTile(
+                            title: const Text("Finance Dashboard"),
+                            onTap: () {
+                              navigationPush(context, const UploadSalesData());
+                            },
+                          ),
+                          ListTile(
+                            title: const Text("Upload Finance Data"),
+                            onTap: () {
+                              // navigationPush(context, const UploadSalesData());
+                            },
+                          ),
+                          ListTile(
+                            title: const Text("Payment Calculator"),
+                            onTap: () {
+                              // navigationPush(context, const UploadSalesData());
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  children: [
-                    ListTile(
-                      title: const Text("Finance Dashboard"),
-                      onTap: () {
-                        navigationPush(context, const UploadSalesData());
-                      },
-                    ),
-                    ListTile(
-                      title: const Text("Upload Finance Data"),
-                      onTap: () {
-                        // navigationPush(context, const UploadSalesData());
-                      },
-                    ),
-                    ListTile(
-                      title: const Text("Payment Calculator"),
-                      onTap: () {
-                        // navigationPush(context, const UploadSalesData());
-                      },
-                    ),
-                  ],
-                ),
                 DrawerElement(
                   src: "assets/images/attendance.svg",
                   title: "Attendance",
@@ -240,6 +272,9 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 TextButton(
                                   child: const Text('Yes'),
                                   onPressed: () {
+                                    ref.invalidate(userProfileProvider);
+                                    ref.invalidate(dealerProfileProvider);
+                                    ref.invalidate(dealerCodeProvider);
                                     ref
                                         .read(secureStoargeProvider)
                                         .deleteData("authToken");

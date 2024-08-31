@@ -49,9 +49,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 }
 
-final dealerRoleProvider = StateProvider<String?>((ref) => null);
-final dealerCodeProvider = StateProvider<String?>((ref) => null);
-final dealerNameProvider = StateProvider<String?>((ref) => null);
+// final dealerRoleProvider = StateProvider<String?>((ref) => null);
+// final dealerCodeProvider = StateProvider<String?>((ref) => null);
+// final dealerNameProvider = StateProvider<String?>((ref) => null);
 
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
   final secureStorage = ref.watch(secureStoargeProvider);
@@ -67,12 +67,12 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
 
         // Get Dealer Code and role
 
-        final dealerRole = dealerStatus['role'] as String?;
-        final dealerCode = dealerStatus['code'] as String?;
-        final dealerName = dealerStatus['name'] as String?;
-        ref.read(dealerRoleProvider.notifier).state = dealerRole;
-        ref.read(dealerCodeProvider.notifier).state = dealerCode;
-        ref.read(dealerNameProvider.notifier).state = dealerName;
+        // final dealerRole = dealerStatus['role'] as String?;
+        // final dealerCode = dealerStatus['code'] as String?;
+        // final dealerName = dealerStatus['name'] as String?;
+        // ref.read(dealerRoleProvider.notifier).state = dealerRole;
+        // ref.read(dealerCodeProvider.notifier).state = dealerCode;
+        // ref.read(dealerNameProvider.notifier).state = dealerName;
 
         if (dealerStatus['verified'] == false) {
           navigateTo(const StatusScreen());
@@ -80,8 +80,8 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
           navigateTo(const SalesDashboard());
         }
       } else {
-        // final dealerName = profileStatus['role'] as String?;
-        // ref.read(dealerNameProvider.notifier).state = dealerName;
+        // final name = profileStatus['name'] as String?;
+        // ref.read(dealerNameProvider.notifier).state = name;
 
         if (profileStatus['verified'] == false) {
           navigateTo(const StatusScreen());
@@ -92,12 +92,12 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     } catch (e) {
       final dealerStatus = await ref.watch(isDealerVerifiedProvider);
 
-      final dealerRole = dealerStatus['role'] as String?;
-      final dealerCode = dealerStatus['code'] as String?;
-      final dealerName = dealerStatus['name'] as String?;
-      ref.read(dealerRoleProvider.notifier).state = dealerRole;
-      ref.read(dealerCodeProvider.notifier).state = dealerCode;
-      ref.read(dealerNameProvider.notifier).state = dealerName;
+      // final dealerRole = dealerStatus['role'] as String?;
+      // final dealerCode = dealerStatus['code'] as String?;
+      // final dealerName = dealerStatus['name'] as String?;
+      // ref.read(dealerRoleProvider.notifier).state = dealerRole;
+      // ref.read(dealerCodeProvider.notifier).state = dealerCode;
+      // ref.read(dealerNameProvider.notifier).state = dealerName;
 
       if (dealerStatus['verified'] == false) {
         navigateTo(const StatusScreen());

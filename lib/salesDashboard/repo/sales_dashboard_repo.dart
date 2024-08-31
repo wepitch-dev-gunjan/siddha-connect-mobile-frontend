@@ -145,7 +145,7 @@ class SalesDashboardRepo {
           endDate, dataFormat, dealerCode, tdFormat);
 
       final response = await ApiMethod(url: url).getDioRequest();
-      log("dealrSegmentData$response");
+      // log("dealrSegmentData$response");
       return response;
     } catch (e) {}
   }
@@ -155,12 +155,14 @@ String dealerSegmentUrl(String baseUrl, String? startDate, String? endDate,
     String? dataFormat, String? dealerCode, String? tdFormat) {
   String url = baseUrl;
 
+  // log("dealerCode=====?$dealerCode");
+
   Map<String, String?> queryParams = {
     'start_date': startDate,
     'end_date': endDate,
     'data_format': dataFormat,
     'td_format': tdFormat,
-    if (dealerCode != null) 'dealer_code': dealerCode,
+    'dealer_code': dealerCode,
   };
 
   String queryString = queryParams.entries

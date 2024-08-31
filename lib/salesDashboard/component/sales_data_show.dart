@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +45,8 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
 
 final getDealerDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
-  final dealerCode = ref.watch(dealerCodeProvider);
+  final dealerCode = ref.read(dealerCodeProvider);
+
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getDealerDashboardData(
       tdFormat: options.tdFormat,
@@ -59,7 +62,13 @@ class SalesDashboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dealerRole = ref.watch(dealerRoleProvider);
+    final dealerRole =
+        ref.watch(dealerRoleProvider); // Watch dealerRoleProvider
+    final dealerName =
+        ref.watch(dealerNameProvider); // Watch dealerNameProvider
+
+    log("dealerRole=$dealerRole, dealerName=$dealerName");
+
     final dashboardData = dealerRole == 'dealer'
         ? ref.watch(getDealerDashboardProvider)
         : ref.watch(getSalesDashboardProvider);

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,12 +17,14 @@ class SalesDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // this provider call for dealer info
+    final dealerInfo = ref.watch(dealerProvider);
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
         SystemNavigator.pop();
       },
-      child:const  Scaffold(
+      child: const Scaffold(
         backgroundColor: AppColor.whiteColor,
         drawer: CusDrawer(),
         appBar: CustomAppBar(),
