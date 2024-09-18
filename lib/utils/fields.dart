@@ -228,6 +228,12 @@ validatePassword(String value) {
   }
 }
 
+validateCode(String value) {
+  if (value.isEmpty) {
+    return 'Code is Required.';
+  }
+}
+
 validateRequired({required var value, String message = ''}) {
   if (value.isEmpty) {
     return "$message is Required";

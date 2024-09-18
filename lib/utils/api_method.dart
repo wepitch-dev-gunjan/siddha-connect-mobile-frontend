@@ -26,6 +26,7 @@ class ApiMethod {
         return response.data;
       }
     } on DioException catch (err) {
+      log("Error=>>$err");
       // log("get statusCode: ${err.response?.statusCode.toString()}");
       // log("get type: ${err.response?.data.toString()}");
     }
@@ -100,11 +101,13 @@ class ApiUrl {
   static String getSalesDashboardData = "$baseUrl/sales/dashboard";
   static String getChannelData = "$baseUrl/sales/channel-wise";
   static String getSegmentData = "$baseUrl/sales/segment-wise";
-  static String uploadSalesData = "$baseUrl/sales";
+  static String uploadSalesData = "$baseUrl/sales-data-mtdw";
   static String userRegister = "$baseUrl/user/register";
   static String dealerRegister = "$baseUrl/add-dealer";
+  static String dealerProfileUpdate = "$baseUrl/edit-dealer";
   static String userLogin = "$baseUrl/login";
   static String getProfile = "$baseUrl/userForUser";
+  static String getDealerProfile = "$baseUrl/get-dealer";
   static String isDealerVerified = "$baseUrl/is-dealer-verified";
   static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
   static String getDropDawn = "$baseUrl/sales/segment-wise/";

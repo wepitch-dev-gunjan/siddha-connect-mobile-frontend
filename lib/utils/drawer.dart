@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
+import 'package:siddha_connect/main.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
@@ -271,15 +271,23 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 ),
                                 TextButton(
                                   child: const Text('Yes'),
-                                  onPressed: () {
-                                    ref.invalidate(userProfileProvider);
-                                    ref.invalidate(dealerProfileProvider);
-                                    ref.invalidate(dealerCodeProvider);
-                                    ref
-                                        .read(secureStoargeProvider)
-                                        .deleteData("authToken");
+                                  onPressed: () async {
+                                    // Invalidate providers
+                                    // ref.invalidate(userProfileProvider);
+                                    // ref.invalidate(dealerProfileProvider);
+                                    // ref.invalidate(dealerCodeProvider);
 
-                                    navigateTo(LoginScreen());
+                                    // Clear secure storage
+                                    await ref
+                                        .read(secureStoargeProvider)
+                                        .clearData();
+
+                                    // After clearing the data, navigate to the login screen
+                                    navigateTo(const SplashScreen());
+
+                                    // Fetch fresh data after login
+                                    ref.refresh(userProfileProvider);
+                                    ref.refresh(dealerProfileProvider);
                                   },
                                 ),
                               ],

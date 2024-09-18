@@ -56,6 +56,7 @@ class LoginScreen extends ConsumerWidget {
                     maxLines: 1,
                     controller: code,
                     keyboardType: TextInputType.text,
+                    validator: validateCode,
                   ),
                   heightSizedBox(15.0),
                   TxtField(

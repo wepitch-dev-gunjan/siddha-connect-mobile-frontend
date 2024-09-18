@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +35,12 @@ class SalesDataUploadRepo {
         );
         navigatePushReplacement(const SalesDashboard());
       }
+      log("response Sales Data$response");
 
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log("responseErrorr=>>>>$e");
+    }
   }
 
   modelDataUpload({required File file}) async {

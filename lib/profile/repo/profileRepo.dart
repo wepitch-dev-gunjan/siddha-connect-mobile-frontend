@@ -1,6 +1,12 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/api_method.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
+
+import '../../utils/message.dart';
 
 final profileRepoProvider =
     Provider.autoDispose((ref) => ProfileRepo(ref: ref));
@@ -11,13 +17,39 @@ class ProfileRepo {
 
   getProfile() async {
     try {
-      final token =
-          await ref.watch(secureStoargeProvider).readData('authToken');
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
 
       final response =
           await ApiMethod(url: ApiUrl.getProfile, token: token).getDioRequest();
+
+      log("Profile=====>>>>>>>$response");
       return response;
     } catch (e) {}
+  }
+
+  getDealerProfile() async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+
+      final response =
+          await ApiMethod(url: ApiUrl.getDealerProfile, token: token)
+              .getDioRequest();
+
+      log("Profile=====>>>>>>>$response");
+      return response;
+    } catch (e) {}
+  }
+
+  dealerProfileUpdateRepo({required Map data}) async {
+    try {
+      final response = await ApiMethod(url: ApiUrl.dealerProfileUpdate)
+          .putDioRequest(data: data);
+          log("profileUpdateData$response");
+      return response;
+    } on DioException catch (e) {
+      ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
+      return null;
+    }
   }
 }
 

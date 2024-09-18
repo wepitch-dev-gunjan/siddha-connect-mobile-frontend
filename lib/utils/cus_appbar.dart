@@ -1,5 +1,8 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:siddha_connect/profile/screen/dealer_profile.dart';
+import 'package:siddha_connect/utils/navigation.dart';
 import 'common_style.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,10 +22,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20),
-          child: SvgPicture.asset(
-            "assets/images/profile.svg",
-            height: 28,
-            width: 28,
+          child: GestureDetector(
+            onTap: () {
+              navigateTo(const ProfileScreen());
+            },
+            onLongPress: () {
+          
+            },
+            child: SvgPicture.asset(
+              "assets/images/profile.svg",
+              height: 28,
+              width: 28,
+            ),
           ),
         ),
       ],

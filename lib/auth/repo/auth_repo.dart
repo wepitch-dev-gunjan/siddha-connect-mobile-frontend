@@ -17,7 +17,6 @@ class AuthRepo {
     try {
       final response =
           await ApiMethod(url: ApiUrl.userRegister).postDioRequest(data: data);
-      log('response$response');
       return response;
     } on DioException catch (e) {
       ShowSnackBarMsg("${e.response?.data['message']}", color: Colors.red);
@@ -50,13 +49,9 @@ class AuthRepo {
     try {
       final token =
           await ref.watch(secureStoargeProvider).readData('authToken');
-
-      log("token112233$token");
-
       final response =
           await ApiMethod(url: ApiUrl.isDealerVerified, token: token)
               .getDioRequest();
-      log("respppp$response");
       return response;
     } catch (e) {}
   }

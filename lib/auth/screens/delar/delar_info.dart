@@ -3,16 +3,17 @@ import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
 
 class DelarInfo extends StatelessWidget {
-  const DelarInfo(
-      {super.key,
-      required this.delerCode,
-      required this.shopName,
-      required this.shopArea,
-      required this.shopAddress});
   final TextEditingController delerCode;
   final TextEditingController shopName;
   final TextEditingController shopArea;
   final TextEditingController shopAddress;
+  const DelarInfo({
+    super.key,
+    required this.delerCode,
+    required this.shopName,
+    required this.shopArea,
+    required this.shopAddress,
+  });
 
   @override
   Widget build(BuildContext context) {

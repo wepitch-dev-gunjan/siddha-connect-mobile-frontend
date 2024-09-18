@@ -17,15 +17,7 @@ class DashboardOptions {
   DashboardOptions({required this.tdFormat, required this.dataFormat});
 }
 
-// final selectedOptionsProvider =
-//     StateProvider.autoDispose<DashboardOptions>((ref) {
-//   final selectedOption1 = ref.watch(selectedOption1Provider);
-//   final selectedOption2 = ref.watch(selectedOption2Provider);
-//   return DashboardOptions(
-//     tdFormat: selectedOption1,
-//     dataFormat: selectedOption2,
-//   );
-// });
+
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);

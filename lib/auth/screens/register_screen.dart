@@ -73,7 +73,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     labelText: "Code",
                     controller: code,
                     maxLines: 1,
-                    validator: validateName,
+                    validator: validateCode,
                     keyboardType: TextInputType.name,
                   ),
                   heightSizedBox(15.0),
@@ -197,7 +197,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       // // Get the IMEI number before proceeding
                       // String? imeiNumber = await getDeviceId();
 
-                   
                       if (formKey.currentState!.validate()) {
                         ref
                             .read(authControllerProvider)
