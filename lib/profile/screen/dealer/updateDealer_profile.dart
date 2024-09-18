@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/profile/controllers/profile_controller.dart';
-import '../../../auth/controllers/auth_controller.dart';
 import '../../../auth/screens/delar/business_info.dart';
-import '../../../auth/screens/delar/delar_info.dart';
 import '../../../auth/screens/delar/family_info.dart';
 import '../../../auth/screens/delar/other_family_dates.dart';
 import '../../../auth/screens/delar/other_family_info.dart';
@@ -13,6 +11,7 @@ import '../../../salesDashboard/component/date_picker.dart';
 import '../../../utils/buttons.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
+import 'getDealer_profile.dart';
 
 class DelarProfileEditScreen extends ConsumerWidget {
   DelarProfileEditScreen({super.key});
@@ -37,6 +36,7 @@ class DelarProfileEditScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(getDealerProfileProvider);
     final familyInfoKey = GlobalKey<FamilyInfoState>();
     final otherFamilyInfoKey = GlobalKey<OtherFamilyMemberInfoState>();
     final otherImportantDatesKey = GlobalKey<OtherImportantFamilyDatesState>();
@@ -47,52 +47,81 @@ class DelarProfileEditScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         title: const Text("Edit Profile"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                UpdateDelarInfo(
-                  shopAddress: shopAddress,
-                  delerCode: delarCode,
-                  shopName: shopName,
-                  shopArea: shopArea,
+      body: userData.when(
+        data: (data) {
+          delarCode.text = data['data']['dealerCode'] ?? '';
+          shopName.text = data['data']['shopName'] ?? '';
+          shopArea.text = data['data']['shopArea'] ?? '';
+          shopAddress.text = data['data']['shopAddress'] ?? '';
+          ownerName.text = data['data']['owner']['name'] ?? '';
+          ownerPosition.text = data['data']['owner']['position'] ?? '';
+          ownerContactNumber.text =
+              data['data']['owner']['contactNumber'] ?? '';
+          ownerEmail.text = data['data']['owner']['email'] ?? '';
+          ownerHomeAddress.text = data['data']['owner']['homeAddress'] ?? '';
+          ownerBirthDay.text = data['data']['owner']['birthday'] ?? '';
+          wifeName.text = data['data']['owner']['wife']['name'] ?? '';
+          wifeBirthDay.text = data['data']['owner']['wife']['birthday'] ?? '';
+
+          anniversaryDate.text = data['anniversaryDate'] ?? '';
+          businessType.text =
+              data['data']['businessDetails']['typeOfBusiness'] ?? '';
+          businessYears.text =
+              data['data']['businessDetails']['yearsInBusiness'].toString() ??
+                  '';
+          specialNotes.text = data['data']['specialNotes'] ?? '';
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    UpdateDelarInfo(
+                      shopAddress: shopAddress,
+                      delerCode: delarCode,
+                      shopName: shopName,
+                      shopArea: shopArea,
+                    ),
+                    UpdateOwnerInfo(
+                      name: ownerName,
+                      position: ownerPosition,
+                      contactNumber: ownerContactNumber,
+                      email: ownerEmail,
+                      homeAddress: ownerHomeAddress,
+                      birthDay: ownerBirthDay,
+                      password: password,
+                    ),
+                    WifeInfo(
+                      wifeName: wifeName,
+                      wifeBirthday: wifeBirthDay,
+                    ),
+                    FamilyInfo(
+                      key: familyInfoKey,
+                    ),
+                    OtherFamilyMemberInfo(
+                      key: otherFamilyInfoKey,
+                    ),
+                    OtherImportantFamilyDates(
+                      key: otherImportantDatesKey,
+                    ),
+                    AnniversaryInfo(
+                      anniversaryDate: anniversaryDate,
+                    ),
+                    UpdateBusinessInfo(
+                      businessType: businessType,
+                      businessYears: businessYears,
+                      specialNotes: specialNotes,
+                    ),
+                  ],
                 ),
-                UpdateOwnerInfo(
-                  name: ownerName,
-                  position: ownerPosition,
-                  contactNumber: ownerContactNumber,
-                  email: ownerEmail,
-                  homeAddress: ownerHomeAddress,
-                  birthDay: ownerBirthDay,
-                  password: password,
-                ),
-                WifeInfo(
-                  wifeName: wifeName,
-                  wifeBirthday: wifeBirthDay,
-                ),
-                FamilyInfo(
-                  key: familyInfoKey,
-                ),
-                OtherFamilyMemberInfo(
-                  key: otherFamilyInfoKey,
-                ),
-                OtherImportantFamilyDates(
-                  key: otherImportantDatesKey,
-                ),
-                AnniversaryInfo(
-                  anniversaryDate: anniversaryDate,
-                ),
-                UpdateBusinessInfo(
-                  businessType: businessType,
-                  businessYears: businessYears,
-                  specialNotes: specialNotes,
-                ),
-              ],
+              ),
             ),
-          ),
+          );
+        },
+        error: (error, stackTrace) => const Text("Something went wrong"),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
         ),
       ),
       bottomNavigationBar: Padding(

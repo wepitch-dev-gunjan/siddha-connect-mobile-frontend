@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
-
 import 'package:siddha_connect/utils/fields.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
@@ -97,7 +96,6 @@ class ProfileScreen extends ConsumerWidget {
                               text: data['data']['owner']['homeAddress']),
                           birthDay: TextEditingController(
                               text: data['data']['owner']['birthday']),
-                          password: TextEditingController(),
                         ),
                         GetBusinessInfo(
                           businessType: TextEditingController(
@@ -194,19 +192,18 @@ class GetOwnerInfo extends ConsumerWidget {
   final TextEditingController position;
   final TextEditingController contactNumber;
   final TextEditingController email;
-  final TextEditingController password;
   final TextEditingController homeAddress;
   final TextEditingController birthDay;
 
-  const GetOwnerInfo(
-      {super.key,
-      required this.name,
-      required this.position,
-      required this.contactNumber,
-      required this.email,
-      required this.homeAddress,
-      required this.birthDay,
-      required this.password});
+  const GetOwnerInfo({
+    super.key,
+    required this.name,
+    required this.position,
+    required this.contactNumber,
+    required this.email,
+    required this.homeAddress,
+    required this.birthDay,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
