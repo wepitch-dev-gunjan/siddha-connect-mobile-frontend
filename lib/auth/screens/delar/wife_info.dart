@@ -57,8 +57,6 @@ class WifeInfo extends ConsumerWidget {
   }
 }
 
-
-
 String formatDate(DateTime date) {
   final year = date.year.toString();
   final month = date.month.toString().padLeft(2, '0');

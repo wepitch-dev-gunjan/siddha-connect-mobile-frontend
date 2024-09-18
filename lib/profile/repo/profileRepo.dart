@@ -42,9 +42,11 @@ class ProfileRepo {
 
   dealerProfileUpdateRepo({required Map data}) async {
     try {
-      final response = await ApiMethod(url: ApiUrl.dealerProfileUpdate)
-          .putDioRequest(data: data);
-          log("profileUpdateData$response");
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      final response =
+          await ApiMethod(url: ApiUrl.dealerProfileUpdate, token: token)
+              .putDioRequest(data: data);
+      log("profileUpdateData$response");
       return response;
     } on DioException catch (e) {
       ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);

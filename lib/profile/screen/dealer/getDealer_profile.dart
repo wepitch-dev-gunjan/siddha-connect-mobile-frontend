@@ -9,9 +9,10 @@ import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/utils/fields.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
-import '../../utils/common_style.dart';
-import '../../utils/drawer.dart';
-import '../../utils/providers.dart';
+import '../../../utils/common_style.dart';
+import '../../../utils/drawer.dart';
+import '../../../utils/providers.dart';
+import 'updateDealer_profile.dart';
 
 final getDealerProfileProvider = FutureProvider.autoDispose((ref) async {
   final getDealerVerified =
@@ -59,7 +60,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   GestureDetector(
                       onTap: () {
-                        // navigateTo(EditDelarProfileScreen());
+                        navigateTo(DelarProfileEditScreen());
                       },
                       child: Text(
                         "Edit Profile",
