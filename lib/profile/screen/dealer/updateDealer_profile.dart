@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/profile/controllers/profile_controller.dart';
 import '../../../auth/screens/delar/business_info.dart';
@@ -37,9 +40,10 @@ class DelarProfileEditScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userData = ref.watch(getDealerProfileProvider);
-    final familyInfoKey = GlobalKey<FamilyInfoState>();
-    final otherFamilyInfoKey = GlobalKey<OtherFamilyMemberInfoState>();
-    final otherImportantDatesKey = GlobalKey<OtherImportantFamilyDatesState>();
+    final familyInfoKey = GlobalKey<UpdateFamilyInfoState>();
+    final otherFamilyInfoKey = GlobalKey<UpdateOtherFamilyMemberInfoState>();
+    final otherImportantDatesKey =
+        GlobalKey<UpdateOtherImportantFamilyDatesState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -59,11 +63,16 @@ class DelarProfileEditScreen extends ConsumerWidget {
               data['data']['owner']['contactNumber'] ?? '';
           ownerEmail.text = data['data']['owner']['email'] ?? '';
           ownerHomeAddress.text = data['data']['owner']['homeAddress'] ?? '';
-          ownerBirthDay.text = data['data']['owner']['birthday'] ?? '';
-          wifeName.text = data['data']['owner']['wife']['name'] ?? '';
-          wifeBirthDay.text = data['data']['owner']['wife']['birthday'] ?? '';
+          ownerBirthDay.text =
+              (data['data']['owner']['birthday'] ?? '').split('T')[0];
 
-          anniversaryDate.text = data['anniversaryDate'] ?? '';
+          wifeName.text = data['data']['owner']['wife']['name'] ?? '';
+          wifeBirthDay.text =
+              (data['data']['owner']['wife']['birthday'] ?? '').split('T')[0];
+
+          anniversaryDate.text =
+              (data['data']['anniversaryDate'] ?? '').split('T')[0];
+
           businessType.text =
               data['data']['businessDetails']['typeOfBusiness'] ?? '';
           businessYears.text =
@@ -96,16 +105,16 @@ class DelarProfileEditScreen extends ConsumerWidget {
                       wifeName: wifeName,
                       wifeBirthday: wifeBirthDay,
                     ),
-                    FamilyInfo(
+                    UpdateFamilyInfo(
                       key: familyInfoKey,
                     ),
-                    OtherFamilyMemberInfo(
+                    UpdateOtherFamilyMemberInfo(
                       key: otherFamilyInfoKey,
                     ),
-                    OtherImportantFamilyDates(
+                    UpdateOtherImportantFamilyDates(
                       key: otherImportantDatesKey,
                     ),
-                    AnniversaryInfo(
+                    UpdateAnniversaryInfo(
                       anniversaryDate: anniversaryDate,
                     ),
                     UpdateBusinessInfo(

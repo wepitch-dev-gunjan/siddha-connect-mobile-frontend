@@ -9,14 +9,14 @@ import '../../../salesDashboard/component/date_picker.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
 
-class FamilyInfo extends ConsumerStatefulWidget {
-  const FamilyInfo({super.key});
+class UpdateFamilyInfo extends ConsumerStatefulWidget {
+  const UpdateFamilyInfo({super.key});
 
   @override
-  FamilyInfoState createState() => FamilyInfoState();
+  UpdateFamilyInfoState createState() => UpdateFamilyInfoState();
 }
 
-class FamilyInfoState extends ConsumerState<FamilyInfo> {
+class UpdateFamilyInfoState extends ConsumerState<UpdateFamilyInfo> {
   List<Map<String, dynamic>> childrenData = [];
   List<Widget> childrenFields = [];
   List<TextEditingController> nameControllers = [];
@@ -28,42 +28,42 @@ class FamilyInfoState extends ConsumerState<FamilyInfo> {
     super.initState();
     loadProviderChildrenData();
   }
-void loadProviderChildrenData() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    final userData = ref.watch(getDealerProfileProvider);
 
-    userData.when(
-      data: (data) {
-        if (data != null && data['data']['owner']['children'] != null) {
-          setState(() {
-            final children = List<Map<String, dynamic>>.from(data['data']['owner']['children']);
-            childrenData = children
-                .map((child) => {
-                      "name": child['name'] ?? "",
-                      "age": child['age']?.toString() ?? "",
-                      "birthday": child['birthday'] != null
-                          ? child['birthday'].split('T')[0]
-                          : "",
-                    })
-                .toList();
+  void loadProviderChildrenData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userData = ref.watch(getDealerProfileProvider);
 
-            for (var child in childrenData) {
-              addChildField(
-                name: child['name'],
-                age: child['age'],
-                birthday: child['birthday'],
-              );
-            }
-          });
-        }
-      },
-      loading: () {
-      },
-      error: (error, stackTrace) {
-      },
-    );
-  });
-}
+      userData.when(
+        data: (data) {
+          if (data != null && data['data']['owner']['children'] != null) {
+            setState(() {
+              final children = List<Map<String, dynamic>>.from(
+                  data['data']['owner']['children']);
+              childrenData = children
+                  .map((child) => {
+                        "name": child['name'] ?? "",
+                        "age": child['age']?.toString() ?? "",
+                        "birthday": child['birthday'] != null
+                            ? child['birthday'].split('T')[0]
+                            : "",
+                      })
+                  .toList();
+
+              for (var child in childrenData) {
+                addChildField(
+                  name: child['name'],
+                  age: child['age'],
+                  birthday: child['birthday'],
+                );
+              }
+            });
+          }
+        },
+        loading: () {},
+        error: (error, stackTrace) {},
+      );
+    });
+  }
 
   // Modified addChildField to accept initial values
   void addChildField({String? name, String? age, String? birthday}) {
@@ -140,211 +140,98 @@ void loadProviderChildrenData() {
   }
 }
 
-// class FamilyInfo extends ConsumerStatefulWidget {
-//   const FamilyInfo({super.key});
+class FamilyInfo extends StatefulWidget {
+  const FamilyInfo({super.key});
 
-//   @override
-//   FamilyInfoState createState() => FamilyInfoState();
-// }
+  @override
+  FamilyInfoState createState() => FamilyInfoState();
+}
 
-// class FamilyInfoState extends ConsumerState<FamilyInfo> {
+class FamilyInfoState extends State<FamilyInfo> {
+  List<Widget> childrenFields = [];
+  List<TextEditingController> nameControllers = [];
+  List<TextEditingController> ageControllers = [];
+  List<TextEditingController> birthdayControllers = [];
 
-//   List<Map<String, dynamic>> childrenData = [
-//     {"name": "John", "age": "12", "birthday": "2009-10-12"},
-//     {"name": "Emma", "age": "10", "birthday": "2011-05-21"}
-//   ];
+  @override
+  void initState() {
+    super.initState();
+    addChildField();
+  }
 
-//   List<Widget> childrenFields = [];
-//   List<TextEditingController> nameControllers = [];
-//   List<TextEditingController> ageControllers = [];
-//   List<TextEditingController> birthdayControllers = [];
+  void addChildField() {
+    setState(() {
+      final nameController = TextEditingController();
+      final ageController = TextEditingController();
+      final birthdayController = TextEditingController();
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     loadExistingChildrenData();
-//   }
+      nameControllers.add(nameController);
+      ageControllers.add(ageController);
+      birthdayControllers.add(birthdayController);
 
-//   // Function to load existing children data
-//   void loadExistingChildrenData() {
-//     for (var child in childrenData) {
-//       addChildField(
-//         name: child['name'],
-//         age: child['age'],
-//         birthday: child['birthday'],
-//       );
-//     }
-//   }
+      childrenFields.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          heightSizedBox(10.0),
+          TxtField(
+            contentPadding: contentPadding,
+            labelText: "Name",
+            maxLines: 1,
+            keyboardType: TextInputType.name,
+            controller: nameController,
+          ),
+          heightSizedBox(8.0),
+          TxtField(
+            contentPadding: contentPadding,
+            labelText: "Age",
+            maxLines: 1,
+            maxLength: 2,
+            keyboardType: TextInputType.number,
+            controller: ageController,
+          ),
+          heightSizedBox(8.0),
+          TxtField(
+            contentPadding: contentPadding,
+            labelText: "Birthday",
+            maxLines: 1,
+            keyboardType: TextInputType.text,
+            controller: birthdayController,
+            readOnly: true, // Prevent manual text input
+            onTap: () async {
+              final pickedDate = await selectDate(context);
+              if (pickedDate != null) {
+                setState(() {
+                  birthdayController.text = formatDate(pickedDate);
+                });
+              }
+            },
+          ),
+        ],
+      ));
+    });
+  }
 
-//   // Modified addChildField to accept initial values
-//   void addChildField({String? name, String? age, String? birthday}) {
-//     setState(() {
-//       final nameController = TextEditingController(text: name ?? "");
-//       final ageController = TextEditingController(text: age ?? "");
-//       final birthdayController = TextEditingController(text: birthday ?? "");
-
-//       nameControllers.add(nameController);
-//       ageControllers.add(ageController);
-//       birthdayControllers.add(birthdayController);
-
-//       childrenFields.add(Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           heightSizedBox(10.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Name",
-//             maxLines: 1,
-//             keyboardType: TextInputType.name,
-//             controller: nameController,
-//           ),
-//           heightSizedBox(8.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Age",
-//             maxLines: 1,
-//             maxLength: 2,
-//             keyboardType: TextInputType.number,
-//             controller: ageController,
-//           ),
-//           heightSizedBox(8.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Birthday",
-//             maxLines: 1,
-//             keyboardType: TextInputType.text,
-//             controller: birthdayController,
-//             readOnly: true, // Prevent manual text input
-//             onTap: () async {
-//               final pickedDate = await selectDate(context);
-//               if (pickedDate != null) {
-//                 setState(() {
-//                   birthdayController.text = formatDate(pickedDate);
-//                 });
-//               }
-//             },
-//           ),
-//         ],
-//       ));
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//       final userData = ref.watch(getDealerProfileProvider);
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         const Text(
-//           'Children',
-//           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//         ),
-//         ...childrenFields,
-//         heightSizedBox(8.0),
-//         AddMoreBtn(
-//           onTap: () {
-//             addChildField();
-//           },
-//         ),
-//         heightSizedBox(8.0),
-//       ],
-//     );
-//   }
-// }
-
-// class FamilyInfo extends StatefulWidget {
-//   const FamilyInfo({super.key});
-
-//   @override
-//   FamilyInfoState createState() => FamilyInfoState();
-// }
-
-// class FamilyInfoState extends State<FamilyInfo> {
-
-//   List<Widget> childrenFields = [];
-//   List<TextEditingController> nameControllers = [];
-//   List<TextEditingController> ageControllers = [];
-//   List<TextEditingController> birthdayControllers = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     addChildField();
-//   }
-
-//   void addChildField() {
-//     setState(() {
-//       final nameController = TextEditingController();
-//       final ageController = TextEditingController();
-//       final birthdayController = TextEditingController();
-
-//       nameControllers.add(nameController);
-//       ageControllers.add(ageController);
-//       birthdayControllers.add(birthdayController);
-
-//       childrenFields.add(Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           heightSizedBox(10.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Name",
-//             maxLines: 1,
-//             keyboardType: TextInputType.name,
-//             controller: nameController,
-//           ),
-//           heightSizedBox(8.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Age",
-//             maxLines: 1,
-//             maxLength: 2,
-//             keyboardType: TextInputType.number,
-//             controller: ageController,
-//           ),
-//           heightSizedBox(8.0),
-//           TxtField(
-//             contentPadding: contentPadding,
-//             labelText: "Birthday",
-//             maxLines: 1,
-//             keyboardType: TextInputType.text,
-//             controller: birthdayController,
-//             readOnly: true, // Prevent manual text input
-//             onTap: () async {
-//               final pickedDate = await selectDate(context);
-//               if (pickedDate != null) {
-//                 setState(() {
-//                   birthdayController.text = formatDate(pickedDate);
-//                 });
-//               }
-//             },
-//           ),
-//         ],
-//       ));
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         const Text(
-//           'Children',
-//           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//         ),
-//         ...childrenFields,
-//         heightSizedBox(8.0),
-//         AddMoreBtn(
-//           onTap: () {
-//             addChildField();
-//           },
-//         ),
-//         heightSizedBox(8.0),
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Children',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        ...childrenFields,
+        heightSizedBox(8.0),
+        AddMoreBtn(
+          onTap: () {
+            addChildField();
+          },
+        ),
+        heightSizedBox(8.0),
+      ],
+    );
+  }
+}
 
 class AddMoreBtn extends StatelessWidget {
   final Function()? onTap;
