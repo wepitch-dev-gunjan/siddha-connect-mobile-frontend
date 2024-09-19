@@ -1,18 +1,23 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:siddha_connect/profile/screen/dealer/getDealer_profile.dart';
+import 'package:siddha_connect/profile/screen/employ/employ_profile.dart';
 import 'package:siddha_connect/utils/navigation.dart';
+import 'package:siddha_connect/utils/providers.dart';
 import 'common_style.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dealer = ref.watch(dealerRoleProvider);
+
     return AppBar(
       foregroundColor: AppColor.whiteColor,
       backgroundColor: AppColor.primaryColor,
@@ -24,11 +29,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.only(right: 20),
           child: GestureDetector(
             onTap: () {
-              navigateTo(const ProfileScreen());
+              dealer == "dealer"
+                  ? navigateTo(const ProfileScreen())
+                  : navigateTo(const EmployProfile());
             },
-            onLongPress: () {
-          
-            },
+            onLongPress: () {},
             child: SvgPicture.asset(
               "assets/images/profile.svg",
               height: 28,

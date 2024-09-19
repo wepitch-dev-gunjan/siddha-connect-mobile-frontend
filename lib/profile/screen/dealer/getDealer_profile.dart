@@ -39,7 +39,6 @@ class ProfileScreen extends ConsumerWidget {
         ),
         body: userData.when(
           data: (data) {
-            log("data$data");
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -70,45 +69,47 @@ class ProfileScreen extends ConsumerWidget {
                                 color: const Color(0xff3300FF))),
                       )),
                   heightSizedBox(20.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        DelarInfoGet(
-                            delerCode: TextEditingController(
-                                text: data['data']['dealerCode']),
-                            shopName: TextEditingController(
-                                text: data['data']['shopName']),
-                            shopArea: TextEditingController(
-                                text: data['data']['shopArea']),
-                            shopAddress: TextEditingController(
-                                text: data['data']['shopAddress'])),
-                        GetOwnerInfo(
-                          name: TextEditingController(
-                              text: data['data']['owner']['name']),
-                          position: TextEditingController(
-                              text: data['data']['owner']['position']),
-                          contactNumber: TextEditingController(
-                              text: data['data']['owner']['contactNumber']),
-                          email: TextEditingController(
-                              text: data['data']['owner']['email']),
-                          homeAddress: TextEditingController(
-                              text: data['data']['owner']['homeAddress']),
-                          birthDay: TextEditingController(
-                              text: data['data']['owner']['birthday']),
-                        ),
-                        GetBusinessInfo(
-                          businessType: TextEditingController(
-                              text: data['data']['businessDetails']
-                                  ['typeOfBusiness']),
-                          businessYears: TextEditingController(
-                              text: data['data']['businessDetails']
-                                      ['yearsInBusiness']
-                                  .toString()),
+                
+                     Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            children: [
+                              DelarInfoGet(
+                                  delerCode: TextEditingController(
+                                      text: data['data']['dealerCode']),
+                                  shopName: TextEditingController(
+                                      text: data['data']['shopName']),
+                                  shopArea: TextEditingController(
+                                      text: data['data']['shopArea']),
+                                  shopAddress: TextEditingController(
+                                      text: data['data']['shopAddress'])),
+                              GetOwnerInfo(
+                                name: TextEditingController(
+                                    text: data['data']['owner']['name']),
+                                position: TextEditingController(
+                                    text: data['data']['owner']['position']),
+                                contactNumber: TextEditingController(
+                                    text: data['data']['owner']
+                                        ['contactNumber']),
+                                email: TextEditingController(
+                                    text: data['data']['owner']['email']),
+                                homeAddress: TextEditingController(
+                                    text: data['data']['owner']['homeAddress']),
+                                birthDay: TextEditingController(
+                                    text: data['data']['owner']['birthday']),
+                              ),
+                              GetBusinessInfo(
+                                businessType: TextEditingController(
+                                    text: data['data']['businessDetails']
+                                        ['typeOfBusiness']),
+                                businessYears: TextEditingController(
+                                    text: data['data']['businessDetails']
+                                            ['yearsInBusiness']
+                                        .toString()),
+                              )
+                            ],
+                          ),
                         )
-                      ],
-                    ),
-                  ),
                 ],
               ),
             );

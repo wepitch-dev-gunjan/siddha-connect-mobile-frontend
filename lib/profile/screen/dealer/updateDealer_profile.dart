@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/profile/controllers/profile_controller.dart';
 import '../../../auth/screens/delar/business_info.dart';
@@ -224,9 +221,9 @@ class DelarProfileEditScreen extends ConsumerWidget {
                   "contactNumber": ownerContactNumber.text.trim().isNotEmpty
                       ? ownerContactNumber.text.trim()
                       : "",
-                  // "email": ownerEmail.text.trim().isNotEmpty
-                  //     ? ownerEmail.text.trim()
-                  //     : "",
+                  "email": ownerEmail.text.trim().isNotEmpty
+                      ? ownerEmail.text.trim()
+                      : "",
                   "homeAddress": ownerHomeAddress.text.trim().isNotEmpty
                       ? ownerHomeAddress.text.trim()
                       : "",
@@ -389,7 +386,7 @@ class UpdateOwnerInfo extends ConsumerWidget {
           contentPadding: contentPadding,
           labelText: "Email",
           maxLines: 1,
-          readOnly: true,
+          // readOnly: true,
           controller: email,
           keyboardType: TextInputType.emailAddress,
         ),
