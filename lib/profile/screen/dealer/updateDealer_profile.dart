@@ -215,9 +215,9 @@ class DelarProfileEditScreen extends ConsumerWidget {
                   "contactNumber": ownerContactNumber.text.trim().isNotEmpty
                       ? ownerContactNumber.text.trim()
                       : "",
-                  "email": ownerEmail.text.trim().isNotEmpty
-                      ? ownerEmail.text.trim()
-                      : "",
+                  // "email": ownerEmail.text.trim().isNotEmpty
+                  //     ? ownerEmail.text.trim()
+                  //     : "",
                   "homeAddress": ownerHomeAddress.text.trim().isNotEmpty
                       ? ownerHomeAddress.text.trim()
                       : "",
@@ -286,6 +286,7 @@ class UpdateDelarInfo extends StatelessWidget {
           maxLines: 1,
           controller: delerCode,
           keyboardType: TextInputType.text,
+          readOnly: true,
         ),
         heightSizedBox(8.0),
         TxtField(
@@ -379,6 +380,7 @@ class UpdateOwnerInfo extends ConsumerWidget {
           contentPadding: contentPadding,
           labelText: "Email",
           maxLines: 1,
+          readOnly: true,
           controller: email,
           keyboardType: TextInputType.emailAddress,
         ),
