@@ -98,13 +98,19 @@ class ProfileScreen extends ConsumerWidget {
                           homeAddress: TextEditingController(
                               text: data['data']['owner']['homeAddress']),
                           birthDay: TextEditingController(
-                              text: data['data']['owner']['birthday']),
+                              text: (data['data']['owner']['birthday'])
+                                  .split('T')[0]),
                         ),
                         GetFamilyInfo(
                           wifeName: TextEditingController(
                               text: data['data']['owner']['wife']['name']),
                           wifeBirthday: TextEditingController(
-                              text: data['data']['owner']['wife']['birthday']),
+                              text: (data['data']['owner']['wife']
+                                          ['birthday'] !=
+                                      null)
+                                  ? data['data']['owner']['wife']['birthday']
+                                      .split('T')[0]
+                                  : ''),
                         ),
                         GetChildrensInfo(
                             children: data['data']['owner']['children']),
@@ -118,7 +124,10 @@ class ProfileScreen extends ConsumerWidget {
                         ),
                         GetAnniversaryInfo(
                           shopAnniversary: TextEditingController(
-                              text: data['data']['anniversaryDate']),
+                              text: (data['data']['anniversaryDate'] != null)
+                                  ? data['data']['anniversaryDate']
+                                      .split('T')[0]
+                                  : ''),
                         ),
                         GetBusinessInfo(
                           businessType: TextEditingController(
@@ -421,54 +430,57 @@ class GetChildrensInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Childrens',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        heightSizedBox(10.0),
-        ...children.map((child) {
-          // Create a TextEditingController for each child
-          final nameController = TextEditingController(text: child['name']);
-          final ageController =
-              TextEditingController(text: child['age'].toString());
-          final birthDayController =
-              TextEditingController(text: child['birthday']);
-
-          return Column(
+    return children.isEmpty
+        ? const SizedBox()
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Name",
-                maxLines: 1,
-                enabled: false,
-                controller: nameController,
-              ),
-              heightSizedBox(8.0),
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Age",
-                maxLines: 1,
-                enabled: false,
-                controller: ageController,
-              ),
-              heightSizedBox(8.0),
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Birthday",
-                maxLines: 1,
-                enabled: false,
-                controller: birthDayController,
+              const Text(
+                'Childrens',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               heightSizedBox(10.0),
+              ...children.map((child) {
+                // Create a TextEditingController for each child
+                final nameController =
+                    TextEditingController(text: child['name']);
+                final ageController =
+                    TextEditingController(text: child['age'].toString());
+                final birthDayController = TextEditingController(
+                    text: (child['birthday']).split('T')[0]);
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Name",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: nameController,
+                    ),
+                    heightSizedBox(8.0),
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Age",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: ageController,
+                    ),
+                    heightSizedBox(8.0),
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Birthday",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: birthDayController,
+                    ),
+                    heightSizedBox(10.0),
+                  ],
+                );
+              }).toList(),
             ],
           );
-        }).toList(),
-      ],
-    );
   }
 }
 
@@ -482,43 +494,46 @@ class GetOtherFamilyMember extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Other Family Members',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        heightSizedBox(10.0),
-        ...familyMembers.map((child) {
-          // Create a TextEditingController for each child
-          final nameController = TextEditingController(text: child['name']);
-          final relationController =
-              TextEditingController(text: child['relation'].toString());
-
-          return Column(
+    return familyMembers.isEmpty
+        ? const SizedBox()
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Name",
-                maxLines: 1,
-                enabled: false,
-                controller: nameController,
+              const Text(
+                'Other Family Members',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              heightSizedBox(8.0),
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Relation",
-                maxLines: 1,
-                enabled: false,
-                controller: relationController,
-              ),
+              heightSizedBox(10.0),
+              ...familyMembers.map((child) {
+                // Create a TextEditingController for each child
+                final nameController =
+                    TextEditingController(text: child['name']);
+                final relationController =
+                    TextEditingController(text: child['relation'].toString());
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Name",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: nameController,
+                    ),
+                    heightSizedBox(8.0),
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Relation",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: relationController,
+                    ),
+                  ],
+                );
+              }).toList(),
             ],
           );
-        }).toList(),
-      ],
-    );
   }
 }
 
@@ -532,44 +547,49 @@ class GetOtherImportantDates extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Other Important Family Dates',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        heightSizedBox(10.0),
-        ...importantDates.map((child) {
-          // Create a TextEditingController for each child
-          final descriptionController =
-              TextEditingController(text: child['description']);
-          final dateController =
-              TextEditingController(text: child['date'].toString());
-
-          return Column(
+    return importantDates.isEmpty
+        ? const SizedBox()
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Description",
-                maxLines: 1,
-                enabled: false,
-                controller: descriptionController,
+              const Text(
+                'Other Important Family Dates',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              heightSizedBox(8.0),
-              TxtField(
-                contentPadding: contentPadding,
-                labelText: "Date",
-                maxLines: 1,
-                enabled: false,
-                controller: dateController,
-              ),
+              heightSizedBox(10.0),
+              ...importantDates.map((child) {
+                String formattedDate = child['date'] != null
+                    ? (child['date'] as String).split('T')[0]
+                    : '';
+
+                final descriptionController =
+                    TextEditingController(text: child['description']);
+                final dateController =
+                    TextEditingController(text: formattedDate);
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Description",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: descriptionController,
+                    ),
+                    heightSizedBox(8.0),
+                    TxtField(
+                      contentPadding: contentPadding,
+                      labelText: "Date",
+                      maxLines: 1,
+                      enabled: false,
+                      controller: dateController,
+                    ),
+                  ],
+                );
+              }).toList(),
             ],
           );
-        }).toList(),
-      ],
-    );
   }
 }
 

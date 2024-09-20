@@ -35,11 +35,10 @@ class UpdateFamilyInfoState extends ConsumerState<UpdateFamilyInfo> {
 
       userData.when(
         data: (data) {
-          if (data != null && data['data']['owner']['children'] != null) {
-            setState(() {
-              final children = List<Map<String, dynamic>>.from(
-                  data['data']['owner']['children']);
-              childrenData = children
+          setState(() {
+            final children = data?['data']['owner']['children'];
+            if (children != null && children.isNotEmpty) {
+              childrenData = List<Map<String, dynamic>>.from(children)
                   .map((child) => {
                         "name": child['name'] ?? "",
                         "age": child['age']?.toString() ?? "",
@@ -56,8 +55,11 @@ class UpdateFamilyInfoState extends ConsumerState<UpdateFamilyInfo> {
                   birthday: child['birthday'],
                 );
               }
-            });
-          }
+            } else {
+              // Add a default field if children data is empty
+              addChildField();
+            }
+          });
         },
         loading: () {},
         error: (error, stackTrace) {},

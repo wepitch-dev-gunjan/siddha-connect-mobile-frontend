@@ -41,6 +41,7 @@ class AuthController {
   userLogin({required Map data}) async {
     try {
       final res = await authRepo.userLoginRepo(data: data);
+      log("RespLogin$res");
       if (res['message'] == 'User logged in successfully' &&
           res['verified'] == true) {
         await ref
@@ -78,6 +79,4 @@ class AuthController {
       throw e;
     }
   }
-
-  
 }

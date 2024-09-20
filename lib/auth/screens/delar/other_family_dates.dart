@@ -117,13 +117,10 @@ class UpdateOtherImportantFamilyDatesState
 
       userData.when(
         data: (data) {
-          if (data != null &&
-              data['data']['otherImportantFamilyDates'] != null) {
-            setState(() {
-              final familyDates = List<Map<String, dynamic>>.from(
-                  data['data']['otherImportantFamilyDates']);
-
-              familyDatesData = familyDates
+          setState(() {
+            final familyDates = data?['data']['otherImportantFamilyDates'];
+            if (familyDates != null && familyDates.isNotEmpty) {
+              familyDatesData = List<Map<String, dynamic>>.from(familyDates)
                   .map((date) => {
                         "description": date['description'] ?? "",
                         "date": date['date'] != null
@@ -139,8 +136,11 @@ class UpdateOtherImportantFamilyDatesState
                   date: date['date'],
                 );
               }
-            });
-          }
+            } else {
+              // Add a default field if familyDates are empty
+              addFamilyDateField();
+            }
+          });
         },
         loading: () {},
         error: (error, stackTrace) {},
