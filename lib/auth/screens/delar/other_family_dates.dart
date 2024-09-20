@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/auth/screens/delar/wife_info.dart';
-import 'package:siddha_connect/profile/screen/dealer/getDealer_profile.dart';
+import 'package:siddha_connect/profile/screen/dealerProfile/getDealer_profile.dart';
 import '../../../salesDashboard/component/date_picker.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';

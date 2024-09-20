@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
-import 'package:siddha_connect/profile/screen/dealer/getDealer_profile.dart';
+import 'package:siddha_connect/profile/screen/dealerProfile/getDealer_profile.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 

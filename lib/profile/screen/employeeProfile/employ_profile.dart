@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +25,6 @@ class EmployProfile extends ConsumerWidget {
         backgroundColor: AppColor.whiteColor,
         body: employData.when(
           data: (data) {
-            log("profileEmploy$data");
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -46,18 +43,18 @@ class EmployProfile extends ConsumerWidget {
                       fontSize: 22.sp,
                     )),
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        // navigateTo(DelarProfileEditScreen());
-                      },
-                      child: Text(
-                        "Edit Profile",
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xff3300FF))),
-                      )),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       // navigateTo(DelarProfileEditScreen());
+                  //     },
+                  //     child: Text(
+                  //       "Edit Profile",
+                  //       style: GoogleFonts.lato(
+                  //           textStyle: TextStyle(
+                  //               fontSize: 14.sp,
+                  //               fontWeight: FontWeight.w400,
+                  //               color: const Color(0xff3300FF))),
+                  //     )),
                   heightSizedBox(20.0),
                   TxtField(
                     readOnly: true,
