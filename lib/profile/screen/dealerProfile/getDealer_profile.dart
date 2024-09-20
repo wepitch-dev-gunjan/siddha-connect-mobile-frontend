@@ -447,7 +447,10 @@ class GetChildrensInfo extends ConsumerWidget {
                 final ageController =
                     TextEditingController(text: child['age'].toString());
                 final birthDayController = TextEditingController(
-                    text: (child['birthday']).split('T')[0]);
+                  text: child['birthday'] != null
+                      ? (child['birthday'] as String).split('T')[0]
+                      : '',
+                );
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
