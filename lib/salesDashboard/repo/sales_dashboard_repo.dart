@@ -20,7 +20,6 @@ class SalesDashboardRepo {
     try {
       String url = urlFormat(ApiUrl.getSalesDashboardData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-      // log("dashboardurl$url");
       final response = await ApiMethod(
         url: url,
       ).getDioRequest();
@@ -75,7 +74,6 @@ class SalesDashboardRepo {
       String url = urlFormatTse(ApiUrl.getDropDawn, tdFormat, dataFormat,
           firstDate, lastDate, name, position);
       final response = await ApiMethod(url: url).getDioRequest();
-
       return response;
     } catch (e) {
       log(e.toString());
@@ -118,6 +116,7 @@ class SalesDashboardRepo {
     }
   }
 
+//=============================! Get Dealer Segment Data !=====================================
   getDealerSegmetData({
     String? startDate,
     String? endDate,
@@ -129,27 +128,43 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerSegmentUrl(ApiUrl.getDealerSegmentData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
-
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      log("dealrSegmentData$response");
       return response;
     } catch (e) {}
   }
 
-  getDealerDashboardData(
-      {String? startDate,
-      String? endDate,
-      String? dataFormat,
-      String? dealerCode,
-      String? tdFormat}) async {
+//=============================! Get Dealer Dashboard Data !=====================================
+  getDealerDashboardData({
+    String? startDate,
+    String? endDate,
+    String? dataFormat,
+    String? dealerCode,
+    String? tdFormat,
+  }) async {
     try {
       String url = dealerSegmentUrl(ApiUrl.getDealerDashboardData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
-      // log("Urllllllllllllllllllll=>>$url");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      // log("dealrSegmentData$response");
+      return response;
+    } catch (e) {}
+  }
+
+  //=============================! Get Dealer Channel Data !=====================================
+
+  getDealerChannelData({
+    String? startDate,
+    String? endDate,
+    String? dataFormat,
+    String? dealerCode,
+    String? tdFormat,
+  }) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = dealerSegmentUrl(ApiUrl.getDealerChannelData, startDate,
+          endDate, dataFormat, dealerCode, tdFormat);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      log("DealerModelData=>>>$response");
       return response;
     } catch (e) {}
   }
@@ -158,8 +173,6 @@ class SalesDashboardRepo {
 String dealerSegmentUrl(String baseUrl, String? startDate, String? endDate,
     String? dataFormat, String? dealerCode, String? tdFormat) {
   String url = baseUrl;
-
-  // log("dealerCode=====?$dealerCode");
 
   Map<String, String?> queryParams = {
     'start_date': startDate,

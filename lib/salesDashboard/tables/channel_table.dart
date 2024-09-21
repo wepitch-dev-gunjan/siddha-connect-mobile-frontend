@@ -16,18 +16,30 @@ final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
   return getChanelData;
 });
 
+final getDealerChannelDataProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getChanelData = await ref.watch(salesRepoProvider).getDealerChannelData(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      startDate: options.firstDate,
+      endDate: options.lastDate);
+  return getChanelData;
+});
+
 class ChannelTable extends ConsumerWidget {
   const ChannelTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final dealerRole = ref.watch(dealerRoleProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
-    final channelData = ref.watch(getChannelDataProvider);
-    final dealerRole = ref.watch(dealerRoleProvider);
+    final channelData = dealerRole == 'dealer'
+        ? ref.watch(getDealerChannelDataProvider)
+        : ref.watch(getChannelDataProvider);
 
     return dealerRole == 'dealer'
-        ? Center(
+        ? const Center(
             child: Text("No Data"),
           )
         : channelData.when(

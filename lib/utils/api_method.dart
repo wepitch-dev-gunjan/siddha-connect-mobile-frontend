@@ -120,4 +120,6 @@ class ApiUrl {
       "$baseUrl/sales-data-mtdw/dashboard/dealer";
   static String getDealerSegmentData =
       "$baseUrl/sales-data-mtdw/segment-wise/dealer";
+  static String getDealerChannelData =
+      "$baseUrl/sales-data-mtdw/channel-wise/dealer";
 }
