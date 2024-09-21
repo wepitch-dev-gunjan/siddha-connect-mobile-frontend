@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
@@ -61,10 +62,11 @@ final getDealerDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final dealerCode = ref.watch(dealerCodeProvider);
   final getSegmentData = await ref.watch(salesRepoProvider).getDealerSegmetData(
-      dataFormat: options.dataFormat,
-      startDate: options.firstDate,
-      endDate: options.lastDate,
-      dealerCode: dealerCode);
+        dataFormat: options.dataFormat,
+        tdFormat: options.tdFormat,
+        startDate: options.firstDate,
+        endDate: options.lastDate,
+      );
   return getSegmentData;
 });
 
@@ -74,7 +76,6 @@ class SegmentTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final role = ref.read(dealerRoleProvider);
-
     final selectedOption2 = ref.watch(selectedOption2Provider);
     final segmentData = role == 'dealer'
         ? ref.watch(getDealerDataProvider)
@@ -84,6 +85,17 @@ class SegmentTable extends ConsumerWidget {
 
     return segmentData.when(
       data: (data) {
+        // Log the data for debugging
+        log("Received data: $data");
+
+        // Add null checks for data, columns, and rows
+        if (data == null || data['columns'] == null || data['data'] == null) {
+          return const Center(child: Text('No data available.'));
+        }
+
+        final columns = data['columns'] ?? [];
+        final rows = data['data'] ?? [];
+
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
@@ -95,123 +107,54 @@ class SegmentTable extends ConsumerWidget {
                 ),
               ),
               child: SizedBox(
-                // width: screenWidth,
                 child: DataTable(
-                    dataRowMinHeight: 10,
-                    dataRowMaxHeight: 40,
-                    headingRowHeight: 50,
-                    dividerThickness: 2.5,
-                    columnSpacing: columnSpacing,
-                    headingRowColor: WidgetStateColor.resolveWith(
-                      (states) => const Color(0xffD9D9D9),
-                    ),
-                    columns: <DataColumn>[
+                  dataRowMinHeight: 10,
+                  dataRowMaxHeight: 40,
+                  headingRowHeight: 50,
+                  dividerThickness: 2.5,
+                  columnSpacing: columnSpacing,
+                  headingRowColor: MaterialStateColor.resolveWith(
+                    (states) => const Color(0xffD9D9D9),
+                  ),
+                  columns: <DataColumn>[
+                    for (var column in columns)
                       DataColumn(
-                          label: Text(
-                        'PRICE BAND',
-                        textAlign: TextAlign.center,
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          '%\nContribution',
+                        label: Text(
+                          column ?? 'Unknown',  // Add a fallback label
                           textAlign: TextAlign.center,
                           style: topStyle,
                         ),
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'MTD SO',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'LMTD SO',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        selectedOption2 == 'value'
-                            ? 'TARGET VALUE'
-                            : 'TARGET VOLUME',
-                        style: topStyle,
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          selectedOption2 == 'value'
-                              ? 'PENDING VAL.'
-                              : 'PENDING VOL.',
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          'FTD',
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          'DRR',
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          'ADS',
-                          style: topStyle,
-                        ),
-                      )),
-                      DataColumn(
-                          label: Center(
-                        child: Text(
-                          '% GWTH',
-                          style: topStyle,
-                        ),
-                      )),
-                    ],
-                    rows: List.generate(data.length, (index) {
-                      final row = data[index];
-                      return DataRow(
-                          color: WidgetStateColor.resolveWith(
-                            (states) => const Color(0xffEEEEEE),
-                          ),
-                          cells: [
-                            DataCell(Center(child: Text(row['_id']))),
-                            DataCell(Center(
-                                child: Text(
-                              row['CONTRIBUTION %'],
-                            ))),
-                            DataCell(Center(
-                                child: Text(row['MTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row['LMTD SELL OUT'].toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'TARGET VALUE'
-                                        : "TARGET VOLUME"]
-                                    .toString()))),
-                            DataCell(Center(
-                                child: Text(row[selectedOption2 == 'value'
-                                        ? 'VAL PENDING'
-                                        : 'VOL PENDING']
-                                    .toString()))),
-                            DataCell(
-                                Center(child: Text(row['FTD'].toString()))),
-                            DataCell(Text(row['DAILY REQUIRED AVERAGE']
-                                .truncate()
-                                .toString())),
-                            DataCell(Text(
-                                row['AVERAGE DAY SALE'].truncate().toString())),
-                            DataCell(
-                                Center(child: Text(row['% GWTH'].toString()))),
-                          ]);
-                    })),
+                      ),
+                  ],
+                  rows: List.generate(rows.length, (index) {
+                    final row = rows[index] ?? {};
+
+                    return DataRow(
+                      color: MaterialStateColor.resolveWith(
+                        (states) => const Color(0xffEEEEEE),
+                      ),
+                      cells: [
+                        DataCell(Center(child: Text(row['Segment Wise']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Target Vol']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Mtd Vol']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Lmtd Vol']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Pending Vol']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Req. ADS']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['% Gwth Vol']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Target SO']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Activation MTD']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Activation LMTD']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Pending Act']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['ADS Activation']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Req. ADS Activation']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['% Gwth Val']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['FTD']?.toString() ?? ''))),
+                        DataCell(Center(child: Text(row['Contribution %']?.toString() ?? ''))),
+                      ],
+                    );
+                  }),
+                ),
               ),
             ),
           ),
@@ -231,3 +174,4 @@ class SegmentTable extends ConsumerWidget {
     );
   }
 }
+

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/api_method.dart';
+import 'package:siddha_connect/utils/secure_storage.dart';
 
 final salesRepoProvider =
     Provider.autoDispose((ref) => SalesDashboardRepo(ref: ref));
@@ -19,7 +20,7 @@ class SalesDashboardRepo {
     try {
       String url = urlFormat(ApiUrl.getSalesDashboardData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-      log("dashboardurl$url");
+      // log("dashboardurl$url");
       final response = await ApiMethod(
         url: url,
       ).getDioRequest();
@@ -125,10 +126,11 @@ class SalesDashboardRepo {
     String? tdFormat,
   }) async {
     try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerSegmentUrl(ApiUrl.getDealerSegmentData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
 
-      final response = await ApiMethod(url: url).getDioRequest();
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       log("dealrSegmentData$response");
       return response;
     } catch (e) {}
@@ -143,8 +145,10 @@ class SalesDashboardRepo {
     try {
       String url = dealerSegmentUrl(ApiUrl.getDealerDashboardData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
+      // log("Urllllllllllllllllllll=>>$url");
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
 
-      final response = await ApiMethod(url: url).getDioRequest();
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       // log("dealrSegmentData$response");
       return response;
     } catch (e) {}

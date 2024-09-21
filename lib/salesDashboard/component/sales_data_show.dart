@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import '../../utils/providers.dart';
 import '../../utils/sizes.dart';
@@ -16,8 +14,6 @@ class DashboardOptions {
   final String dataFormat;
   DashboardOptions({required this.tdFormat, required this.dataFormat});
 }
-
-
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
@@ -38,14 +34,13 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
 final getDealerDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final dealerCode = ref.read(dealerCodeProvider);
-
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getDealerDashboardData(
       tdFormat: options.tdFormat,
       dataFormat: options.dataFormat,
       startDate: options.firstDate,
       endDate: options.lastDate,
-      dealerCode: dealerCode);
+     );
   return data;
 });
 
@@ -54,12 +49,9 @@ class SalesDashboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dealerRole =
-        ref.watch(dealerRoleProvider); // Watch dealerRoleProvider
-    final dealerName =
-        ref.watch(dealerNameProvider); // Watch dealerNameProvider
+    final dealerRole = ref.watch(dealerRoleProvider);
+    final dealerName = ref.watch(dealerNameProvider);
 
-    log("dealerRole=$dealerRole, dealerName=$dealerName");
 
     final dashboardData = dealerRole == 'dealer'
         ? ref.watch(getDealerDashboardProvider)

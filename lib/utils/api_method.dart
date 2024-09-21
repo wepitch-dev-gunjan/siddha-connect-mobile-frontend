@@ -115,6 +115,9 @@ class ApiUrl {
   static String uploadModelData = "$baseUrl/model-data";
   static String uploadChannelTargets = "$baseUrl/channel-targets";
   static String uploadSegmentTargets = "$baseUrl/segment-targets";
-  static String getDealerSegmentData = "$baseUrl/sales/segment-wise/dealer";
-  static String getDealerDashboardData = "$baseUrl/sales/dealer-dashboard";
+  // static String getDealerSegmentData = "$baseUrl/sales/segment-wise/dealer";
+  static String getDealerDashboardData =
+      "$baseUrl/sales-data-mtdw/dashboard/dealer";
+  static String getDealerSegmentData =
+      "$baseUrl/sales-data-mtdw/segment-wise/dealer";
 }
