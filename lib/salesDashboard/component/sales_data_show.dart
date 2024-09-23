@@ -18,16 +18,14 @@ class DashboardOptions {
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final user = await ref.watch(userProvider.future);
-  final name = user['name']?.trim() ?? '';
-  final position = user['position']?.trim() ?? '';
+
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getSalesDashboardData(
-      tdFormat: options.tdFormat,
-      dataFormat: options.dataFormat,
-      firstDate: options.firstDate,
-      lastDate: options.lastDate,
-      position: position,
-      name: name);
+    tdFormat: options.tdFormat,
+    dataFormat: options.dataFormat,
+    firstDate: options.firstDate,
+    lastDate: options.lastDate,
+  );
   return data;
 });
 
@@ -36,11 +34,11 @@ final getDealerDashboardProvider = FutureProvider.autoDispose((ref) async {
   final dealerCode = ref.read(dealerCodeProvider);
   final salesRepo = ref.watch(salesRepoProvider);
   final data = await salesRepo.getDealerDashboardData(
-      tdFormat: options.tdFormat,
-      dataFormat: options.dataFormat,
-      startDate: options.firstDate,
-      endDate: options.lastDate,
-     );
+    tdFormat: options.tdFormat,
+    dataFormat: options.dataFormat,
+    startDate: options.firstDate,
+    endDate: options.lastDate,
+  );
   return data;
 });
 
@@ -52,12 +50,12 @@ class SalesDashboardCard extends ConsumerWidget {
     final dealerRole = ref.watch(dealerRoleProvider);
     final dealerName = ref.watch(dealerNameProvider);
 
-
     final dashboardData = dealerRole == 'dealer'
         ? ref.watch(getDealerDashboardProvider)
         : ref.watch(getSalesDashboardProvider);
     return dashboardData.when(
         data: (data) {
+          log("DashboardData==$data");
           if (data == null || data.isEmpty) {
             return const Padding(
               padding: EdgeInsets.symmetric(vertical: 60),

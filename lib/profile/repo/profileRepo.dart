@@ -22,7 +22,7 @@ class ProfileRepo {
       final response =
           await ApiMethod(url: ApiUrl.getProfile, token: token).getDioRequest();
 
-      log("Profile=====>>>>>>>$response");
+      // log("Profile=====>>>>>>>$response");
       return response;
     } catch (e) {}
   }
@@ -35,7 +35,7 @@ class ProfileRepo {
           await ApiMethod(url: ApiUrl.getDealerProfile, token: token)
               .getDioRequest();
 
-      log("Profile=====>>>>>>>$response");
+      // log("Profile=====>>>>>>>$response");
       return response;
     } catch (e) {}
   }
@@ -46,13 +46,14 @@ class ProfileRepo {
       final response =
           await ApiMethod(url: ApiUrl.dealerProfileUpdate, token: token)
               .putDioRequest(data: data);
-      log("profileUpdateData$response");
+      // log("profileUpdateData$response");
       return response;
     } on DioException catch (e) {
       ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
       return null;
     }
   }
+  
 }
 
 final profileStatusControllerProvider = StateProvider.autoDispose((ref) async {

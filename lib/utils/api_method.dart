@@ -26,7 +26,7 @@ class ApiMethod {
         return response.data;
       }
     } on DioException catch (err) {
-      log("Error=>>$err");
+      log("ErrorGetApi=>>$err");
       // log("get statusCode: ${err.response?.statusCode.toString()}");
       // log("get type: ${err.response?.data.toString()}");
     }
@@ -98,9 +98,12 @@ class ApiMethod {
 
 class ApiUrl {
   static String baseUrl = dotenv.env['BASEURL'] ?? "";
-  static String getSalesDashboardData = "$baseUrl/sales/dashboard";
-  static String getChannelData = "$baseUrl/sales/channel-wise";
-  static String getSegmentData = "$baseUrl/sales/segment-wise";
+  static String getEmployeeSalesDashboardData =
+      "$baseUrl/sales-data-mtdw/dashboard/employee";
+  static String getChannelData =
+      "$baseUrl/sales-data-mtdw/channel-wise/employee";
+  static String getSegmentData =
+      "$baseUrl/sales-data-mtdw/segment-wise/employee";
   static String uploadSalesData = "$baseUrl/sales-data-mtdw";
   static String userRegister = "$baseUrl/user/register";
   static String dealerRegister = "$baseUrl/add-dealer";
@@ -109,9 +112,22 @@ class ApiUrl {
   static String getProfile = "$baseUrl/userForUser";
   static String getDealerProfile = "$baseUrl/get-dealer";
   static String isDealerVerified = "$baseUrl/is-dealer-verified";
-  static String getAllSubordinates = "$baseUrl/sales/get-all-subordinates";
-  static String getDropDawn = "$baseUrl/sales/segment-wise/";
-  static String getModelData = "$baseUrl/model-data";
+  static String getAllSubordinates =
+      "$baseUrl/sales-data-mtdw/get-all-subordinates-mtdw";
+  // static String getDropDawn = "$baseUrl/sales/segment-wise/";
+  static String getSegmentPositionWise =
+      "$baseUrl/sales-data-mtdw/segment-wise/by-position-category";
+  static String getChannelPositionWise =
+      "$baseUrl/sales-data-mtdw/channel-wise/by-position-category";
+  static String getModelPositionWise =
+      "$baseUrl/model-data-mtdw/by-position-category";
+  static String getSegmentSubordinateWise =
+      "$baseUrl/sales-data-mtdw/segment-wise/by-subordinate-name/";
+  static String getChannelSubordinateWise =
+      "$baseUrl/sales-data-mtdw/channel-wise/by-subordinate-name/";
+  static String getModelSubordinateWise =
+      "$baseUrl/model-data-mtdw/by-subordinate-name/";
+  static String getModelData = "$baseUrl/model-data/mtdw/employee";
   static String uploadModelData = "$baseUrl/model-data";
   static String uploadChannelTargets = "$baseUrl/channel-targets";
   static String uploadSegmentTargets = "$baseUrl/segment-targets";

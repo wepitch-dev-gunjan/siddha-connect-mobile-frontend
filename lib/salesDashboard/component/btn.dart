@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,10 +58,13 @@ class FullSizeBtn extends ConsumerWidget {
               ? const SegmentTable()
               : const SegmentTablePositionWise()
         else if (selectedButtonIndex == 1)
-          const ChannelTable()
+          selectedBtn == 0
+              ? const ChannelTable()
+              : const ChannelTablePositionWise()
         else
-          const ModelTable(),
-          // DataTableExample()
+          selectedBtn == 0
+              ? const ModelTable()
+              : const ModelTablePositionWise(),
       ],
     );
   }

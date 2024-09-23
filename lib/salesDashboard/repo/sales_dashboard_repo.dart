@@ -18,14 +18,13 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
-      String url = urlFormat(ApiUrl.getSalesDashboardData, tdFormat, dataFormat,
-          firstDate, lastDate, position, name);
-      final response = await ApiMethod(
-        url: url,
-      ).getDioRequest();
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = urlFormat(ApiUrl.getEmployeeSalesDashboardData, tdFormat,
+          dataFormat, firstDate, lastDate, position, name);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-      log(e.toString());
+      // log(e.toString());
     }
   }
 
@@ -37,12 +36,13 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormat(ApiUrl.getChannelData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-      final response = await ApiMethod(url: url).getDioRequest();
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-      log(e.toString());
+      // log(e.toString());
     }
   }
 
@@ -54,16 +54,17 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormat(ApiUrl.getSegmentData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-      final response = await ApiMethod(url: url).getDioRequest();
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-      log(e.toString());
+      // log(e.toString());
     }
   }
 
-  getSegmentWiseData(
+  getSegmentPositionWiseData(
       {String? tdFormat,
       String? dataFormat,
       String? firstDate,
@@ -71,13 +72,69 @@ class SalesDashboardRepo {
       String? name,
       String? position}) async {
     try {
-      String url = urlFormatTse(ApiUrl.getDropDawn, tdFormat, dataFormat,
-          firstDate, lastDate, name, position);
-      final response = await ApiMethod(url: url).getDioRequest();
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = name == "All"
+          ? urlFormatTse(ApiUrl.getSegmentPositionWise, tdFormat, dataFormat,
+              firstDate, lastDate, position, name)
+          : urlFormatSubordinatesNames(
+              "${ApiUrl.getSegmentSubordinateWise}$name",
+              tdFormat,
+              dataFormat,
+              firstDate,
+              lastDate);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
       return null;
+    }
+  }
+
+  getChannelPositionWiseData(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? position,
+      String? name}) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = name == "All"
+          ? urlFormatTse(ApiUrl.getChannelPositionWise, tdFormat, dataFormat,
+              firstDate, lastDate, position, name)
+          : urlFormatSubordinatesNames(
+              "${ApiUrl.getChannelSubordinateWise}$name",
+              tdFormat,
+              dataFormat,
+              firstDate,
+              lastDate);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  getModelPositionWiseData(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? position,
+      String? name}) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = name == "All"
+          ? urlFormatTse(ApiUrl.getModelPositionWise, tdFormat, dataFormat,
+              firstDate, lastDate, position, name)
+          : urlFormatSubordinatesNames("${ApiUrl.getModelSubordinateWise}$name",
+              tdFormat, dataFormat, firstDate, lastDate);
+
+      log("url=>>>>>>$url");
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -89,26 +146,24 @@ class SalesDashboardRepo {
       String? name,
       String? position}) async {
     try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
-          firstDate, lastDate, name, position);
-      final response = await ApiMethod(url: url).getDioRequest();
+          firstDate, lastDate, position, name);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-      log(e.toString());
+      // log(e.toString());
       return null;
     }
   }
 
-  getAllSubordinates({String? name, String? position}) async {
+  getAllSubordinates() async {
     try {
       String subordinateUrl = ApiUrl.getAllSubordinates;
-      if (position != null) {
-        subordinateUrl += '?position=$position';
-      }
-      if (name != null) {
-        subordinateUrl += position != null ? '&name=$name' : '?name=$name';
-      }
-      final response = await ApiMethod(url: subordinateUrl).getDioRequest();
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+
+      final response =
+          await ApiMethod(url: subordinateUrl, token: token).getDioRequest();
       return response;
     } catch (e) {
       log("Error in getAllSubordinates: $e");
@@ -219,7 +274,7 @@ String urlFormat(
     params.add('end_date=$lastDate');
   }
   if (position != null) {
-    params.add('position=$position');
+    params.add('position_category=$position');
   }
   if (name != null) {
     params.add('name=$name');
@@ -232,18 +287,49 @@ String urlFormat(
   return url;
 }
 
-String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
-    String? firstDate, String? lastDate, String? name, String? position) {
+// String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
+//     String? firstDate, String? lastDate, String? name, String? position) {
+//   String url = baseUrl;
+//   if (position != null) {
+//     url += position.toLowerCase();
+//   }
+
+//   Map<String, String?> queryParams = {
+//     'start_date': firstDate,
+//     'end_date': lastDate,
+//     'data_format': dataFormat,
+//     if (position != null && name != null) position: name,
+//   };
+
+//   String queryString = queryParams.entries
+//       .where((entry) => entry.value != null)
+//       .map((entry) => '${entry.key}=${entry.value}')
+//       .join('&');
+
+//   if (queryString.isNotEmpty) {
+//     url += '?$queryString';
+//   }
+
+//   return url;
+// }
+String urlFormatTse(
+    String baseUrl,
+    String? tdFormat,
+    String? dataFormat,
+    String? firstDate,
+    String? lastDate,
+    String? position,
+    String? name // Added 'name' here
+    ) {
   String url = baseUrl;
-  if (position != null) {
-    url += position.toLowerCase();
-  }
 
   Map<String, String?> queryParams = {
+    'td_format': tdFormat,
     'start_date': firstDate,
     'end_date': lastDate,
     'data_format': dataFormat,
-    if (position != null && name != null) position: name,
+    if (position != null)
+      'position_category': position, // Added position to 'position_category'
   };
 
   String queryString = queryParams.entries
@@ -257,6 +343,32 @@ String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
 
   return url;
 }
+
+String urlFormatSubordinatesNames(String baseUrl, String? tdFormat,
+    String? dataFormat, String? firstDate, String? lastDate) {
+  String url = baseUrl;
+
+  Map<String, String?> queryParams = {
+    'td_format': tdFormat,
+    'start_date': firstDate,
+    'end_date': lastDate,
+    'data_format': dataFormat,
+  };
+
+  String queryString = queryParams.entries
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
+
+  if (queryString.isNotEmpty) {
+    url += '?$queryString';
+  }
+
+  return url;
+}
+
+
+
 
 
 // String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,

@@ -43,16 +43,9 @@ final dealerProvider =
 });
 
 final subordinateProvider = FutureProvider.autoDispose((ref) async {
-  final user = await ref.watch(userProvider.future);
-  final name = user['name']?.trim() ?? '';
-  final position = user['position']?.trim() ?? '';
-
-  log("name$name");
-  log("position$position");
-
   final getSubordinate = await ref
       .watch(salesRepoProvider)
-      .getAllSubordinates(name: name, position: position);
+      .getAllSubordinates();
   return getSubordinate;
 });
 
