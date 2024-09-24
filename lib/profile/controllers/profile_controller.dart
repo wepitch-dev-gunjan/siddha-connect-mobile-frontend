@@ -5,9 +5,6 @@ import 'package:siddha_connect/profile/screen/dealerProfile/getDealer_profile.da
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 
-import '../../auth/repo/auth_repo.dart';
-import '../../utils/secure_storage.dart';
-
 final profileControllerProvider = Provider.autoDispose((ref) {
   final profileRepo = ref.watch(profileRepoProvider);
 
@@ -26,7 +23,7 @@ class ProfileController {
       if (res['message'] == "Dealer profile updated successfully.") {
         ref.refresh(getDealerProfileProvider);
         navigatePushReplacement(const ProfileScreen());
-        ShowSnackBarMsg("${res['message']}", color: Colors.green);
+        showSnackBarMsg("${res['message']}", color: Colors.green);
       }
       return res;
     } catch (e) {

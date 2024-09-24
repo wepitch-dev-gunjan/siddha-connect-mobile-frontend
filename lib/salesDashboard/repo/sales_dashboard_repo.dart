@@ -149,6 +149,7 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
+      log("url=>>>>>>>>>$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {

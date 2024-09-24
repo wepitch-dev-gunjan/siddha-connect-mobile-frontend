@@ -1,9 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import '../auth/repo/auth_repo.dart';
 import '../salesDashboard/repo/sales_dashboard_repo.dart';
+
+final internetConnectionProvider =
+    StreamProvider<InternetConnectionStatus>((ref) {
+  return InternetConnectionChecker().onStatusChange;
+});
+
 
 final getProfileProvider = FutureProvider.autoDispose((ref) async {
   final getProfile = await ref.watch(profileRepoProvider).getProfile();
@@ -43,9 +50,8 @@ final dealerProvider =
 });
 
 final subordinateProvider = FutureProvider.autoDispose((ref) async {
-  final getSubordinate = await ref
-      .watch(salesRepoProvider)
-      .getAllSubordinates();
+  final getSubordinate =
+      await ref.watch(salesRepoProvider).getAllSubordinates();
   return getSubordinate;
 });
 

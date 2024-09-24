@@ -23,13 +23,13 @@ class SalesDataUploadRepo {
       final response = await ApiMethod(url: ApiUrl.uploadSalesData)
           .postDioFormData(data: formData);
       if (response == "Data inserted into database") {
-        ShowSnackBarMsg(
+        showSnackBarMsg(
           "Sales Data Upload Successfully",
           color: Colors.green,
         );
         navigatePushReplacement(const SalesDashboard());
       } else {
-        ShowSnackBarMsg(
+        showSnackBarMsg(
           "Something went wrong",
           color: Colors.red,
         );
@@ -53,10 +53,10 @@ class SalesDataUploadRepo {
       final response = await ApiMethod(url: ApiUrl.uploadModelData)
           .postDioFormData(data: formData);
       if (response == "Model Data inserted into database!") {
-        ShowSnackBarMsg("Model Data Upload Successfully", color: Colors.green);
+        showSnackBarMsg("Model Data Upload Successfully", color: Colors.green);
         navigatePushReplacement(const SalesDashboard());
       } else {
-        ShowSnackBarMsg("Something went wrong", color: Colors.red);
+        showSnackBarMsg("Something went wrong", color: Colors.red);
         navigatePushReplacement(const SalesDashboard());
       }
       return response;
@@ -73,11 +73,11 @@ class SalesDataUploadRepo {
       final response = await ApiMethod(url: ApiUrl.uploadChannelTargets)
           .putDioFormData(data: formData);
       if (response == "Targets inserted/updated in the database!") {
-        ShowSnackBarMsg("Channel Target Data Upload Successfully",
+        showSnackBarMsg("Channel Target Data Upload Successfully",
             color: Colors.green);
         navigatePushReplacement(const SalesDashboard());
       } else {
-        ShowSnackBarMsg("Something went wrong", color: Colors.red);
+        showSnackBarMsg("Something went wrong", color: Colors.red);
         navigatePushReplacement(const SalesDashboard());
       }
       return response;
@@ -94,11 +94,11 @@ class SalesDataUploadRepo {
       final response = await ApiMethod(url: ApiUrl.uploadSegmentTargets)
           .putDioFormData(data: formData);
       if (response == "Targets inserted/updated in the database!") {
-        ShowSnackBarMsg("Segment Target Data Upload Successfully",
+        showSnackBarMsg("Segment Target Data Upload Successfully",
             color: Colors.green);
         navigatePushReplacement(const SalesDashboard());
       } else {
-        ShowSnackBarMsg("Something went wrong", color: Colors.red);
+        showSnackBarMsg("Something went wrong", color: Colors.red);
         navigatePushReplacement(const SalesDashboard());
       }
       return response;

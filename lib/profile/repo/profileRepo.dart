@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +47,7 @@ class ProfileRepo {
       // log("profileUpdateData$response");
       return response;
     } on DioException catch (e) {
-      ShowSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
+      showSnackBarMsg("${e.response?.data['error']}", color: Colors.red);
       return null;
     }
   }

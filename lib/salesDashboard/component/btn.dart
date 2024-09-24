@@ -57,10 +57,8 @@ class FullSizeBtn extends ConsumerWidget {
           selectedBtn == 0
               ? const ChannelTable()
               : const ChannelTablePositionWise()
-        else
-          selectedBtn == 0
-              ? const ModelTable()
-              : const ModelTablePositionWise(),
+        else if (selectedButtonIndex == 2)
+          selectedBtn == 0 ? const ModelTable() : const ModelTablePositionWise()
       ],
     );
   }
@@ -186,10 +184,8 @@ class SmallCusBtn extends ConsumerWidget {
                         scrollDirection: Axis.horizontal,
                         child: subOrdinates.when(
                           data: (data) {
-                          
                             if (data == null || data['positions'] == null) {
-                              return const Text(
-                                  "No positions available"); 
+                              return const Text("No positions available");
                             }
 
                             final positions = data['positions'];
