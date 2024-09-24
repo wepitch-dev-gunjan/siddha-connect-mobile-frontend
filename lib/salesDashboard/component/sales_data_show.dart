@@ -87,7 +87,7 @@ class SalesDashboardCard extends ConsumerWidget {
                                           selectedOption2 == 'volume')
                                       ? "MTD Sell in Volume"
                                       : "MTD Sell in Value",
-                      value: data['td_sell_in'],
+                      value: data['td_sell_in'] ?? 'N/A',
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
@@ -103,13 +103,13 @@ class SalesDashboardCard extends ConsumerWidget {
                                           selectedOption2 == 'volume')
                                       ? "LMTD Sell in Volume"
                                       : "LMTD Sell in Value",
-                      value: data['ltd_sell_in'],
+                      value: data['ltd_sell_in'] ?? 'N/A',
                     ),
                     DashboardComp(
                       titleSize: 14.sp,
                       title: "Growth % \n",
-                      value: data["sell_in_growth"],
-                      valueColor: data["sell_in_growth"][0] == '-'
+                      value: data["sell_in_growth"] ?? '0%',
+                      valueColor: (data["sell_in_growth"] ?? '0')[0] == '-'
                           ? Colors.red
                           : Colors.green,
                     ),
@@ -133,7 +133,7 @@ class SalesDashboardCard extends ConsumerWidget {
                                           selectedOption2 == 'volume')
                                       ? "MTD Sell out Volume"
                                       : "MTD Sell out Value",
-                      value: data['td_sell_out'],
+                      value: data['td_sell_out'] ?? 'N/A',
                     ),
                     DashboardComp(
                       title: (selectedOption1 == 'YTD' &&
@@ -149,13 +149,13 @@ class SalesDashboardCard extends ConsumerWidget {
                                           selectedOption2 == 'volume')
                                       ? "LMTD Sell out Volume"
                                       : "LMTD Sell out Value",
-                      value: data["ltd_sell_out"],
+                      value: data['ltd_sell_out'] ?? 'N/A',
                     ),
                     DashboardComp(
                       titleSize: 14.sp,
                       title: "Growth % \n",
-                      value: data["sell_out_growth"],
-                      valueColor: data["sell_out_growth"][0] == '-'
+                      value: data["sell_out_growth"] ?? '0%',
+                      valueColor: (data["sell_out_growth"] ?? '0')[0] == '-'
                           ? Colors.red
                           : Colors.green,
                     ),

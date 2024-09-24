@@ -52,6 +52,7 @@ class LoginScreen extends ConsumerWidget {
                   heightSizedBox(50.0),
                   TxtField(
                     contentPadding: contentPadding,
+                    capitalization: TextCapitalization.characters,
                     labelText: "Code",
                     maxLines: 1,
                     controller: code,

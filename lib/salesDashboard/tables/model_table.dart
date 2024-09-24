@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -115,6 +113,7 @@ class ModelTable extends ConsumerWidget {
   }
 }
 
+
 final getModelDataPositionWiseProvider =
     FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
@@ -141,7 +140,6 @@ class ModelTablePositionWise extends ConsumerWidget {
 
     return modelData.when(
       data: (data) {
-        log("Model Data=>>>>>>>here positon wise");
         if (data == null || data['columns'] == null || data['data'] == null) {
           return const Center(child: Text('No data available.'));
         }

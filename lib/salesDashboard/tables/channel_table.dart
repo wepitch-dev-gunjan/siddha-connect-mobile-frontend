@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,14 +43,14 @@ class ChannelTable extends ConsumerWidget {
         : ref.watch(getChannelDataProvider);
     return channelData.when(
       data: (data) {
-        if (data == null ||
-            data['columnNames'] == null ||
-            data['data'] == null) {
+        log("I Am in Dealer");
+        if (data == null || data['data'] == null) {
           return const Center(child: Text('No data available.'));
         }
 
-        final columns =
-            dealerRole == "dealer" ? data['column'] : data['columnNames'] ?? [];
+        final columns = dealerRole == "dealer"
+            ? data['columns']
+            : data['columnNames'] ?? [];
         final rows = data['data'] ?? [];
         return Theme(
           data: Theme.of(context).copyWith(

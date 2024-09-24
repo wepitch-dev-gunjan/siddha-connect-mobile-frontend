@@ -1,14 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/main.dart';
 import 'package:siddha_connect/salesDashboard/tables/channel_table.dart';
 import 'package:siddha_connect/salesDashboard/tables/model_table.dart';
 import 'package:siddha_connect/salesDashboard/tables/segment_position_wise.dart';
 import 'package:siddha_connect/utils/sizes.dart';
-import '../../auth/screens/splash_screen.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
 import '../tables/segment_table.dart';
@@ -186,11 +182,22 @@ class SmallCusBtn extends ConsumerWidget {
                       ),
                     ),
                     Expanded(
-                        child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: subOrdinates.when(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: subOrdinates.when(
                           data: (data) {
+                          
+                            if (data == null || data['positions'] == null) {
+                              return const Text(
+                                  "No positions available"); 
+                            }
+
                             final positions = data['positions'];
+
+                            if (positions.isEmpty) {
+                              return const Text(
+                                  "No positions available"); // Show empty list message
+                            }
 
                             return Row(
                               children:
@@ -225,12 +232,13 @@ class SmallCusBtn extends ConsumerWidget {
                                       child: Text(
                                         positions[index],
                                         style: GoogleFonts.lato(
-                                            color: selectedIndex == index + 1
-                                                ? Colors.white
-                                                : const Color(0xff999292),
-                                            textStyle: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12)),
+                                          color: selectedIndex == index + 1
+                                              ? Colors.white
+                                              : const Color(0xff999292),
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -240,8 +248,10 @@ class SmallCusBtn extends ConsumerWidget {
                           },
                           error: (error, stackTrace) =>
                               const Text("Something went wrong"),
-                          loading: () => const Text("Loading....")),
-                    )),
+                          loading: () => const Text("Loading...."),
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 heightSizedBox(8.0),

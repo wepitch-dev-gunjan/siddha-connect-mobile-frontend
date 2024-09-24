@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/auth/screens/login_screen.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
-import 'package:siddha_connect/main.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
@@ -320,7 +318,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
       ),
     );
   }
-}
+} 
 
 class DrawerElement extends StatelessWidget {
   final String src;
