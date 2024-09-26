@@ -456,15 +456,16 @@ class SmallCusBtn extends ConsumerWidget {
   }
 }
 
-
 final selectedDealerProvider = StateProvider<String>((ref) => "");
 final selectedOptionProvider = StateProvider<String>((ref) => "ALL");
 
 class DealerSelectionDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedOption = ref.watch(selectedOptionProvider); // Watch the provider for selected option
-    final selectedDealer = ref.watch(selectedDealerProvider); // Watch the provider for selected dealer
+    final selectedOption = ref.watch(
+        selectedOptionProvider); // Watch the provider for selected option
+    final selectedDealer = ref.watch(
+        selectedDealerProvider); // Watch the provider for selected dealer
     List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
 
     // Create a label to show in the DropdownButton: "Option/Dealer"
@@ -481,8 +482,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
               fontSize: 16.0, height: 1.5, color: Colors.black87),
           decoration: InputDecoration(
               fillColor: const Color(0XFFfafafa),
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 8.0, horizontal: 12.0),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
               errorStyle: const TextStyle(color: Colors.red),
               labelStyle: const TextStyle(
                   fontSize: 15.0,
@@ -507,19 +508,21 @@ class DealerSelectionDropdown extends ConsumerWidget {
               labelText: dropdownLabel,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(
-                      color: Colors.amber, width: 0.5))),
+                  borderSide:
+                      const BorderSide(color: Colors.amber, width: 0.5))),
           onChanged: (String? newValue) {
             if (newValue != "ALL") {
               _showPopup(context, ref, newValue!, dealers);
             }
-            ref.read(selectedOptionProvider.notifier).state = newValue!; // Update selectedOption
-            ref.read(selectedDealerProvider.notifier).state = ""; // Reset selected dealer when a new option is selected
+            ref.read(selectedOptionProvider.notifier).state =
+                newValue!; // Update selectedOption
+            ref.read(selectedDealerProvider.notifier).state =
+                ""; // Reset selected dealer when a new option is selected
           },
-          items: [
-            DropdownMenuItem(child: Text("ALL"), value: "ALL"),
-            DropdownMenuItem(child: Text("KRO"), value: "KRO"),
-            DropdownMenuItem(child: Text("NPO"), value: "NPO"),
+          items: const [
+            DropdownMenuItem(value: "ALL", child: Text("ALL")),
+            DropdownMenuItem(value: "KRO", child: Text("KRO")),
+            DropdownMenuItem(value: "NPO", child: Text("NPO")),
           ],
         ),
         if (selectedDealer.isNotEmpty)
@@ -531,7 +534,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 
-  void _showPopup(BuildContext context, WidgetRef ref, String name, List<String> dealers) {
+  void _showPopup(
+      BuildContext context, WidgetRef ref, String name, List<String> dealers) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -541,14 +545,14 @@ class DealerSelectionDropdown extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Text("View List"),
+                title: const Text("View List"),
                 onTap: () {
                   Navigator.pop(context);
                   _showDealers(context, ref, name, dealers, "List");
                 },
               ),
               ListTile(
-                title: Text("View Report"),
+                title: const Text("View Report"),
                 onTap: () {
                   Navigator.pop(context);
                   _showDealers(context, ref, name, dealers, "Report");
@@ -561,7 +565,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 
-  void _showDealers(BuildContext context, WidgetRef ref, String name, List<String> dealers, String type) {
+  void _showDealers(BuildContext context, WidgetRef ref, String name,
+      List<String> dealers, String type) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -573,8 +578,9 @@ class DealerSelectionDropdown extends ConsumerWidget {
                 .map((dealer) => ListTile(
                       title: Text(dealer),
                       onTap: () {
-                        ref.read(selectedDealerProvider.notifier).state = dealer; // Update selected dealer
-                        print("Selected Dealer: ${ref.read(selectedDealerProvider)}"); // Log the selected dealer
+                        ref.read(selectedDealerProvider.notifier).state =
+                            dealer; // Update selected dealer
+
                         Navigator.pop(context); // Close the popup automatically
                       },
                     ))
@@ -585,7 +591,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 }
-
 
 // final selectedDealerProvider = StateProvider<String>((ref) => "");
 // final selectedOptionProvider = StateProvider<String>((ref) => "ALL");
@@ -598,13 +603,12 @@ class DealerSelectionDropdown extends ConsumerWidget {
 //     List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
 
 //     // Create a label to show in the DropdownButton: "Option/Dealer"
-//     String dropdownLabel = selectedDealer.isEmpty 
+//     String dropdownLabel = selectedDealer.isEmpty
 //       ? selectedOption // Show only option if no dealer selected
 //       : "$selectedOption/$selectedDealer"; // Show option/dealer if dealer is selected
 
-//     return 
-     
-      
+//     return
+
 //         Column(
 //           mainAxisAlignment: MainAxisAlignment.center,
 //           children: [
@@ -633,7 +637,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
 //           ],
 //         );
 
-    
 //   }
 
 //   void _showPopup(BuildContext context, WidgetRef ref, String name, List<String> dealers) {
@@ -690,7 +693,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
 //     );
 //   }
 // }
-
 
 class CusDropdown extends ConsumerWidget {
   final String selectedPosition;
