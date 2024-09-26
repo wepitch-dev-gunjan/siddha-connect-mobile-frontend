@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
+import '../../utils/providers.dart';
 import '../component/btn.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_table.dart';
@@ -18,13 +19,28 @@ final modelWiseDataProvider = FutureProvider.autoDispose((ref) async {
   return getModelData;
 });
 
+final dealerModelDataProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getModelData = await ref
+      .watch(salesRepoProvider)
+      .getDealerModelWiseData(
+          firstDate: options.firstDate,
+          lastDate: options.lastDate,
+          tdFormat: options.tdFormat,
+          dataFormat: options.dataFormat);
+  return getModelData;
+});
+
 class ModelTable extends ConsumerWidget {
   const ModelTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final dealerRole = ref.watch(dealerRoleProvider);
     final selectedBtn = ref.watch(selectedIndexProvider);
-    final modelData = ref.watch(modelWiseDataProvider);
+    final modelData = dealerRole == "dealer"
+        ? ref.watch(dealerModelDataProvider)
+        : ref.watch(modelWiseDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
     return modelData.when(
@@ -112,7 +128,6 @@ class ModelTable extends ConsumerWidget {
     );
   }
 }
-
 
 final getModelDataPositionWiseProvider =
     FutureProvider.autoDispose((ref) async {

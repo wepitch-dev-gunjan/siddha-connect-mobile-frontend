@@ -138,4 +138,5 @@ class ApiUrl {
       "$baseUrl/sales-data-mtdw/segment-wise/dealer";
   static String getDealerChannelData =
       "$baseUrl/sales-data-mtdw/channel-wise/dealer";
+  static String getDealerModelData = "$baseUrl/model-data/mtdw/dealer";
 }

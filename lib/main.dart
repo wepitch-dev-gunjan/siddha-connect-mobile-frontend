@@ -40,202 +40,223 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class DataTableExample extends StatelessWidget {
-//   const DataTableExample({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: MediaQuery.of(context).size.height / 2,
-//       child: DataTable2(
-//         fixedTopRows: 2,
-//         // fixedLeftColumns: 1,
-//         fixedColumnsColor: Colors.green,
-//         fixedCornerColor: Colors.red,
-//         showBottomBorder: true,
+// // // import 'package:flutter/material.dart';
+// // // import 'package:flutter_riverpod/flutter_riverpod.dart';
+// // // import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-//         columns: const [
-//           DataColumn(label: Text('Price Band')),
-//           DataColumn(label: Text('% Contribution')),
-//           DataColumn(label: Text('Value Target')),
-//           DataColumn(label: Text('MTD Mar')),
-//         ],
-//         rows: const [
-//           DataRow(cells: [
-//             DataCell(Text('120K >')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('100K - 120K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('70K - 100K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('> 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('< 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('30K - 40K')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('17.28')),
-//             DataCell(Text('16.8')),
-//           ]),
-//           DataRow(cells: [
-//             DataCell(Text('Grand Total')),
-//             DataCell(Text('85%')),
-//             DataCell(Text('57.28')),
-//             DataCell(Text('86.8')),
-//           ]),
-//         ],
-//         minWidth: 600, // Adjust the minimum width as needed
-//         columnSpacing: 20, // Adjust the spacing between columns
-//         headingRowColor:
-//             WidgetStateProperty.resolveWith((states) => Colors.grey[200]),
-//         headingTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-//       ),
-//     );
-//   }
-// }
+// // // // Define a StreamProvider for Internet connectivity
+// // // final internetConnectionProvider = StreamProvider<InternetConnectionStatus>((ref) {
+// // //   return InternetConnectionChecker().onStatusChange;
+// // // });
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:internet_connection_checker/internet_connection_checker.dart';
+// // // void main() {
+// // //   runApp(ProviderScope(child: MyApp()));
+// // // }
 
-// // Define a StreamProvider for Internet connectivity
-// final internetConnectionProvider = StreamProvider<InternetConnectionStatus>((ref) {
-//   return InternetConnectionChecker().onStatusChange;
-// });
+// // // class MyApp extends StatelessWidget {
+// // //   @override
+// // //   Widget build(BuildContext context) {
+// // //     return MaterialApp(
+// // //       debugShowCheckedModeBanner: false,
+// // //       title: 'Internet Connectivity Example',
+// // //       theme: ThemeData(
+// // //         primarySwatch: Colors.blue,
+// // //       ),
+// // //       home: HomeScreen(),
+// // //     );
+// // //   }
+// // // }
 
-// void main() {
-//   runApp(ProviderScope(child: MyApp()));
-// }
+// // // class HomeScreen extends StatelessWidget {
+// // //   @override
+// // //   Widget build(BuildContext context) {
+// // //     return Scaffold(
+// // //       appBar: AppBar(
+// // //         title: Text('Internet Connectivity Example'),
+// // //       ),
+// // //       body: Center(
+// // //         child: Consumer(
+// // //           builder: (context, ref, child) {
+// // //             // Watch the internet connection status from the provider
+// // //             final connectivityStatus = ref.watch(internetConnectionProvider);
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Internet Connectivity Example',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: HomeScreen(),
-//     );
-//   }
-// }
+// // //             return connectivityStatus.when(
+// // //               data: (status) {
+// // //                 if (status == InternetConnectionStatus.disconnected) {
+// // //                   WidgetsBinding.instance.addPostFrameCallback((_) {
+// // //                     ScaffoldMessenger.of(context).showSnackBar(
+// // //                       SnackBar(
+// // //                         content: Text(
+// // //                           'PLEASE CONNECT TO THE INTERNET',
+// // //                           style: TextStyle(fontSize: 14, color: Colors.white),
+// // //                         ),
+// // //                         backgroundColor: Colors.red,
+// // //                         duration: const Duration(days: 1),
+// // //                         action: SnackBarAction(
+// // //                           label: 'DISMISS',
+// // //                           onPressed: () {},
+// // //                           textColor: Colors.white,
+// // //                         ),
+// // //                       ),
+// // //                     );
+// // //                   });
+// // //                   return Text(
+// // //                     'No Internet Connection',
+// // //                     style: TextStyle(fontSize: 20),
+// // //                   );
+// // //                 } else {
+// // //                   WidgetsBinding.instance.addPostFrameCallback((_) {
+// // //                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+// // //                   });
+// // //                   return Text(
+// // //                     'Connected to the Internet',
+// // //                     style: TextStyle(fontSize: 20),
+// // //                   );
+// // //                 }
+// // //               },
+// // //               loading: () => CircularProgressIndicator(),
+// // //               error: (err, stack) => Text('Error: $err'),
+// // //             );
+// // //           },
+// // //         ),
+// // //       ),
+// // //     );
+// // //   }
+// // // }
+// // import 'package:flutter/material.dart';
 
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Internet Connectivity Example'),
-//       ),
-//       body: Center(
-//         child: Consumer(
-//           builder: (context, ref, child) {
-//             // Watch the internet connection status from the provider
-//             final connectivityStatus = ref.watch(internetConnectionProvider);
+// // void main() => runApp(MyApp());
 
-//             return connectivityStatus.when(
-//               data: (status) {
-//                 if (status == InternetConnectionStatus.disconnected) {
-//                   WidgetsBinding.instance.addPostFrameCallback((_) {
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       SnackBar(
-//                         content: Text(
-//                           'PLEASE CONNECT TO THE INTERNET',
-//                           style: TextStyle(fontSize: 14, color: Colors.white),
-//                         ),
-//                         backgroundColor: Colors.red,
-//                         duration: const Duration(days: 1),
-//                         action: SnackBarAction(
-//                           label: 'DISMISS',
-//                           onPressed: () {},
-//                           textColor: Colors.white,
-//                         ),
-//                       ),
-//                     );
-//                   });
-//                   return Text(
-//                     'No Internet Connection',
-//                     style: TextStyle(fontSize: 20),
-//                   );
-//                 } else {
-//                   WidgetsBinding.instance.addPostFrameCallback((_) {
-//                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//                   });
-//                   return Text(
-//                     'Connected to the Internet',
-//                     style: TextStyle(fontSize: 20),
-//                   );
-//                 }
-//               },
-//               loading: () => CircularProgressIndicator(),
-//               error: (err, stack) => Text('Error: $err'),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
+// // class MyApp extends StatelessWidget {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return MaterialApp(
+// //       home: DealerSelectionBottomSheet(),
+// //     );
+// //   }
+// // }
+
+// // class DealerSelectionBottomSheet extends StatefulWidget {
+// //   @override
+// //   _DealerSelectionBottomSheetState createState() =>
+// //       _DealerSelectionBottomSheetState();
+// // }
+
+// // class _DealerSelectionBottomSheetState extends State<DealerSelectionBottomSheet> {
+// //   String selectedName = "ALL";
+// //   List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
+
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return Scaffold(
+// //       appBar: AppBar(title: Text("Dealer Selection")),
+// //       body: Center(
+// //         child: ElevatedButton(
+// //           onPressed: () {
+// //             _showBottomSheet(context);
+// //           },
+// //           child: Text(selectedName),
+// //         ),
+// //       ),
+// //     );
+// //   }
+
+// //   void _showBottomSheet(BuildContext context) {
+// //     showModalBottomSheet(
+// //       context: context,
+// //       builder: (BuildContext context) {
+// //         return ListView(
+// //           padding: EdgeInsets.all(16.0),
+// //           children: [
+// //             ListTile(
+// //               title: Text("ALL"),
+// //               onTap: () {
+// //                 setState(() {
+// //                   selectedName = "ALL";
+// //                 });
+// //                 Navigator.pop(context);
+// //               },
+// //             ),
+// //             ListTile(
+// //               title: Text("KRO"),
+// //               onTap: () {
+// //                 Navigator.pop(context);
+// //                 _showPopup("KRO");
+// //               },
+// //             ),
+// //             ListTile(
+// //               title: Text("NPO"),
+// //               onTap: () {
+// //                 Navigator.pop(context);
+// //                 _showPopup("NPO");
+// //               },
+// //             ),
+// //           ],
+// //         );
+// //       },
+// //     );
+// //   }
+
+// //   void _showPopup(String name) {
+// //     showDialog(
+// //       context: context,
+// //       builder: (BuildContext context) {
+// //         return AlertDialog(
+// //           title: Text("$name Options"),
+// //           content: Column(
+// //             mainAxisSize: MainAxisSize.min,
+// //             children: [
+// //               ListTile(
+// //                 title: Text("View List"),
+// //                 onTap: () {
+// //                   Navigator.pop(context);
+// //                   _showDealers(name, "List");
+// //                 },
+// //               ),
+// //               ListTile(
+// //                 title: Text("View Report"),
+// //                 onTap: () {
+// //                   Navigator.pop(context);
+// //                   _showDealers(name, "Report");
+// //                 },
+// //               ),
+// //             ],
+// //           ),
+// //         );
+// //       },
+// //     );
+// //   }
+
+// //   void _showDealers(String name, String type) {
+// //     showDialog(
+// //       context: context,
+// //       builder: (BuildContext context) {
+// //         return AlertDialog(
+// //           title: Text("$name - $type"),
+// //           content: Column(
+// //             mainAxisSize: MainAxisSize.min,
+// //             children: dealers
+// //                 .map((dealer) => ListTile(
+// //                       title: Text(dealer),
+// //                     ))
+// //                 .toList(),
+// //           ),
+// //           actions: [
+// //             TextButton(
+// //               onPressed: () {
+// //                 setState(() {
+// //                   selectedName = name;
+// //                 });
+// //                 Navigator.pop(context);
+// //               },
+// //               child: Text("Select $name"),
+// //             )
+// //           ],
+// //         );
+// //       },
+// //     );
+// //   }
+// // }
+
+

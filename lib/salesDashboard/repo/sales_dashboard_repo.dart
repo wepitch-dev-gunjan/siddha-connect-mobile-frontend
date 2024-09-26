@@ -158,6 +158,26 @@ class SalesDashboardRepo {
     }
   }
 
+  getDealerModelWiseData(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? name,
+      String? position}) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = urlFormatTse(ApiUrl.getDealerModelData, tdFormat, dataFormat,
+          firstDate, lastDate, position, name);
+
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      return response;
+    } catch (e) {
+      // log(e.toString());
+      return null;
+    }
+  }
+
   getAllSubordinates() async {
     try {
       String subordinateUrl = ApiUrl.getAllSubordinates;
