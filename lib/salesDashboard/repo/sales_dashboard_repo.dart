@@ -18,6 +18,8 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
+      // log("FirstDate$firstDate");
+      // log("LastDate$lastDate");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormat(ApiUrl.getEmployeeSalesDashboardData, tdFormat,
           dataFormat, firstDate, lastDate, position, name);
@@ -244,6 +246,48 @@ class SalesDashboardRepo {
       return response;
     } catch (e) {}
   }
+
+  getDealerListForEmployeeData({
+    String? startDate,
+    String? endDate,
+    String? dataFormat,
+    String? dealerCategory,
+    String? tdFormat,
+  }) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
+          startDate, endDate, dataFormat, dealerCategory, tdFormat);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      log("DealerListFOrEmploysData=>>>$response");
+
+      return response;
+    } catch (e) {}
+  }
+}
+
+String dealerForEmployeeUrl(String baseUrl, String? startDate, String? endDate,
+    String? dataFormat, String? dealerCategory, String? tdFormat) {
+  String url = baseUrl;
+
+  Map<String, String?> queryParams = {
+    'start_date': startDate,
+    'end_date': endDate,
+    'data_format': dataFormat,
+    'td_format': tdFormat,
+    'dealer_category': dealerCategory,
+  };
+
+  String queryString = queryParams.entries
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
+
+  if (queryString.isNotEmpty) {
+    url += '?$queryString';
+  }
+
+  return url;
 }
 
 String dealerSegmentUrl(String baseUrl, String? startDate, String? endDate,
@@ -308,31 +352,6 @@ String urlFormat(
   return url;
 }
 
-// String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
-//     String? firstDate, String? lastDate, String? name, String? position) {
-//   String url = baseUrl;
-//   if (position != null) {
-//     url += position.toLowerCase();
-//   }
-
-//   Map<String, String?> queryParams = {
-//     'start_date': firstDate,
-//     'end_date': lastDate,
-//     'data_format': dataFormat,
-//     if (position != null && name != null) position: name,
-//   };
-
-//   String queryString = queryParams.entries
-//       .where((entry) => entry.value != null)
-//       .map((entry) => '${entry.key}=${entry.value}')
-//       .join('&');
-
-//   if (queryString.isNotEmpty) {
-//     url += '?$queryString';
-//   }
-
-//   return url;
-// }
 String urlFormatTse(
     String baseUrl,
     String? tdFormat,

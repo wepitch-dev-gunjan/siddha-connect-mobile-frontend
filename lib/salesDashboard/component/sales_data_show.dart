@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,7 +54,7 @@ class SalesDashboardCard extends ConsumerWidget {
         : ref.watch(getSalesDashboardProvider);
     return dashboardData.when(
         data: (data) {
-          log("DashboardData==$data");
+          // log("DashboardData==$data");
           if (data == null || data.isEmpty) {
             return const Padding(
               padding: EdgeInsets.symmetric(vertical: 60),

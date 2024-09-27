@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
+import 'package:siddha_connect/uploadModel/daily_report.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
@@ -239,6 +240,20 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                   title: "Attendance",
                   onTap: () {},
                 ),
+                ListTile(
+                  title: Text(
+                    "Sales Data Upload",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    navigationPush(context, const UploadDailyReport());
+                  },
+                ),
                 Consumer(builder:
                     (BuildContext context, WidgetRef ref, Widget? child) {
                   return ListTile(
@@ -318,7 +333,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
       ),
     );
   }
-} 
+}
 
 class DrawerElement extends StatelessWidget {
   final String src;

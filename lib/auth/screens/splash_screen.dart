@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,12 +21,15 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
+    log("Splash 1");
     ref.read(checkAuthorizeProvider);
     super.initState();
+    log("Splash 2");
   }
 
   @override
   Widget build(BuildContext context) {
+    log("Splash 3");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -47,30 +52,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 }
 
-// final dealerRoleProvider = StateProvider<String?>((ref) => null);
-// final dealerCodeProvider = StateProvider<String?>((ref) => null);
-// final dealerNameProvider = StateProvider<String?>((ref) => null);
-
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
+  log("Chack1");
   final secureStorage = ref.watch(secureStoargeProvider);
   String isLogin = await secureStorage.readData('authToken');
 
   if (isLogin.isNotEmpty) {
     try {
       final profileStatus = await ref.watch(profileStatusControllerProvider);
-
       if (profileStatus.containsKey('error') &&
           profileStatus['error'] == 'User not authorized') {
         final dealerStatus = await ref.watch(isDealerVerifiedProvider);
-
-        // Get Dealer Code and role
-
-        // final dealerRole = dealerStatus['role'] as String?;
-        // final dealerCode = dealerStatus['code'] as String?;
-        // final dealerName = dealerStatus['name'] as String?;
-        // ref.read(dealerRoleProvider.notifier).state = dealerRole;
-        // ref.read(dealerCodeProvider.notifier).state = dealerCode;
-        // ref.read(dealerNameProvider.notifier).state = dealerName;
 
         if (dealerStatus['verified'] == false) {
           navigateTo(const StatusScreen());
@@ -78,9 +70,6 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
           navigateTo(const SalesDashboard());
         }
       } else {
-        // final name = profileStatus['name'] as String?;
-        // ref.read(dealerNameProvider.notifier).state = name;
-
         if (profileStatus['verified'] == false) {
           navigateTo(const StatusScreen());
         } else {
@@ -89,13 +78,6 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
       }
     } catch (e) {
       final dealerStatus = await ref.watch(isDealerVerifiedProvider);
-
-      // final dealerRole = dealerStatus['role'] as String?;
-      // final dealerCode = dealerStatus['code'] as String?;
-      // final dealerName = dealerStatus['name'] as String?;
-      // ref.read(dealerRoleProvider.notifier).state = dealerRole;
-      // ref.read(dealerCodeProvider.notifier).state = dealerCode;
-      // ref.read(dealerNameProvider.notifier).state = dealerName;
 
       if (dealerStatus['verified'] == false) {
         navigateTo(const StatusScreen());

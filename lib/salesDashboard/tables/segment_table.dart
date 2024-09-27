@@ -17,12 +17,14 @@ class DashboardOptions {
   final String lastDate;
   final String? name;
   final String? position;
+  final String? dealerCategory;
 
   DashboardOptions(
       {required this.tdFormat,
       required this.dataFormat,
       required this.firstDate,
       required this.lastDate,
+      this.dealerCategory,
       this.name,
       this.position});
 }
@@ -32,6 +34,7 @@ final selectedOptionsProvider =
   final selectedOption1 = ref.watch(selectedOption1Provider);
   final selectedOption2 = ref.watch(selectedOption2Provider);
   final position = ref.watch(selectedPositionProvider).toLowerCase();
+  final dealerCategory = ref.watch(selectedDealerOptionProvider);
   final name = ref.watch(selectedItemProvider);
   final DateTime firstDate = ref.watch(firstDateProvider);
   final DateTime lastDate = ref.watch(lastDateProvider);
@@ -44,7 +47,8 @@ final selectedOptionsProvider =
       firstDate: formattedFirstDate,
       lastDate: formattedLastDate,
       name: name,
-      position: position);
+      position: position,
+      dealerCategory: dealerCategory);
 });
 
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
