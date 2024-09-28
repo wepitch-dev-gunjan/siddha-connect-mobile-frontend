@@ -71,15 +71,7 @@ class SmallCusBtn extends ConsumerWidget {
                         scrollDirection: Axis.horizontal,
                         child: subOrdinates.when(
                           data: (data) {
-                            if (data == null || data['positions'] == null) {
-                              return const Text("No positions available");
-                            }
-
-                            final positions = data['positions'];
-
-                            if (positions.isEmpty) {
-                              return const Text("No positions available");
-                            }
+                            final positions = data?['positions'] ?? [];
 
                             return Row(
                               children:
@@ -185,6 +177,126 @@ class SmallCusBtn extends ConsumerWidget {
                         ),
                       ),
                     ),
+
+                    // Expanded(
+                    //   child: SingleChildScrollView(
+                    //     scrollDirection: Axis.horizontal,
+                    //     child: subOrdinates.when(
+                    //       data: (data) {
+                    //         if (data == null || data['positions'] == null) {
+                    //           return const Text("No positions available");
+                    //         }
+
+                    //         final positions = data['positions'];
+
+                    //         if (positions.isEmpty) {
+                    //           return const Text("No positions available");
+                    //         }
+
+                    //         return Row(
+                    //           children:
+                    //               List.generate(positions.length + 1, (index) {
+                    //             if (index == positions.length) {
+                    //               // Static DEALER button after all positions
+                    //               return GestureDetector(
+                    //                 onTap: () {
+                    //                   ref
+                    //                       .read(selectedIndexProvider.notifier)
+                    //                       .state = positions.length + 1;
+                    //                   ref
+                    //                       .read(
+                    //                           selectedPositionProvider.notifier)
+                    //                       .state = 'DEALER';
+                    //                   ref
+                    //                       .read(selectedItemProvider.notifier)
+                    //                       .state = null;
+                    //                 },
+                    //                 child: Container(
+                    //                   width: 70,
+                    //                   height: 30,
+                    //                   margin: const EdgeInsets.symmetric(
+                    //                       horizontal: 8.0),
+                    //                   decoration: BoxDecoration(
+                    //                     color: selectedIndex ==
+                    //                             positions.length + 1
+                    //                         ? AppColor.primaryColor
+                    //                         : Colors.transparent,
+                    //                     borderRadius:
+                    //                         BorderRadius.circular(5.0),
+                    //                     border: Border.all(
+                    //                         color: AppColor.primaryColor,
+                    //                         width: 1.0),
+                    //                   ),
+                    //                   child: Center(
+                    //                     child: Text(
+                    //                       'DEALER',
+                    //                       style: GoogleFonts.lato(
+                    //                         color: selectedIndex ==
+                    //                                 positions.length + 1
+                    //                             ? Colors.white
+                    //                             : const Color(0xff999292),
+                    //                         textStyle: const TextStyle(
+                    //                             fontWeight: FontWeight.w600,
+                    //                             fontSize: 12),
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               );
+                    //             } else {
+                    //               return GestureDetector(
+                    //                 onTap: () {
+                    //                   ref
+                    //                       .read(selectedIndexProvider.notifier)
+                    //                       .state = index + 1;
+                    //                   ref
+                    //                       .read(
+                    //                           selectedPositionProvider.notifier)
+                    //                       .state = positions[index];
+                    //                   ref
+                    //                       .read(selectedItemProvider.notifier)
+                    //                       .state = null;
+                    //                 },
+                    //                 child: Container(
+                    //                   width: 70,
+                    //                   height: 30,
+                    //                   margin: const EdgeInsets.symmetric(
+                    //                       horizontal: 8.0),
+                    //                   decoration: BoxDecoration(
+                    //                     color: selectedIndex == index + 1
+                    //                         ? AppColor.primaryColor
+                    //                         : Colors.transparent,
+                    //                     borderRadius:
+                    //                         BorderRadius.circular(5.0),
+                    //                     border: Border.all(
+                    //                         color: AppColor.primaryColor,
+                    //                         width: 1.0),
+                    //                   ),
+                    //                   child: Center(
+                    //                     child: Text(
+                    //                       positions[index],
+                    //                       style: GoogleFonts.lato(
+                    //                         color: selectedIndex == index + 1
+                    //                             ? Colors.white
+                    //                             : const Color(0xff999292),
+                    //                         textStyle: const TextStyle(
+                    //                             fontWeight: FontWeight.w600,
+                    //                             fontSize: 12),
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               );
+                    //             }
+                    //           }),
+                    //         );
+                    //       },
+                    //       error: (error, stackTrace) =>
+                    //           const Text("Something went wrong"),
+                    //       loading: () => const Text("Loading...."),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 heightSizedBox(8.0),
@@ -397,75 +509,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 
-  // void _showDealers(
-  //     BuildContext context, WidgetRef ref, String name, String type) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return SizedBox(
-  //         width: MediaQuery.of(context).size.width,
-  //         child: AlertDialog(
-  //           title: Text("$name - $type"),
-  //           content: Consumer(
-  //             builder: (context, ref, child) {
-  //               // Fetch the dealer data from the provider
-  //               final dealerDataProvider = ref.watch(getDealerListDataProvider);
-
-  //               return dealerDataProvider.when(
-  //                 data: (dealerData) {
-  //                   log("DealerData====$dealerData");
-
-  //                   // Map the dealerData (List<Map<String, String>>) and extract the 'BUYER' field
-  //                   final dealers = dealerData
-  //                       .map<String>(
-  //                           (dealer) => dealer['BUYER CODE'].toString())
-  //                       .toList();
-
-  //                   // Convert the mapped dealers to a list of ListTile widgets
-  //                   final dealerWidgets = dealers
-  //                       .map<Widget>((dealer) => ListTile(
-  //                             title: Text(dealer),
-  //                             onTap: () {
-  //                               // Update the selected dealer
-  //                               ref
-  //                                   .read(selectedDealerProvider.notifier)
-  //                                   .state = dealer;
-
-  //                               Navigator.pop(context); // Close the dialog
-  //                             },
-  //                           ))
-  //                       .toList(); // Convert Iterable to List<Widget>
-
-  //                   return SizedBox(
-  //                     height: 400.h,
-  //                     child: SingleChildScrollView(
-  //                       child: Column(
-  //                         mainAxisSize: MainAxisSize.min,
-  //                         children: dealerWidgets, // Now it's List<Widget>
-  //                       ),
-  //                     ),
-  //                   );
-  //                 },
-  //                 error: (error, stackTrace) => const Center(
-  //                   child: Text("Something went wrong"),
-  //                 ),
-  //                 loading: () => const Center(
-  //                   child: CircularProgressIndicator(),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //           // contentPadding: const EdgeInsets.all(10.0),
-  //           // Wrap AlertDialog with a Container or SizedBox to increase the width
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(10.0),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   void _showDealers(
       BuildContext context, WidgetRef ref, String name, String type) {
     showDialog(
@@ -525,60 +568,4 @@ class DealerSelectionDropdown extends ConsumerWidget {
       },
     );
   }
-
-  // void _showDealers(
-  //     BuildContext context, WidgetRef ref, String name, String type) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text("$name - $type"),
-  //         content: Consumer(
-  //           builder: (context, ref, child) {
-  //             // Fetch the dealer data from the provider
-  //             final dealerDataProvider = ref.watch(getDealerListDataProvider);
-
-  //             return dealerDataProvider.when(
-  //               data: (dealerData) {
-  //                 log("DealerData====$dealerData");
-
-  //                 // Map the dealerData (List<Map<String, String>>) and extract the 'BUYER' field
-  //                 final dealers = dealerData
-  //                     .map<String>((dealer) => dealer['BUYER'].toString())
-  //                     .toList();
-
-  //                 // Convert the mapped dealers to a list of ListTile widgets
-  //                 final dealerWidgets = dealers
-  //                     .map<Widget>((dealer) => ListTile(
-  //                           title: Text(dealer),
-  //                           onTap: () {
-  //                             // Update the selected dealer
-  //                             ref.read(selectedDealerProvider.notifier).state =
-  //                                 dealer;
-
-  //                             Navigator.pop(context); // Close the dialog
-  //                           },
-  //                         ))
-  //                     .toList(); // Convert Iterable to List<Widget>
-
-  //                 return SingleChildScrollView(
-  //                   child: Column(
-  //                     mainAxisSize: MainAxisSize.min,
-  //                     children: dealerWidgets, // Now it's List<Widget>
-  //                   ),
-  //                 );
-  //               },
-  //               error: (error, stackTrace) => const Center(
-  //                 child: Text("Something went wrong"),
-  //               ),
-  //               loading: () => const Center(
-  //                 child: CircularProgressIndicator(),
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

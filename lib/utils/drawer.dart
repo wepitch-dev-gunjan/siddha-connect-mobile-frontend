@@ -254,17 +254,19 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                     navigationPush(context, const UploadDailyReport());
                   },
                 ),
-                Consumer(builder:
-                    (BuildContext context, WidgetRef ref, Widget? child) {
-                  return ListTile(
+                Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    return ListTile(
                       leading: const Icon(Icons.logout, color: Colors.red),
                       title: Text(
                         "Logout",
                         style: GoogleFonts.lato(
                           textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.red),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                       onTap: () async {
@@ -285,30 +287,37 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 TextButton(
                                   child: const Text('Yes'),
                                   onPressed: () async {
-                                    // Invalidate providers
-                                    // ref.invalidate(userProfileProvider);
-                                    // ref.invalidate(dealerProfileProvider);
-                                    // ref.invalidate(dealerCodeProvider);
-
-                                    // Clear secure storage
+                                    // Clear secure storage data
                                     await ref
                                         .read(secureStoargeProvider)
                                         .clearData();
 
-                                    // After clearing the data, navigate to the login screen
-                                    navigateTo(const SplashScreen());
+                                    // Invalidate providers to reset state
+                                    ref.invalidate(userProfileProvider);
+                                    ref.invalidate(dealerProfileProvider);
+                                    ref.invalidate(dealerCodeProvider);
 
-                                    // Fetch fresh data after login
-                                    ref.refresh(userProfileProvider);
-                                    ref.refresh(dealerProfileProvider);
+                                    // Close the dialog before navigating
+                                    Navigator.of(context).pop();
+
+                                    // Navigate to SplashScreen
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SplashScreen()),
+                                      (route) => false,
+                                    );
                                   },
                                 ),
                               ],
                             );
                           },
                         );
-                      });
-                })
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),
