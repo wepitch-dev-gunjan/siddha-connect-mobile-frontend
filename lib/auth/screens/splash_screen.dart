@@ -29,7 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("Splash 3");
+    // log("Splash 3");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

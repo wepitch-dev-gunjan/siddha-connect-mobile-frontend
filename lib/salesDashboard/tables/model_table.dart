@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
-import '../component/btn.dart';
+import '../component/dashboard_small_btn.dart';
 import '../repo/sales_dashboard_repo.dart';
-import 'segment_table.dart';
 
 final modelWiseDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);

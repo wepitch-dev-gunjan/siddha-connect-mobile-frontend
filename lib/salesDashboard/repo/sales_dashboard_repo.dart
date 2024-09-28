@@ -255,11 +255,12 @@ class SalesDashboardRepo {
     String? tdFormat,
   }) async {
     try {
+      log("DealserCategorhy$dealerCategory");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      log("DealerListFOrEmploysData=>>>$response");
+      // log("DealerListFOrEmploysData=>>>$response");
 
       return response;
     } catch (e) {}

@@ -1,13 +1,12 @@
 import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/providers.dart';
+import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_position_wise.dart';
-import 'segment_table.dart';
 
 final getChannelDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);

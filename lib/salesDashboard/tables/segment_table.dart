@@ -1,55 +1,12 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
+import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
-import '../component/btn.dart';
 import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_position_wise.dart';
-
-class DashboardOptions {
-  final String tdFormat;
-  final String dataFormat;
-  final String firstDate;
-  final String lastDate;
-  final String? name;
-  final String? position;
-  final String? dealerCategory;
-
-  DashboardOptions(
-      {required this.tdFormat,
-      required this.dataFormat,
-      required this.firstDate,
-      required this.lastDate,
-      this.dealerCategory,
-      this.name,
-      this.position});
-}
-
-final selectedOptionsProvider =
-    StateProvider.autoDispose<DashboardOptions>((ref) {
-  final selectedOption1 = ref.watch(selectedOption1Provider);
-  final selectedOption2 = ref.watch(selectedOption2Provider);
-  final position = ref.watch(selectedPositionProvider).toLowerCase();
-  final dealerCategory = ref.watch(selectedDealerOptionProvider);
-  final name = ref.watch(selectedItemProvider);
-  final DateTime firstDate = ref.watch(firstDateProvider);
-  final DateTime lastDate = ref.watch(lastDateProvider);
-  final String formattedFirstDate = DateFormat('yyyy-MM-dd').format(firstDate);
-  final String formattedLastDate = DateFormat('yyyy-MM-dd').format(lastDate);
-
-  return DashboardOptions(
-      tdFormat: selectedOption1,
-      dataFormat: selectedOption2,
-      firstDate: formattedFirstDate,
-      lastDate: formattedLastDate,
-      name: name,
-      position: position,
-      dealerCategory: dealerCategory);
-});
 
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);

@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
+import '../../common/dashboard_options.dart';
 import '../../utils/providers.dart';
 import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
-import '../tables/segment_table.dart';
 import 'shimmer.dart';
-
-class DashboardOptions {
-  final String tdFormat;
-  final String dataFormat;
-  DashboardOptions({required this.tdFormat, required this.dataFormat});
-}
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final user = await ref.watch(userProvider.future);
-
   final salesRepo = ref.watch(salesRepoProvider);
+
   final data = await salesRepo.getSalesDashboardData(
     tdFormat: options.tdFormat,
     dataFormat: options.dataFormat,
@@ -54,7 +48,6 @@ class SalesDashboardCard extends ConsumerWidget {
         : ref.watch(getSalesDashboardProvider);
     return dashboardData.when(
         data: (data) {
-          // log("DashboardData==$data");
           if (data == null || data.isEmpty) {
             return const Padding(
               padding: EdgeInsets.symmetric(vertical: 60),

@@ -11,30 +11,17 @@ class UploadDailyReport extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final employData = ref.watch(userProfileProvider);
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(),
-      body: employData.when(
-        data: (data) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TopNames(data: data),
-              const ShowTable(),
-            ],
-          );
-        },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, stackTrace) => const Center(
-          child: Text("Something Went Wrong"),
-        ),
+      appBar: CustomAppBar(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TopNames(),
+          ShowTable(),
+        ],
       ),
-      floatingActionButton: const  AddButton(),
+      floatingActionButton: AddButton(),
     );
   }
 }
-
-
-

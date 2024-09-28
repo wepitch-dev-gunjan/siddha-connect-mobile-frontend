@@ -6,9 +6,10 @@ import 'package:siddha_connect/utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/drawer.dart';
 import '../../utils/providers.dart';
-import '../component/btn.dart';
+import '../component/dashboard_small_btn.dart';
 import '../component/date_picker.dart';
 import '../component/sales_data_show.dart';
+import '../component/dashboard_full_btn.dart';
 
 class SalesDashboard extends ConsumerWidget {
   const SalesDashboard({super.key});
