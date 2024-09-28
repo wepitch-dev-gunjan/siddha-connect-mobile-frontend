@@ -345,7 +345,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
             // Show popup dialog based on selected option
             _showPopup(context, ref, newValue!, dealers);
             // Update selectedOptionProvider when a new value is selected
-            ref.read(dealerCategoryProvider.notifier).state = newValue!;
+            ref.read(dealerCategoryProvider.notifier).state = newValue;
             // Reset selected dealer when a new option is selected
             ref.read(selectedDealerProvider.notifier).state = "";
           },
@@ -492,8 +492,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
                       subtitle: Text(buyerCode), // Display 'BUYER CODE'
                       onTap: () {
                         // Update the selected dealer with 'BUYER CODE'
-                        ref.read(selectedDealerProvider.notifier).state =
-                            buyerCode;
+                        ref.read(selectedDealerProvider.notifier).state = buyer;
 
                         Navigator.pop(context); // Close the dialog
                       },
