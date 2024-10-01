@@ -143,73 +143,10 @@ class ModelDropDawn extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) => Text("Error loading data: $error"),
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
-      ),
+      loading: () =>const  SizedBox(),
     );
   }
 }
-
-// final selectedSegmentProvider = StateProvider<String?>((ref) => null);
-
-// class SegmentDropDown extends ConsumerWidget {
-//   const SegmentDropDown({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     final selectedModel = ref.watch(selectedModelProvider);
-//     final getModels = ref.watch(getModelsProvider(selectedBrand));
-
-//     return getModels.when(
-//       data: (data) {
-//         if (data == null || data['products'] == null) {
-//           return const Text("No models available");
-//         }
-
-//         final List<Map<String, dynamic>> products =
-//             List<Map<String, dynamic>>.from(data['products']);
-//         final List<String> modelNames = products
-//             .where((product) => product['Model'] != null)
-//             .map((product) => product['Model'] as String)
-//             .toList();
-
-//         if (modelNames.isEmpty) {
-//           return const Text("No models available");
-//         }
-
-//         return DropdownButtonFormField<String>(
-//           value: selectedModel,
-//           style: const TextStyle(
-//             fontSize: 16.0,
-//             height: 1.5,
-//             color: Colors.black87,
-//           ),
-//           decoration: inputDecoration(label: "Select Segment"),
-//           onChanged: (newValue) {
-//             ref.read(selectedModelProvider.notifier).state = newValue;
-//             final selectedProduct =
-//                 products.firstWhere((product) => product['Model'] == newValue);
-//             ref.read(selectedModelIdProvider.notifier).state =
-//                 selectedProduct['_id'];
-//           },
-//           hint: const Text("Select Segment"),
-//           items: modelNames.map<DropdownMenuItem<String>>((model) {
-//             return DropdownMenuItem<String>(
-//               value: model,
-//               child: Text(model),
-//             );
-//           }).toList(),
-//           menuMaxHeight: MediaQuery.of(context).size.height / 2,
-//         );
-//       },
-//       error: (error, stackTrace) => Text("Error loading data: $error"),
-//       loading: () => const Center(
-//         child: CircularProgressIndicator(),
-//       ),
-//     );
-//   }
-// }
 
 final selectedSegmentProvider = StateProvider<String?>((ref) => null);
 
