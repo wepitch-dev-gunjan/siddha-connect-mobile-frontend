@@ -58,12 +58,15 @@ class BrandDropDown extends ConsumerWidget {
         height: 1.5,
         color: Colors.black87,
       ),
+      dropdownColor: Colors.white,
       decoration: inputDecoration(label: "Select Brand"),
       onChanged: (newValue) {
         // Reset selected model when a new brand is selected
         ref.read(selectedBrandProvider.notifier).state = newValue;
-        ref.read(selectedModelProvider.notifier).state = null; // Clear selected model
-        ref.read(selectedModelIdProvider.notifier).state = null; // Clear model id
+        ref.read(selectedModelProvider.notifier).state =
+            null; // Clear selected model
+        ref.read(selectedModelIdProvider.notifier).state =
+            null; // Clear model id
       },
       hint: const Text("Select Brand"),
       items: items.map<DropdownMenuItem<String>>((value) {
@@ -76,7 +79,6 @@ class BrandDropDown extends ConsumerWidget {
     );
   }
 }
-
 
 final getModelsProvider =
     FutureProvider.autoDispose.family((ref, String? brand) async {
@@ -120,6 +122,7 @@ class ModelDropDawn extends ConsumerWidget {
             height: 1.5,
             color: Colors.black87,
           ),
+          dropdownColor: Colors.white,
           decoration: inputDecoration(label: "Select Model"),
           onChanged: (newValue) {
             ref.read(selectedModelProvider.notifier).state = newValue;
@@ -147,6 +150,117 @@ class ModelDropDawn extends ConsumerWidget {
   }
 }
 
+// final selectedSegmentProvider = StateProvider<String?>((ref) => null);
+
+// class SegmentDropDown extends ConsumerWidget {
+//   const SegmentDropDown({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedBrand = ref.watch(selectedBrandProvider);
+//     final selectedModel = ref.watch(selectedModelProvider);
+//     final getModels = ref.watch(getModelsProvider(selectedBrand));
+
+//     return getModels.when(
+//       data: (data) {
+//         if (data == null || data['products'] == null) {
+//           return const Text("No models available");
+//         }
+
+//         final List<Map<String, dynamic>> products =
+//             List<Map<String, dynamic>>.from(data['products']);
+//         final List<String> modelNames = products
+//             .where((product) => product['Model'] != null)
+//             .map((product) => product['Model'] as String)
+//             .toList();
+
+//         if (modelNames.isEmpty) {
+//           return const Text("No models available");
+//         }
+
+//         return DropdownButtonFormField<String>(
+//           value: selectedModel,
+//           style: const TextStyle(
+//             fontSize: 16.0,
+//             height: 1.5,
+//             color: Colors.black87,
+//           ),
+//           decoration: inputDecoration(label: "Select Segment"),
+//           onChanged: (newValue) {
+//             ref.read(selectedModelProvider.notifier).state = newValue;
+//             final selectedProduct =
+//                 products.firstWhere((product) => product['Model'] == newValue);
+//             ref.read(selectedModelIdProvider.notifier).state =
+//                 selectedProduct['_id'];
+//           },
+//           hint: const Text("Select Segment"),
+//           items: modelNames.map<DropdownMenuItem<String>>((model) {
+//             return DropdownMenuItem<String>(
+//               value: model,
+//               child: Text(model),
+//             );
+//           }).toList(),
+//           menuMaxHeight: MediaQuery.of(context).size.height / 2,
+//         );
+//       },
+//       error: (error, stackTrace) => Text("Error loading data: $error"),
+//       loading: () => const Center(
+//         child: CircularProgressIndicator(),
+//       ),
+//     );
+//   }
+// }
+
+final selectedSegmentProvider = StateProvider<String?>((ref) => null);
+
+class SegmentDropDown extends ConsumerWidget {
+  const SegmentDropDown({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Predefined list of 5 items
+    final List<String> modelNames = [
+      "100K",
+      "70-100K",
+      "40-70K",
+      "> 40 K",
+      "< 40 K",
+      "30-40K",
+      "20-30K",
+      "15-20K",
+      "10-15K",
+      "6-10K",
+      "Tab>40k",
+      "Tab<40k",
+      "Wearable"
+    ];
+
+    final selectedModel = ref.watch(selectedModelProvider);
+
+    return DropdownButtonFormField<String>(
+      value: selectedModel,
+      style: const TextStyle(
+        fontSize: 16.0,
+        height: 1.5,
+        color: Colors.black87,
+      ),
+      dropdownColor: Colors.white,
+      decoration: inputDecoration(label: "Select Segment"),
+      onChanged: (newValue) {
+        ref.read(selectedModelProvider.notifier).state = newValue;
+      },
+      hint: const Text("Select Segment"),
+      items: modelNames.map<DropdownMenuItem<String>>((model) {
+        return DropdownMenuItem<String>(
+          value: model,
+          child: Text(model),
+        );
+      }).toList(),
+      menuMaxHeight: MediaQuery.of(context).size.height / 2,
+    );
+  }
+}
+
 class PaymentModeDropDawn extends ConsumerWidget {
   final List<String> items;
 
@@ -162,6 +276,7 @@ class PaymentModeDropDawn extends ConsumerWidget {
         height: 1.5,
         color: Colors.black87,
       ),
+      dropdownColor: Colors.white,
       decoration: inputDecoration(label: "Payment Mode"),
       onChanged: (newValue) {
         ref.read(paymentModeProvider.notifier).state = newValue;

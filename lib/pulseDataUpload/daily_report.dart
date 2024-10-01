@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/pulseDataUpload/components/repo/product_repo.dart';
+import 'package:siddha_connect/utils/buttons.dart';
 import '../utils/common_style.dart';
 import '../utils/cus_appbar.dart';
 import '../utils/fields.dart';
@@ -75,6 +78,8 @@ class DealerForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedBrand = ref.watch(selectedBrandProvider);
+    log("selectedBrand$selectedBrand");
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
       padding: const EdgeInsets.all(16.0),
@@ -89,7 +94,7 @@ class DealerForm extends ConsumerWidget {
               contentPadding: const EdgeInsets.all(10.0),
               capitalization: TextCapitalization.characters,
               labelText: "Dealer Code",
-              hintText: "Dealer Code",
+              // hintText: "Dealer Code",
               maxLines: 1,
               controller: dealerCode,
               keyboardType: TextInputType.text,
@@ -114,13 +119,16 @@ class DealerForm extends ConsumerWidget {
               ],
             ),
             heightSizedBox(15.0),
-            const ModelDropDawn(),
+            selectedBrand == "OTHER"
+                ? const SegmentDropDown()
+                : const ModelDropDawn(),
             heightSizedBox(15.0),
             const QuantitySelector(),
             heightSizedBox(15.0),
             const PaymentModeDropDawn(
               items: ["Cash", "Online"],
             ),
+            heightSizedBox(10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -128,7 +136,10 @@ class DealerForm extends ConsumerWidget {
                   onPressed: () {
                     ref.read(formVisibilityProvider.notifier).state = false;
                   },
-                  child: const Text("Cancel"),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -146,7 +157,16 @@ class DealerForm extends ConsumerWidget {
                     ref.read(productRepoProvider).addRecord(data: dataToSend);
                     ref.read(formVisibilityProvider.notifier).state = false;
                   },
-                  child: const Text("OK"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -164,7 +184,6 @@ class AddButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       onPressed: () {
-        // Show the form when FAB is clicked
         ref.read(formVisibilityProvider.notifier).state = true;
       },
       shape: const CircleBorder(),

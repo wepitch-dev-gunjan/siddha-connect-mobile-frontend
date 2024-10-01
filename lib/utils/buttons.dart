@@ -43,18 +43,22 @@ class OutlinedBtn extends StatelessWidget {
 
 class Btn extends StatelessWidget {
   final String btnName;
+  final double? btnHeight, btnWidth, fontSize;
   final Function() onPressed;
   const Btn({
     super.key,
     required this.btnName,
     required this.onPressed,
+    this.btnHeight,
+    this.btnWidth,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width(context) * 0.9,
-      height: 48,
+      width: btnWidth ?? width(context) * 0.9,
+      height: btnHeight ?? 48,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.primaryColor,
@@ -67,8 +71,8 @@ class Btn extends StatelessWidget {
         child: Text(
           btnName,
           style: GoogleFonts.lato(
-            textStyle: const TextStyle(
-              fontSize: 18,
+            textStyle: TextStyle(
+              fontSize: fontSize ?? 18,
               fontWeight: FontWeight.w500,
             ),
           ),
