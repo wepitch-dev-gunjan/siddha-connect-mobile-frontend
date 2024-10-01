@@ -409,6 +409,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
     final selectedDealer = ref.watch(selectedDealerProvider);
     final dealerListData = ref.watch(getDealerListDataProvider);
 
+    // log("SelectedDeralkgdfl$selectedDealer");
+
     List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
 
     // Update dropdownLabel to show the selected option and dealer
@@ -535,7 +537,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
                       subtitle: Text(buyerCode), // Display 'BUYER CODE'
                       onTap: () {
                         // Update the selected dealer with 'BUYER CODE'
-                        ref.read(selectedDealerProvider.notifier).state = buyer;
+                        ref.read(selectedDealerProvider.notifier).state = buyerCode;
 
                         Navigator.pop(context); // Close the dialog
                       },

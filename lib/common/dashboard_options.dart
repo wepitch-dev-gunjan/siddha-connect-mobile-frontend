@@ -12,6 +12,7 @@ class DashboardOptions {
   final String? name;
   final String? position;
   final String? dealerCategory;
+  final String? dealerCode;
 
   DashboardOptions(
       {required this.tdFormat,
@@ -20,7 +21,8 @@ class DashboardOptions {
       required this.lastDate,
       this.dealerCategory,
       this.name,
-      this.position});
+      this.position,
+      this.dealerCode});
 }
 
 final selectedOptionsProvider =
@@ -29,6 +31,7 @@ final selectedOptionsProvider =
   final selectedOption2 = ref.watch(selectedOption2Provider);
   final position = ref.watch(selectedPositionProvider).toLowerCase();
   final dealerCategory = ref.watch(dealerCategoryProvider);
+  final dealerCode=ref.watch(selectedDealerProvider);
   final name = ref.watch(selectedItemProvider);
   final DateTime firstDate = ref.watch(firstDateProvider);
   final DateTime lastDate = ref.watch(lastDateProvider);
@@ -42,5 +45,6 @@ final selectedOptionsProvider =
       lastDate: formattedLastDate,
       name: name,
       position: position,
-      dealerCategory: dealerCategory);
+      dealerCategory: dealerCategory,
+      dealerCode: dealerCode);
 });

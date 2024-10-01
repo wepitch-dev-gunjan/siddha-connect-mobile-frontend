@@ -4,15 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../../utils/drawer.dart';
+import '../../utils/fields.dart';
 import '../../utils/sizes.dart';
 import 'dropDawns.dart';
 
 // Quantity provider to manage state
 
 class AddButton extends ConsumerWidget {
-  const AddButton({
-    super.key,
-  });
+  TextEditingController dealerCode = TextEditingController();
+  AddButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,15 +26,36 @@ class AddButton extends ConsumerWidget {
                 content: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const BrandDropDawn(
-                        items: ["OPPO", "Vivo", "SAMSUNG"],
+                      TxtField(
+                        contentPadding: contentPadding,
+                        capitalization: TextCapitalization.characters,
+                        labelText: "Dealer Code",
+                        hintText: "Dealer Code",
+                        maxLines: 1,
+                        controller: dealerCode,
+                        keyboardType: TextInputType.text,
+                        validator: validateCode,
+                      ),
+                      heightSizedBox(15.00),
+                      const BrandDropDown(
+                        items: [
+                          "SAMSUNG",
+                          "APPLE",
+                          "GOOGLE",
+                          "OPPO",
+                          "VIVO",
+                          "ONEPLUS",
+                          "REALME",
+                          "NOTHING",
+                          "XIAOMI",
+                          "MOTOROLA",
+                          "NOKIA",
+                          "INFINIX",
+                          "OTHER"
+                        ],
                       ),
                       heightSizedBox(15.0),
-                      const ModelDropDawn(
-                        items: ["Model 1", "Model 2", "Model 3"],
-                      ),
-                      heightSizedBox(15.0),
-                      const PriceDropDawn(items: ["2000", "4000", "6000"]),
+                      const ModelDropDawn(),
                       heightSizedBox(15.0),
                       const QuantitySelector(),
                       heightSizedBox(15.0),
@@ -130,7 +151,7 @@ class TopNames extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    "Dealer Code      :     ",
+                    "Name   :    ",
                     style: GoogleFonts.lato(
                         fontSize: 16.sp, fontWeight: FontWeight.w600),
                   ),
@@ -151,7 +172,7 @@ class TopNames extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    "Dealer Name     :     ",
+                    "Code   :     ",
                     style: GoogleFonts.lato(
                         fontSize: 16.sp, fontWeight: FontWeight.w600),
                   ),

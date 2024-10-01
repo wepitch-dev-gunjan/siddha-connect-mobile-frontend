@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/providers.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
+import '../component/dashboard_small_btn.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_position_wise.dart';
 
@@ -147,14 +148,31 @@ final getChannelDataPositionWiseProvider =
   return getChanelData;
 });
 
+final getSalesDataChannelWiseForEmployee =
+    FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getPositionSegmentData = await ref
+      .watch(salesRepoProvider)
+      .getSalesDataChannelWiseForEmployes(
+          tdFormat: options.tdFormat,
+          dataFormat: options.dataFormat,
+          firstDate: options.firstDate,
+          lastDate: options.lastDate,
+          dealerCode: options.dealerCode);
+  return getPositionSegmentData;
+});
+
 class ChannelTablePositionWise extends ConsumerWidget {
   const ChannelTablePositionWise({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final selectedPosition = ref.watch(selectedPositionProvider);
     final columnSpacing = screenWidth / 12;
-    final channelData = ref.watch(getChannelDataPositionWiseProvider);
+    final channelData = selectedPosition == "DEALER"
+        ? ref.watch(getSalesDataChannelWiseForEmployee)
+        : ref.watch(getChannelDataPositionWiseProvider);
 
     return channelData.when(
       data: (data) {

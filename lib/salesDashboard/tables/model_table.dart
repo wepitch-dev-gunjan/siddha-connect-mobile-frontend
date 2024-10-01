@@ -144,6 +144,20 @@ final getModelDataPositionWiseProvider =
   return getModelData;
 });
 
+final getSalesDataModelWiseForEmployee =
+    FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getModelWiseEmployeeData = await ref
+      .watch(salesRepoProvider)
+      .getSalesDataModelWiseForEmployes(
+          tdFormat: options.tdFormat,
+          dataFormat: options.dataFormat,
+          firstDate: options.firstDate,
+          lastDate: options.lastDate,
+          dealerCode: options.dealerCode);
+  return getModelWiseEmployeeData;
+});
+
 class ModelTablePositionWise extends ConsumerWidget {
   const ModelTablePositionWise({super.key});
 
@@ -151,7 +165,10 @@ class ModelTablePositionWise extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
-    final modelData = ref.watch(getModelDataPositionWiseProvider);
+    final selectedPosition = ref.watch(selectedPositionProvider);
+    final modelData = selectedPosition == "DEALER"
+        ? ref.watch(getSalesDataModelWiseForEmployee)
+        : ref.watch(getModelDataPositionWiseProvider);
 
     return modelData.when(
       data: (data) {

@@ -242,20 +242,22 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                   title: "Attendance",
                   onTap: () {},
                 ),
-                ListTile(
-                  title: Text(
-                    "Sales Data Upload",
-                    style: GoogleFonts.lato(
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                dealer == "dealer"
+                    ? SizedBox()
+                    : ListTile(
+                        title: Text(
+                          "Pulse Data Upload",
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          navigationPush(context, const UploadDailyReport());
+                        },
                       ),
-                    ),
-                  ),
-                  onTap: () {
-                    navigationPush(context, const UploadDailyReport());
-                  },
-                ),
                 Consumer(
                   builder:
                       (BuildContext context, WidgetRef ref, Widget? child) {

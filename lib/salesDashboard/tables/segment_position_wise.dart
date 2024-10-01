@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
+import '../component/dashboard_small_btn.dart';
 import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
 
@@ -21,13 +24,30 @@ final positionWiseSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   return getPositionSegmentData;
 });
 
+final getSalesDataSegmentWiseForEmployee =
+    FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getPositionSegmentData = await ref
+      .watch(salesRepoProvider)
+      .getSalesDataSegmetWiseForEmployes(
+          tdFormat: options.tdFormat,
+          dataFormat: options.dataFormat,
+          firstDate: options.firstDate,
+          lastDate: options.lastDate,
+          dealerCode: options.dealerCode);
+  return getPositionSegmentData;
+});
+
 class SegmentTablePositionWise extends ConsumerWidget {
   const SegmentTablePositionWise({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedOption2 = ref.watch(selectedOption2Provider);
-    final segmentData = ref.watch(positionWiseSegmentDataProvider);
+    final selectedPosition = ref.watch(selectedPositionProvider);
+    final segmentData = selectedPosition == "DEALER"
+        ? ref.watch(getSalesDataSegmentWiseForEmployee)
+        : ref.watch(positionWiseSegmentDataProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
     return segmentData.when(
@@ -64,10 +84,15 @@ class SegmentTablePositionWise extends ConsumerWidget {
               columns: [
                 for (var column in columns)
                   DataColumn(
-                    label: Text(
-                      column ?? 'Unknown', // Add a fallback label
-                      textAlign: TextAlign.center,
-                      style: topStyle,
+                    label: GestureDetector(
+                      onTap: () {
+                        // log("Show Filter");
+                      },
+                      child: Text(
+                        column ?? 'Unknown', // Add a fallback label
+                        textAlign: TextAlign.center,
+                        style: topStyle,
+                      ),
                     ),
                   ),
               ],
@@ -118,7 +143,6 @@ class SegmentTablePositionWise extends ConsumerWidget {
     );
   }
 }
-
 
 var topStyle = GoogleFonts.lato(
   textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),

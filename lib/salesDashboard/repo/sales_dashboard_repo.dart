@@ -30,6 +30,28 @@ class SalesDashboardRepo {
     }
   }
 
+  getSalesDashboardDataByEmployeeName(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? position,
+      String? name}) async {
+    try {
+      log("Employee Name$name");
+      log("EmployeePosition$position");
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = urlFormat(ApiUrl.getEmployeeSalesDashboardDataByName,
+          tdFormat, dataFormat, firstDate, lastDate, position, name);
+      log("Rul===$url");
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      log("Employee Name wise data$response");
+      return response;
+    } catch (e) {
+      // log(e.toString());
+    }
+  }
+
   getChannelWiseData(
       {String? tdFormat,
       String? dataFormat,
@@ -247,6 +269,8 @@ class SalesDashboardRepo {
     } catch (e) {}
   }
 
+  //=============================! Get DealerListData !=====================================
+
   getDealerListForEmployeeData({
     String? startDate,
     String? endDate,
@@ -255,15 +279,83 @@ class SalesDashboardRepo {
     String? tdFormat,
   }) async {
     try {
-      log("DealserCategorhy$dealerCategory");
+      // log("DealserCategorhy$dealerCategory");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
+
       String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
+      // log("DealerUrl=>>>$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       // log("DealerListFOrEmploysData=>>>$response");
 
       return response;
     } catch (e) {}
+  }
+
+  getSalesDataSegmetWiseForEmployes(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? dealerCode}) async {
+    try {
+      String url = urlFormatGetDataByDealerCode(
+          ApiUrl.getSegmentDataByDealerCode,
+          tdFormat,
+          dataFormat,
+          firstDate,
+          lastDate,
+          dealerCode);
+      final response = await ApiMethod(url: url).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  getSalesDataChannelWiseForEmployes(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? dealerCode}) async {
+    try {
+      String url = urlFormatGetDataByDealerCode(
+          ApiUrl.getSalesDataChannelWiseForEmployee,
+          tdFormat,
+          dataFormat,
+          firstDate,
+          lastDate,
+          dealerCode);
+      final response = await ApiMethod(url: url).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  getSalesDataModelWiseForEmployes(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? dealerCode}) async {
+    try {
+      String url = urlFormatGetDataByDealerCode(
+          ApiUrl.getSalesDataModelWiseForEmployee,
+          tdFormat,
+          dataFormat,
+          firstDate,
+          lastDate,
+          dealerCode);
+      final response = await ApiMethod(url: url).getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
   }
 }
 
@@ -385,6 +477,37 @@ String urlFormatTse(
   return url;
 }
 
+String urlFormatGetDataByDealerCode(
+    String baseUrl,
+    String? tdFormat,
+    String? dataFormat,
+    String? firstDate,
+    String? lastDate,
+    String? dealerCode // Added dealerCode
+    ) {
+  String url = baseUrl;
+
+  Map<String, String?> queryParams = {
+    'td_format': tdFormat,
+    'start_date': firstDate,
+    'end_date': lastDate,
+    'data_format': dataFormat,
+    if (dealerCode != null)
+      'dealerCode': dealerCode // Added dealerCode to queryParams
+  };
+
+  String queryString = queryParams.entries
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
+
+  if (queryString.isNotEmpty) {
+    url += '?$queryString';
+  }
+
+  return url;
+}
+
 String urlFormatSubordinatesNames(String baseUrl, String? tdFormat,
     String? dataFormat, String? firstDate, String? lastDate) {
   String url = baseUrl;
@@ -407,10 +530,6 @@ String urlFormatSubordinatesNames(String baseUrl, String? tdFormat,
 
   return url;
 }
-
-
-
-
 
 // String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
 //     String? firstDate, String? lastDate, String? name, String? position) {
@@ -438,7 +557,6 @@ String urlFormatSubordinatesNames(String baseUrl, String? tdFormat,
 
 //   return url;
 // }
-
 
 // String urlFormat(String baseUrl, String? tdFormat, String? dataFormat,
 //     String? firstDate, String? lastDate) {

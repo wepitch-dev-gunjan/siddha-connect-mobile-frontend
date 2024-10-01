@@ -41,6 +41,8 @@ class ApiMethod {
       }
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
+
+      // log("REspPost${response.data}");
       return response.data;
     } on DioException {
       rethrow;
@@ -100,6 +102,8 @@ class ApiUrl {
   static String baseUrl = dotenv.env['BASEURL'] ?? "";
   static String getEmployeeSalesDashboardData =
       "$baseUrl/sales-data-mtdw/dashboard/employee";
+  static String getEmployeeSalesDashboardDataByName =
+      "$baseUrl/sales-data-mtdw/dashboard/by-employee-name";
   static String getChannelData =
       "$baseUrl/sales-data-mtdw/channel-wise/employee";
   static String getSegmentData =
@@ -141,4 +145,14 @@ class ApiUrl {
   static String getDealerModelData = "$baseUrl/model-data/mtdw/dealer";
   static String getDealerListForEmployeesData =
       "$baseUrl/sales-data-mtdw/get-dealer-list-for-employees";
+
+  static String getSegmentDataByDealerCode =
+      "$baseUrl/sales-data-mtdw/segment-wise/employee/by-dealer-code";
+  static String getSalesDataChannelWiseForEmployee =
+      "$baseUrl/sales-data-mtdw/channel-wise/employee/by-dealer-code";
+  static String getSalesDataModelWiseForEmployee =
+      "$baseUrl/model-data-mtdw/employee/by-dealer-code";
+
+  static String getAllProducts = "$baseUrl/product/get-all-products";
+  static String addRecord = "$baseUrl/record/add";
 }

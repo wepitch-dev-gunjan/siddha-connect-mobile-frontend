@@ -38,6 +38,7 @@ class SegmentTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final role = ref.read(dealerRoleProvider);
     final selectedOption2 = ref.watch(selectedOption2Provider);
+    
     final segmentData = role == 'dealer'
         ? ref.watch(getDealerDataProvider)
         : ref.watch(getSegmentDataProvider);

@@ -6,6 +6,7 @@ import '../../common/dashboard_options.dart';
 import '../../utils/providers.dart';
 import '../../utils/sizes.dart';
 import '../repo/sales_dashboard_repo.dart';
+import 'dashboard_small_btn.dart';
 import 'shimmer.dart';
 
 final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
@@ -19,6 +20,22 @@ final getSalesDashboardProvider = FutureProvider.autoDispose((ref) async {
     firstDate: options.firstDate,
     lastDate: options.lastDate,
   );
+  return data;
+});
+
+final getSalesDashboardDataByEmployeeName =
+    FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final user = await ref.watch(userProvider.future);
+  final salesRepo = ref.watch(salesRepoProvider);
+
+  final data = await salesRepo.getSalesDashboardDataByEmployeeName(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate,
+      position: options.position!.toUpperCase(),
+      name: options.name);
   return data;
 });
 
@@ -40,12 +57,29 @@ class SalesDashboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final dealerRole = ref.watch(dealerRoleProvider);
+    // final dealerName = ref.watch(dealerNameProvider);
+    // final dataByEmployeeName = ref.watch(getSalesDashboardDataByEmployeeName);
+    // final position = ref.watch(selectedPositionProvider);
+
+    // final dashboardData =  dealerRole == 'dealer'
+    //     ? ref.watch(getDealerDashboardProvider)
+    //     : ref.watch(getSalesDashboardProvider);
+
     final dealerRole = ref.watch(dealerRoleProvider);
     final dealerName = ref.watch(dealerNameProvider);
+    final dataByEmployeeName = ref.watch(getSalesDashboardDataByEmployeeName);
+    final position = ref.watch(selectedPositionProvider);
 
-    final dashboardData = dealerRole == 'dealer'
-        ? ref.watch(getDealerDashboardProvider)
-        : ref.watch(getSalesDashboardProvider);
+    final dashboardData = (dealerRole == 'dealer')
+        ? ref.watch(
+            getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
+        : (position != 'All')
+            ? ref.watch(
+                getSalesDashboardDataByEmployeeName) // position 'All' nahi hai toh employee name ke hisaab se data fetch ho
+            : ref.watch(
+                getSalesDashboardProvider); // warna sales dashboard ki API call ho
+
     return dashboardData.when(
         data: (data) {
           if (data == null || data.isEmpty) {
