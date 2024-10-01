@@ -1,39 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/uploadModel/components/repo/product_repo.dart';
+import 'package:siddha_connect/pulseDataUpload/components/repo/product_repo.dart';
 import '../utils/common_style.dart';
 import '../utils/cus_appbar.dart';
-import '../utils/drawer.dart';
 import '../utils/fields.dart';
 import '../utils/sizes.dart';
 import 'components/dropDawns.dart';
 import 'components/floating_add_button.dart';
 import 'components/table.dart';
 
-// class UploadDailyReport extends ConsumerWidget {
-//   const UploadDailyReport({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final employData = ref.watch(userProfileProvider);
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: const CustomAppBar(),
-//       body: const Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           TopNames(),
-//           ShowTable(),
-//         ],
-//       ),
-//       floatingActionButton: AddButton(),
-//     );
-//   }
-// }
-
-// StateProvider for form visibility
 final formVisibilityProvider = StateProvider<bool>((ref) => false);
 
 class UploadDailyReport extends ConsumerStatefulWidget {
@@ -88,9 +63,7 @@ class _UploadDailyReportState extends ConsumerState<UploadDailyReport> {
             ),
         ],
       ),
-      floatingActionButton: isFormVisible
-          ? null // Hide FAB when the form is visible
-          : const AddButton(),
+      floatingActionButton: isFormVisible ? null : const AddButton(),
     );
   }
 }
@@ -98,10 +71,7 @@ class _UploadDailyReportState extends ConsumerState<UploadDailyReport> {
 class DealerForm extends ConsumerWidget {
   final TextEditingController dealerCode;
 
-  const DealerForm({
-    Key? key,
-    required this.dealerCode,
-  }) : super(key: key);
+  const DealerForm({super.key, required this.dealerCode});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,94 +126,28 @@ class DealerForm extends ConsumerWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    // Hide the form on cancel
                     ref.read(formVisibilityProvider.notifier).state = false;
                   },
                   child: const Text("Cancel"),
                 ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     final id = ref.read(selectedModelIdProvider);
-                //     final quantity = ref.read(quantityProvider);
-                //     final paymantMode = ref.read(paymentModeProvider);
-
-                //     log("ID${id}");
-                //     log("quantity${quantity.runtimeType}");
-                //     log("paymantMode${paymantMode.runtimeType}");
-                //     log("DealerCOde=${dealerCode.text.runtimeType}");
-
-                //     await ref.read(productRepoProvider).addRecord(data: {
-                //       "productId": id,
-                //       "dealerCode": dealerCode.text,
-                //       "quantity": quantity,
-                //       "modeOfPayment": paymantMode,
-                //     });
-
-                //     ref.read(formVisibilityProvider.notifier).state = false;
-                //   },
-                //   child: const Text("OK"),
-                // ),
                 ElevatedButton(
                   onPressed: () {
                     final id = ref.read(selectedModelIdProvider);
                     final quantity = ref.read(quantityProvider);
                     final paymantMode = ref.read(paymentModeProvider);
-
-                    log("ID: ${id.runtimeType}");
-                    log("Quantity: $quantity");
-                    log("Payment Mode: $paymantMode");
-                    log("Dealer Code: ${dealerCode.text}");
-
-                    // If paymentMode is "Cash", set it to "Offline" for API
                     final apiPaymentMode =
                         paymantMode == "Cash" ? "Offline" : paymantMode;
-
-                    // Logging the full data map before sending it to the backend
                     final dataToSend = {
                       "productId": id,
                       "dealerCode": dealerCode.text,
                       "quantity": quantity,
                       "modeOfPayment": apiPaymentMode,
                     };
-
-                    log("Data to send: $dataToSend");
-
-                    // Send data to the backend
                     ref.read(productRepoProvider).addRecord(data: dataToSend);
-
                     ref.read(formVisibilityProvider.notifier).state = false;
                   },
                   child: const Text("OK"),
                 ),
-
-                // ElevatedButton(
-                //   onPressed: () {
-                //     final id = ref.read(selectedModelIdProvider);
-                //     final quantity = ref.read(quantityProvider);
-                //     final paymantMode = ref.read(paymentModeProvider);
-
-                //     log("ID: ${id.runtimeType}");
-                //     log("Quantity: $quantity");
-                //     log("Payment Mode: $paymantMode");
-                //     log("Dealer Code: ${dealerCode.text}");
-
-                //     // Logging the full data map before sending it to the backend
-                //     final dataToSend = {
-                //       "productId": id,
-                //       "dealerCode": dealerCode.text,
-                //       "quantity": quantity,
-                //       "modeOfPayment": paymantMode,
-                //     };
-
-                //     log("Data to send: $dataToSend");
-
-                //     // Send data to the backend
-                //     ref.read(productRepoProvider).addRecord(data: dataToSend);
-
-                //     ref.read(formVisibilityProvider.notifier).state = false;
-                //   },
-                //   child: const Text("OK"),
-                // ),
               ],
             ),
           ],

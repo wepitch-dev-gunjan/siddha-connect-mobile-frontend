@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/uploadModel/components/repo/product_repo.dart';
+import 'package:siddha_connect/pulseDataUpload/components/repo/product_repo.dart';
 
 final selectedBrandProvider = StateProvider<String?>((ref) => null);
 final selectedModelProvider = StateProvider<String?>((ref) => null);
