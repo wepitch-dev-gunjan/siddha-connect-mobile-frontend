@@ -74,7 +74,8 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   heightSizedBox(20.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     child: Column(
                       children: [
                         DelarInfoGet(
@@ -392,6 +393,7 @@ class GetBusinessInfo extends ConsumerWidget {
           maxLength: 2,
           controller: businessYears,
         ),
+        heightSizedBox(8.0),
         TxtField(
           contentPadding: contentPadding,
           labelText: "Comunation Method",
@@ -532,6 +534,7 @@ class GetOtherFamilyMember extends ConsumerWidget {
                       enabled: false,
                       controller: relationController,
                     ),
+                    heightSizedBox(8.0),
                   ],
                 );
               }).toList(),

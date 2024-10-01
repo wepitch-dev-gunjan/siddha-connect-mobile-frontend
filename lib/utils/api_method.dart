@@ -104,6 +104,8 @@ class ApiUrl {
       "$baseUrl/sales-data-mtdw/dashboard/employee";
   static String getEmployeeSalesDashboardDataByName =
       "$baseUrl/sales-data-mtdw/dashboard/by-employee-name";
+  static String getEmployeeSalesDashboardDataByDealerCode =
+      "$baseUrl/sales-data-mtdw/dashboard/by-dealer-code";
   static String getChannelData =
       "$baseUrl/sales-data-mtdw/channel-wise/employee";
   static String getSegmentData =

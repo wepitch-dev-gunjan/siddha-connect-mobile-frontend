@@ -52,6 +52,20 @@ final getDealerDashboardProvider = FutureProvider.autoDispose((ref) async {
   return data;
 });
 
+final getSalesDataByDealerCodeProvider =
+    FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final dealerCode = ref.read(selectedDealerProvider);
+  final salesRepo = ref.watch(salesRepoProvider);
+  final data = await salesRepo.getSalesDashboardDataByDealerCode(
+      tdFormat: options.tdFormat,
+      dataFormat: options.dataFormat,
+      firstDate: options.firstDate,
+      lastDate: options.lastDate,
+      dealerCode: dealerCode);
+  return data;
+});
+
 class SalesDashboardCard extends ConsumerWidget {
   const SalesDashboardCard({super.key});
 
@@ -70,15 +84,27 @@ class SalesDashboardCard extends ConsumerWidget {
     final dealerName = ref.watch(dealerNameProvider);
     final dataByEmployeeName = ref.watch(getSalesDashboardDataByEmployeeName);
     final position = ref.watch(selectedPositionProvider);
+    final dealerData = ref.watch(getSalesDataByDealerCodeProvider);
+    final selectedPosition=ref.watch(selectedPositionProvider);
+    
 
-    final dashboardData = (dealerRole == 'dealer')
-        ? ref.watch(
-            getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
+    // final dashboardData = (dealerRole == 'dealer')
+    //     ? ref.watch(
+    //         getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
+    //     : (position != 'All')
+    //         ? ref.watch(
+    //             getSalesDashboardDataByEmployeeName) // position 'All' nahi hai toh employee name ke hisaab se data fetch ho
+    //         : ref.watch(
+    //             getSalesDashboardProvider); 
+    //// warna sales dashboard ki API call ho
+  final dashboardData = (selectedPosition == 'DEALER')
+    ? ref.watch(getSalesDataByDealerCodeProvider) // selectedPosition is 'DEALER', call dealer data API
+    : (dealerRole == 'dealer')
+        ? ref.watch(getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
         : (position != 'All')
-            ? ref.watch(
-                getSalesDashboardDataByEmployeeName) // position 'All' nahi hai toh employee name ke hisaab se data fetch ho
-            : ref.watch(
-                getSalesDashboardProvider); // warna sales dashboard ki API call ho
+            ? ref.watch(getSalesDashboardDataByEmployeeName) // position 'All' nahi hai toh employee name ke hisaab se data fetch ho
+            : ref.watch(getSalesDashboardProvider); // warna sales dashboard ki API call ho
+
 
     return dashboardData.when(
         data: (data) {

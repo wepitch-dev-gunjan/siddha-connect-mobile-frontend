@@ -38,14 +38,34 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
-      log("Employee Name$name");
-      log("EmployeePosition$position");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormat(ApiUrl.getEmployeeSalesDashboardDataByName,
           tdFormat, dataFormat, firstDate, lastDate, position, name);
-      log("Rul===$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      log("Employee Name wise data$response");
+
+      return response;
+    } catch (e) {
+      // log(e.toString());
+    }
+  }
+
+  getSalesDashboardDataByDealerCode(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? dealerCode}) async {
+    try {
+      String url = urlFormatGetDataByDealerCode(
+          ApiUrl.getEmployeeSalesDashboardDataByDealerCode,
+          tdFormat,
+          dataFormat,
+          firstDate,
+          lastDate,
+          dealerCode);
+      final response = await ApiMethod(
+        url: url,
+      ).getDioRequest();
       return response;
     } catch (e) {
       // log(e.toString());
