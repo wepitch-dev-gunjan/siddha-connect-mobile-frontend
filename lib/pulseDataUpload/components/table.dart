@@ -183,17 +183,16 @@ class ShowTable extends ConsumerWidget {
           ],
           rows: [
             DataRow(cells: [
-              DataCell(Text("Brand 1")),
-              DataCell(Text("Model 1")),
-              DataCell(Text("5000")),
-              DataCell(Text("10")),
-              DataCell(Text("Cash")),
+              const DataCell(Text("")),
+              const DataCell(Text("")),
+              const DataCell(Text("")),
+              const DataCell(Text("")),
+              const DataCell(Text("")),
               DataCell(IconButton(
                 icon: const Icon(Icons.edit, color: Colors.black),
                 onPressed: () {
-                  // Show the form and populate the dealer code
-                  dealerCode.text = "123"; // Example of setting dealer code
-                  ref.read(formVisibilityProvider.notifier).state = true; // Show form
+                  ref.read(formVisibilityProvider.notifier).state =
+                      true; // Show form
                 },
               )),
             ]),
@@ -203,7 +202,6 @@ class ShowTable extends ConsumerWidget {
     );
   }
 }
-
 
 DataColumn titleColumn({required String label}) {
   return DataColumn(

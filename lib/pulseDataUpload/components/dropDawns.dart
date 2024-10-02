@@ -41,6 +41,45 @@ final quantityProvider = StateProvider<int>((ref) => 1);
 //   }
 // }
 
+// class BrandDropDown extends ConsumerWidget {
+//   final List<String> items;
+//   const BrandDropDown({
+//     super.key,
+//     required this.items,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedBrand = ref.watch(selectedBrandProvider);
+//     return DropdownButtonFormField<String>(
+//       value: selectedBrand,
+//       style: const TextStyle(
+//         fontSize: 16.0,
+//         height: 1.5,
+//         color: Colors.black87,
+//       ),
+//       dropdownColor: Colors.white,
+//       decoration: inputDecoration(label: "Select Brand"),
+//       onChanged: (newValue) {
+//         // Reset selected model when a new brand is selected
+//         ref.read(selectedBrandProvider.notifier).state = newValue;
+//         ref.read(selectedModelProvider.notifier).state =
+//             null; // Clear selected model
+//         ref.read(selectedModelIdProvider.notifier).state =
+//             null; // Clear model id
+//       },
+//       hint: const Text("Select Brand"),
+//       items: items.map<DropdownMenuItem<String>>((value) {
+//         return DropdownMenuItem<String>(
+//           value: value,
+//           child: Text(value),
+//         );
+//       }).toList(),
+//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
+//     );
+//   }
+// }
+
 class BrandDropDown extends ConsumerWidget {
   final List<String> items;
   const BrandDropDown({
@@ -76,6 +115,13 @@ class BrandDropDown extends ConsumerWidget {
         );
       }).toList(),
       menuMaxHeight: MediaQuery.of(context).size.height / 2,
+      // Add validation
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select a brand';
+        }
+        return null; // No error
+      },
     );
   }
 }
@@ -88,6 +134,71 @@ final getModelsProvider =
 });
 
 final selectedModelIdProvider = StateProvider<String?>((ref) => null);
+
+// class ModelDropDawn extends ConsumerWidget {
+//   const ModelDropDawn({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedBrand = ref.watch(selectedBrandProvider);
+//     final selectedModel = ref.watch(selectedModelProvider);
+//     final getModels = ref.watch(getModelsProvider(selectedBrand));
+
+//     return getModels.when(
+//       data: (data) {
+//         if (data == null || data['products'] == null) {
+//           return const Text("No models available");
+//         }
+
+//         final List<Map<String, dynamic>> products =
+//             List<Map<String, dynamic>>.from(data['products']);
+//         final List<String> modelNames = products
+//             .where((product) => product['Model'] != null)
+//             .map((product) => product['Model'] as String)
+//             .toList();
+
+//         if (modelNames.isEmpty) {
+//           return const Text("No models available");
+//         }
+
+//         return DropdownButtonFormField<String>(
+//           value: selectedModel,
+//           style: const TextStyle(
+//             fontSize: 16.0,
+//             height: 1.5,
+//             color: Colors.black87,
+//           ),
+//           dropdownColor: Colors.white,
+//           decoration: inputDecoration(label: "Select Model"),
+//           onChanged: (newValue) {
+//             ref.read(selectedModelProvider.notifier).state = newValue;
+
+//             final selectedProduct =
+//                 products.firstWhere((product) => product['Model'] == newValue);
+//             ref.read(selectedModelIdProvider.notifier).state =
+//                 selectedProduct['_id'];
+//           },
+//           hint: const Text("Select Model"),
+//           items: modelNames.map<DropdownMenuItem<String>>((model) {
+//             return DropdownMenuItem<String>(
+//               value: model,
+//               child: Text(model),
+//             );
+//           }).toList(),
+//           // validator: (value) {
+//           //   if (value == null || value.isEmpty) {
+//           //     return 'Please select a Model';
+//           //   }
+//           //   return null; // No error
+//           // },
+//           menuMaxHeight: MediaQuery.of(context).size.height / 2,
+//         );
+//       },
+//       error: (error, stackTrace) => Text("Error loading data: $error"),
+//       loading: () => const SizedBox(),
+//     );
+//   }
+// }
 
 class ModelDropDawn extends ConsumerWidget {
   const ModelDropDawn({super.key});
@@ -115,35 +226,40 @@ class ModelDropDawn extends ConsumerWidget {
           return const Text("No models available");
         }
 
-        return DropdownButtonFormField<String>(
-          value: selectedModel,
-          style: const TextStyle(
-            fontSize: 16.0,
-            height: 1.5,
-            color: Colors.black87,
-          ),
-          dropdownColor: Colors.white,
-          decoration: inputDecoration(label: "Select Model"),
-          onChanged: (newValue) {
-            ref.read(selectedModelProvider.notifier).state = newValue;
+        return SizedBox(
+          width: double.infinity, // Ensure it takes full width available
+          child: DropdownButtonFormField<String>(
+            value: selectedModel,
+            style: const TextStyle(
+              fontSize: 16.0,
+              height: 1.5,
+              color: Colors.black87,
+            ),
+            dropdownColor: Colors.white,
+            decoration: inputDecoration(label: "Select Model"),
+            onChanged: (newValue) {
+              ref.read(selectedModelProvider.notifier).state = newValue;
 
-            final selectedProduct =
-                products.firstWhere((product) => product['Model'] == newValue);
-            ref.read(selectedModelIdProvider.notifier).state =
-                selectedProduct['_id'];
-          },
-          hint: const Text("Select Model"),
-          items: modelNames.map<DropdownMenuItem<String>>((model) {
-            return DropdownMenuItem<String>(
-              value: model,
-              child: Text(model),
-            );
-          }).toList(),
-          menuMaxHeight: MediaQuery.of(context).size.height / 2,
+              final selectedProduct = products
+                  .firstWhere((product) => product['Model'] == newValue);
+              ref.read(selectedModelIdProvider.notifier).state =
+                  selectedProduct['_id'];
+            },
+            hint: const Text("Select Model"),
+            items: modelNames.map<DropdownMenuItem<String>>((model) {
+              return DropdownMenuItem<String>(
+                value: model,
+                child: Text(model),
+              );
+            }).toList(),
+            menuMaxHeight: MediaQuery.of(context).size.height / 2,
+            icon: const Icon(Icons.arrow_drop_down), // Default dropdown icon
+            isExpanded: true, // Ensures that dropdown stretches to fit the text
+          ),
         );
       },
       error: (error, stackTrace) => Text("Error loading data: $error"),
-      loading: () =>const  SizedBox(),
+      loading: () => const SizedBox(),
     );
   }
 }
@@ -193,6 +309,12 @@ class SegmentDropDown extends ConsumerWidget {
           child: Text(model),
         );
       }).toList(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select a Segment';
+        }
+        return null; // No error
+      },
       menuMaxHeight: MediaQuery.of(context).size.height / 2,
     );
   }
@@ -225,6 +347,12 @@ class PaymentModeDropDawn extends ConsumerWidget {
           child: Text(value),
         );
       }).toList(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select Payment Mode';
+        }
+        return null; // No error
+      },
     );
   }
 }

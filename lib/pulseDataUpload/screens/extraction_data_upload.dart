@@ -8,7 +8,6 @@ import '../components/dropDawns.dart';
 import '../components/floating_add_button.dart';
 import '../components/table.dart';
 import '../repo/product_repo.dart';
-import 'pulse_data_upload.dart';
 
 final formVisibilityProvider = StateProvider<bool>((ref) => false);
 
