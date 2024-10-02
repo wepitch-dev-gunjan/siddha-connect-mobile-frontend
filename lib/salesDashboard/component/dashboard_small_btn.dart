@@ -177,126 +177,6 @@ class SmallCusBtn extends ConsumerWidget {
                         ),
                       ),
                     ),
-
-                    // Expanded(
-                    //   child: SingleChildScrollView(
-                    //     scrollDirection: Axis.horizontal,
-                    //     child: subOrdinates.when(
-                    //       data: (data) {
-                    //         if (data == null || data['positions'] == null) {
-                    //           return const Text("No positions available");
-                    //         }
-
-                    //         final positions = data['positions'];
-
-                    //         if (positions.isEmpty) {
-                    //           return const Text("No positions available");
-                    //         }
-
-                    //         return Row(
-                    //           children:
-                    //               List.generate(positions.length + 1, (index) {
-                    //             if (index == positions.length) {
-                    //               // Static DEALER button after all positions
-                    //               return GestureDetector(
-                    //                 onTap: () {
-                    //                   ref
-                    //                       .read(selectedIndexProvider.notifier)
-                    //                       .state = positions.length + 1;
-                    //                   ref
-                    //                       .read(
-                    //                           selectedPositionProvider.notifier)
-                    //                       .state = 'DEALER';
-                    //                   ref
-                    //                       .read(selectedItemProvider.notifier)
-                    //                       .state = null;
-                    //                 },
-                    //                 child: Container(
-                    //                   width: 70,
-                    //                   height: 30,
-                    //                   margin: const EdgeInsets.symmetric(
-                    //                       horizontal: 8.0),
-                    //                   decoration: BoxDecoration(
-                    //                     color: selectedIndex ==
-                    //                             positions.length + 1
-                    //                         ? AppColor.primaryColor
-                    //                         : Colors.transparent,
-                    //                     borderRadius:
-                    //                         BorderRadius.circular(5.0),
-                    //                     border: Border.all(
-                    //                         color: AppColor.primaryColor,
-                    //                         width: 1.0),
-                    //                   ),
-                    //                   child: Center(
-                    //                     child: Text(
-                    //                       'DEALER',
-                    //                       style: GoogleFonts.lato(
-                    //                         color: selectedIndex ==
-                    //                                 positions.length + 1
-                    //                             ? Colors.white
-                    //                             : const Color(0xff999292),
-                    //                         textStyle: const TextStyle(
-                    //                             fontWeight: FontWeight.w600,
-                    //                             fontSize: 12),
-                    //                       ),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               );
-                    //             } else {
-                    //               return GestureDetector(
-                    //                 onTap: () {
-                    //                   ref
-                    //                       .read(selectedIndexProvider.notifier)
-                    //                       .state = index + 1;
-                    //                   ref
-                    //                       .read(
-                    //                           selectedPositionProvider.notifier)
-                    //                       .state = positions[index];
-                    //                   ref
-                    //                       .read(selectedItemProvider.notifier)
-                    //                       .state = null;
-                    //                 },
-                    //                 child: Container(
-                    //                   width: 70,
-                    //                   height: 30,
-                    //                   margin: const EdgeInsets.symmetric(
-                    //                       horizontal: 8.0),
-                    //                   decoration: BoxDecoration(
-                    //                     color: selectedIndex == index + 1
-                    //                         ? AppColor.primaryColor
-                    //                         : Colors.transparent,
-                    //                     borderRadius:
-                    //                         BorderRadius.circular(5.0),
-                    //                     border: Border.all(
-                    //                         color: AppColor.primaryColor,
-                    //                         width: 1.0),
-                    //                   ),
-                    //                   child: Center(
-                    //                     child: Text(
-                    //                       positions[index],
-                    //                       style: GoogleFonts.lato(
-                    //                         color: selectedIndex == index + 1
-                    //                             ? Colors.white
-                    //                             : const Color(0xff999292),
-                    //                         textStyle: const TextStyle(
-                    //                             fontWeight: FontWeight.w600,
-                    //                             fontSize: 12),
-                    //                       ),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               );
-                    //             }
-                    //           }),
-                    //         );
-                    //       },
-                    //       error: (error, stackTrace) =>
-                    //           const Text("Something went wrong"),
-                    //       loading: () => const Text("Loading...."),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
                 heightSizedBox(8.0),
@@ -409,11 +289,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
     final selectedDealer = ref.watch(selectedDealerProvider);
     final dealerListData = ref.watch(getDealerListDataProvider);
 
-    // log("SelectedDeralkgdfl$selectedDealer");
-
     List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
 
-    // Update dropdownLabel to show the selected option and dealer
     String dropdownLabel = selectedDealer.isEmpty
         ? dealerCategory
         : "$dealerCategory/$selectedDealer";
@@ -537,7 +414,8 @@ class DealerSelectionDropdown extends ConsumerWidget {
                       subtitle: Text(buyerCode), // Display 'BUYER CODE'
                       onTap: () {
                         // Update the selected dealer with 'BUYER CODE'
-                        ref.read(selectedDealerProvider.notifier).state = buyerCode;
+                        ref.read(selectedDealerProvider.notifier).state =
+                            buyerCode;
 
                         Navigator.pop(context); // Close the dialog
                       },

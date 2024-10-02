@@ -117,7 +117,6 @@ class PulseDataForm extends ConsumerWidget {
                 contentPadding: const EdgeInsets.all(10.0),
                 capitalization: TextCapitalization.characters,
                 labelText: "Dealer Code",
-                // hintText: "Dealer Code",
                 maxLines: 1,
                 controller: dealerCode,
                 keyboardType: TextInputType.text,
@@ -145,8 +144,6 @@ class PulseDataForm extends ConsumerWidget {
                 ],
               ),
               heightSizedBox(15.0),
-              // selectedBrand == "OTHER"
-              //     ? const SegmentDropDown()
               const ModelDropDawn(),
               heightSizedBox(15.0),
               const QuantitySelector(),

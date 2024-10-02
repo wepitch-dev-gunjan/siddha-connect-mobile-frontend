@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/fields.dart';
@@ -48,20 +47,6 @@ class _ExtractionDataUploadState extends ConsumerState<ExtractionDataUpload> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TopNames(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                ),
-                child: Text(
-                  "Extraction Data Upload",
-                  style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
               heightSizedBox(10.0),
               const ShowTable(),
             ],
@@ -118,7 +103,7 @@ class ExtractionDataForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedBrand = ref.watch(selectedBrandProvider);
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -129,14 +114,13 @@ class ExtractionDataForm extends ConsumerWidget {
       ),
       child: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               TxtField(
                 contentPadding: const EdgeInsets.all(10.0),
                 capitalization: TextCapitalization.characters,
                 labelText: "Dealer Code",
-                // hintText: "Dealer Code",
                 maxLines: 1,
                 controller: dealerCode,
                 keyboardType: TextInputType.text,
@@ -182,8 +166,7 @@ class ExtractionDataForm extends ConsumerWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // If form is valid, proceed with submission
+                      if (formKey.currentState!.validate()) {
                         final id = ref.read(selectedModelIdProvider);
                         final quantity = ref.read(quantityProvider);
 
@@ -206,20 +189,6 @@ class ExtractionDataForm extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    // onPressed: () {
-                    //   final id = ref.read(selectedModelIdProvider);
-                    //   final quantity = ref.read(quantityProvider);
-
-                    //   final dataToSend = {
-                    //     "productId": id,
-                    //     "dealerCode": dealerCode.text,
-                    //     "quantity": quantity,
-                    //   };
-                    //   ref
-                    //       .read(productRepoProvider)
-                    //       .extractionDataUpload(data: dataToSend);
-                    //   ref.read(formVisibilityProvider.notifier).state = false;
-                    // },
 
                     child: const Text(
                       "OK",

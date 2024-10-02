@@ -120,7 +120,6 @@ class ApiUrl {
   static String isDealerVerified = "$baseUrl/is-dealer-verified";
   static String getAllSubordinates =
       "$baseUrl/sales-data-mtdw/get-all-subordinates-mtdw";
-  // static String getDropDawn = "$baseUrl/sales/segment-wise/";
   static String getSegmentPositionWise =
       "$baseUrl/sales-data-mtdw/segment-wise/by-position-category";
   static String getChannelPositionWise =
@@ -137,7 +136,6 @@ class ApiUrl {
   static String uploadModelData = "$baseUrl/model-data";
   static String uploadChannelTargets = "$baseUrl/channel-targets";
   static String uploadSegmentTargets = "$baseUrl/segment-targets";
-  // static String getDealerSegmentData = "$baseUrl/sales/segment-wise/dealer";
   static String getDealerDashboardData =
       "$baseUrl/sales-data-mtdw/dashboard/dealer";
   static String getDealerSegmentData =
@@ -155,6 +153,7 @@ class ApiUrl {
   static String getSalesDataModelWiseForEmployee =
       "$baseUrl/model-data-mtdw/employee/by-dealer-code";
 
+//=====================================! Pulse $ Extraction Url !==========================
   static String getAllProducts = "$baseUrl/product/get-all-products";
   static String pulseDataUpload = "$baseUrl/record/add";
   static String extractionDataUpload = "$baseUrl/record/extraction/add";
