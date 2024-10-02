@@ -2,15 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/pulseDataUpload/components/repo/product_repo.dart';
-import 'package:siddha_connect/utils/buttons.dart';
-import '../utils/common_style.dart';
-import '../utils/cus_appbar.dart';
-import '../utils/fields.dart';
-import '../utils/sizes.dart';
-import 'components/dropDawns.dart';
-import 'components/floating_add_button.dart';
-import 'components/table.dart';
+import '../../utils/common_style.dart';
+import '../../utils/cus_appbar.dart';
+import '../../utils/fields.dart';
+import '../../utils/sizes.dart';
+import '../components/dropDawns.dart';
+import '../components/floating_add_button.dart';
+import '../components/table.dart';
+import '../repo/product_repo.dart';
 
 final formVisibilityProvider = StateProvider<bool>((ref) => false);
 
