@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
-import 'package:siddha_connect/pulseDataUpload/screens/daily_report.dart';
+import 'package:siddha_connect/pulseDataUpload/screens/pulse_data_upload.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
@@ -243,7 +243,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                   onTap: () {},
                 ),
                 dealer == "dealer"
-                    ? SizedBox()
+                    ? const SizedBox()
                     : ListTile(
                         title: Text(
                           "Pulse Data Upload",
@@ -255,7 +255,23 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           ),
                         ),
                         onTap: () {
-                          navigationPush(context, const UploadDailyReport());
+                          navigationPush(context, const PulseDataUpload());
+                        },
+                      ),
+                dealer == "dealer"
+                    ? const SizedBox()
+                    : ListTile(
+                        title: Text(
+                          "Extraction Data Upload",
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          navigationPush(context, const PulseDataUpload());
                         },
                       ),
                 Consumer(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../utils/common_style.dart';
@@ -13,14 +12,14 @@ import '../repo/product_repo.dart';
 
 final formVisibilityProvider = StateProvider<bool>((ref) => false);
 
-class UploadDailyReport extends ConsumerStatefulWidget {
-  const UploadDailyReport({super.key});
+class PulseDataUpload extends ConsumerStatefulWidget {
+  const PulseDataUpload({super.key});
 
   @override
-  ConsumerState<UploadDailyReport> createState() => _UploadDailyReportState();
+  ConsumerState<PulseDataUpload> createState() => _PulseDataUploadState();
 }
 
-class _UploadDailyReportState extends ConsumerState<UploadDailyReport> {
+class _PulseDataUploadState extends ConsumerState<PulseDataUpload> {
   late TextEditingController dealerCode;
 
   @override
@@ -53,16 +52,22 @@ class _UploadDailyReportState extends ConsumerState<UploadDailyReport> {
           ),
           if (isFormVisible)
             Positioned.fill(
-              child: GestureDetector(
-                onTap: () {
-                  ref.read(formVisibilityProvider.notifier).state = false;
-                },
-                child: Container(
-                  color: Colors.black54, // Background overlay
-                  child: Center(child: DealerForm(dealerCode: dealerCode)),
+                child: GestureDetector(
+              onTap: () {
+                // Dismiss only when tapping outside the form
+                ref.read(formVisibilityProvider.notifier).state = false;
+              },
+              child: Container(
+                color: Colors.black54, // Background overlay
+                child: Center(
+                  child: GestureDetector(
+                    // Prevent dismissal when tapping inside the form
+                    onTap: () {},
+                    child: DealerForm(dealerCode: dealerCode),
+                  ),
                 ),
               ),
-            ),
+            ))
         ],
       ),
       floatingActionButton: isFormVisible ? null : const AddButton(),
