@@ -145,7 +145,8 @@ class TopNames extends ConsumerWidget {
     return employData.when(
       data: (data) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 8),
           child: Column(
             children: [
               Row(

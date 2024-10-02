@@ -12,19 +12,57 @@ class ProductRepo {
   final AutoDisposeProviderRef<Object?> ref;
   ProductRepo({required this.ref});
 
+  // getAllProducts({
+  //   String? brand,
+  // }) async {
+  //   try {
+  //     String url = ApiUrl.getAllProducts;
+
+  //     if (brand != null && brand.isNotEmpty) {
+  //       url += '?query=$brand';
+  //     }
+
+  //     final response = await ApiMethod(url: url).getDioRequest();
+
+  //     log("GetAAllProdutct$response");
+  //     return response;
+  //   } catch (e) {
+  //     // log(e.toString());
+  //     return null;
+  //   }
+  // }
+
   getAllProducts({
     String? brand,
   }) async {
     try {
       String url = ApiUrl.getAllProducts;
 
+      // Check if the brand contains "Others" and replace with the required format
       if (brand != null && brand.isNotEmpty) {
+        if (brand.contains("Others (>100K)")) {
+          brand = "100K";
+        } else if (brand.contains("Others (70-100K)")) {
+          brand = "70-100K";
+        } else if (brand.contains("Others (40-70K)")) {
+          brand = "40-70K";
+        } else if (brand.contains("Others (30-40K)")) {
+          brand = "30-40K";
+        } else if (brand.contains("Others (20-30K)")) {
+          brand = "20-30K";
+        } else if (brand.contains("Others (15-20K)")) {
+          brand = "15-20K";
+        } else if (brand.contains("Others (10-15K)")) {
+          brand = "10-15K";
+        } else if (brand.contains("Others (6-10K)")) {
+          brand = "6-10K";
+        }
+
         url += '?query=$brand';
       }
 
       final response = await ApiMethod(url: url).getDioRequest();
 
-      log("GetAAllProdutct$response");
       return response;
     } catch (e) {
       // log(e.toString());

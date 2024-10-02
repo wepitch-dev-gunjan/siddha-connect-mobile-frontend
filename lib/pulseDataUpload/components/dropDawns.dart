@@ -252,6 +252,12 @@ class ModelDropDawn extends ConsumerWidget {
                 child: Text(model),
               );
             }).toList(),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select a model';
+              }
+              return null; // No error
+            },
             menuMaxHeight: MediaQuery.of(context).size.height / 2,
             icon: const Icon(Icons.arrow_drop_down), // Default dropdown icon
             isExpanded: true, // Ensures that dropdown stretches to fit the text
