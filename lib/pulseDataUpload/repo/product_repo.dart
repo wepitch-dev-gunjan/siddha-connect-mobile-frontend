@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
 import '../../../utils/api_method.dart';
+import '../components/table.dart';
 
 final productRepoProvider =
     Provider.autoDispose((ref) => ProductRepo(ref: ref));
@@ -44,6 +46,18 @@ class ProductRepo {
     }
   }
 
+  getExtractionRecord() async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      final response =
+          await ApiMethod(url: ApiUrl.getExtractionRecord, token: token)
+              .getDioRequest();
+
+      log("ExtractionREcord$response");
+      return response;
+    } catch (e) {}
+  }
+
   pulseDataUpload({required Map data}) async {
     try {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
@@ -72,6 +86,7 @@ class ProductRepo {
       if (response['message'] == "Extraction Record added successfully.") {
         showSnackBarMsg(response['message'],
             color: Colors.green, duration: const Duration(seconds: 1));
+        ref.refresh(getExtractionRecordProvider);
       } else {
         showSnackBarMsg("Something Went Wrong",
             color: Colors.red, duration: const Duration(seconds: 1));

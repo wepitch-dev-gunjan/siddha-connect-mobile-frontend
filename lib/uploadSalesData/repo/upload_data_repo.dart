@@ -35,7 +35,7 @@ class SalesDataUploadRepo {
         );
         navigatePushReplacement(const SalesDashboard());
       }
-      log("response Sales Data$response");
+    
 
       return response;
     } catch (e) {

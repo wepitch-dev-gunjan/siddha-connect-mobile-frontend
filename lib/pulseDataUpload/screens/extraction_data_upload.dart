@@ -48,7 +48,7 @@ class _ExtractionDataUploadState extends ConsumerState<ExtractionDataUpload> {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-              const ShowTable(),
+              Expanded(child: const ShowTable()),
             ],
           ),
           if (isFormVisible)
@@ -179,7 +179,7 @@ class ExtractionDataForm extends ConsumerWidget {
                         ref
                             .read(productRepoProvider)
                             .extractionDataUpload(data: dataToSend);
-
+                       
                         ref.read(formVisibilityProvider.notifier).state = false;
                       }
                     },
@@ -189,7 +189,6 @@ class ExtractionDataForm extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-
                     child: const Text(
                       "OK",
                       style: TextStyle(color: Colors.white),
