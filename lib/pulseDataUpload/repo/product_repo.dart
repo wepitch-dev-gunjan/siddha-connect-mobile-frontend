@@ -12,33 +12,11 @@ class ProductRepo {
   final AutoDisposeProviderRef<Object?> ref;
   ProductRepo({required this.ref});
 
-  // getAllProducts({
-  //   String? brand,
-  // }) async {
-  //   try {
-  //     String url = ApiUrl.getAllProducts;
-
-  //     if (brand != null && brand.isNotEmpty) {
-  //       url += '?query=$brand';
-  //     }
-
-  //     final response = await ApiMethod(url: url).getDioRequest();
-
-  //     log("GetAAllProdutct$response");
-  //     return response;
-  //   } catch (e) {
-  //     // log(e.toString());
-  //     return null;
-  //   }
-  // }
-
   getAllProducts({
     String? brand,
   }) async {
     try {
       String url = ApiUrl.getAllProducts;
-
-      // Check if the brand contains "Others" and replace with the required format
       if (brand != null && brand.isNotEmpty) {
         if (brand.contains("Others (>100K)")) {
           brand = "100K";
@@ -57,32 +35,21 @@ class ProductRepo {
         } else if (brand.contains("Others (6-10K)")) {
           brand = "6-10K";
         }
-
         url += '?query=$brand';
       }
-
       final response = await ApiMethod(url: url).getDioRequest();
-
       return response;
     } catch (e) {
-      // log(e.toString());
       return null;
     }
   }
 
   pulseDataUpload({required Map data}) async {
     try {
-      log("Data being sent: $data");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-
-      log("token$token");
-
       final response =
           await ApiMethod(url: ApiUrl.pulseDataUpload, token: token)
               .postDioRequest(data: data);
-
-      log("Response: $response");
-
       if (response['message'] == "Record added successfully.") {
         showSnackBarMsg(response['message'],
             color: Colors.green, duration: const Duration(seconds: 1));
@@ -90,7 +57,6 @@ class ProductRepo {
         showSnackBarMsg("Something Went Wrong",
             color: Colors.red, duration: const Duration(seconds: 1));
       }
-
       return response;
     } catch (e) {
       log("Error submitting data: $e");
@@ -99,17 +65,10 @@ class ProductRepo {
 
   extractionDataUpload({required Map data}) async {
     try {
-      log("Data being sent: $data");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-
-      log("token$token");
-
       final response =
           await ApiMethod(url: ApiUrl.extractionDataUpload, token: token)
               .postDioRequest(data: data);
-
-      log("Response: $response");
-
       if (response['message'] == "Extraction Record added successfully.") {
         showSnackBarMsg(response['message'],
             color: Colors.green, duration: const Duration(seconds: 1));
@@ -117,7 +76,6 @@ class ProductRepo {
         showSnackBarMsg("Something Went Wrong",
             color: Colors.red, duration: const Duration(seconds: 1));
       }
-
       return response;
     } catch (e) {
       log("Error submitting data: $e");
