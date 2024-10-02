@@ -156,5 +156,6 @@ class ApiUrl {
       "$baseUrl/model-data-mtdw/employee/by-dealer-code";
 
   static String getAllProducts = "$baseUrl/product/get-all-products";
-  static String addRecord = "$baseUrl/record/add";
+  static String pulseDataUpload = "$baseUrl/record/add";
+  static String extractionDataUpload = "$baseUrl/record/extraction/add";
 }

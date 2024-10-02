@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
-
 import '../../../utils/api_method.dart';
 
 final productRepoProvider =
@@ -34,19 +32,47 @@ class ProductRepo {
     }
   }
 
-  addRecord({required Map data}) async {
+  pulseDataUpload({required Map data}) async {
     try {
       log("Data being sent: $data");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
 
       log("token$token");
 
-      final response = await ApiMethod(url: ApiUrl.addRecord, token: token)
-          .postDioRequest(data: data);
+      final response =
+          await ApiMethod(url: ApiUrl.pulseDataUpload, token: token)
+              .postDioRequest(data: data);
 
       log("Response: $response");
 
       if (response['message'] == "Record added successfully.") {
+        showSnackBarMsg(response['message'],
+            color: Colors.green, duration: const Duration(seconds: 1));
+      } else {
+        showSnackBarMsg("Something Went Wrong",
+            color: Colors.red, duration: const Duration(seconds: 1));
+      }
+
+      return response;
+    } catch (e) {
+      log("Error submitting data: $e");
+    }
+  }
+
+  extractionDataUpload({required Map data}) async {
+    try {
+      log("Data being sent: $data");
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+
+      log("token$token");
+
+      final response =
+          await ApiMethod(url: ApiUrl.extractionDataUpload, token: token)
+              .postDioRequest(data: data);
+
+      log("Response: $response");
+
+      if (response['message'] == "Extraction Record added successfully.") {
         showSnackBarMsg(response['message'],
             color: Colors.green, duration: const Duration(seconds: 1));
       } else {

@@ -63,7 +63,7 @@ class _PulseDataUploadState extends ConsumerState<PulseDataUpload> {
                   child: GestureDetector(
                     // Prevent dismissal when tapping inside the form
                     onTap: () {},
-                    child: DealerForm(dealerCode: dealerCode),
+                    child: PulseDataForm(dealerCode: dealerCode),
                   ),
                 ),
               ),
@@ -75,10 +75,10 @@ class _PulseDataUploadState extends ConsumerState<PulseDataUpload> {
   }
 }
 
-class DealerForm extends ConsumerWidget {
+class PulseDataForm extends ConsumerWidget {
   final TextEditingController dealerCode;
 
-  const DealerForm({super.key, required this.dealerCode});
+  const PulseDataForm({super.key, required this.dealerCode});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -158,7 +158,7 @@ class DealerForm extends ConsumerWidget {
                       "quantity": quantity,
                       "modeOfPayment": apiPaymentMode,
                     };
-                    ref.read(productRepoProvider).addRecord(data: dataToSend);
+                    ref.read(productRepoProvider).pulseDataUpload(data: dataToSend);
                     ref.read(formVisibilityProvider.notifier).state = false;
                   },
                   style: ElevatedButton.styleFrom(
