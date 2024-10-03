@@ -27,6 +27,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   fluttertoast: ^8.2.6
   adaptive_scrollbar: ^2.1.2
+ 
   # internet_connection_checker: 
   # device_info_plus: ^10.1.2
   # permission_handler: ^11.3.1

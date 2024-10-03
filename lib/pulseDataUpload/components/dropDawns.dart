@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repo/product_repo.dart';
 
-final selectedBrandProvider = StateProvider<String?>((ref) => null);
+
 final selectedModelProvider = StateProvider<String?>((ref) => null);
 final selectedPriceProvider = StateProvider<String?>((ref) => null);
 final paymentModeProvider = StateProvider<String?>((ref) => null);
@@ -80,6 +80,8 @@ final quantityProvider = StateProvider<int>((ref) => 1);
 //   }
 // }
 
+
+final selectedBrandProvider = StateProvider<String?>((ref) => null);
 class BrandDropDown extends ConsumerWidget {
   final List<String> items;
   const BrandDropDown({

@@ -70,7 +70,6 @@ final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
 //   }
 // }
 
-
 // class ShowTable extends ConsumerWidget {
 //   const ShowTable({super.key});
 
@@ -231,8 +230,6 @@ final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
 //   }
 // }
 
-
-
 class ShowTable extends ConsumerWidget {
   const ShowTable({super.key});
 
@@ -242,18 +239,19 @@ class ShowTable extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final columnSpacing = screenWidth / 12;
     final screenHeight = MediaQuery.of(context).size.height;
-    final contentAboveHeight = screenHeight / 2;
-    final remainingHeight = screenHeight - contentAboveHeight;
 
     return extractionData.when(
       data: (data) {
+        log("data$data");
         if (data == null ||
             data['records'] == null ||
             data['records'][0]['columns'] == null) {
           return const Center(child: Text('No data available.'));
         }
 
-        final columns = data['records'][0]['columns'] ?? [];
+        // Skip the first column (assuming '_id' is the first column)
+        final columns = data['records'][0]['columns']?.sublist(1) ?? [];
+        // Skip the first row column '_id' in rows
         final rows = data['records'].sublist(1) ?? [];
 
         return Theme(
@@ -266,41 +264,49 @@ class ShowTable extends ConsumerWidget {
             headingRowHeight: 50,
             dividerThickness: 2.5,
             columnSpacing: columnSpacing,
-            minWidth: 2000, // Set minimum width for large tables
+            minWidth: 1200,
             showBottomBorder: true,
-            headingRowColor: MaterialStateColor.resolveWith(
+            headingRowColor: WidgetStateColor.resolveWith(
               (states) => const Color(0xff005BFF),
             ),
             columns: [
               for (var column in columns)
-                DataColumn(
-                  label: Text(column ?? "N/A"),
+                titleColumn(
+                  label: column ?? "N/A",
                 ),
             ],
             rows: List.generate(rows.length, (index) {
               final row = rows[index];
               return DataRow(
                 cells: [
-                  DataCell(Text(row['_id']?.toString() ?? '')),
-                  DataCell(Text(row['dealerCode']?.toString() ?? '')),
-                  DataCell(Text(row['shopName']?.toString() ?? '')),
-                  DataCell(Text(row['date']?.toString() ?? '')),
-                  DataCell(Text(row['quantity']?.toString() ?? '')),
-                  DataCell(Text(row['uploadedBy']?.toString() ?? '')),
-                  DataCell(Text(row['employeeName']?.toString() ?? '')),
-                  DataCell(Text(row['totalPrice']?.toString() ?? '')),
-                  DataCell(Text(row['Brand']?.toString() ?? '')),
-                  DataCell(Text(row['Model']?.toString() ?? '')),
-                  DataCell(Text(row['Price']?.toString() ?? '')),
-                  DataCell(Text(row['Segment']?.toString() ?? '')),
-                  DataCell(Text(row['Category']?.toString() ?? '')),
-                  DataCell(Text(row['Status']?.toString() ?? '')),
-                  // DataCell(IconButton(
-                  //   icon: const Icon(Icons.edit, color: Colors.black),
-                  //   onPressed: () {
-                  //     ref.read(formVisibilityProvider.notifier).state = true;
-                  //   },
-                  // )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['dealerCode']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['shopName']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['Brand']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.fill,
+                    child: Text(row['Model']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['Category']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['quantity']?.toString() ?? ''),
+                  )),
+                  DataCell(FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(row['totalPrice']?.toString() ?? ''),
+                  )),
                 ],
               );
             }),
@@ -330,4 +336,3 @@ var tableTitleStyle = GoogleFonts.lato(
   textStyle: const TextStyle(
       fontSize: 11.5, fontWeight: FontWeight.w600, color: Colors.white),
 );
-
