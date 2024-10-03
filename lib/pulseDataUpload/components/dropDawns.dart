@@ -126,79 +126,16 @@ class BrandDropDown extends ConsumerWidget {
   }
 }
 
+
+
+
+final selectedModelIdProvider = StateProvider<String?>((ref) => null);
 final getModelsProvider =
     FutureProvider.autoDispose.family((ref, String? brand) async {
   final productRepo = ref.watch(productRepoProvider);
   final data = await productRepo.getAllProducts(brand: brand);
   return data;
 });
-
-final selectedModelIdProvider = StateProvider<String?>((ref) => null);
-
-// class ModelDropDawn extends ConsumerWidget {
-//   const ModelDropDawn({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     final selectedModel = ref.watch(selectedModelProvider);
-//     final getModels = ref.watch(getModelsProvider(selectedBrand));
-
-//     return getModels.when(
-//       data: (data) {
-//         if (data == null || data['products'] == null) {
-//           return const Text("No models available");
-//         }
-
-//         final List<Map<String, dynamic>> products =
-//             List<Map<String, dynamic>>.from(data['products']);
-//         final List<String> modelNames = products
-//             .where((product) => product['Model'] != null)
-//             .map((product) => product['Model'] as String)
-//             .toList();
-
-//         if (modelNames.isEmpty) {
-//           return const Text("No models available");
-//         }
-
-//         return DropdownButtonFormField<String>(
-//           value: selectedModel,
-//           style: const TextStyle(
-//             fontSize: 16.0,
-//             height: 1.5,
-//             color: Colors.black87,
-//           ),
-//           dropdownColor: Colors.white,
-//           decoration: inputDecoration(label: "Select Model"),
-//           onChanged: (newValue) {
-//             ref.read(selectedModelProvider.notifier).state = newValue;
-
-//             final selectedProduct =
-//                 products.firstWhere((product) => product['Model'] == newValue);
-//             ref.read(selectedModelIdProvider.notifier).state =
-//                 selectedProduct['_id'];
-//           },
-//           hint: const Text("Select Model"),
-//           items: modelNames.map<DropdownMenuItem<String>>((model) {
-//             return DropdownMenuItem<String>(
-//               value: model,
-//               child: Text(model),
-//             );
-//           }).toList(),
-//           // validator: (value) {
-//           //   if (value == null || value.isEmpty) {
-//           //     return 'Please select a Model';
-//           //   }
-//           //   return null; // No error
-//           // },
-//           menuMaxHeight: MediaQuery.of(context).size.height / 2,
-//         );
-//       },
-//       error: (error, stackTrace) => Text("Error loading data: $error"),
-//       loading: () => const SizedBox(),
-//     );
-//   }
-// }
 
 class ModelDropDawn extends ConsumerWidget {
   const ModelDropDawn({super.key});
@@ -270,61 +207,61 @@ class ModelDropDawn extends ConsumerWidget {
   }
 }
 
-final selectedSegmentProvider = StateProvider<String?>((ref) => null);
+// final selectedSegmentProvider = StateProvider<String?>((ref) => null);
 
-class SegmentDropDown extends ConsumerWidget {
-  const SegmentDropDown({super.key});
+// class SegmentDropDown extends ConsumerWidget {
+//   const SegmentDropDown({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Predefined list of 5 items
-    final List<String> modelNames = [
-      "100K",
-      "70-100K",
-      "40-70K",
-      "> 40 K",
-      "< 40 K",
-      "30-40K",
-      "20-30K",
-      "15-20K",
-      "10-15K",
-      "6-10K",
-      "Tab>40k",
-      "Tab<40k",
-      "Wearable"
-    ];
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     // Predefined list of 5 items
+//     final List<String> modelNames = [
+//       "100K",
+//       "70-100K",
+//       "40-70K",
+//       "> 40 K",
+//       "< 40 K",
+//       "30-40K",
+//       "20-30K",
+//       "15-20K",
+//       "10-15K",
+//       "6-10K",
+//       "Tab>40k",
+//       "Tab<40k",
+//       "Wearable"
+//     ];
 
-    final selectedModel = ref.watch(selectedModelProvider);
+//     final selectedModel = ref.watch(selectedModelProvider);
 
-    return DropdownButtonFormField<String>(
-      value: selectedModel,
-      style: const TextStyle(
-        fontSize: 16.0,
-        height: 1.5,
-        color: Colors.black87,
-      ),
-      dropdownColor: Colors.white,
-      decoration: inputDecoration(label: "Select Segment"),
-      onChanged: (newValue) {
-        ref.read(selectedModelProvider.notifier).state = newValue;
-      },
-      hint: const Text("Select Segment"),
-      items: modelNames.map<DropdownMenuItem<String>>((model) {
-        return DropdownMenuItem<String>(
-          value: model,
-          child: Text(model),
-        );
-      }).toList(),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please select a Segment';
-        }
-        return null; // No error
-      },
-      menuMaxHeight: MediaQuery.of(context).size.height / 2,
-    );
-  }
-}
+//     return DropdownButtonFormField<String>(
+//       value: selectedModel,
+//       style: const TextStyle(
+//         fontSize: 16.0,
+//         height: 1.5,
+//         color: Colors.black87,
+//       ),
+//       dropdownColor: Colors.white,
+//       decoration: inputDecoration(label: "Select Segment"),
+//       onChanged: (newValue) {
+//         ref.read(selectedModelProvider.notifier).state = newValue;
+//       },
+//       hint: const Text("Select Segment"),
+//       items: modelNames.map<DropdownMenuItem<String>>((model) {
+//         return DropdownMenuItem<String>(
+//           value: model,
+//           child: Text(model),
+//         );
+//       }).toList(),
+//       validator: (value) {
+//         if (value == null || value.isEmpty) {
+//           return 'Please select a Segment';
+//         }
+//         return null; // No error
+//       },
+//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
+//     );
+//   }
+// }
 
 class PaymentModeDropDawn extends ConsumerWidget {
   final List<String> items;
