@@ -334,7 +334,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
                       const BorderSide(color: Colors.amber, width: 0.5))),
           onChanged: (String? newValue) {
             // Show popup dialog based on selected option
-            _showPopup(context, ref, newValue!, dealers);
+            _showPopup(context, ref, newValue!);
             // Update selectedOptionProvider when a new value is selected
             ref.read(dealerCategoryProvider.notifier).state = newValue;
             // Reset selected dealer when a new option is selected
@@ -352,7 +352,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
 
   // Show popup to choose between View List and View Report
   void _showPopup(
-      BuildContext context, WidgetRef ref, String name, List<String> dealers) {
+      BuildContext context, WidgetRef ref, String name) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -379,7 +379,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.all(16.0),
+            contentPadding:const  EdgeInsets.all(16.0),
             // Wrap AlertDialog with a Container or SizedBox to increase the width
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),

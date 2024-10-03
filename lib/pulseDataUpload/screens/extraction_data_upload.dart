@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:siddha_connect/pulseDataUpload/screens/data_upload_form.dart';
+import 'package:siddha_connect/utils/navigation.dart';
 import '../../utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/fields.dart';
@@ -83,7 +85,8 @@ class AddButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       onPressed: () {
-        ref.read(formVisibilityProvider.notifier).state = true;
+        navigateTo(UploadForm());
+        // ref.read(formVisibilityProvider.notifier).state = true;
       },
       shape: const CircleBorder(),
       backgroundColor: AppColor.primaryColor,
@@ -179,7 +182,7 @@ class ExtractionDataForm extends ConsumerWidget {
                         ref
                             .read(productRepoProvider)
                             .extractionDataUpload(data: dataToSend);
-                       
+
                         ref.read(formVisibilityProvider.notifier).state = false;
                       }
                     },

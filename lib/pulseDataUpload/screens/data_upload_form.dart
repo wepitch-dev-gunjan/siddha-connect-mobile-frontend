@@ -1,199 +1,134 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:siddha_connect/utils/sizes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:siddha_connect/utils/sizes.dart';
+import '../../common/common.dart';
+import '../../common/dashboard_options.dart';
+import '../../salesDashboard/repo/sales_dashboard_repo.dart';
+import '../../utils/cus_appbar.dart';
+import '../components/dropDawns.dart';
+import '../components/top_profile_name.dart';
 
-// import '../components/dropDawns.dart';
+final getDealerListProvider = FutureProvider.autoDispose((ref) async {
+  final options = ref.watch(selectedOptionsProvider);
+  final getDealerList = await ref
+      .watch(salesRepoProvider)
+      .getDealerListForEmployeeData(
+          startDate: options.firstDate, endDate: options.lastDate);
+  return getDealerList;
+});
 
-// class UploadForm extends ConsumerWidget {
-//   const UploadForm({super.key});
+class UploadForm extends ConsumerWidget {
+  const UploadForm({super.key});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body: Column(
-//         children: [
-//           heightSizedBox(10.0),
-//           BrandDropDown1(
-//             items: [
-//               "Samsung",
-//               "Apple",
-//               "Oppo",
-//               "Vivo",
-//               "OnePlus",
-//               "Realme",
-//               "Xiaomi",
-//               "Motorola",
-//               "Others (>100K)",
-//               "Others (70-100K)",
-//               "Others (40-70K)",
-//               "Others (30-40K)",
-//               "Others (20-30K)",
-//               "Others (15-20K)",
-//               "Others (10-15K)",
-//               "Others (6-10K)"
-//             ],
-//           ),
-//           Expanded(child: ModelDropDown())
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dealerList = ref.watch(getDealerListProvider);
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const CustomAppBar(),
+        body: dealerList.when(
+          data: (data) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+              child: Column(
+                children: [
+                  const TopProfileName(),
+                  heightSizedBox(20.0),
+                  DealerDropDown(data: data),
+                  heightSizedBox(20.0),
+                  BrandDropDown(items: modelList),
+                  heightSizedBox(10.0),
+                  ModelDropDawn()
+                ],
+              ),
+            );
+          },
+          error: (error, stackTrace) => const Center(
+            child: Text("Something went wrong"),
+          ),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ));
+  }
+}
 
-// class BrandDropDown1 extends ConsumerWidget {
-//   final List<String> items;
-//   const BrandDropDown1({
-//     super.key,
-//     required this.items,
-//   });
+final selectedDealerProvider = StateProvider<String?>((ref) => null);
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     return DropdownButtonFormField<String>(
-//       value: selectedBrand,
-//       style: const TextStyle(
-//         fontSize: 16.0,
-//         height: 1.5,
-//         color: Colors.black87,
-//       ),
-//       dropdownColor: Colors.white,
-//       decoration: inputDecoration(label: "Select Brand"),
-//       onChanged: (newValue) {
-//         // Reset selected model when a new brand is selected
-//         ref.read(selectedBrandProvider.notifier).state = newValue;
-//         ref.read(selectedModelProvider.notifier).state =
-//             null; // Clear selected model
-//         ref.read(selectedModelIdProvider.notifier).state =
-//             null; // Clear model id
-//       },
-//       hint: Text("Select Brand"),
-//       items: items.map<DropdownMenuItem<String>>((value) {
-//         return Column(
-//           children: [
-//             DropdownMenuItem<String>(
-//               value: value,
-//               child: Text(value),
-//             ),
-//           ],
-//         );
-//       }).toList(),
-//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
-//       // Add validation
-//       validator: (value) {
-//         if (value == null || value.isEmpty) {
-//           return 'Please select a brand';
-//         }
-//         return null; // No error
-//       },
-//     );
-//   }
-// }
+class DealerDropDown extends ConsumerWidget {
+  final dynamic data;
+  const DealerDropDown({
+    super.key,
+    required this.data,
+  });
 
-// class ModelDropDown extends ConsumerStatefulWidget {
-//   const ModelDropDown({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedModel = ref.watch(selectedDealerProvider);
 
-//   @override
-//   _ModelDropDownState createState() => _ModelDropDownState();
-// }
+    final List<Map<String, dynamic>> products =
+        List<Map<String, dynamic>>.from(data is List ? data : []);
 
-// class _ModelDropDownState extends ConsumerState<ModelDropDown> {
-//   TextEditingController searchController = TextEditingController();
-//   List<String> filteredModelNames = [];
+    final List<String> modelNames = products
+        .where((product) => product['BUYER'] != null)
+        .map((product) => product['BUYER'] as String)
+        .toList();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     final selectedModel = ref.watch(selectedModelProvider);
-//     final getModels = ref.watch(getModelsProvider(selectedBrand));
+    if (modelNames.isEmpty) {
+      return const Text("No models available");
+    }
 
-//     return getModels.when(
-//       data: (data) {
-//         if (data == null || data['products'] == null) {
-//           return const Text("No models available");
-//         }
-
-//         final List<Map<String, dynamic>> products =
-//             List<Map<String, dynamic>>.from(data['products']);
-//         final List<String> modelNames = products
-//             .where((product) => product['Model'] != null)
-//             .map((product) => product['Model'] as String)
-//             .toList();
-
-//         if (modelNames.isEmpty) {
-//           return const Text("No models available");
-//         }
-
-//         // Initialize the filtered model list if it's empty
-//         if (filteredModelNames.isEmpty) {
-//           filteredModelNames = modelNames;
-//         }
-
-//         return Column(
-//           children: [
-//             // Search bar
-//             Padding(
-//               padding: const EdgeInsets.symmetric(vertical: 8.0),
-//               child: TextField(
-//                 controller: searchController,
-//                 decoration: InputDecoration(
-//                   labelText: 'Search Models',
-//                   prefixIcon: const Icon(Icons.search),
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(8.0),
-//                   ),
-//                 ),
-//                 onChanged: (value) {
-//                   setState(() {
-//                     filteredModelNames = modelNames
-//                         .where((model) =>
-//                             model.toLowerCase().contains(value.toLowerCase()))
-//                         .toList();
-//                   });
-//                 },
-//               ),
-//             ),
-//             // List of models with checkboxes
-//             Expanded(
-//               child: ListView.builder(
-//                 itemCount: filteredModelNames.length,
-//                 itemBuilder: (context, index) {
-//                   final modelName = filteredModelNames[index];
-//                   final isSelected = selectedModel == modelName;
-
-//                   return CheckboxListTile(
-//                     title: Text(modelName),
-//                     value: isSelected,
-//                     onChanged: (bool? checked) {
-//                       if (checked == true) {
-//                         ref.read(selectedModelProvider.notifier).state =
-//                             modelName;
-
-//                         final selectedProduct = products.firstWhere(
-//                             (product) => product['Model'] == modelName);
-//                         ref.read(selectedModelIdProvider.notifier).state =
-//                             selectedProduct['_id'];
-//                       } else {
-//                         ref.read(selectedModelProvider.notifier).state = null;
-//                         ref.read(selectedModelIdProvider.notifier).state = null;
-//                       }
-//                     },
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         );
-//       },
-//       error: (error, stackTrace) => Text("Error loading data: $error"),
-//       loading: () => const CircularProgressIndicator(),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     searchController.dispose();
-//     super.dispose();
-//   }
-// }
+    return SizedBox(
+      width: double.infinity,
+      child: DropdownButtonFormField<String>(
+        value: selectedModel,
+        style: const TextStyle(
+          fontSize: 16.0,
+          height: 1.5,
+          color: Colors.black87,
+        ),
+        dropdownColor: Colors.white,
+        decoration: inputDecoration(label: "Select Dealer"),
+        onChanged: (newValue) {
+          ref.read(selectedDealerProvider.notifier).state = newValue;
+          final selectedProduct =
+              products.firstWhere((product) => product['BUYER'] == newValue);
+          ref.read(selectedModelIdProvider.notifier).state =
+              selectedProduct['BUYER CODE'];
+        },
+        hint: const Text("Select Dealer"),
+        items: modelNames.map<DropdownMenuItem<String>>((model) {
+          final buyerCode = products
+              .firstWhere((product) => product['BUYER'] == model)['BUYER CODE'];
+          return DropdownMenuItem<String>(
+            value: model,
+            child: ListTile(
+              title: Text(model), // Show the buyer
+              subtitle: Text(buyerCode), // Show the buyer code
+            ),
+          );
+        }).toList(),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please select a dealer';
+          }
+          return null; // No error
+        },
+        menuMaxHeight: MediaQuery.of(context).size.height / 2,
+        icon: const Icon(Icons.arrow_drop_down), // Default dropdown icon
+        isExpanded: true, // Ensures that dropdown stretches to fit the text
+        selectedItemBuilder: (BuildContext context) {
+          return modelNames.map((model) {
+            return Text(
+              model, // Show only the buyer (model) as selected value
+              style: const TextStyle(
+                fontSize: 16.0,
+                color: Colors.black87,
+              ),
+            );
+          }).toList();
+        },
+      ),
+    );
+  }
+}
