@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../common/common.dart';
 import '../../common/dashboard_options.dart';
@@ -23,33 +28,55 @@ class UploadForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dealerList = ref.watch(getDealerListProvider);
+    final selectedBrand =
+        ref.watch(selectedBrandProvider); // Watch the selected brand
+
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: const CustomAppBar(),
-        body: dealerList.when(
-          data: (data) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              child: Column(
-                children: [
-                  const TopProfileName(),
-                  heightSizedBox(20.0),
-                  DealerDropDown(data: data),
-                  heightSizedBox(20.0),
-                  BrandDropDown(items: modelList),
-                  heightSizedBox(10.0),
-                  ModelDropDawnTest(),
+      backgroundColor: Colors.white,
+      appBar: const CustomAppBar(),
+      body: dealerList.when(
+        data: (data) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: Column(
+              children: [
+                const TopProfileName(),
+                heightSizedBox(15.0),
+                DealerDropDown(data: data),
+                heightSizedBox(15.0),
+
+                BrandDropDown(items: modelList),
+                heightSizedBox(15.0),
+
+                // Conditionally show ModelDropDawnTest based on selectedBrand state
+                if (selectedBrand != null) ...[
+                  const ModelDropDawnTest(),
                 ],
-              ),
-            );
-          },
-          error: (error, stackTrace) => const Center(
-            child: Text("Something went wrong"),
-          ),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ));
+              ],
+            ),
+          );
+        },
+        error: (error, stackTrace) => const Center(
+          child: Text("Something went wrong"),
+        ),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Btn(
+            btnName: "Submit",
+            onPressed: () {
+              final quantity = ref.read(modelQuantityProvider);
+              final id = ref.read(selectModelIDProvider1);
+              final model = ref.read(selectedModelProvider);
+              log("quantity$quantity");
+              log("id$id");
+              log("model$model");
+            }),
+      ),
+    );
   }
 }
 
@@ -171,8 +198,12 @@ class ModelDropDawnTest extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ElevatedButton(
-                onPressed: () async {
+              // TextFormField acting like DropdownButtonFormField
+              TextFormField(
+                readOnly: true,
+                decoration: inputDecoration(
+                    label: "Select Models", hintText: "Select Models"),
+                onTap: () async {
                   final Map<String, int>? selectedModelsWithQuantities =
                       await showModalBottomSheet<Map<String, int>>(
                     context: context,
@@ -190,25 +221,38 @@ class ModelDropDawnTest extends ConsumerWidget {
                           return Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 heightSizedBox(50.0),
-                                const Text(
+                                Text(
                                   "Select Models and Quantities",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                  style: GoogleFonts.lato(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600),
                                 ),
+                                heightSizedBox(5.0),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      "Total: $totalQuantity",
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(width: 0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(2)),
+                                      child: Center(
+                                        child: Text(
+                                          "Total: $totalQuantity",
+                                          style: GoogleFonts.lato(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
+                                heightSizedBox(5.0),
                                 Expanded(
                                   child: SingleChildScrollView(
                                     child: ListBody(
@@ -337,13 +381,19 @@ class ModelDropDawnTest extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     TextButton(
-                                      child: const Text('Cancel'),
+                                      child: const Text(
+                                        'Cancel',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     TextButton(
-                                      child: const Text('OK'),
+                                      child: const Text(
+                                        'OK',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context)
                                             .pop(tempSelectedModels);
@@ -379,7 +429,6 @@ class ModelDropDawnTest extends ConsumerWidget {
                         selectedModelNames;
                   }
                 },
-                child: const Text("Select Models"),
               ),
               const SizedBox(height: 10),
               const Text("Selected Models:"),
@@ -426,459 +475,4 @@ class ModelDropDawnTest extends ConsumerWidget {
     );
   }
 }
-
-
-// final selectedModelProvider = StateProvider<List<String>>((ref) => []);
-// final selectModelIDProvider1 = StateProvider<List<String>>((ref) => []);
-// final modelQuantityProvider = StateProvider<Map<String, int>>((ref) => {});
-
-// class ModelDropDawnTest extends ConsumerWidget {
-//   const ModelDropDawnTest({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     final selectedModels =
-//         ref.watch(selectedModelProvider); // List of selected models
-//     final modelQuantities =
-//         ref.watch(modelQuantityProvider); // Model quantities
-//     final getModels = ref.watch(getModelsProvider(selectedBrand));
-
-//     return getModels.when(
-//       data: (data) {
-//         if (data == null || data['products'] == null) {
-//           return const Text("No models available");
-//         }
-
-//         final List<Map<String, dynamic>> products =
-//             List<Map<String, dynamic>>.from(data['products']);
-//         final List<String> modelNames = products
-//             .where((product) => product['Model'] != null)
-//             .map((product) => product['Model'] as String)
-//             .toList();
-
-//         if (modelNames.isEmpty) {
-//           return const Text("No models available");
-//         }
-
-//         return SizedBox(
-//           width: double.infinity,
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               ElevatedButton(
-//                 onPressed: () async {
-//                   final Map<String, int>? selectedModelsWithQuantities =
-//                       await showModalBottomSheet<Map<String, int>>(
-//                     context: context,
-//                     isScrollControlled: true, // Full screen
-//                     builder: (context) {
-//                       final tempSelectedModels =
-//                           Map<String, int>.from(modelQuantities);
-
-//                       return StatefulBuilder(
-//                         builder: (context, setState) {
-//                           return Padding(
-//                             padding: const EdgeInsets.all(16.0),
-//                             child: Column(
-//                               children: [
-//                                 heightSizedBox(50.0),
-//                                 const Text(
-//                                   "Select Models and Quantities",
-//                                   style: TextStyle(
-//                                       fontSize: 20,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                                 Expanded(
-//                                   child: SingleChildScrollView(
-//                                     child: ListBody(
-//                                       children: modelNames.map((model) {
-//                                         final quantity =
-//                                             tempSelectedModels[model] ?? 0;
-//                                         final isSelected = quantity > 0;
-//                                         return Container(
-//                                           decoration: BoxDecoration(
-//                                             color: isSelected
-//                                                 ? Colors.green
-//                                                 : Colors.transparent,
-//                                             border: Border.all(
-//                                               color: isSelected
-//                                                   ? Colors.white
-//                                                   : Colors.black,
-//                                               width: 0.1,
-//                                             ),
-//                                             borderRadius:
-//                                                 BorderRadius.circular(8.0),
-//                                           ),
-//                                           margin: const EdgeInsets.symmetric(
-//                                               vertical: 8.0),
-//                                           padding: const EdgeInsets.all(12.0),
-//                                           child: Row(
-//                                             mainAxisAlignment:
-//                                                 MainAxisAlignment.spaceBetween,
-//                                             children: [
-//                                               // Model name
-//                                               Text(
-//                                                 model,
-//                                                 style: TextStyle(
-//                                                   color: isSelected
-//                                                       ? Colors.white
-//                                                       : Colors.black,
-//                                                 ),
-//                                               ),
-//                                               Row(
-//                                                 children: [
-//                                                   IconButton(
-//                                                     icon: Icon(
-//                                                       Icons.remove,
-//                                                       color: isSelected
-//                                                           ? Colors.white
-//                                                           : Colors.black,
-//                                                     ),
-//                                                     onPressed: () {
-//                                                       if (quantity > 0) {
-//                                                         setState(() {
-//                                                           tempSelectedModels[
-//                                                                   model] =
-//                                                               quantity - 1;
-//                                                           if (tempSelectedModels[
-//                                                                   model] ==
-//                                                               0) {
-//                                                             tempSelectedModels
-//                                                                 .remove(model);
-//                                                           }
-//                                                         });
-//                                                       }
-//                                                     },
-//                                                   ),
-//                                                   Text(
-//                                                     quantity.toString(),
-//                                                     style: TextStyle(
-//                                                       color: isSelected
-//                                                           ? Colors.white
-//                                                           : Colors.black,
-//                                                     ),
-//                                                   ), // Display quantity
-//                                                   IconButton(
-//                                                     icon: Icon(
-//                                                       Icons.add,
-//                                                       color: isSelected
-//                                                           ? Colors.white
-//                                                           : Colors.black,
-//                                                     ),
-//                                                     onPressed: () {
-//                                                       setState(() {
-//                                                         tempSelectedModels[
-//                                                                 model] =
-//                                                             quantity + 1;
-//                                                       });
-//                                                     },
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ],
-//                                           ),
-//                                         );
-//                                       }).toList(),
-//                                     ),
-//                                   ),
-//                                 ),
-//                                 Row(
-//                                   mainAxisAlignment: MainAxisAlignment.end,
-//                                   children: [
-//                                     TextButton(
-//                                       child: const Text('Cancel'),
-//                                       onPressed: () {
-//                                         Navigator.of(context).pop();
-//                                       },
-//                                     ),
-//                                     TextButton(
-//                                       child: const Text('OK'),
-//                                       onPressed: () {
-//                                         Navigator.of(context)
-//                                             .pop(tempSelectedModels);
-//                                       },
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           );
-//                         },
-//                       );
-//                     },
-//                   );
-
-//                   if (selectedModelsWithQuantities != null) {
-//                     ref.read(modelQuantityProvider.notifier).state =
-//                         selectedModelsWithQuantities;
-
-//                     final selectedProductIds = products
-//                         .where((product) => selectedModelsWithQuantities.keys
-//                             .contains(product['Model']))
-//                         .map((product) => product['_id'] as String)
-//                         .toList();
-//                     ref.read(selectModelIDProvider1.notifier).state =
-//                         selectedProductIds;
-
-//                     final selectedModelNames = selectedModelsWithQuantities.keys
-//                         .where(
-//                             (model) => selectedModelsWithQuantities[model]! > 0)
-//                         .toList();
-//                     ref.read(selectedModelProvider.notifier).state =
-//                         selectedModelNames;
-//                   }
-//                 },
-//                 child: const Text("Select Models"),
-//               ),
-//               const SizedBox(height: 10),
-//               const Text("Selected Models:"),
-//               ...selectedModels.map((model) {
-//                 final quantity = modelQuantities[model] ?? 1;
-
-//                 return Row(
-//                   children: [
-//                     Expanded(child: Text(model)), // Model name
-//                     IconButton(
-//                       icon: const Icon(Icons.remove),
-//                       onPressed: () {
-//                         if (quantity > 1) {
-//                           // Reduce quantity
-//                           final newQuantities =
-//                               Map<String, int>.from(modelQuantities);
-//                           newQuantities[model] = quantity - 1;
-//                           ref.read(modelQuantityProvider.notifier).state =
-//                               newQuantities;
-//                         }
-//                       },
-//                     ),
-//                     Text(quantity.toString()), // Display quantity
-//                     IconButton(
-//                       icon: const Icon(Icons.add),
-//                       onPressed: () {
-//                         // Increase quantity
-//                         final newQuantities =
-//                             Map<String, int>.from(modelQuantities);
-//                         newQuantities[model] = quantity + 1;
-//                         ref.read(modelQuantityProvider.notifier).state =
-//                             newQuantities;
-//                       },
-//                     ),
-//                   ],
-//                 );
-//               }).toList(),
-//             ],
-//           ),
-//         );
-//       },
-//       error: (error, stackTrace) => Text("Error loading data: $error"),
-//       loading: () => const SizedBox(),
-//     );
-//   }
-// }
-
-
-
-
-// final selectedModelProvider = StateProvider<List<String>>((ref) => []);
-// final selectModelIDProvider1 = StateProvider<List<String>>((ref) => []);
-// final modelQuantityProvider = StateProvider<Map<String, int>>((ref) => {});
-
-// class ModelDropDawnTest extends ConsumerWidget {
-//   const ModelDropDawnTest({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     final selectedModels =
-//         ref.watch(selectedModelProvider); // List of selected models
-//     final modelQuantities =
-//         ref.watch(modelQuantityProvider); // Model quantities
-//     final getModels = ref.watch(getModelsProvider(selectedBrand));
-
-//     return getModels.when(
-//       data: (data) {
-//         if (data == null || data['products'] == null) {
-//           return const Text("No models available");
-//         }
-
-//         final List<Map<String, dynamic>> products =
-//             List<Map<String, dynamic>>.from(data['products']);
-//         final List<String> modelNames = products
-//             .where((product) => product['Model'] != null)
-//             .map((product) => product['Model'] as String)
-//             .toList();
-
-//         if (modelNames.isEmpty) {
-//           return const Text("No models available");
-//         }
-
-//         return SizedBox(
-//           width: double.infinity,
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               ElevatedButton(
-//                 onPressed: () async {
-//                   final Map<String, int>? selectedModelsWithQuantities =
-//                       await showModalBottomSheet<Map<String, int>>(
-//                     context: context,
-//                     isScrollControlled: true, // Full screen
-//                     builder: (context) {
-//                       final tempSelectedModels =
-//                           Map<String, int>.from(modelQuantities);
-
-//                       return StatefulBuilder(
-//                         builder: (context, setState) {
-//                           return Padding(
-//                             padding: const EdgeInsets.all(16.0),
-//                             child: Column(
-//                               children: [
-//                                 const Text(
-//                                   "Select Models and Quantities",
-//                                   style: TextStyle(
-//                                       fontSize: 20,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                                 Expanded(
-//                                   child: SingleChildScrollView(
-//                                     child: ListBody(
-//                                       children: modelNames.map((model) {
-//                                         final quantity =
-//                                             tempSelectedModels[model] ?? 0;
-//                                         return Row(
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.spaceBetween,
-//                                           children: [
-//                                             Text(model), // Model name
-//                                             Row(
-//                                               children: [
-//                                                 IconButton(
-//                                                   icon: const Icon(Icons.remove),
-//                                                   onPressed: () {
-//                                                     if (quantity > 0) {
-//                                                       setState(() {
-//                                                         tempSelectedModels[
-//                                                                 model] =
-//                                                             quantity - 1;
-//                                                         // Remove model if quantity is 0
-//                                                         if (tempSelectedModels[
-//                                                                 model] ==
-//                                                             0) {
-//                                                           tempSelectedModels
-//                                                               .remove(model);
-//                                                         }
-//                                                       });
-//                                                     }
-//                                                   },
-//                                                 ),
-//                                                 Text(quantity.toString()), // Display quantity
-//                                                 IconButton(
-//                                                   icon: const Icon(Icons.add),
-//                                                   onPressed: () {
-//                                                     setState(() {
-//                                                       tempSelectedModels[model] =
-//                                                           quantity + 1;
-//                                                     });
-//                                                   },
-//                                                 ),
-//                                               ],
-//                                             ),
-//                                           ],
-//                                         );
-//                                       }).toList(),
-//                                     ),
-//                                   ),
-//                                 ),
-//                                 Row(
-//                                   mainAxisAlignment: MainAxisAlignment.end,
-//                                   children: [
-//                                     TextButton(
-//                                       child: const Text('Cancel'),
-//                                       onPressed: () {
-//                                         Navigator.of(context).pop();
-//                                       },
-//                                     ),
-//                                     TextButton(
-//                                       child: const Text('OK'),
-//                                       onPressed: () {
-//                                         Navigator.of(context)
-//                                             .pop(tempSelectedModels);
-//                                       },
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                           );
-//                         },
-//                       );
-//                     },
-//                   );
-
-//                   if (selectedModelsWithQuantities != null) {
-//                     ref.read(selectedModelProvider.notifier).state =
-//                         selectedModelsWithQuantities.keys.toList();
-
-//                     final selectedProductIds = products
-//                         .where((product) => selectedModelsWithQuantities.keys
-//                             .contains(product['Model']))
-//                         .map((product) => product['_id'] as String)
-//                         .toList();
-//                     ref.read(selectModelIDProvider1.notifier).state =
-//                         selectedProductIds;
-
-//                     ref.read(modelQuantityProvider.notifier).state =
-//                         Map<String, int>.from(selectedModelsWithQuantities);
-//                   }
-//                 },
-//                 child: const Text("Select Models"),
-//               ),
-//               const SizedBox(height: 10),
-//               const Text("Selected Models:"),
-//               ...selectedModels.map((model) {
-//                 final quantity = modelQuantities[model] ?? 1;
-
-//                 return Row(
-//                   children: [
-//                     Expanded(child: Text(model)), // Model name
-//                     IconButton(
-//                       icon: const Icon(Icons.remove),
-//                       onPressed: () {
-//                         if (quantity > 1) {
-//                           // Reduce quantity
-//                           final newQuantities =
-//                               Map<String, int>.from(modelQuantities);
-//                           newQuantities[model] = quantity - 1;
-//                           ref.read(modelQuantityProvider.notifier).state =
-//                               newQuantities;
-//                         }
-//                       },
-//                     ),
-//                     Text(quantity.toString()), // Display quantity
-//                     IconButton(
-//                       icon: const Icon(Icons.add),
-//                       onPressed: () {
-//                         // Increase quantity
-//                         final newQuantities =
-//                             Map<String, int>.from(modelQuantities);
-//                         newQuantities[model] = quantity + 1;
-//                         ref.read(modelQuantityProvider.notifier).state =
-//                             newQuantities;
-//                       },
-//                     ),
-//                   ],
-//                 );
-//               }).toList(),
-//             ],
-//           ),
-//         );
-//       },
-//       error: (error, stackTrace) => Text("Error loading data: $error"),
-//       loading: () => const SizedBox(),
-//     );
-//   }
-// }
-
-
 

@@ -126,9 +126,6 @@ class BrandDropDown extends ConsumerWidget {
   }
 }
 
-
-
-
 final selectedModelIdProvider = StateProvider<String?>((ref) => null);
 final getModelsProvider =
     FutureProvider.autoDispose.family((ref, String? brand) async {
@@ -340,11 +337,17 @@ class QuantitySelector extends ConsumerWidget {
   }
 }
 
-InputDecoration inputDecoration({required String label}) {
+InputDecoration inputDecoration({required String label, String? hintText}) {
   return InputDecoration(
     fillColor: const Color(0XFFfafafa),
     contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
     errorStyle: const TextStyle(color: Colors.red),
+    hintText: hintText ?? "",
+    hintStyle: const TextStyle(
+      fontSize: 15.0,
+      color: Colors.black54,
+      fontWeight: FontWeight.w500,
+    ),
     labelStyle: const TextStyle(
       fontSize: 15.0,
       color: Colors.black54,
