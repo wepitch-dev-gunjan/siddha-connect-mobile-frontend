@@ -20,14 +20,14 @@ import 'sizes.dart';
 
 final userProfileProvider = FutureProvider.autoDispose((ref) async {
   final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
-  ref.keepAlive();
+
   return getprofileStatus;
 });
 
 final dealerProfileProvider = FutureProvider.autoDispose((ref) async {
   final getDealerVerified =
       await ref.watch(authRepoProvider).isDealerVerified();
-  ref.keepAlive();
+
   return getDealerVerified;
 });
 

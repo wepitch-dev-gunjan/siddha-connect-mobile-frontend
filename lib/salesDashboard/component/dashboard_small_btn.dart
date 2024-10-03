@@ -350,9 +350,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 
-  // Show popup to choose between View List and View Report
-  void _showPopup(
-      BuildContext context, WidgetRef ref, String name) {
+  void _showPopup(BuildContext context, WidgetRef ref, String name) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -365,7 +363,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
                   title: const Text("View List"),
                   onTap: () {
                     Navigator.pop(context);
-                    // Show dealers list dialog
                     _showDealers(context, ref, name, "List");
                   },
                 ),
@@ -373,20 +370,80 @@ class DealerSelectionDropdown extends ConsumerWidget {
                   title: const Text("View Report"),
                   onTap: () {
                     Navigator.pop(context);
-                    // Show dealers report dialog
                     _showDealers(context, ref, name, "Report");
                   },
                 ),
               ],
             ),
-            contentPadding:const  EdgeInsets.all(16.0),
-            // Wrap AlertDialog with a Container or SizedBox to increase the width
+            contentPadding: const EdgeInsets.all(16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ));
       },
     );
   }
+
+//   void _showDealers(
+//       BuildContext context, WidgetRef ref, String name, String type) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text("$name - $type"),
+//           content: Consumer(
+//             builder: (context, ref, child) {
+//               // Fetch the dealer data from the provider
+//               final dealerDataProvider = ref.watch(getDealerListDataProvider);
+
+//               return dealerDataProvider.when(
+//                 data: (dealerData) {
+//                   log("DealerData====$dealerData");
+
+//                   // Map the dealerData and extract both 'BUYER' and 'BUYER CODE'
+//                   final dealerWidgets = dealerData.map<Widget>((dealer) {
+//                     final buyer = dealer['BUYER'].toString();
+//                     final buyerCode = dealer['BUYER CODE'].toString();
+
+//                     return ListTile(
+//                       title: Text(buyer), // Display 'BUYER'
+//                       subtitle: Text(buyerCode), // Display 'BUYER CODE'
+//                       onTap: () {
+//                         // Update the selected dealer with 'BUYER CODE'
+//                         ref.read(selectedDealerProvider.notifier).state =
+//                             buyerCode;
+
+//                         Navigator.pop(context); // Close the dialog
+//                       },
+//                     );
+//                   }).toList(); // Convert Iterable to List<Widget>
+
+//                   return SizedBox(
+//                     height: 400.h,
+//                     child: SingleChildScrollView(
+//                       child: Column(
+//                         mainAxisSize: MainAxisSize.min,
+//                         children: dealerWidgets, // List<Widget>
+//                       ),
+//                     ),
+//                   );
+//                 },
+//                 error: (error, stackTrace) => const Center(
+//                   child: Text("Something went wrong"),
+//                 ),
+//                 loading: () => const Center(
+//                   child: CircularProgressIndicator(),
+//                 ),
+//               );
+//             },
+//           ),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(10.0),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
   void _showDealers(
       BuildContext context, WidgetRef ref, String name, String type) {
@@ -397,37 +454,38 @@ class DealerSelectionDropdown extends ConsumerWidget {
           title: Text("$name - $type"),
           content: Consumer(
             builder: (context, ref, child) {
-              // Fetch the dealer data from the provider
               final dealerDataProvider = ref.watch(getDealerListDataProvider);
 
               return dealerDataProvider.when(
                 data: (dealerData) {
-                  log("DealerData====$dealerData");
+                  if (dealerData == null || dealerData.isEmpty) {
+                    return const Center(
+                      child: Text("No dealers available"),
+                    );
+                  }
 
-                  // Map the dealerData and extract both 'BUYER' and 'BUYER CODE'
                   final dealerWidgets = dealerData.map<Widget>((dealer) {
                     final buyer = dealer['BUYER'].toString();
                     final buyerCode = dealer['BUYER CODE'].toString();
 
                     return ListTile(
-                      title: Text(buyer), // Display 'BUYER'
-                      subtitle: Text(buyerCode), // Display 'BUYER CODE'
+                      title: Text(buyer),
+                      subtitle: Text(buyerCode),
                       onTap: () {
-                        // Update the selected dealer with 'BUYER CODE'
                         ref.read(selectedDealerProvider.notifier).state =
                             buyerCode;
 
-                        Navigator.pop(context); // Close the dialog
+                        Navigator.pop(context);
                       },
                     );
-                  }).toList(); // Convert Iterable to List<Widget>
+                  }).toList();
 
                   return SizedBox(
                     height: 400.h,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: dealerWidgets, // List<Widget>
+                        children: dealerWidgets,
                       ),
                     ),
                   );
