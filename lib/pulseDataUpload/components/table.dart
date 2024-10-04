@@ -14,222 +14,6 @@ final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
   return data;
 });
 
-// class ShowTable extends ConsumerWidget {
-//   const ShowTable({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     final columnSpacing = screenWidth / 12;
-//     TextEditingController dealerCode = TextEditingController();
-
-//     return Theme(
-//       data: Theme.of(context).copyWith(
-//         dividerTheme: const DividerThemeData(
-//           color: Colors.white,
-//         ),
-//       ),
-//       child: Expanded(
-//         child: DataTable2(
-//           headingRowHeight: 50,
-//           dividerThickness: 2.5,
-//           columnSpacing: columnSpacing,
-//           showBottomBorder: true,
-//           minWidth: 700,
-//           headingRowColor: WidgetStateColor.resolveWith(
-//             (states) => const Color(0xff005BFF),
-//           ),
-//           columns: [
-//             titleColumn(label: "Brand"),
-//             titleColumn(label: "Model"),
-//             titleColumn(label: "Dealer Price"),
-//             titleColumn(label: "Quantity"),
-//             titleColumn(label: "Payment Mode"),
-//             titleColumn(label: "Actions"),
-//           ],
-//           rows: [
-//             DataRow(
-//               cells: [
-//                 const DataCell(Text("")),
-//                 const DataCell(Text("")),
-//                 const DataCell(Text("")),
-//                 const DataCell(Text("")),
-//                 const DataCell(Text("")),
-//                 DataCell(IconButton(
-//                   icon: const Icon(Icons.edit, color: Colors.black),
-//                   onPressed: () {
-//                     ref.read(formVisibilityProvider.notifier).state = true;
-//                   },
-//                 )),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ShowTable extends ConsumerWidget {
-//   const ShowTable({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final extractionData = ref.watch(getExtractionRecordProvider);
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     final columnSpacing = screenWidth / 12;
-//     final screenHeight = MediaQuery.of(context).size.height;
-//     final contentAboveHeight = screenHeight / 2;
-//     final remainingHeight = screenHeight - contentAboveHeight;
-
-//     return extractionData.when(
-//       data: (data) {
-//         if (data == null || data['records'] == null || data['records'][0]['columns'] == null) {
-//           return const Center(child: Text('No data available.'));
-//         }
-
-//         final columns = data['records'][0]['columns'] ?? [];
-//         final rows = data['records'].sublist(1) ?? [];
-
-//         return Theme(
-//           data: Theme.of(context).copyWith(
-//             dividerTheme: const DividerThemeData(
-//               color: Colors.white,
-//             ),
-//           ),
-//           child: SizedBox(
-//             // Use the remaining height for the table to prevent overflow
-//             height: remainingHeight,
-//             child: DataTable2(
-//               headingRowHeight: 50,
-//               dividerThickness: 2.5,
-//               columnSpacing: columnSpacing,
-//               minWidth: 2000,
-//               showBottomBorder: true,
-//               headingRowColor: WidgetStateColor.resolveWith(
-//                 (states) => const Color(0xff005BFF),
-//               ),
-//               columns: [
-//                 for (var column in columns)
-//                   DataColumn(
-//                     label: Text(column ?? "N/A"),
-//                   ),
-//               ],
-//               rows: List.generate(rows.length, (index) {
-//                 final row = rows[index];
-//                 return DataRow(
-//                   cells: [
-//                     DataCell(Text(row['_id']?.toString() ?? '')),
-//                     DataCell(Text(row['dealerCode']?.toString() ?? '')),
-//                     DataCell(Text(row['shopName']?.toString() ?? '')),
-//                     DataCell(Text(row['date']?.toString() ?? '')),
-//                     DataCell(Text(row['quantity']?.toString() ?? '')),
-//                     DataCell(Text(row['uploadedBy']?.toString() ?? '')),
-//                     DataCell(Text(row['employeeName']?.toString() ?? '')),
-//                     DataCell(Text(row['totalPrice']?.toString() ?? '')),
-//                     DataCell(Text(row['Brand']?.toString() ?? '')),
-//                     DataCell(Text(row['Model']?.toString() ?? '')),
-//                     DataCell(Text(row['Price']?.toString() ?? '')),
-//                     DataCell(Text(row['Segment']?.toString() ?? '')),
-//                     DataCell(Text(row['Category']?.toString() ?? '')),
-//                     DataCell(Text(row['Status']?.toString() ?? '')),
-//                     DataCell(IconButton(
-//                       icon: const Icon(Icons.edit, color: Colors.black),
-//                       onPressed: () {
-//                         ref.read(formVisibilityProvider.notifier).state = true;
-//                       },
-//                     )),
-//                   ],
-//                 );
-//               }),
-//             ),
-//           ),
-//         );
-//       },
-//       error: (error, stackTrace) => const Center(
-//         child: Text("Something Went Wrong"),
-//       ),
-//       loading: () => const Center(
-//         child: CircularProgressIndicator(),
-//       ),
-//     );
-//   }
-// }
-
-// class ShowTable extends ConsumerWidget {
-//   const ShowTable({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final extractionData = ref.watch(getExtractionRecordProvider);
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     final columnSpacing = screenWidth / 12;
-
-//     return extractionData.when(
-//       data: (data) {
-//         if (data == null || data['records'] == null || data['records'][0]['columns'] == null) {
-//           return const Center(child: Text('No data available.'));
-//         }
-
-//         final columns = data['records'][0]['columns'] ?? [];
-//         final rows = data['records'].sublist(1) ?? [];
-
-//         return Theme(
-//           data: Theme.of(context).copyWith(
-//             dividerTheme: const DividerThemeData(
-//               color: Colors.white,
-//             ),
-//           ),
-//           child: SingleChildScrollView(
-//             scrollDirection: Axis.horizontal,
-//             child: DataTable(
-//               columnSpacing: columnSpacing,
-//               headingRowColor: MaterialStateColor.resolveWith(
-//                 (states) => const Color(0xff005BFF),
-//               ),
-//               columns: [
-//                 for (var column in columns)
-//                   DataColumn(
-//                     label: Text(column ?? "N/A"),
-//                   ),
-//               ],
-//               rows: List.generate(rows.length, (index) {
-//                 final row = rows[index] ?? {};
-
-//                 // Make sure each row has the same number of cells as columns
-//                 return DataRow(
-//                   cells: [
-//                     DataCell(Text(row['_id']?.toString() ?? '')),
-//                     DataCell(Text(row['dealerCode']?.toString() ?? '')),
-//                     DataCell(Text(row['shopName']?.toString() ?? '')),
-//                     DataCell(Text(row['date']?.toString() ?? '')),
-//                     DataCell(Text(row['quantity']?.toString() ?? '')),
-//                     DataCell(Text(row['uploadedBy']?.toString() ?? '')),
-//                     DataCell(Text(row['employeeName']?.toString() ?? '')),
-//                     DataCell(Text(row['totalPrice']?.toString() ?? '')),
-//                     DataCell(Text(row['Brand']?.toString() ?? '')),
-//                     DataCell(Text(row['Model']?.toString() ?? '')),
-//                     DataCell(Text(row['Price']?.toString() ?? '')),
-//                     DataCell(Text(row['Segment']?.toString() ?? '')),
-//                     DataCell(Text(row['Category']?.toString() ?? '')),
-//                     DataCell(Text(row['Status']?.toString() ?? '')),
-//                   ],
-//                 );
-//               }),
-//             ),
-//           ),
-//         );
-//       },
-//       error: (error, stackTrace) => const Center(
-//         child: Text("Something Went Wrong"),
-//       ),
-//       loading: () => const Center(
-//         child: CircularProgressIndicator(),
-//       ),
-//     );
-//   }
-// }
-
 class ShowTable extends ConsumerWidget {
   const ShowTable({super.key});
 
@@ -242,18 +26,13 @@ class ShowTable extends ConsumerWidget {
 
     return extractionData.when(
       data: (data) {
-        log("data$data");
         if (data == null ||
             data['records'] == null ||
             data['records'][0]['columns'] == null) {
           return const Center(child: Text('No data available.'));
         }
-
-        // Skip the first column (assuming '_id' is the first column)
         final columns = data['records'][0]['columns']?.sublist(1) ?? [];
-        // Skip the first row column '_id' in rows
         final rows = data['records'].sublist(1) ?? [];
-
         return Theme(
           data: Theme.of(context).copyWith(
             dividerTheme: const DividerThemeData(
@@ -262,9 +41,11 @@ class ShowTable extends ConsumerWidget {
           ),
           child: DataTable2(
             headingRowHeight: 50,
-            dividerThickness: 2.5,
             columnSpacing: columnSpacing,
-            minWidth: 1200,
+            border: TableBorder.all(color: Colors.black45, width: 0.5),
+            horizontalMargin: 0,
+            // dataRowHeight: 50,
+            minWidth: 1000,
             showBottomBorder: true,
             headingRowColor: WidgetStateColor.resolveWith(
               (states) => const Color(0xff005BFF),
@@ -279,33 +60,57 @@ class ShowTable extends ConsumerWidget {
               final row = rows[index];
               return DataRow(
                 cells: [
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['dealerCode']?.toString() ?? ''),
+                  DataCell(SizedBox(
+                    width: 500,
+                    child: Center(
+                      child: Text(
+                        row['dealerCode']?.toString() ?? '',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['shopName']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: Text(
+                      row['shopName']?.toString() ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['Brand']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: FittedBox(
+                      // fit: BoxFit.fitHeight,
+                      child: Text(
+                        row['Brand']?.toString() ?? '',
+                      ),
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.fill,
-                    child: Text(row['Model']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: Text(
+                      row['Model']?.toString() ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['Category']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(row['Category']?.toString() ?? ''),
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['quantity']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(row['quantity']?.toString() ?? ''),
+                    ),
                   )),
-                  DataCell(FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(row['totalPrice']?.toString() ?? ''),
+                  DataCell(Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        row['totalPrice']?.toString() ?? '',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   )),
                 ],
               );
@@ -325,9 +130,11 @@ class ShowTable extends ConsumerWidget {
 
 DataColumn titleColumn({required String label}) {
   return DataColumn(
-    label: Text(
-      label,
-      style: tableTitleStyle,
+    label: Center(
+      child: Text(
+        label,
+        style: tableTitleStyle,
+      ),
     ),
   );
 }
