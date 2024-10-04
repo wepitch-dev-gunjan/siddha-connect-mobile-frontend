@@ -243,22 +243,22 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                   title: "Attendance",
                   onTap: () {},
                 ),
-                dealer == "dealer"
-                    ? const SizedBox()
-                    : ListTile(
-                        title: Text(
-                          "Pulse Data Upload",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          navigationPush(context, const PulseDataUpload());
-                        },
-                      ),
+                // dealer == "dealer"
+                //     ? const SizedBox()
+                //     : ListTile(
+                //         title: Text(
+                //           "Pulse Data Upload",
+                //           style: GoogleFonts.lato(
+                //             textStyle: const TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 20,
+                //             ),
+                //           ),
+                //         ),
+                //         onTap: () {
+                //           navigationPush(context, const PulseDataUpload());
+                //         },
+                //       ),
                 dealer == "dealer"
                     ? const SizedBox()
                     : ListTile(

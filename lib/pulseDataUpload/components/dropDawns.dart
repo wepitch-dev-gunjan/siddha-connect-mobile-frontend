@@ -8,78 +8,6 @@ final selectedPriceProvider = StateProvider<String?>((ref) => null);
 final paymentModeProvider = StateProvider<String?>((ref) => null);
 final quantityProvider = StateProvider<int>((ref) => 1);
 
-// class BrandDropDown extends ConsumerWidget {
-//   final List<String> items;
-//   const BrandDropDown({
-//     super.key,
-//     required this.items,
-//   });
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     return DropdownButtonFormField<String>(
-//       value: selectedBrand,
-//       style: const TextStyle(
-//         fontSize: 16.0,
-//         height: 1.5,
-//         color: Colors.black87,
-//       ),
-//       decoration: inputDecoration(label: "Select Brand"),
-//       onChanged: (newValue) {
-//         ref.read(selectedBrandProvider.notifier).state = newValue;
-//       },
-//       hint: const Text("Select Brand"),
-//       items: items.map<DropdownMenuItem<String>>((value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
-//     );
-//   }
-// }
-
-// class BrandDropDown extends ConsumerWidget {
-//   final List<String> items;
-//   const BrandDropDown({
-//     super.key,
-//     required this.items,
-//   });
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final selectedBrand = ref.watch(selectedBrandProvider);
-//     return DropdownButtonFormField<String>(
-//       value: selectedBrand,
-//       style: const TextStyle(
-//         fontSize: 16.0,
-//         height: 1.5,
-//         color: Colors.black87,
-//       ),
-//       dropdownColor: Colors.white,
-//       decoration: inputDecoration(label: "Select Brand"),
-//       onChanged: (newValue) {
-//         // Reset selected model when a new brand is selected
-//         ref.read(selectedBrandProvider.notifier).state = newValue;
-//         ref.read(selectedModelProvider.notifier).state =
-//             null; // Clear selected model
-//         ref.read(selectedModelIdProvider.notifier).state =
-//             null; // Clear model id
-//       },
-//       hint: const Text("Select Brand"),
-//       items: items.map<DropdownMenuItem<String>>((value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
-//     );
-//   }
-// }
-
 
 final selectedBrandProvider = StateProvider<String?>((ref) => null);
 class BrandDropDown extends ConsumerWidget {
@@ -104,10 +32,10 @@ class BrandDropDown extends ConsumerWidget {
       onChanged: (newValue) {
         // Reset selected model when a new brand is selected
         ref.read(selectedBrandProvider.notifier).state = newValue;
-        ref.read(selectedModelProvider.notifier).state =
-            null; // Clear selected model
-        ref.read(selectedModelIdProvider.notifier).state =
-            null; // Clear model id
+        // ref.read(selectedModelProvider.notifier).state =
+        //     null; // Clear selected model
+        // ref.read(selectedModelIdProvider.notifier).state =
+        //     null; // Clear model id
       },
       hint: const Text("Select Brand"),
       items: items.map<DropdownMenuItem<String>>((value) {
@@ -206,138 +134,43 @@ class ModelDropDawn extends ConsumerWidget {
   }
 }
 
-// final selectedSegmentProvider = StateProvider<String?>((ref) => null);
+// class PaymentModeDropDawn extends ConsumerWidget {
+//   final List<String> items;
 
-// class SegmentDropDown extends ConsumerWidget {
-//   const SegmentDropDown({super.key});
+//   const PaymentModeDropDawn({super.key, required this.items});
 
 //   @override
 //   Widget build(BuildContext context, WidgetRef ref) {
-//     // Predefined list of 5 items
-//     final List<String> modelNames = [
-//       "100K",
-//       "70-100K",
-//       "40-70K",
-//       "> 40 K",
-//       "< 40 K",
-//       "30-40K",
-//       "20-30K",
-//       "15-20K",
-//       "10-15K",
-//       "6-10K",
-//       "Tab>40k",
-//       "Tab<40k",
-//       "Wearable"
-//     ];
-
-//     final selectedModel = ref.watch(selectedModelProvider);
-
+//     final paymentMode = ref.watch(paymentModeProvider);
 //     return DropdownButtonFormField<String>(
-//       value: selectedModel,
+//       value: paymentMode,
 //       style: const TextStyle(
 //         fontSize: 16.0,
 //         height: 1.5,
 //         color: Colors.black87,
 //       ),
 //       dropdownColor: Colors.white,
-//       decoration: inputDecoration(label: "Select Segment"),
+//       decoration: inputDecoration(label: "Payment Mode"),
 //       onChanged: (newValue) {
-//         ref.read(selectedModelProvider.notifier).state = newValue;
+//         ref.read(paymentModeProvider.notifier).state = newValue;
 //       },
-//       hint: const Text("Select Segment"),
-//       items: modelNames.map<DropdownMenuItem<String>>((model) {
+//       hint: const Text("Payment Mode"),
+//       items: items.map<DropdownMenuItem<String>>((value) {
 //         return DropdownMenuItem<String>(
-//           value: model,
-//           child: Text(model),
+//           value: value,
+//           child: Text(value),
 //         );
 //       }).toList(),
 //       validator: (value) {
 //         if (value == null || value.isEmpty) {
-//           return 'Please select a Segment';
+//           return 'Please select Payment Mode';
 //         }
 //         return null; // No error
 //       },
-//       menuMaxHeight: MediaQuery.of(context).size.height / 2,
 //     );
 //   }
 // }
 
-class PaymentModeDropDawn extends ConsumerWidget {
-  final List<String> items;
-
-  const PaymentModeDropDawn({super.key, required this.items});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final paymentMode = ref.watch(paymentModeProvider);
-    return DropdownButtonFormField<String>(
-      value: paymentMode,
-      style: const TextStyle(
-        fontSize: 16.0,
-        height: 1.5,
-        color: Colors.black87,
-      ),
-      dropdownColor: Colors.white,
-      decoration: inputDecoration(label: "Payment Mode"),
-      onChanged: (newValue) {
-        ref.read(paymentModeProvider.notifier).state = newValue;
-      },
-      hint: const Text("Payment Mode"),
-      items: items.map<DropdownMenuItem<String>>((value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please select Payment Mode';
-        }
-        return null; // No error
-      },
-    );
-  }
-}
-
-class QuantitySelector extends ConsumerWidget {
-  const QuantitySelector({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final quantity = ref.watch(quantityProvider);
-
-    return InputDecorator(
-      decoration:
-          inputDecoration(label: 'Select Quantity'), // Use the function here
-      child: SizedBox(
-        height: 35,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () {
-                if (quantity > 1) {
-                  ref.read(quantityProvider.notifier).state--;
-                }
-              },
-              icon: const Icon(Icons.remove, color: Colors.black54),
-            ),
-            Text(
-              '$quantity',
-              style: const TextStyle(fontSize: 18),
-            ),
-            IconButton(
-              onPressed: () {
-                ref.read(quantityProvider.notifier).state++;
-              },
-              icon: const Icon(Icons.add, color: Colors.black54),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 InputDecoration inputDecoration({required String label, String? hintText}) {
   return InputDecoration(
