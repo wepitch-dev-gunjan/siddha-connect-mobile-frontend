@@ -8,8 +8,9 @@ final selectedPriceProvider = StateProvider<String?>((ref) => null);
 final paymentModeProvider = StateProvider<String?>((ref) => null);
 final quantityProvider = StateProvider<int>((ref) => 1);
 
-
 final selectedBrandProvider = StateProvider<String?>((ref) => null);
+
+
 class BrandDropDown extends ConsumerWidget {
   final List<String> items;
   const BrandDropDown({

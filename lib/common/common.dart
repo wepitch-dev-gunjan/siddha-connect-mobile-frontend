@@ -1,4 +1,4 @@
-final modelList = [
+final brandList = [
   "Samsung",
   "Apple",
   "Oppo",

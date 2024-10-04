@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/pulseDataUpload/screens/pulse_data_upload.dart';
-
 import '../repo/product_repo.dart';
+
+
 
 final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
@@ -44,6 +42,7 @@ class ShowTable extends ConsumerWidget {
             columnSpacing: columnSpacing,
             border: TableBorder.all(color: Colors.black45, width: 0.5),
             horizontalMargin: 0,
+            bottomMargin: 5,
             // dataRowHeight: 50,
             minWidth: 1000,
             showBottomBorder: true,
