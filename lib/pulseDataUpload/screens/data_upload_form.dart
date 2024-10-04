@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/pulseDataUpload/components/table.dart';
 import 'package:siddha_connect/pulseDataUpload/repo/product_repo.dart';
+import 'package:siddha_connect/pulseDataUpload/screens/test_data_upload.dart';
 import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../common/common.dart';
@@ -69,28 +70,44 @@ class UploadForm extends ConsumerWidget {
           btnName: "Submit",
           // onPressed: () {
           //   final quantity = ref.read(modelQuantityProvider);
-          //   final id = ref.read(selectModelIDProvider1);
-          //   final model = ref.read(selectedModelProvider);
           //   final dealer = ref.read(selectedDealerProvider);
 
-          //   log("ModelQuentity$quantity");
+          //   // Log the model quantity to check the structure
+          //   log("ModelQuantity$quantity");
 
-          //   // Submit only if dealer and models are selected
-          //   if (dealer != null && model.isNotEmpty) {
+          //   // Check if dealer and model are selected
+          //   if (dealer != null && quantity.isNotEmpty) {
           //     List<Map<String, dynamic>> productList = [];
-          //     quantity.forEach((productId, qty) {
-          //       productList.add({"productId": productId, "quantity": qty});
+
+          //     // Loop through quantity map and create the desired structure
+          //     quantity.forEach((productId, modelData) {
+          //       // Extract quantity from modelData
+          //       final productQuantity = modelData['quantity'];
+
+          //       // Add to product list in the required format
+          //       productList.add({
+          //         "productId": productId,
+          //         "quantity": productQuantity,
+          //       });
           //     });
 
-          //     ref.read(productRepoProvider).extractionDataUpload(
-          //       data: {
-          //         'dealerCode': dealer['BUYER CODE'],
-          //         "products": productList
-          //       },
-          //     ).then((_) {
-          //       ref.refresh(getExtractionRecordProvider);
+          //     // Construct data to be sent to the API
+          //     final dataToSend = {
+          //       'dealerCode': dealer['BUYER CODE'],
+          //       'products': productList,
+          //     };
 
-          //       Navigator.pop(context);
+          //     // Log to check the structure before sending
+          //     log("Data to send: $dataToSend");
+
+          //     // Call the API to upload data
+          //     ref
+          //         .read(productRepoProvider)
+          //         .extractionDataUpload(data: dataToSend)
+          //         .then((_) {
+          //       ref.refresh(
+          //           getExtractionRecordProvider); // Refresh extraction records after successful upload
+          //       Navigator.pop(context); // Navigate back or show success message
           //     }).catchError((error) {
           //       log("Error during data upload: $error");
           //     });
@@ -99,51 +116,62 @@ class UploadForm extends ConsumerWidget {
           //     // Optionally show an error message to the user
           //   }
           // },
+
           onPressed: () {
-  final quantity = ref.read(modelQuantityProvider);
-  final dealer = ref.read(selectedDealerProvider);
+            final quantity = ref.read(modelQuantityProvider);
+            final dealer = ref.read(selectedDealerProvider);
 
-  // Log the model quantity to check the structure
-  log("ModelQuantity$quantity");
+            // Log the model quantity to check the structure
+            log("ModelQuantity$quantity");
 
-  // Check if dealer and model are selected
-  if (dealer != null && quantity.isNotEmpty) {
-    List<Map<String, dynamic>> productList = [];
+            // Check if dealer and models are selected
+            if (dealer != null && quantity.isNotEmpty) {
+              List<Map<String, dynamic>> productList = [];
 
-    // Loop through quantity map and create the desired structure
-    quantity.forEach((productId, modelData) {
-      // Extract quantity from modelData
-      final productQuantity = modelData['quantity'];
-      
-      // Add to product list in the required format
-      productList.add({
-        "productId": productId,
-        "quantity": productQuantity,
-      });
-    });
+              // Loop through quantity map and create the desired structure
+              quantity.forEach((productId, modelData) {
+                // Extract quantity from modelData
+                final productQuantity = modelData['quantity'];
 
-    // Construct data to be sent to the API
-    final dataToSend = {
-      'dealerCode': dealer['BUYER CODE'],
-      'products': productList,
-    };
+                // Add to product list in the required format
+                productList.add({
+                  "productId": productId,
+                  "quantity": productQuantity,
+                });
+              });
 
-    // Log to check the structure before sending
-    log("Data to send: $dataToSend");
+              // Construct data to be sent to the API
+              final dataToSend = {
+                'dealerCode': dealer['BUYER CODE'],
+                'products': productList,
+              };
 
-    // Call the API to upload data
-    ref.read(productRepoProvider).extractionDataUpload(data: dataToSend).then((_) {
-      ref.refresh(getExtractionRecordProvider); // Refresh extraction records after successful upload
-      Navigator.pop(context); // Navigate back or show success message
-    }).catchError((error) {
-      log("Error during data upload: $error");
-    });
-  } else {
-    log("Dealer or models not selected.");
-    // Optionally show an error message to the user
-  }
-},
+              // Log to check the structure before sending
+              log("Data to send: $dataToSend");
 
+              // Call the API to upload data
+              ref
+                  .read(productRepoProvider)
+                  .extractionDataUpload(data: dataToSend)
+                  .then((_) {
+                // After successful upload, refresh extraction records
+                ref.refresh(getExtractionRecordProvider);
+
+                // Clear modelQuantityProvider, selectedDealerProvider, and selectedBrandProvider
+                ref.read(modelQuantityProvider.notifier).state = {};
+                ref.read(selectedDealerProvider.notifier).state = null;
+                ref.read(selectedBrandProvider.notifier).state = null;
+
+                // Navigate back or show success message
+                Navigator.pop(context);
+              }).catchError((error) {
+                log("Error during data upload: $error");
+              });
+            } else {
+              log("Dealer or models not selected.");
+              // Optionally show an error message to the user
+            }
+          },
         ),
       ),
     );
