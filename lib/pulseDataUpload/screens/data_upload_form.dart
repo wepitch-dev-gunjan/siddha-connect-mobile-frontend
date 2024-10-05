@@ -1098,7 +1098,6 @@ class ModelDropDawnTest extends ConsumerWidget {
                           vertical: 5, horizontal: 5),
                       decoration: BoxDecoration(
                           color: Colors.green,
-                          // border: Border.all(width: 0.5),
                           borderRadius: BorderRadius.circular(8)),
                       child: Row(
                         children: [
@@ -1107,65 +1106,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                             modelName,
                             style: const TextStyle(color: Colors.white),
                           )), // Model name
-                          // IconButton(
-                          //   icon: const Icon(
-                          //     Icons.remove,
-                          //     color: Colors.white,
-                          //   ),
-                          //   onPressed: () {
-                          //     if (quantity > 1) {
-                          //       final newQuantities =
-                          //           Map<String, Map<String, dynamic>>.from(
-                          //               modelQuantities);
-                          //       newQuantities[modelId]!['quantity'] =
-                          //           quantity - 1;
-                          //       ref.read(modelQuantityProvider.notifier).state =
-                          //           newQuantities;
-                          //     }
-                          //   },
-                          // ),
-                          // IconButton(
-                          //   icon: const Icon(
-                          //     Icons.remove,
-                          //     color: Colors.white,
-                          //   ),
-                          //   onPressed: () {
-                          //     if (quantity > 1) {
-                          //       final newQuantities =
-                          //           Map<String, Map<String, dynamic>>.from(
-                          //               modelQuantities);
-                          //       newQuantities[modelId]!['quantity'] =
-                          //           quantity - 1;
-                          //       ref.read(modelQuantityProvider.notifier).state =
-                          //           newQuantities;
-                          //     } else if (quantity == 1) {
-                          //       // Remove the model if quantity is 1 and user tries to decrease it further
-                          //       final newQuantities =
-                          //           Map<String, Map<String, dynamic>>.from(
-                          //               modelQuantities);
-                          //       newQuantities.remove(modelId);
-                          //       ref.read(modelQuantityProvider.notifier).state =
-                          //           newQuantities;
 
-                          //       // Update selected model IDs as well
-                          //       final newSelectedModelIds = ref
-                          //           .read(selectModelIDProvider1)
-                          //           .where((id) => id != modelId)
-                          //           .toList();
-                          //       ref
-                          //           .read(selectModelIDProvider1.notifier)
-                          //           .state = newSelectedModelIds;
-
-                          //       // Optionally update the selectedModelProvider too
-                          //       final newSelectedModelNames = ref
-                          //           .read(selectedModelProvider)
-                          //           .where((name) => name != modelData['name'])
-                          //           .toList();
-                          //       ref.read(selectedModelProvider.notifier).state =
-                          //           newSelectedModelNames;
-                          //     }
-                          //   },
-                          // ),
                           quantity == 1
                               ? IconButton(
                                   icon: const Icon(
