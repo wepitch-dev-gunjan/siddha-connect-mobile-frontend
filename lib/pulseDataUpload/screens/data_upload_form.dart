@@ -1122,48 +1122,100 @@ class ModelDropDawnTest extends ConsumerWidget {
                           //     }
                           //   },
                           // ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              if (quantity > 1) {
-                                final newQuantities =
-                                    Map<String, Map<String, dynamic>>.from(
-                                        modelQuantities);
-                                newQuantities[modelId]!['quantity'] =
-                                    quantity - 1;
-                                ref.read(modelQuantityProvider.notifier).state =
-                                    newQuantities;
-                              } else if (quantity == 1) {
-                                // Remove the model if quantity is 1 and user tries to decrease it further
-                                final newQuantities =
-                                    Map<String, Map<String, dynamic>>.from(
-                                        modelQuantities);
-                                newQuantities.remove(modelId);
-                                ref.read(modelQuantityProvider.notifier).state =
-                                    newQuantities;
+                          // IconButton(
+                          //   icon: const Icon(
+                          //     Icons.remove,
+                          //     color: Colors.white,
+                          //   ),
+                          //   onPressed: () {
+                          //     if (quantity > 1) {
+                          //       final newQuantities =
+                          //           Map<String, Map<String, dynamic>>.from(
+                          //               modelQuantities);
+                          //       newQuantities[modelId]!['quantity'] =
+                          //           quantity - 1;
+                          //       ref.read(modelQuantityProvider.notifier).state =
+                          //           newQuantities;
+                          //     } else if (quantity == 1) {
+                          //       // Remove the model if quantity is 1 and user tries to decrease it further
+                          //       final newQuantities =
+                          //           Map<String, Map<String, dynamic>>.from(
+                          //               modelQuantities);
+                          //       newQuantities.remove(modelId);
+                          //       ref.read(modelQuantityProvider.notifier).state =
+                          //           newQuantities;
 
-                                // Update selected model IDs as well
-                                final newSelectedModelIds = ref
-                                    .read(selectModelIDProvider1)
-                                    .where((id) => id != modelId)
-                                    .toList();
-                                ref
-                                    .read(selectModelIDProvider1.notifier)
-                                    .state = newSelectedModelIds;
+                          //       // Update selected model IDs as well
+                          //       final newSelectedModelIds = ref
+                          //           .read(selectModelIDProvider1)
+                          //           .where((id) => id != modelId)
+                          //           .toList();
+                          //       ref
+                          //           .read(selectModelIDProvider1.notifier)
+                          //           .state = newSelectedModelIds;
 
-                                // Optionally update the selectedModelProvider too
-                                final newSelectedModelNames = ref
-                                    .read(selectedModelProvider)
-                                    .where((name) => name != modelData['name'])
-                                    .toList();
-                                ref.read(selectedModelProvider.notifier).state =
-                                    newSelectedModelNames;
-                              }
-                            },
-                          ),
+                          //       // Optionally update the selectedModelProvider too
+                          //       final newSelectedModelNames = ref
+                          //           .read(selectedModelProvider)
+                          //           .where((name) => name != modelData['name'])
+                          //           .toList();
+                          //       ref.read(selectedModelProvider.notifier).state =
+                          //           newSelectedModelNames;
+                          //     }
+                          //   },
+                          // ),
+                          quantity == 1
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    final newQuantities =
+                                        Map<String, Map<String, dynamic>>.from(
+                                            modelQuantities);
+                                    newQuantities.remove(modelId);
+                                    ref
+                                        .read(modelQuantityProvider.notifier)
+                                        .state = newQuantities;
+
+                                    final newSelectedModelIds = ref
+                                        .read(selectModelIDProvider1)
+                                        .where((id) => id != modelId)
+                                        .toList();
+                                    ref
+                                        .read(selectModelIDProvider1.notifier)
+                                        .state = newSelectedModelIds;
+
+                                    final newSelectedModelNames = ref
+                                        .read(selectedModelProvider)
+                                        .where(
+                                            (name) => name != modelData['name'])
+                                        .toList();
+                                    ref
+                                        .read(selectedModelProvider.notifier)
+                                        .state = newSelectedModelNames;
+                                  },
+                                )
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons
+                                        .remove, // Show - button if quantity is more than 1
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    if (quantity > 1) {
+                                      final newQuantities = Map<String,
+                                              Map<String, dynamic>>.from(
+                                          modelQuantities);
+                                      newQuantities[modelId]!['quantity'] =
+                                          quantity - 1;
+                                      ref
+                                          .read(modelQuantityProvider.notifier)
+                                          .state = newQuantities;
+                                    }
+                                  },
+                                ),
                           Text(
                             quantity.toString(),
                             style: const TextStyle(color: Colors.white),
