@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
           title: 'Siddha Connect',
           home: const ConnectivityNotifier(
             child: SplashScreen(),
-            showScreen: "RUN",
           )),
       // home:const  SplashScreen(),
     );
