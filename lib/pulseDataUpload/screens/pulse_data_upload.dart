@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/utils/navigation.dart';
 import '../../utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/sizes.dart';
 import '../components/floating_add_button.dart';
 import '../components/table.dart';
-import 'test_data_upload.dart';
 
 class PulseDataScreen extends StatelessWidget {
   const PulseDataScreen({super.key});
@@ -40,7 +38,7 @@ class AddButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       onPressed: () {
-        navigateTo( const UploadFormTest());
+        // navigateTo( const UploadFormTest());
       },
       shape: const CircleBorder(),
       backgroundColor: AppColor.primaryColor,
