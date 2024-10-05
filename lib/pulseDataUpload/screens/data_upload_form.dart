@@ -157,8 +157,8 @@ class DealerDropDown extends ConsumerWidget {
           return DropdownMenuItem<String>(
             value: model,
             child: ListTile(
-              title: Text(model), 
-              subtitle: Text(buyerCode), 
+              title: Text(model),
+              subtitle: Text(buyerCode),
             ),
           );
         }).toList(),
@@ -232,6 +232,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                   final Map<String, Map<String, dynamic>>?
                       selectedModelsWithQuantities = await showModalBottomSheet<
                           Map<String, Map<String, dynamic>>>(
+                    backgroundColor: Colors.white,
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {

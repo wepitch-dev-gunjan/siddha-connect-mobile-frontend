@@ -220,7 +220,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           ListTile(
                             title: const Text("Finance Dashboard"),
                             onTap: () {
-                              navigationPush(context, const UploadSalesData());
+                              // navigationPush(context, const UploadSalesData());
                             },
                           ),
                           ListTile(
