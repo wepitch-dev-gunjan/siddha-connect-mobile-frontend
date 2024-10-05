@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -192,6 +193,331 @@ final selectModelIDProvider1 = StateProvider<List<String>>((ref) => []);
 final modelQuantityProvider =
     StateProvider<Map<String, Map<String, dynamic>>>((ref) => {});
 
+// class ModelDropDawnTest extends ConsumerWidget {
+//   const ModelDropDawnTest({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedBrand = ref.watch(selectedBrandProvider);
+//     ref.listen(selectedBrandProvider, (previous, next) {
+//       if (previous != next) {}
+//     });
+
+//     final selectedModelIDs = ref.watch(selectModelIDProvider1);
+//     final modelQuantities = ref.watch(modelQuantityProvider);
+//     final getModels = ref.watch(getModelsProvider(selectedBrand));
+
+//     return getModels.when(
+//       data: (data) {
+//         if (data == null || data['products'] == null) {
+//           return const Text("No models available");
+//         }
+
+//         final List<Map<String, dynamic>> products =
+//             List<Map<String, dynamic>>.from(data['products']);
+
+//         if (products.isEmpty) {
+//           return const Text("No models available");
+//         }
+
+//         return SizedBox(
+//           width: double.infinity,
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               TextFormField(
+//                 readOnly: true,
+//                 decoration: inputDecoration(
+//                     label: "Select Models", hintText: "Select Models"),
+//                 onTap: () async {
+//                   final Map<String, Map<String, dynamic>>?
+//                       selectedModelsWithQuantities = await showModalBottomSheet<
+//                           Map<String, Map<String, dynamic>>>(
+//                     backgroundColor: Colors.white,
+//                     context: context,
+//                     isScrollControlled: true,
+//                     builder: (context) {
+//                       final tempSelectedModels =
+//                           Map<String, Map<String, dynamic>>.from(
+//                               modelQuantities);
+//                       return StatefulBuilder(
+//                         builder: (context, setState) {
+//                           int totalQuantity = tempSelectedModels.values.fold(
+//                               0,
+//                               (sum, modelData) =>
+//                                   sum + modelData['quantity'] as int);
+
+//                           return Padding(
+//                             padding: const EdgeInsets.all(16.0),
+//                             child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 heightSizedBox(50.0),
+//                                 Text(
+//                                   "Select Models and Quantities",
+//                                   style: GoogleFonts.lato(
+//                                       fontSize: 16.sp,
+//                                       fontWeight: FontWeight.w600),
+//                                 ),
+//                                 heightSizedBox(5.0),
+//                                 Row(
+//                                   mainAxisAlignment: MainAxisAlignment.end,
+//                                   children: [
+//                                     Container(
+//                                       padding: const EdgeInsets.symmetric(
+//                                           horizontal: 4),
+//                                       decoration: BoxDecoration(
+//                                           border: Border.all(width: 0.1),
+//                                           borderRadius:
+//                                               BorderRadius.circular(2)),
+//                                       child: Center(
+//                                         child: Text(
+//                                           "Total: $totalQuantity",
+//                                           style: GoogleFonts.lato(
+//                                               fontSize: 14.sp,
+//                                               fontWeight: FontWeight.w500),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 ),
+//                                 heightSizedBox(5.0),
+//                                 Expanded(
+//                                   child: SingleChildScrollView(
+//                                     child: ListBody(
+//                                       children: products.map((product) {
+//                                         final modelName = product['Model'];
+//                                         final modelId = product['_id'];
+//                                         final quantity =
+//                                             tempSelectedModels[modelId]
+//                                                     ?['quantity'] ??
+//                                                 0;
+//                                         final isSelected = quantity > 0;
+//                                         return Container(
+//                                           decoration: BoxDecoration(
+//                                             color: isSelected
+//                                                 ? Colors.green
+//                                                 : Colors.transparent,
+//                                             border: Border.all(
+//                                               color: isSelected
+//                                                   ? Colors.white
+//                                                   : Colors.black,
+//                                               width: 0.1,
+//                                             ),
+//                                             borderRadius:
+//                                                 BorderRadius.circular(8.0),
+//                                           ),
+//                                           margin: const EdgeInsets.symmetric(
+//                                               vertical: 8.0),
+//                                           padding: const EdgeInsets.all(12.0),
+//                                           child: Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.spaceBetween,
+//                                             children: [
+//                                               Expanded(
+//                                                 child: Column(
+//                                                   crossAxisAlignment:
+//                                                       CrossAxisAlignment.start,
+//                                                   children: [
+//                                                     Text(
+//                                                       modelName,
+//                                                       maxLines: 2,
+//                                                       overflow:
+//                                                           TextOverflow.ellipsis,
+//                                                       style: TextStyle(
+//                                                         color: isSelected
+//                                                             ? Colors.white
+//                                                             : Colors.black,
+//                                                       ),
+//                                                     ),
+//                                                   ],
+//                                                 ),
+//                                               ),
+//                                               Row(
+//                                                 children: [
+//                                                   IconButton(
+//                                                     icon: Icon(
+//                                                       Icons.remove,
+//                                                       color: isSelected
+//                                                           ? Colors.white
+//                                                           : Colors.black,
+//                                                     ),
+//                                                     onPressed: () {
+//                                                       if (quantity > 0) {
+//                                                         setState(() {
+//                                                           tempSelectedModels[
+//                                                               modelId] = {
+//                                                             'name': modelName,
+//                                                             'quantity':
+//                                                                 quantity - 1,
+//                                                           };
+//                                                           if (tempSelectedModels[
+//                                                                       modelId]![
+//                                                                   'quantity'] ==
+//                                                               0) {
+//                                                             tempSelectedModels
+//                                                                 .remove(
+//                                                                     modelId);
+//                                                           }
+//                                                           totalQuantity = tempSelectedModels
+//                                                               .values
+//                                                               .fold(
+//                                                                   0,
+//                                                                   (sum, modelData) =>
+//                                                                       sum + modelData['quantity']
+//                                                                           as int);
+//                                                         });
+//                                                       }
+//                                                     },
+//                                                   ),
+//                                                   Text(
+//                                                     quantity.toString(),
+//                                                     style: TextStyle(
+//                                                       color: isSelected
+//                                                           ? Colors.white
+//                                                           : Colors.black,
+//                                                     ),
+//                                                   ),
+//                                                   IconButton(
+//                                                     icon: Icon(
+//                                                       Icons.add,
+//                                                       color: isSelected
+//                                                           ? Colors.white
+//                                                           : Colors.black,
+//                                                     ),
+//                                                     onPressed: () {
+//                                                       setState(() {
+//                                                         tempSelectedModels[
+//                                                             modelId] = {
+//                                                           'name': modelName,
+//                                                           'quantity':
+//                                                               quantity + 1,
+//                                                         };
+//                                                         totalQuantity = tempSelectedModels
+//                                                             .values
+//                                                             .fold(
+//                                                                 0,
+//                                                                 (sum, modelData) =>
+//                                                                     sum + modelData['quantity']
+//                                                                         as int);
+//                                                       });
+//                                                     },
+//                                                   ),
+//                                                 ],
+//                                               ),
+//                                             ],
+//                                           ),
+//                                         );
+//                                       }).toList(),
+//                                     ),
+//                                   ),
+//                                 ),
+//                                 Row(
+//                                   mainAxisAlignment: MainAxisAlignment.end,
+//                                   children: [
+//                                     TextButton(
+//                                       child: const Text(
+//                                         'Cancel',
+//                                         style: TextStyle(color: Colors.black),
+//                                       ),
+//                                       onPressed: () {
+//                                         Navigator.of(context).pop();
+//                                       },
+//                                     ),
+//                                     TextButton(
+//                                       child: const Text(
+//                                         'OK',
+//                                         style: TextStyle(color: Colors.black),
+//                                       ),
+//                                       onPressed: () {
+//                                         Navigator.of(context)
+//                                             .pop(tempSelectedModels);
+//                                       },
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ],
+//                             ),
+//                           );
+//                         },
+//                       );
+//                     },
+//                   );
+
+//                   if (selectedModelsWithQuantities != null) {
+//                     ref.read(modelQuantityProvider.notifier).state =
+//                         selectedModelsWithQuantities;
+
+//                     final selectedProductIds =
+//                         selectedModelsWithQuantities.keys.toList();
+//                     ref.read(selectModelIDProvider1.notifier).state =
+//                         selectedProductIds;
+
+//                     final selectedModelNames = selectedModelsWithQuantities
+//                         .values
+//                         .map((modelData) => modelData['name'] as String)
+//                         .toList();
+//                     ref.read(selectedModelProvider.notifier).state =
+//                         selectedModelNames;
+//                   }
+//                 },
+//               ),
+//               const SizedBox(height: 10),
+//               const Text("Selected Models:"),
+//               ...modelQuantities.entries.map((entry) {
+//                 final modelId = entry.key;
+//                 final modelData = entry.value;
+//                 final modelName = modelData['name'];
+//                 final quantity = modelData['quantity'] ?? 1;
+
+//                 return Column(
+//                   children: [
+//                     Row(
+//                       children: [
+//                         Expanded(child: Text(modelName)), // Model name
+//                         IconButton(
+//                           icon: const Icon(Icons.remove),
+//                           onPressed: () {
+//                             if (quantity > 1) {
+//                               final newQuantities =
+//                                   Map<String, Map<String, dynamic>>.from(
+//                                       modelQuantities);
+//                               newQuantities[modelId]!['quantity'] =
+//                                   quantity - 1;
+//                               ref.read(modelQuantityProvider.notifier).state =
+//                                   newQuantities;
+//                             }
+//                           },
+//                         ),
+//                         Text(quantity.toString()),
+//                         IconButton(
+//                           icon: const Icon(Icons.add),
+//                           onPressed: () {
+//                             final newQuantities =
+//                                 Map<String, Map<String, dynamic>>.from(
+//                                     modelQuantities);
+//                             newQuantities[modelId]!['quantity'] = quantity + 1;
+//                             ref.read(modelQuantityProvider.notifier).state =
+//                                 newQuantities;
+//                           },
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 );
+//               }).toList(),
+//             ],
+//           ),
+//         );
+//       },
+//       error: (error, stackTrace) => Text("Error loading data: $error"),
+//       loading: () => const SizedBox(),
+//     );
+//   }
+// }
+
+
+
 class ModelDropDawnTest extends ConsumerWidget {
   const ModelDropDawnTest({super.key});
 
@@ -239,12 +565,20 @@ class ModelDropDawnTest extends ConsumerWidget {
                       final tempSelectedModels =
                           Map<String, Map<String, dynamic>>.from(
                               modelQuantities);
+                      String searchText = ''; // Initialize search text
+
                       return StatefulBuilder(
                         builder: (context, setState) {
                           int totalQuantity = tempSelectedModels.values.fold(
                               0,
                               (sum, modelData) =>
                                   sum + modelData['quantity'] as int);
+
+                          // Filter products based on search text
+                          final filteredProducts = products.where((product) {
+                            final modelName = product['Model']?.toLowerCase() ?? '';
+                            return modelName.contains(searchText.toLowerCase());
+                          }).toList();
 
                           return Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -281,17 +615,29 @@ class ModelDropDawnTest extends ConsumerWidget {
                                   ],
                                 ),
                                 heightSizedBox(5.0),
+                                
+                                // Add Cupertino search bar
+                                CupertinoSearchTextField(
+                                  placeholder: 'Search Models',
+                                  onChanged: (value) {
+                                    setState(() {
+                                      searchText = value; // Update search text
+                                    });
+                                  },
+                                ),
+                                heightSizedBox(10.0),
+
                                 Expanded(
                                   child: SingleChildScrollView(
                                     child: ListBody(
-                                      children: products.map((product) {
+                                      children: filteredProducts.map((product) {
                                         final modelName = product['Model'];
                                         final modelId = product['_id'];
                                         final quantity =
                                             tempSelectedModels[modelId]
-                                                    ?['quantity'] ??
-                                                0;
+                                                    ?['quantity'] ?? 0;
                                         final isSelected = quantity > 0;
+
                                         return Container(
                                           decoration: BoxDecoration(
                                             color: isSelected
@@ -352,8 +698,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                                                           };
                                                           if (tempSelectedModels[
                                                                       modelId]![
-                                                                  'quantity'] ==
-                                                              0) {
+                                                                  'quantity'] == 0) {
                                                             tempSelectedModels
                                                                 .remove(
                                                                     modelId);
@@ -363,8 +708,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                                                               .fold(
                                                                   0,
                                                                   (sum, modelData) =>
-                                                                      sum + modelData['quantity']
-                                                                          as int);
+                                                                      sum + modelData['quantity'] as int);
                                                         });
                                                       }
                                                     },
