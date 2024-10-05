@@ -65,7 +65,7 @@ class UploadForm extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
         child: Btn(
           btnName: "Submit",
           onPressed: () {
@@ -1094,7 +1094,8 @@ class ModelDropDawnTest extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
-                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
                       decoration: BoxDecoration(
                           color: Colors.green,
                           // border: Border.all(width: 0.5),
