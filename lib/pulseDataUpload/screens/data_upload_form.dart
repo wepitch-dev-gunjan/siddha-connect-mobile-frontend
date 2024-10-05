@@ -1185,7 +1185,6 @@ final modelQuantityProvider =
 //   }
 // }
 
-
 class ModelDropDawnTest extends ConsumerWidget {
   const ModelDropDawnTest({super.key});
 
@@ -1220,7 +1219,8 @@ class ModelDropDawnTest extends ConsumerWidget {
         }
 
         // Initialize tempSelectedModels outside the modal
-        var tempSelectedModels = Map<String, Map<String, dynamic>>.from(modelQuantities);
+        var tempSelectedModels =
+            Map<String, Map<String, dynamic>>.from(modelQuantities);
 
         return SizedBox(
           width: double.infinity,
@@ -1232,8 +1232,9 @@ class ModelDropDawnTest extends ConsumerWidget {
                 decoration: inputDecoration(
                     label: "Select Models", hintText: "Select Models"),
                 onTap: () async {
-                  final Map<String, Map<String, dynamic>>? selectedModelsWithQuantities =
-                      await showModalBottomSheet<Map<String, Map<String, dynamic>>>(
+                  final Map<String, Map<String, dynamic>>?
+                      selectedModelsWithQuantities = await showModalBottomSheet<
+                          Map<String, Map<String, dynamic>>>(
                     backgroundColor: Colors.white,
                     context: context,
                     isScrollControlled: true,
@@ -1244,7 +1245,8 @@ class ModelDropDawnTest extends ConsumerWidget {
                         builder: (context, setState) {
                           int totalQuantity = tempSelectedModels.values.fold(
                               0,
-                              (sum, modelData) => sum + modelData['quantity'] as int);
+                              (sum, modelData) =>
+                                  sum + modelData['quantity'] as int);
 
                           // Filter products based on search text
                           final filteredProducts = products.where((product) {
@@ -1296,7 +1298,10 @@ class ModelDropDawnTest extends ConsumerWidget {
                                       children: filteredProducts.map((product) {
                                         final modelName = product['Model'];
                                         final modelId = product['_id'];
-                                        final quantity = tempSelectedModels[modelId]?['quantity'] ?? 0;
+                                        final quantity =
+                                            tempSelectedModels[modelId]
+                                                    ?['quantity'] ??
+                                                0;
                                         final isSelected = quantity > 0;
 
                                         return Container(
@@ -1351,16 +1356,27 @@ class ModelDropDawnTest extends ConsumerWidget {
                                                     onPressed: () {
                                                       if (quantity > 0) {
                                                         setState(() {
-                                                          tempSelectedModels[modelId] = {
+                                                          tempSelectedModels[
+                                                              modelId] = {
                                                             'name': modelName,
-                                                            'quantity': quantity - 1,
+                                                            'quantity':
+                                                                quantity - 1,
                                                           };
-                                                          if (tempSelectedModels[modelId]!['quantity'] == 0) {
-                                                            tempSelectedModels.remove(modelId);
+                                                          if (tempSelectedModels[
+                                                                      modelId]![
+                                                                  'quantity'] ==
+                                                              0) {
+                                                            tempSelectedModels
+                                                                .remove(
+                                                                    modelId);
                                                           }
                                                           totalQuantity = tempSelectedModels
                                                               .values
-                                                              .fold(0, (sum, modelData) => sum + modelData['quantity'] as int);
+                                                              .fold(
+                                                                  0,
+                                                                  (sum, modelData) =>
+                                                                      sum + modelData['quantity']
+                                                                          as int);
                                                         });
                                                       }
                                                     },
@@ -1382,13 +1398,19 @@ class ModelDropDawnTest extends ConsumerWidget {
                                                     ),
                                                     onPressed: () {
                                                       setState(() {
-                                                        tempSelectedModels[modelId] = {
+                                                        tempSelectedModels[
+                                                            modelId] = {
                                                           'name': modelName,
-                                                          'quantity': quantity + 1,
+                                                          'quantity':
+                                                              quantity + 1,
                                                         };
                                                         totalQuantity = tempSelectedModels
                                                             .values
-                                                            .fold(0, (sum, modelData) => sum + modelData['quantity'] as int);
+                                                            .fold(
+                                                                0,
+                                                                (sum, modelData) =>
+                                                                    sum + modelData['quantity']
+                                                                        as int);
                                                       });
                                                     },
                                                   ),
@@ -1419,7 +1441,8 @@ class ModelDropDawnTest extends ConsumerWidget {
                                         style: TextStyle(color: Colors.black),
                                       ),
                                       onPressed: () {
-                                        Navigator.of(context).pop(tempSelectedModels);
+                                        Navigator.of(context)
+                                            .pop(tempSelectedModels);
                                       },
                                     ),
                                   ],
@@ -1437,13 +1460,17 @@ class ModelDropDawnTest extends ConsumerWidget {
                     ref.read(modelQuantityProvider.notifier).state =
                         selectedModelsWithQuantities;
 
-                    final selectedProductIds = selectedModelsWithQuantities.keys.toList();
-                    ref.read(selectModelIDProvider1.notifier).state = selectedProductIds;
+                    final selectedProductIds =
+                        selectedModelsWithQuantities.keys.toList();
+                    ref.read(selectModelIDProvider1.notifier).state =
+                        selectedProductIds;
 
-                    final selectedModelNames = selectedModelsWithQuantities.values
+                    final selectedModelNames = selectedModelsWithQuantities
+                        .values
                         .map((modelData) => modelData['name'] as String)
                         .toList();
-                    ref.read(selectedModelProvider.notifier).state = selectedModelNames;
+                    ref.read(selectedModelProvider.notifier).state =
+                        selectedModelNames;
                   }
                 },
               ),
@@ -1471,21 +1498,100 @@ class ModelDropDawnTest extends ConsumerWidget {
                 final modelName = modelData['name'];
                 final quantity = modelData['quantity'] ?? 1;
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        modelName,
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w500),
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            modelName,
+                            style: const TextStyle(color: Colors.white),
+                          )), // Model name
+
+                          quantity == 1
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
+                                  onPressed: () {
+                                    final newQuantities =
+                                        Map<String, Map<String, dynamic>>.from(
+                                            modelQuantities);
+                                    newQuantities.remove(modelId);
+                                    ref
+                                        .read(modelQuantityProvider.notifier)
+                                        .state = newQuantities;
+
+                                    final newSelectedModelIds = ref
+                                        .read(selectModelIDProvider1)
+                                        .where((id) => id != modelId)
+                                        .toList();
+                                    ref
+                                        .read(selectModelIDProvider1.notifier)
+                                        .state = newSelectedModelIds;
+
+                                    final newSelectedModelNames = ref
+                                        .read(selectedModelProvider)
+                                        .where(
+                                            (name) => name != modelData['name'])
+                                        .toList();
+                                    ref
+                                        .read(selectedModelProvider.notifier)
+                                        .state = newSelectedModelNames;
+                                  },
+                                )
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons
+                                        .remove, // Show - button if quantity is more than 1
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    if (quantity > 1) {
+                                      final newQuantities = Map<String,
+                                              Map<String, dynamic>>.from(
+                                          modelQuantities);
+                                      newQuantities[modelId]!['quantity'] =
+                                          quantity - 1;
+                                      ref
+                                          .read(modelQuantityProvider.notifier)
+                                          .state = newQuantities;
+                                    }
+                                  },
+                                ),
+                          Text(
+                            quantity.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              final newQuantities =
+                                  Map<String, Map<String, dynamic>>.from(
+                                      modelQuantities);
+                              newQuantities[modelId]!['quantity'] =
+                                  quantity + 1;
+                              ref.read(modelQuantityProvider.notifier).state =
+                                  newQuantities;
+                            },
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Qty: $quantity',
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               }).toList(),
             ],
