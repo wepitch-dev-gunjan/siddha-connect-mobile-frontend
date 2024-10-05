@@ -210,6 +210,82 @@ final internetConnectionProvider =
 // }
 
 
+// class ConnectivityNotifier extends ConsumerStatefulWidget {
+//   const ConnectivityNotifier({
+//     Key? key,
+//     required this.child,
+//   }) : super(key: key);
+
+//   final Widget child;
+
+//   @override
+//   _ConnectivityNotifierState createState() => _ConnectivityNotifierState();
+// }
+
+// class _ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
+//   bool isFirstRun = true;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final connectivityStatus = ref.watch(internetConnectionProvider);
+
+//     log("Connectivity Status${connectivityStatus.runtimeType}");
+
+//     return connectivityStatus.when(
+//       data: (status) {
+//         log("Connectivity+++$status");
+
+//         // Check if the status is disconnected
+//         if (status == InternetConnectionStatus.disconnected) {
+//           if (isFirstRun) {
+//             // On first run, show the No Internet screen
+//             return Scaffold(
+//               body: Center(
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: const [
+//                     Icon(Icons.wifi_off, size: 80, color: Colors.red),
+//                     SizedBox(height: 20),
+//                     Text(
+//                       'No Internet Connection',
+//                       style: TextStyle(fontSize: 24, color: Colors.red),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           } else {
+//             // Show Snackbar on subsequent disconnections
+//             WidgetsBinding.instance.addPostFrameCallback((_) {
+//               ScaffoldMessenger.of(context).showSnackBar(
+//                 const SnackBar(
+//                   content: Text(
+//                     'No Internet Connection',
+//                     style: TextStyle(color: Colors.white),
+//                   ),
+//                   backgroundColor: Colors.red,
+//                   duration: Duration(days: 1),
+//                 ),
+//               );
+//             });
+//           }
+//         } else if (status == InternetConnectionStatus.connected) {
+//           // Internet connected, remove Snackbar and set isFirstRun to false
+//           WidgetsBinding.instance.addPostFrameCallback((_) {
+//             ScaffoldMessenger.of(context).removeCurrentSnackBar();
+//             isFirstRun = false; // After connection, don't show the screen again
+//           });
+//         }
+
+//         return widget.child; // Return the original child widget
+//       },
+//       loading: () => const Center(child: CircularProgressIndicator()),
+//       error: (err, stack) => const Text('Error in connectivity status'),
+//     );
+//   }
+// }
+
+
 class ConnectivityNotifier extends ConsumerStatefulWidget {
   const ConnectivityNotifier({
     Key? key,
@@ -229,13 +305,13 @@ class _ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
   Widget build(BuildContext context) {
     final connectivityStatus = ref.watch(internetConnectionProvider);
 
-    log("Connectivity Status${connectivityStatus.runtimeType}");
+    log("Connectivity Status: ${connectivityStatus.runtimeType}");
 
     return connectivityStatus.when(
       data: (status) {
-        log("Connectivity+++$status");
+        log("Connectivity: $status");
 
-        // Check if the status is disconnected
+        // When internet is disconnected
         if (status == InternetConnectionStatus.disconnected) {
           if (isFirstRun) {
             // On first run, show the No Internet screen
@@ -255,26 +331,27 @@ class _ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
               ),
             );
           } else {
-            // Show Snackbar on subsequent disconnections
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'No Internet Connection',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor: Colors.red,
-                  duration: Duration(days: 1),
+            // Show Snackbar immediately on subsequent disconnections
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'No Internet Connection',
+                  style: TextStyle(color: Colors.white),
                 ),
-              );
-            });
+                backgroundColor: Colors.red,
+                duration: Duration(days: 1), // Keeps the snackbar until user action
+              ),
+            );
           }
-        } else if (status == InternetConnectionStatus.connected) {
-          // Internet connected, remove Snackbar and set isFirstRun to false
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            isFirstRun = false; // After connection, don't show the screen again
-          });
+        }
+
+        // When internet is connected
+        else if (status == InternetConnectionStatus.connected) {
+          // Remove Snackbar immediately after connection
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
+          // After first connection, don't show the screen again
+          isFirstRun = false;
         }
 
         return widget.child; // Return the original child widget
