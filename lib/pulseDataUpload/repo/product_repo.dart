@@ -1,13 +1,9 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/message.dart';
-import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
 import '../../../utils/api_method.dart';
-import '../components/table.dart';
-import '../screens/extraction_data_upload.dart';
 
 final productRepoProvider =
     Provider.autoDispose((ref) => ProductRepo(ref: ref));
@@ -54,8 +50,6 @@ class ProductRepo {
       final response =
           await ApiMethod(url: ApiUrl.getExtractionRecord, token: token)
               .getDioRequest();
-
-      log("ExtractionREcord$response");
       return response;
     } catch (e) {}
   }
@@ -85,7 +79,6 @@ class ProductRepo {
       final response =
           await ApiMethod(url: ApiUrl.extractionDataUpload, token: token)
               .postDioRequest(data: data);
-
       if (response['message'] == "Extraction Records added successfully.") {
         showSnackBarMsg(response['message'],
             color: Colors.green, duration: const Duration(seconds: 1));
@@ -93,8 +86,6 @@ class ProductRepo {
         showSnackBarMsg("Something Went Wrong",
             color: Colors.red, duration: const Duration(seconds: 1));
       }
-
-      log("Respomns$response");
       return response;
     } catch (e) {
       log("Error submitting data: $e");

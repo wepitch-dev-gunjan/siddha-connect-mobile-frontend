@@ -591,6 +591,7 @@ class GetOtherImportantDates extends ConsumerWidget {
                       enabled: false,
                       controller: dateController,
                     ),
+                    heightSizedBox(8.0),
                   ],
                 );
               }).toList(),

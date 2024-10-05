@@ -18,8 +18,6 @@ class SalesDashboardRepo {
       String? position,
       String? name}) async {
     try {
-      // log("FirstDate$firstDate");
-      // log("LastDate$lastDate");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormat(ApiUrl.getEmployeeSalesDashboardData, tdFormat,
           dataFormat, firstDate, lastDate, position, name);
@@ -173,8 +171,6 @@ class SalesDashboardRepo {
               firstDate, lastDate, position, name)
           : urlFormatSubordinatesNames("${ApiUrl.getModelSubordinateWise}$name",
               tdFormat, dataFormat, firstDate, lastDate);
-
-      log("url=>>>>>>$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
@@ -193,7 +189,6 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-      log("url=>>>>>>>>>$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
@@ -213,7 +208,6 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = urlFormatTse(ApiUrl.getDealerModelData, tdFormat, dataFormat,
           firstDate, lastDate, position, name);
-
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
@@ -299,15 +293,10 @@ class SalesDashboardRepo {
     String? tdFormat,
   }) async {
     try {
-      // log("DealserCategorhy$dealerCategory");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-
       String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
-      // log("DealerUrl=>>>$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      // log("DealerListFOrEmploysData=>>>$response");
-
       return response;
     } catch (e) {}
   }
@@ -378,6 +367,9 @@ class SalesDashboardRepo {
     }
   }
 }
+
+
+//================================! URL Format !==============================
 
 String dealerForEmployeeUrl(String baseUrl, String? startDate, String? endDate,
     String? dataFormat, String? dealerCategory, String? tdFormat) {
@@ -550,59 +542,3 @@ String urlFormatSubordinatesNames(String baseUrl, String? tdFormat,
 
   return url;
 }
-
-// String urlFormatTse(String baseUrl, String? tdFormat, String? dataFormat,
-//     String? firstDate, String? lastDate, String? name, String? position) {
-//   String url = baseUrl;
-//   if (position != null) {
-//     url += position;
-//   }
-//   if (firstDate != null) {
-//     url +=
-//         position != null ? '?start_date=$firstDate' : '?start_date=$firstDate';
-//   }
-//   if (lastDate != null) {
-//     url += firstDate != null ? '&end_date=$lastDate' : '?data_format=$lastDate';
-//   }
-//   if (dataFormat != null) {
-//     url += (firstDate != null || lastDate != null)
-//         ? '&data_format=$dataFormat'
-//         : '?data_format=$dataFormat';
-//   }
-//   if (name != null) {
-//     url += (firstDate != null || lastDate != null || dataFormat != null)
-//         ? '&$position=$name'
-//         : '&$position=$name';
-//   }
-
-//   return url;
-// }
-
-// String urlFormat(String baseUrl, String? tdFormat, String? dataFormat,
-//     String? firstDate, String? lastDate) {
-//   String url = baseUrl;
-
-//   if (tdFormat != null) {
-//     url += '?td_format=$tdFormat';
-//   }
-
-//   if (dataFormat != null) {
-//     url += tdFormat != null
-//         ? '&data_format=$dataFormat'
-//         : '?data_format=$dataFormat';
-//   }
-
-//   if (firstDate != null) {
-//     url += (tdFormat != null || dataFormat != null)
-//         ? '&start_date=$firstDate'
-//         : '?start_date=$firstDate';
-//   }
-
-//   if (lastDate != null) {
-//     url += (tdFormat != null || dataFormat != null || firstDate != null)
-//         ? '&end_date=$lastDate'
-//         : '?end_date=$lastDate';
-//   }
-
-//   return url;
-// }

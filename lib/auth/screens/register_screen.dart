@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,16 +25,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  // TextEditingController position = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  // String? selectedPosition;
   @override
   void dispose() {
     code.dispose();
     email.dispose();
     password.dispose();
-    // position.dispose();
     super.dispose();
   }
 
@@ -105,98 +101,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     keyboardType: TextInputType.visiblePassword,
                     validator: validatePassword,
                   ),
-                  // TxtField(
-                  //   contentPadding: contentPadding,
-                  //   labelText: "Password",
-                  //   maxLines: 1,
-                  //   controller: password,
-                  //   validator: validatePassword,
-                  //   keyboardType: TextInputType.visiblePassword,
-                  // ),
-                  // heightSizedBox(15.0),
-                  // DropdownButtonFormField(
-                  //   style: const TextStyle(
-                  //       fontSize: 16.0, height: 1.5, color: Colors.black87),
-                  //   decoration: InputDecoration(
-                  //       fillColor: const Color(0XFFfafafa),
-                  //       contentPadding: contentPadding,
-                  //       errorStyle: const TextStyle(color: Colors.red),
-                  //       labelStyle: const TextStyle(
-                  //           fontSize: 15.0,
-                  //           color: Colors.black54,
-                  //           fontWeight: FontWeight.w500),
-                  //       enabledBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           borderSide: const BorderSide(
-                  //             color: Colors.black12,
-                  //           )),
-                  //       errorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(8),
-                  //         borderSide: const BorderSide(
-                  //           color: Colors.red, // Error border color
-                  //           width: 1,
-                  //         ),
-                  //       ),
-                  //       focusedBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           borderSide: const BorderSide(
-                  //               color: Color(0xff1F0A68), width: 1)),
-                  //       labelText: "Position",
-                  //       border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(5),
-                  //           borderSide: const BorderSide(
-                  //               color: Colors.amber, width: 0.5))),
-                  //   value: selectedPosition,
-                  //   onChanged: (newValue) {
-                  //     setState(() {
-                  //       selectedPosition = newValue;
-                  //     });
-                  //   },
-                  //   items: ['ZSM', 'ABM', 'RSO', 'ASE', 'ASM', 'TSE']
-                  //       .map<DropdownMenuItem<String>>((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   validator: validatePosition,
-                  // ),
                   heightSizedBox(15.0),
-                  // Btn(
-                  //   btnName: 'Sign Up',
-                  //   onPressed: () {
-                  //     log("selectedPosition: $selectedPosition");
-                  //     if (formKey.currentState!.validate()) {
-                  //       ref
-                  //           .read(authControllerProvider)
-                  //           .registerController(data: {
-                  //         'name': name.text,
-                  //         'email': email.text,
-                  //         'password': password.text,
-                  //         "position": selectedPosition.toString()
-                  //       });
-                  //     }
-                  //   },
-                  // ),
-
                   Btn(
                     btnName: 'Sign Up',
                     onPressed: () async {
-                      // Get the IMEI number asynchronously
-                      // Future<String?> getDeviceId() async {
-                      //   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-                      //   AndroidDeviceInfo androidInfo =
-                      //       await deviceInfo.androidInfo;
-
-                      //   String? androidId = androidInfo.id;
-
-                      //   log("IMEI==>>>>$androidInfo");
-                      //   return androidId;
-                      // }
-
-                      // // Get the IMEI number before proceeding
-                      // String? imeiNumber = await getDeviceId();
-
                       if (formKey.currentState!.validate()) {
                         ref
                             .read(authControllerProvider)
@@ -245,7 +153,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     children: [
                       const Text(
                         "Already have an account?",
-                        // style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       widthSizedBox(5.0),
                       GestureDetector(

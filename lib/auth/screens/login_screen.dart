@@ -20,6 +20,7 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPasswordHide = ref.watch(passwordHideProvider);
     final selectedRole = ref.watch(selectedRoleProvider);
 
     return Scaffold(
@@ -62,12 +63,23 @@ class LoginScreen extends ConsumerWidget {
                     contentPadding: contentPadding,
                     labelText: "Password",
                     controller: password,
+                    obscureText: !isPasswordHide,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        ref.read(passwordHideProvider.notifier).state =
+                            !isPasswordHide;
+                      },
+                      icon: Icon(isPasswordHide
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                    ),
                     maxLines: 1,
                     keyboardType: TextInputType.visiblePassword,
                     validator: validatePassword,
                   ),
                   heightSizedBox(15.0),
                   DropdownButtonFormField<String>(
+                    dropdownColor: Colors.white,
                     style: const TextStyle(
                         fontSize: 16.0, height: 1.5, color: Colors.black87),
                     decoration: InputDecoration(

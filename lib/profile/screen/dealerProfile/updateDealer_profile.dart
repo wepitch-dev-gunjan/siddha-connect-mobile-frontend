@@ -73,8 +73,7 @@ class DelarProfileEditScreen extends ConsumerWidget {
           businessType.text =
               data['data']['businessDetails']['typeOfBusiness'] ?? '';
           businessYears.text =
-              data['data']['businessDetails']['yearsInBusiness'].toString() ??
-                  '';
+              data['data']['businessDetails']['yearsInBusiness'].toString();
           specialNotes.text = data['data']['specialNotes'] ?? '';
           return SingleChildScrollView(
             child: Padding(

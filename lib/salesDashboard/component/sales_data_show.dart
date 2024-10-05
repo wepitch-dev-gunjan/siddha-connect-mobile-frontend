@@ -71,14 +71,7 @@ class SalesDashboardCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final dealerRole = ref.watch(dealerRoleProvider);
-    // final dealerName = ref.watch(dealerNameProvider);
-    // final dataByEmployeeName = ref.watch(getSalesDashboardDataByEmployeeName);
-    // final position = ref.watch(selectedPositionProvider);
 
-    // final dashboardData =  dealerRole == 'dealer'
-    //     ? ref.watch(getDealerDashboardProvider)
-    //     : ref.watch(getSalesDashboardProvider);
 
     final dealerRole = ref.watch(dealerRoleProvider);
     final dealerName = ref.watch(dealerNameProvider);
@@ -88,17 +81,9 @@ class SalesDashboardCard extends ConsumerWidget {
     final selectedPosition=ref.watch(selectedPositionProvider);
     
 
-    // final dashboardData = (dealerRole == 'dealer')
-    //     ? ref.watch(
-    //         getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
-    //     : (position != 'All')
-    //         ? ref.watch(
-    //             getSalesDashboardDataByEmployeeName) // position 'All' nahi hai toh employee name ke hisaab se data fetch ho
-    //         : ref.watch(
-    //             getSalesDashboardProvider); 
-    //// warna sales dashboard ki API call ho
+
   final dashboardData = (selectedPosition == 'DEALER')
-    ? ref.watch(getSalesDataByDealerCodeProvider) // selectedPosition is 'DEALER', call dealer data API
+    ? ref.watch(getSalesDataByDealerCodeProvider) 
     : (dealerRole == 'dealer')
         ? ref.watch(getDealerDashboardProvider) // dealer role hai toh dealer dashboard ki API call ho
         : (position != 'All')

@@ -381,68 +381,6 @@ class DealerSelectionDropdown extends ConsumerWidget {
     );
   }
 
-//   void _showDealers(
-//       BuildContext context, WidgetRef ref, String name, String type) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: Text("$name - $type"),
-//           content: Consumer(
-//             builder: (context, ref, child) {
-//               // Fetch the dealer data from the provider
-//               final dealerDataProvider = ref.watch(getDealerListDataProvider);
-
-//               return dealerDataProvider.when(
-//                 data: (dealerData) {
-//                   log("DealerData====$dealerData");
-
-//                   // Map the dealerData and extract both 'BUYER' and 'BUYER CODE'
-//                   final dealerWidgets = dealerData.map<Widget>((dealer) {
-//                     final buyer = dealer['BUYER'].toString();
-//                     final buyerCode = dealer['BUYER CODE'].toString();
-
-//                     return ListTile(
-//                       title: Text(buyer), // Display 'BUYER'
-//                       subtitle: Text(buyerCode), // Display 'BUYER CODE'
-//                       onTap: () {
-//                         // Update the selected dealer with 'BUYER CODE'
-//                         ref.read(selectedDealerProvider.notifier).state =
-//                             buyerCode;
-
-//                         Navigator.pop(context); // Close the dialog
-//                       },
-//                     );
-//                   }).toList(); // Convert Iterable to List<Widget>
-
-//                   return SizedBox(
-//                     height: 400.h,
-//                     child: SingleChildScrollView(
-//                       child: Column(
-//                         mainAxisSize: MainAxisSize.min,
-//                         children: dealerWidgets, // List<Widget>
-//                       ),
-//                     ),
-//                   );
-//                 },
-//                 error: (error, stackTrace) => const Center(
-//                   child: Text("Something went wrong"),
-//                 ),
-//                 loading: () => const Center(
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               );
-//             },
-//           ),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(10.0),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
   void _showDealers(
       BuildContext context, WidgetRef ref, String name, String type) {
     showDialog(

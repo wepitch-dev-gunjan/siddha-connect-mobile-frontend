@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../repo/product_repo.dart';
 
-
-
 final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
   final data = await productRepo.getExtractionRecord();
