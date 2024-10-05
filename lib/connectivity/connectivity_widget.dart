@@ -97,10 +97,58 @@ final internetConnectionProvider =
 // }
 
 
+// class ConnectivityNotifier extends ConsumerWidget {
+//   const ConnectivityNotifier({Key? key, required this.child}) : super(key: key);
+
+//   final Widget child;
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final connectivityStatus = ref.watch(internetConnectionProvider);
+
+//     log("Connectivity Status${connectivityStatus.runtimeType}");
+
+//     return connectivityStatus.when(
+//       data: (status) {
+//         log("Connectivity+++$status");
+//         if (status == InternetConnectionStatus.disconnected) {
+//           return Scaffold(
+//             body: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: const [
+//                   Icon(Icons.wifi_off, size: 80, color: Colors.red),
+//                   SizedBox(height: 20),
+//                   Text(
+//                     'No Internet Connection',
+//                     style: TextStyle(fontSize: 24, color: Colors.red),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           );
+//         } else if (status == InternetConnectionStatus.connected) {
+//           // Jab internet connected ho, asli child dikhaye
+//           return child;
+//         }
+//         return child; // Return child by default
+//       },
+//       loading: () => const Center(child: CircularProgressIndicator()),
+//       error: (err, stack) => const Text('Error in connectivity status'),
+//     );
+//   }
+// }
+
+
 class ConnectivityNotifier extends ConsumerWidget {
-  const ConnectivityNotifier({Key? key, required this.child}) : super(key: key);
+  const ConnectivityNotifier({
+    Key? key,
+    required this.child,
+    required this.showScreen, // Add this parameter
+  }) : super(key: key);
 
   final Widget child;
+  final String showScreen; // This will be the parameter to control the behavior
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -111,27 +159,49 @@ class ConnectivityNotifier extends ConsumerWidget {
     return connectivityStatus.when(
       data: (status) {
         log("Connectivity+++$status");
+        
+        // Check if the status is disconnected
         if (status == InternetConnectionStatus.disconnected) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.wifi_off, size: 80, color: Colors.red),
-                  SizedBox(height: 20),
-                  Text(
-                    'No Internet Connection',
-                    style: TextStyle(fontSize: 24, color: Colors.red),
-                  ),
-                ],
+          if (showScreen == "RUN") {
+            // If "RUN", show the No Internet screen
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.wifi_off, size: 80, color: Colors.red),
+                    SizedBox(height: 20),
+                    Text(
+                      'No Internet Connection',
+                      style: TextStyle(fontSize: 24, color: Colors.red),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            // Otherwise, show Snackbar
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'No Internet Connection',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
+                  duration: Duration(days: 1),
+                ),
+              );
+            });
+          }
         } else if (status == InternetConnectionStatus.connected) {
-          // Jab internet connected ho, asli child dikhaye
-          return child;
+          // Hide Snackbar when the internet is connected
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          });
         }
-        return child; // Return child by default
+        
+        return child; // Return the original child widget
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) => const Text('Error in connectivity status'),

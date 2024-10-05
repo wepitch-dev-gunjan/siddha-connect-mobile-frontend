@@ -27,22 +27,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        splitScreenMode: true,
-        minTextAdapt: true,
-        designSize: ScreenUtil.defaultSize,
-        child: MaterialApp(
+      splitScreenMode: true,
+      minTextAdapt: true,
+      designSize: ScreenUtil.defaultSize,
+      child: MaterialApp(
           navigatorKey: navigatorKey,
           scaffoldMessengerKey: snackbarKey,
           debugShowCheckedModeBanner: false,
           title: 'Siddha Connect',
-          home: const ConnectivityNotifier(child: SplashScreen())),
-          // home:const  SplashScreen(),
-        );
-        
-        
+          home: const ConnectivityNotifier(
+            child: SplashScreen(),
+            showScreen: "RUN",
+          )),
+      // home:const  SplashScreen(),
+    );
   }
 }
-
-
-
-
