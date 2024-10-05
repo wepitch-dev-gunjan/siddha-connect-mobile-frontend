@@ -109,6 +109,119 @@ class UploadForm extends ConsumerWidget {
 final selectedDealerProvider =
     StateProvider<Map<String, String>?>((ref) => null);
 
+
+
+// class DealerDropDown extends ConsumerWidget {
+//   final dynamic data;
+//   const DealerDropDown({
+//     super.key,
+//     required this.data,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedDealer = ref.watch(selectedDealerProvider);
+
+//     final List<Map<String, dynamic>> products =
+//         List<Map<String, dynamic>>.from(data is List ? data : []);
+
+//     final List<String> modelNames = products
+//         .where((product) => product['BUYER'] != null)
+//         .map((product) => product['BUYER'] as String)
+//         .toList();
+
+//     if (modelNames.isEmpty) {
+//       return const Center(child: Text("No dealers available"));
+//     }
+
+//     return SizedBox(
+//       width: double.infinity,
+//       child: TextFormField(
+//         readOnly: true,
+//         decoration: inputDecoration(label: "Select Dealer"),
+//         onTap: () async {
+//           final String? selectedDealer = await showModalBottomSheet<String>(
+//             backgroundColor: Colors.white,
+//             context: context,
+//             isScrollControlled: true,
+//             builder: (context) {
+//               String searchText = ''; // Initialize search text
+//               return StatefulBuilder(
+//                 builder: (context, setState) {
+//                   final filteredDealers = modelNames.where((dealerName) {
+//                     return dealerName.toLowerCase().contains(searchText.toLowerCase());
+//                   }).toList();
+
+//                   return Padding(
+//                     padding: const EdgeInsets.all(16.0),
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         SizedBox(height: 20.0),
+//                         Text(
+//                           "Select Dealer",
+//                           style: TextStyle(
+//                             fontSize: 16.0,
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                         ),
+//                         SizedBox(height: 10.0),
+                        
+//                         // Add Cupertino search bar
+//                         CupertinoSearchTextField(
+//                           placeholder: 'Search Dealer',
+//                           onChanged: (value) {
+//                             setState(() {
+//                               searchText = value; // Update search text
+//                             });
+//                           },
+//                         ),
+//                         SizedBox(height: 20.0),
+
+//                         // Display filtered dealers in ListView
+//                         Expanded(
+//                           child: ListView.builder(
+//                             itemCount: filteredDealers.length,
+//                             itemBuilder: (context, index) {
+//                               final dealerName = filteredDealers[index];
+//                               final selectedProduct = products.firstWhere(
+//                                   (product) => product['BUYER'] == dealerName);
+//                               final buyerCode = selectedProduct['BUYER CODE'];
+
+//                               return ListTile(
+//                                 title: Text(dealerName),
+//                                 subtitle: Text(buyerCode),
+//                                 onTap: () {
+//                                   Navigator.pop(context, dealerName);
+//                                 },
+//                               );
+//                             },
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   );
+//                 },
+//               );
+//             },
+//           );
+
+//           if (selectedDealer != null) {
+//             final selectedProduct =
+//                 products.firstWhere((product) => product['BUYER'] == selectedDealer);
+//             ref.read(selectedDealerProvider.notifier).state = {
+//               'BUYER': selectedDealer,
+//               'BUYER CODE': selectedProduct['BUYER CODE']
+//             };
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
+
 class DealerDropDown extends ConsumerWidget {
   final dynamic data;
   const DealerDropDown({
@@ -119,74 +232,193 @@ class DealerDropDown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDealer = ref.watch(selectedDealerProvider);
-
+    
     final List<Map<String, dynamic>> products =
         List<Map<String, dynamic>>.from(data is List ? data : []);
 
-    final List<String> modelNames = products
-        .where((product) => product['BUYER'] != null)
-        .map((product) => product['BUYER'] as String)
+    final List<Map<String, String>> dealerList = products
+        .where((product) => product['BUYER'] != null && product['BUYER CODE'] != null)
+        .map((product) => {
+              'BUYER': product['BUYER'] as String,
+              'BUYER CODE': product['BUYER CODE'] as String,
+            })
         .toList();
 
-    if (modelNames.isEmpty) {
+    if (dealerList.isEmpty) {
       return const Center(child: Text("No dealers available"));
     }
 
     return SizedBox(
       width: double.infinity,
-      child: DropdownButtonFormField<String>(
-        value: selectedDealer?['BUYER'],
-        style: const TextStyle(
-          fontSize: 16.0,
-          height: 1.5,
-          color: Colors.black87,
-        ),
-        dropdownColor: Colors.white,
+      child: TextFormField(
+        readOnly: true,
         decoration: inputDecoration(label: "Select Dealer"),
-        onChanged: (newValue) {
-          final selectedProduct =
-              products.firstWhere((product) => product['BUYER'] == newValue);
-          ref.read(selectedDealerProvider.notifier).state = {
-            'BUYER': newValue!,
-            'BUYER CODE': selectedProduct['BUYER CODE']
-          };
-        },
-        hint: const Text("Select Dealer"),
-        items: modelNames.map<DropdownMenuItem<String>>((model) {
-          final buyerCode = products
-              .firstWhere((product) => product['BUYER'] == model)['BUYER CODE'];
-          return DropdownMenuItem<String>(
-            value: model,
-            child: ListTile(
-              title: Text(model),
-              subtitle: Text(buyerCode),
-            ),
+        controller: TextEditingController(
+          text: selectedDealer?['BUYER'] ?? '',
+        ),
+        onTap: () async {
+          final Map<String, String>? selectedDealer = await showModalBottomSheet<Map<String, String>>(
+            backgroundColor: Colors.white,
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              String searchText = ''; // Initialize search text
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  // Filter dealers based on both BUYER and BUYER CODE
+                  final filteredDealers = dealerList.where((dealer) {
+                    return dealer['BUYER']!.toLowerCase().contains(searchText.toLowerCase()) ||
+                           dealer['BUYER CODE']!.toLowerCase().contains(searchText.toLowerCase());
+                  }).toList();
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20.0),
+                        Text(
+                          "Select Dealer",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        
+                        // Cupertino search bar to search by both dealer name and code
+                        CupertinoSearchTextField(
+                          placeholder: 'Search Dealer or Code',
+                          onChanged: (value) {
+                            setState(() {
+                              searchText = value; // Update search text
+                            });
+                          },
+                        ),
+                        SizedBox(height: 20.0),
+
+                        // Display filtered dealers in ListView
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: filteredDealers.length,
+                            itemBuilder: (context, index) {
+                              final dealerName = filteredDealers[index]['BUYER']!;
+                              final dealerCode = filteredDealers[index]['BUYER CODE']!;
+
+                              return ListTile(
+                                title: Text(dealerName),
+                                subtitle: Text(dealerCode),
+                                onTap: () {
+                                  Navigator.pop(context, {
+                                    'BUYER': dealerName,
+                                    'BUYER CODE': dealerCode,
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           );
-        }).toList(),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please select a dealer';
+
+          // After dealer is selected, update the state and text field
+          if (selectedDealer != null) {
+            ref.read(selectedDealerProvider.notifier).state = {
+              'BUYER': selectedDealer['BUYER']!,
+              'BUYER CODE': selectedDealer['BUYER CODE']!,
+            };
           }
-          return null;
-        },
-        menuMaxHeight: MediaQuery.of(context).size.height / 2,
-        icon: const Icon(Icons.arrow_drop_down),
-        isExpanded: true,
-        selectedItemBuilder: (BuildContext context) {
-          return modelNames.map((model) {
-            return Text(
-              model,
-              style: const TextStyle(
-                fontSize: 16.0,
-                color: Colors.black87,
-              ),
-            );
-          }).toList();
         },
       ),
     );
   }
 }
+
+
+
+// class DealerDropDown extends ConsumerWidget {
+//   final dynamic data;
+//   const DealerDropDown({
+//     super.key,
+//     required this.data,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedDealer = ref.watch(selectedDealerProvider);
+
+//     final List<Map<String, dynamic>> products =
+//         List<Map<String, dynamic>>.from(data is List ? data : []);
+
+//     final List<String> modelNames = products
+//         .where((product) => product['BUYER'] != null)
+//         .map((product) => product['BUYER'] as String)
+//         .toList();
+
+//     if (modelNames.isEmpty) {
+//       return const Center(child: Text("No dealers available"));
+//     }
+
+//     return SizedBox(
+//       width: double.infinity,
+//       child: DropdownButtonFormField<String>(
+//         value: selectedDealer?['BUYER'],
+//         style: const TextStyle(
+//           fontSize: 16.0,
+//           height: 1.5,
+//           color: Colors.black87,
+//         ),
+//         dropdownColor: Colors.white,
+//         decoration: inputDecoration(label: "Select Dealer"),
+//         onChanged: (newValue) {
+//           final selectedProduct =
+//               products.firstWhere((product) => product['BUYER'] == newValue);
+//           ref.read(selectedDealerProvider.notifier).state = {
+//             'BUYER': newValue!,
+//             'BUYER CODE': selectedProduct['BUYER CODE']
+//           };
+//         },
+//         hint: const Text("Select Dealer"),
+//         items: modelNames.map<DropdownMenuItem<String>>((model) {
+//           final buyerCode = products
+//               .firstWhere((product) => product['BUYER'] == model)['BUYER CODE'];
+//           return DropdownMenuItem<String>(
+//             value: model,
+//             child: ListTile(
+//               title: Text(model),
+//               subtitle: Text(buyerCode),
+//             ),
+//           );
+//         }).toList(),
+//         validator: (value) {
+//           if (value == null || value.isEmpty) {
+//             return 'Please select a dealer';
+//           }
+//           return null;
+//         },
+//         menuMaxHeight: MediaQuery.of(context).size.height / 2,
+//         icon: const Icon(Icons.arrow_drop_down),
+//         isExpanded: true,
+//         selectedItemBuilder: (BuildContext context) {
+//           return modelNames.map((model) {
+//             return Text(
+//               model,
+//               style: const TextStyle(
+//                 fontSize: 16.0,
+//                 color: Colors.black87,
+//               ),
+//             );
+//           }).toList();
+//         },
+//       ),
+//     );
+//   }
+// }
 
 final selectedModelProvider = StateProvider<List<String>>((ref) => []);
 final selectModelIDProvider1 = StateProvider<List<String>>((ref) => []);
