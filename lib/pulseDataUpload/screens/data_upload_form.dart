@@ -145,8 +145,6 @@ class DealerDropDown extends ConsumerWidget {
         onChanged: (newValue) {
           final selectedProduct =
               products.firstWhere((product) => product['BUYER'] == newValue);
-
-          // Update both BUYER and BUYER CODE
           ref.read(selectedDealerProvider.notifier).state = {
             'BUYER': newValue!,
             'BUYER CODE': selectedProduct['BUYER CODE']
@@ -159,8 +157,8 @@ class DealerDropDown extends ConsumerWidget {
           return DropdownMenuItem<String>(
             value: model,
             child: ListTile(
-              title: Text(model), // Show the buyer
-              subtitle: Text(buyerCode), // Show the buyer code
+              title: Text(model), 
+              subtitle: Text(buyerCode), 
             ),
           );
         }).toList(),
@@ -168,15 +166,15 @@ class DealerDropDown extends ConsumerWidget {
           if (value == null || value.isEmpty) {
             return 'Please select a dealer';
           }
-          return null; // No error
+          return null;
         },
         menuMaxHeight: MediaQuery.of(context).size.height / 2,
-        icon: const Icon(Icons.arrow_drop_down), // Default dropdown icon
-        isExpanded: true, // Ensures that dropdown stretches to fit the text
+        icon: const Icon(Icons.arrow_drop_down),
+        isExpanded: true,
         selectedItemBuilder: (BuildContext context) {
           return modelNames.map((model) {
             return Text(
-              model, // Show only the buyer (model) as selected value
+              model,
               style: const TextStyle(
                 fontSize: 16.0,
                 color: Colors.black87,

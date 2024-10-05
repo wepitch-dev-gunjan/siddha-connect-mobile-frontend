@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/pulseDataUpload/screens/extraction_data_upload.dart';
-import 'package:siddha_connect/pulseDataUpload/screens/pulse_data_upload.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
@@ -308,20 +307,13 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 TextButton(
                                   child: const Text('Yes'),
                                   onPressed: () async {
-                                    // Clear secure storage data
                                     await ref
                                         .read(secureStoargeProvider)
                                         .clearData();
-
-                                    // Invalidate providers to reset state
                                     ref.invalidate(userProfileProvider);
                                     ref.invalidate(dealerProfileProvider);
                                     ref.invalidate(dealerCodeProvider);
-
-                                    // Close the dialog before navigating
                                     Navigator.of(context).pop();
-
-                                    // Navigate to SplashScreen
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(

@@ -9,7 +9,6 @@ import '../components/floating_add_button.dart';
 import '../components/table.dart';
 
 
-
 class ExtractionDataScreen extends StatelessWidget {
   const ExtractionDataScreen({super.key});
 

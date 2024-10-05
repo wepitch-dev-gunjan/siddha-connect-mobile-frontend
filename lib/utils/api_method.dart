@@ -41,8 +41,6 @@ class ApiMethod {
       }
       Response response =
           await dio.post(url, data: data, options: Options(headers: headers));
-
-      // log("REspPost${response.data}");
       return response.data;
     } on DioException {
       rethrow;
@@ -100,17 +98,8 @@ class ApiMethod {
 
 class ApiUrl {
   static String baseUrl = dotenv.env['BASEURL'] ?? "";
-  static String getEmployeeSalesDashboardData =
-      "$baseUrl/sales-data-mtdw/dashboard/employee";
-  static String getEmployeeSalesDashboardDataByName =
-      "$baseUrl/sales-data-mtdw/dashboard/by-employee-name";
-  static String getEmployeeSalesDashboardDataByDealerCode =
-      "$baseUrl/sales-data-mtdw/dashboard/by-dealer-code";
-  static String getChannelData =
-      "$baseUrl/sales-data-mtdw/channel-wise/employee";
-  static String getSegmentData =
-      "$baseUrl/sales-data-mtdw/segment-wise/employee";
-  static String uploadSalesData = "$baseUrl/sales-data-mtdw";
+
+//========================! Auth $ Profile Url !=====================
   static String userRegister = "$baseUrl/user/register";
   static String dealerRegister = "$baseUrl/add-dealer";
   static String dealerProfileUpdate = "$baseUrl/edit-dealer";
@@ -118,42 +107,64 @@ class ApiUrl {
   static String getProfile = "$baseUrl/userForUser";
   static String getDealerProfile = "$baseUrl/get-dealer";
   static String isDealerVerified = "$baseUrl/is-dealer-verified";
-  static String getAllSubordinates =
-      "$baseUrl/sales-data-mtdw/get-all-subordinates-mtdw";
-  static String getSegmentPositionWise =
-      "$baseUrl/sales-data-mtdw/segment-wise/by-position-category";
-  static String getChannelPositionWise =
-      "$baseUrl/sales-data-mtdw/channel-wise/by-position-category";
-  static String getModelPositionWise =
-      "$baseUrl/model-data-mtdw/by-position-category";
-  static String getSegmentSubordinateWise =
-      "$baseUrl/sales-data-mtdw/segment-wise/by-subordinate-name/";
-  static String getChannelSubordinateWise =
-      "$baseUrl/sales-data-mtdw/channel-wise/by-subordinate-name/";
-  static String getModelSubordinateWise =
-      "$baseUrl/model-data-mtdw/by-subordinate-name/";
-  static String getModelData = "$baseUrl/model-data/mtdw/employee";
-  static String uploadModelData = "$baseUrl/model-data";
-  static String uploadChannelTargets = "$baseUrl/channel-targets";
-  static String uploadSegmentTargets = "$baseUrl/segment-targets";
+
+//========================! Sales Dashboard Url !=====================
+  static String getEmployeeSalesDashboardData =
+      "$baseUrl/sales-data-mtdw/dashboard/employee";
+  static String getEmployeeSalesDashboardDataByName =
+      "$baseUrl/sales-data-mtdw/dashboard/by-employee-name";
+  static String getEmployeeSalesDashboardDataByDealerCode =
+      "$baseUrl/sales-data-mtdw/dashboard/by-dealer-code";
   static String getDealerDashboardData =
       "$baseUrl/sales-data-mtdw/dashboard/dealer";
-  static String getDealerSegmentData =
-      "$baseUrl/sales-data-mtdw/segment-wise/dealer";
-  static String getDealerChannelData =
-      "$baseUrl/sales-data-mtdw/channel-wise/dealer";
-  static String getDealerModelData = "$baseUrl/model-data/mtdw/dealer";
-  static String getDealerListForEmployeesData =
-      "$baseUrl/sales-data-mtdw/get-dealer-list-for-employees";
+  static String getAllSubordinates =
+      "$baseUrl/sales-data-mtdw/get-all-subordinates-mtdw";
 
+//========================! Segment Url !=====================
+  static String getSegmentData =
+      "$baseUrl/sales-data-mtdw/segment-wise/employee";
+  static String getSegmentPositionWise =
+      "$baseUrl/sales-data-mtdw/segment-wise/by-position-category";
+  static String getSegmentSubordinateWise =
+      "$baseUrl/sales-data-mtdw/segment-wise/by-subordinate-name/";
   static String getSegmentDataByDealerCode =
       "$baseUrl/sales-data-mtdw/segment-wise/employee/by-dealer-code";
+  static String getDealerSegmentData =
+      "$baseUrl/sales-data-mtdw/segment-wise/dealer";
+
+//========================! Channel Url !=====================
+  static String getChannelData =
+      "$baseUrl/sales-data-mtdw/channel-wise/employee";
+  static String getChannelPositionWise =
+      "$baseUrl/sales-data-mtdw/channel-wise/by-position-category";
+  static String getChannelSubordinateWise =
+      "$baseUrl/sales-data-mtdw/channel-wise/by-subordinate-name/";
+  static String getDealerChannelData =
+      "$baseUrl/sales-data-mtdw/channel-wise/dealer";
   static String getSalesDataChannelWiseForEmployee =
       "$baseUrl/sales-data-mtdw/channel-wise/employee/by-dealer-code";
+
+//========================! Model Url !=====================
+  static String getModelPositionWise =
+      "$baseUrl/model-data-mtdw/by-position-category";
+  static String getModelSubordinateWise =
+      "$baseUrl/model-data-mtdw/by-subordinate-name/";
+  static String getDealerModelData = "$baseUrl/model-data/mtdw/dealer";
   static String getSalesDataModelWiseForEmployee =
       "$baseUrl/model-data-mtdw/employee/by-dealer-code";
 
-//=====================================! Pulse $ Extraction Url !==========================
+//========================! Upload Data Url !=====================
+  static String uploadSalesData = "$baseUrl/sales-data-mtdw";
+  static String uploadModelData = "$baseUrl/model-data";
+  static String uploadChannelTargets = "$baseUrl/channel-targets";
+  static String uploadSegmentTargets = "$baseUrl/segment-targets";
+
+//========================! Other Url !=====================
+  static String getModelData = "$baseUrl/model-data/mtdw/employee";
+  static String getDealerListForEmployeesData =
+      "$baseUrl/sales-data-mtdw/get-dealer-list-for-employees";
+
+//========================! Pulse $ Extraction Url !=====================
   static String getAllProducts = "$baseUrl/product/get-all-products";
   static String pulseDataUpload = "$baseUrl/record/add";
   static String extractionDataUpload = "$baseUrl/record/extraction/add";

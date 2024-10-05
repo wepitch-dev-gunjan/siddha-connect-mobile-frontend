@@ -7,7 +7,6 @@ final selectedModelProvider = StateProvider<String?>((ref) => null);
 final selectedPriceProvider = StateProvider<String?>((ref) => null);
 final paymentModeProvider = StateProvider<String?>((ref) => null);
 final quantityProvider = StateProvider<int>((ref) => 1);
-
 final selectedBrandProvider = StateProvider<String?>((ref) => null);
 
 
@@ -31,12 +30,7 @@ class BrandDropDown extends ConsumerWidget {
       dropdownColor: Colors.white,
       decoration: inputDecoration(label: "Select Brand"),
       onChanged: (newValue) {
-        // Reset selected model when a new brand is selected
         ref.read(selectedBrandProvider.notifier).state = newValue;
-        // ref.read(selectedModelProvider.notifier).state =
-        //     null; // Clear selected model
-        // ref.read(selectedModelIdProvider.notifier).state =
-        //     null; // Clear model id
       },
       hint: const Text("Select Brand"),
       items: items.map<DropdownMenuItem<String>>((value) {
@@ -46,12 +40,11 @@ class BrandDropDown extends ConsumerWidget {
         );
       }).toList(),
       menuMaxHeight: MediaQuery.of(context).size.height / 2,
-      // Add validation
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please select a brand';
         }
-        return null; // No error
+        return null; 
       },
     );
   }
