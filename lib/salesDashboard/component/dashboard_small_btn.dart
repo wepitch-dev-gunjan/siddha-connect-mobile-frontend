@@ -210,6 +210,7 @@ class CusDropdown extends ConsumerWidget {
         }
 
         return DropdownButtonFormField<String>(
+          dropdownColor: Colors.white,
           value: selectedItem,
           style: const TextStyle(
               fontSize: 16.0, height: 1.5, color: Colors.black87),
@@ -297,6 +298,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         DropdownButtonFormField<String>(
+          dropdownColor: Colors.white,
           value: dealerCategory,
           style: const TextStyle(
               fontSize: 16.0, height: 1.5, color: Colors.black87),
@@ -353,6 +355,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+            backgroundColor: Colors.white,
             title: Text("$name Options"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -387,6 +390,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text("$name - $type"),
           content: Consumer(
             builder: (context, ref, child) {
