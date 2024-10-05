@@ -1092,8 +1092,9 @@ class ModelDropDawnTest extends ConsumerWidget {
                 return Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      margin: const EdgeInsets.symmetric(vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
                           color: Colors.green,
                           // border: Border.all(width: 0.5),
@@ -1169,6 +1170,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                                   icon: const Icon(
                                     Icons.delete,
                                     color: Colors.white,
+                                    size: 22,
                                   ),
                                   onPressed: () {
                                     final newQuantities =
