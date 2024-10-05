@@ -54,7 +54,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
 
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
-  log("Chack1");
+ 
   try {
     final secureStorage = ref.watch(secureStoargeProvider);
     log("Chack2");
@@ -96,7 +96,7 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     }
   } catch (e) {
     log("Error in reading authToken: $e");
-    navigateTo(LoginScreen());  // Fallback if secure storage fails
+    navigateTo(LoginScreen());  
   }
 });
 
