@@ -39,6 +39,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final isPasswordHide = ref.watch(passwordHideProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formKey,
@@ -82,7 +83,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                   ),
                   heightSizedBox(15.0),
-
                   TxtField(
                     contentPadding: contentPadding,
                     labelText: "Password",
@@ -116,7 +116,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       }
                     },
                   ),
-
                   heightSizedBox(8.0),
                   Text(
                     "OR",
@@ -129,7 +128,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ),
                   heightSizedBox(8.0),
-
                   Btn(
                     btnName: 'Register as Dealer',
                     onPressed: () {
