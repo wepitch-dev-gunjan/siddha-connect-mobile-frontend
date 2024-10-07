@@ -25,8 +25,8 @@ class ApiMethod {
       if (response.statusCode == 200) {
         return response.data;
       }
-    } on DioException catch (err) {
-      log("ErrorGetApi=>>$err");
+    } on DioException {
+      rethrow;
       // log("get statusCode: ${err.response?.statusCode.toString()}");
       // log("get type: ${err.response?.data.toString()}");
     }

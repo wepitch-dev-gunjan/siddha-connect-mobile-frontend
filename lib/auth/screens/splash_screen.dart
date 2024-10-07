@@ -20,15 +20,12 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    log("Splash 1");
     ref.read(checkAuthorizeProvider);
     super.initState();
-    log("Splash 2");
   }
 
   @override
   Widget build(BuildContext context) {
-    // log("Splash 3");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -51,24 +48,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 }
 
-
-
 final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
- 
   try {
     final secureStorage = ref.watch(secureStoargeProvider);
-    log("Chack2");
+    log("Welcome To SIDDHA");
     String? isLogin = await secureStorage.readData('authToken');
-    log("Chack3");
+    log("Chack isLogin");
 
     if (isLogin != null && isLogin.isNotEmpty) {
       try {
         final profileStatus = await ref.watch(profileStatusControllerProvider);
-        log("Chack4");
-        
-        if (profileStatus.containsKey('error') && profileStatus['error'] == 'User not authorized') {
+        log("Run Profile Status");
+
+        if (profileStatus.containsKey('error') &&
+            profileStatus['error'] == 'User not authorized') {
           final dealerStatus = await ref.watch(isDealerVerifiedProvider);
-          log("Chack5");
+          log("Run Dealer Status");
           if (dealerStatus['verified'] == false) {
             navigateTo(const StatusScreen());
           } else {
@@ -82,7 +77,7 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
           }
         }
       } catch (e) {
-        log("Error in profileStatus: $e");
+        // log("Error in profileStatus: $e");
         final dealerStatus = await ref.watch(isDealerVerifiedProvider);
         if (dealerStatus['verified'] == false) {
           navigateTo(const StatusScreen());
@@ -96,7 +91,7 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     }
   } catch (e) {
     log("Error in reading authToken: $e");
-    navigateTo(LoginScreen());  
+    navigateTo(LoginScreen());
   }
 });
 

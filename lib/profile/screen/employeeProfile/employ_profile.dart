@@ -7,6 +7,7 @@ import 'package:siddha_connect/utils/common_style.dart';
 import '../../../utils/drawer.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
+
 class EmployProfile extends ConsumerWidget {
   const EmployProfile({super.key});
 
@@ -42,7 +43,8 @@ class EmployProfile extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  data['name'] ?? "No Name", // Provide fallback if 'name' is null
+                  data['name'] ??
+                      "No Name", // Provide fallback if 'name' is null
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
                       fontSize: 22.sp,
@@ -51,38 +53,47 @@ class EmployProfile extends ConsumerWidget {
                 ),
                 heightSizedBox(20.0),
                 TxtField(
+                  enabled: false,
                   readOnly: true,
                   contentPadding: contentPadding,
                   labelText: "Code",
                   maxLines: 1,
-                  controller: TextEditingController(text: data['code'] ?? "N/A"), // Handle 'code' being null
+                  controller: TextEditingController(
+                      text: data['code'] ?? "N/A"), // Handle 'code' being null
                   keyboardType: TextInputType.text,
                 ),
                 heightSizedBox(8.0),
                 TxtField(
+                  enabled: false,
                   readOnly: true,
                   contentPadding: contentPadding,
                   labelText: "Name",
                   maxLines: 1,
-                  controller: TextEditingController(text: data['name'] ?? "N/A"), // Handle 'name' being null
+                  controller: TextEditingController(
+                      text: data['name'] ?? "N/A"), // Handle 'name' being null
                   keyboardType: TextInputType.text,
                 ),
                 heightSizedBox(8.0),
                 TxtField(
+                  enabled: false,
                   readOnly: true,
                   contentPadding: contentPadding,
                   labelText: "Email",
                   maxLines: 1,
-                  controller: TextEditingController(text: data['email'] ?? "N/A"), // Handle 'email' being null
+                  controller: TextEditingController(
+                      text:
+                          data['email'] ?? "N/A"), // Handle 'email' being null
                   keyboardType: TextInputType.text,
                 ),
                 heightSizedBox(8.0),
                 TxtField(
+                  enabled: false,
                   readOnly: true,
                   contentPadding: contentPadding,
                   labelText: "Role",
                   maxLines: 1,
-                  controller: TextEditingController(text: data['role'] ?? "N/A"), // Handle 'role' being null
+                  controller: TextEditingController(
+                      text: data['role'] ?? "N/A"), // Handle 'role' being null
                   keyboardType: TextInputType.text,
                 ),
               ],

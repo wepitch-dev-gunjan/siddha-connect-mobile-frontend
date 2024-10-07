@@ -278,7 +278,6 @@ class SalesDashboardRepo {
       String url = dealerSegmentUrl(ApiUrl.getDealerChannelData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-      log("DealerModelData=>>>$response");
       return response;
     } catch (e) {}
   }
