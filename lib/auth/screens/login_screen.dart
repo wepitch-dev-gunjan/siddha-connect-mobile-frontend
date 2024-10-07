@@ -9,8 +9,9 @@ import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/buttons.dart';
 
-final passwordHideProvider = StateProvider<bool>((ref) => false);
-final selectedRoleProvider = StateProvider<String?>((ref) => null);
+final passwordHideProvider = StateProvider.autoDispose<bool>((ref) => false);
+final selectedRoleProvider = StateProvider.autoDispose<String?>((ref) => null);
+final loadingProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
@@ -22,7 +23,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isPasswordHide = ref.watch(passwordHideProvider);
     final selectedRole = ref.watch(selectedRoleProvider);
-
+    final isLoading = ref.watch(loadingProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
@@ -126,14 +127,22 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   heightSizedBox(25.0),
                   Btn(
-                    btnName: 'Log in',
-                    onPressed: () {
-                      if (formKeyLogin.currentState!.validate()) {
-                        ref.read(authControllerProvider).userLogin(data: {
-                          "code": code.text,
-                          'password': password.text,
-                          'role': selectedRole!.toLowerCase(),
-                        });
+                    btnName: isLoading ? null : 'Log in',
+                    isLoading: isLoading,
+                    onPressed: () async {
+                      if (!isLoading && formKeyLogin.currentState!.validate()) {
+                        ref.read(loadingProvider.notifier).state = true;
+                        try {
+                          await ref
+                              .read(authControllerProvider)
+                              .userLogin(data: {
+                            "code": code.text,
+                            'password': password.text,
+                            'role': selectedRole!.toLowerCase(),
+                          });
+                        } finally {
+                          ref.read(loadingProvider.notifier).state = false;
+                        }
                       }
                     },
                   ),

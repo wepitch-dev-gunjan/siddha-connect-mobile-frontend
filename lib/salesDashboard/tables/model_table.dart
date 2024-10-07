@@ -1,7 +1,6 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
@@ -232,7 +231,12 @@ class ModelTablePositionWise extends ConsumerWidget {
                     DataCell(Center(
                         child: Text(row['Price Band']?.toString() ?? ''))),
                     DataCell(Center(
-                        child: Text(row['Market Name']?.toString() ?? ''))),
+                        child: Text(
+                      row['Market Name']?.toString() ?? '',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ))),
                     DataCell(Center(
                         child: Text(row['MODEL NAME']?.toString() ?? ''))),
                     DataCell(Center(

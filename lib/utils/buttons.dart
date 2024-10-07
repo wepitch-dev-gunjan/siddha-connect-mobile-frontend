@@ -41,17 +41,61 @@ class OutlinedBtn extends StatelessWidget {
   }
 }
 
+// class Btn extends StatelessWidget {
+//   final String btnName;
+//   final double? btnHeight, btnWidth, fontSize;
+//   final Function() onPressed;
+//   const Btn({
+//     super.key,
+//     required this.btnName,
+//     required this.onPressed,
+//     this.btnHeight,
+//     this.btnWidth,
+//     this.fontSize,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       width: btnWidth ?? width(context) * 0.9,
+//       height: btnHeight ?? 48,
+//       child: ElevatedButton(
+//         style: ElevatedButton.styleFrom(
+//           backgroundColor: AppColor.primaryColor,
+//           foregroundColor: AppColor.whiteColor,
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(8),
+//           ),
+//         ),
+//         onPressed: onPressed,
+//         child: Text(
+//           btnName,
+//           style: GoogleFonts.lato(
+//             textStyle: TextStyle(
+//               fontSize: fontSize ?? 18,
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class Btn extends StatelessWidget {
-  final String btnName;
+  final String? btnName;
   final double? btnHeight, btnWidth, fontSize;
   final Function() onPressed;
+  final bool isLoading;
+
   const Btn({
     super.key,
-    required this.btnName,
+    this.btnName,
     required this.onPressed,
     this.btnHeight,
     this.btnWidth,
     this.fontSize,
+    this.isLoading = false,
   });
 
   @override
@@ -67,16 +111,25 @@ class Btn extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        onPressed: onPressed,
-        child: Text(
-          btnName,
-          style: GoogleFonts.lato(
-            textStyle: TextStyle(
-              fontSize: fontSize ?? 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
+        onPressed: isLoading ? null : onPressed,
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: AppColor.whiteColor,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                btnName ?? '',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize: fontSize ?? 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
       ),
     );
   }

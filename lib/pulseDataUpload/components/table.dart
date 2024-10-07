@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/utils/common_style.dart';
 import '../repo/product_repo.dart';
 
 final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
@@ -42,7 +43,6 @@ class ShowTable extends ConsumerWidget {
             border: TableBorder.all(color: Colors.black45, width: 0.5),
             horizontalMargin: 0,
             bottomMargin: 5,
-            // dataRowHeight: 50,
             minWidth: 1000,
             showBottomBorder: true,
             headingRowColor: WidgetStateColor.resolveWith(
@@ -117,7 +117,10 @@ class ShowTable extends ConsumerWidget {
         child: Text("Something Went Wrong"),
       ),
       loading: () => const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: AppColor.primaryColor,
+          strokeWidth: 3,
+        ),
       ),
     );
   }
