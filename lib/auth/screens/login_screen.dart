@@ -25,6 +25,7 @@ class LoginScreen extends ConsumerWidget {
     final selectedRole = ref.watch(selectedRoleProvider);
     final isLoading = ref.watch(loadingProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Form(
         key: formKeyLogin,
