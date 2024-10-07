@@ -23,7 +23,7 @@ class ExtractionDataScreen extends StatelessWidget {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-              const Expanded(
+               Expanded(
                 child: ShowTable(),
               ),
             ],
