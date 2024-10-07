@@ -44,9 +44,9 @@ class MyApp extends StatelessWidget {
 
 
 
-
 // import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
+// import 'package:geocoding/geocoding.dart'; // Import the geocoding package
 
 // void main() {
 //   runApp(MyApp());
@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
 //       title: 'Location Example',
 //       theme: ThemeData(
 //         primarySwatch: Colors.blue,
@@ -72,18 +73,19 @@ class MyApp extends StatelessWidget {
 
 // class _LocationScreenState extends State<LocationScreen> {
 //   String _locationMessage = "Press the button to get location";
+//   String _address = "Address will appear here";
 
 //   Future<Position> _determinePosition() async {
 //     bool serviceEnabled;
 //     LocationPermission permission;
 
-//     // GPS enabled check
+//     // Check if location services are enabled
 //     serviceEnabled = await Geolocator.isLocationServiceEnabled();
 //     if (!serviceEnabled) {
 //       return Future.error('Location services are disabled.');
 //     }
 
-//     // Permissions check
+//     // Check for permissions
 //     permission = await Geolocator.checkPermission();
 //     if (permission == LocationPermission.denied) {
 //       permission = await Geolocator.requestPermission();
@@ -101,8 +103,27 @@ class MyApp extends StatelessWidget {
 //     return await Geolocator.getCurrentPosition();
 //   }
 
+//   Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
+//     try {
+//       List<Placemark> placemarks =
+//           await placemarkFromCoordinates(latitude, longitude);
+//       Placemark place = placemarks[0];
+
+//       setState(() {
+//         _address =
+//             "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+//       });
+//     } catch (e) {
+//       setState(() {
+//         _address = "Failed to get address: $e";
+//       });
+//     }
+//   }
+
 //   void _getLocation() async {
 //     Position position = await _determinePosition();
+//     await _getAddressFromLatLng(position.latitude, position.longitude);
+
 //     setState(() {
 //       _locationMessage =
 //           "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
@@ -121,6 +142,11 @@ class MyApp extends StatelessWidget {
 //           children: <Widget>[
 //             Text(
 //               _locationMessage,
+//               textAlign: TextAlign.center,
+//             ),
+//             SizedBox(height: 20),
+//             Text(
+//               _address,
 //               textAlign: TextAlign.center,
 //             ),
 //             SizedBox(height: 20),
