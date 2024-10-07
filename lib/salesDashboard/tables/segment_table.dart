@@ -38,7 +38,7 @@ class SegmentTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final role = ref.read(dealerRoleProvider);
     final selectedOption2 = ref.watch(selectedOption2Provider);
-    
+
     final segmentData = role == 'dealer'
         ? ref.watch(getDealerDataProvider)
         : ref.watch(getSegmentDataProvider);
@@ -68,6 +68,8 @@ class SegmentTable extends ConsumerWidget {
             child: DataTable2(
               headingRowHeight: 50,
               dividerThickness: 2.5,
+              horizontalMargin: 0,
+              bottomMargin: 5,
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
               showBottomBorder: true,
@@ -78,10 +80,12 @@ class SegmentTable extends ConsumerWidget {
               columns: [
                 for (var column in columns)
                   DataColumn(
-                    label: Text(
-                      column ?? 'Unknown', // Add a fallback label
-                      textAlign: TextAlign.center,
-                      style: topStyle,
+                    label: Center(
+                      child: Text(
+                        column ?? 'Unknown', // Add a fallback label
+                        textAlign: TextAlign.center,
+                        style: topStyle,
+                      ),
                     ),
                   ),
               ],
@@ -93,24 +97,38 @@ class SegmentTable extends ConsumerWidget {
                     (states) => const Color(0xffEEEEEE),
                   ),
                   cells: [
-                    DataCell(Text(row['Segment Wise']?.toString() ?? '')),
-                    DataCell(Text(row['Target Vol']?.toString() ?? '')),
-                    DataCell(Text(row['Mtd Vol']?.toString() ?? '')),
-                    DataCell(Text(row['Lmtd Vol']?.toString() ?? '')),
-                    DataCell(Text(row['Pending Vol']?.toString() ?? '')),
-                    DataCell(Text(row['ADS']?.toString() ?? '')),
-                    DataCell(Text(row['Req. ADS']?.toString() ?? '')),
-                    DataCell(Text(row['% Gwth Vol']?.toString() ?? '')),
-                    DataCell(Text(row['Target SO']?.toString() ?? '')),
-                    DataCell(Text(row['Activation MTD']?.toString() ?? '')),
-                    DataCell(Text(row['Activation LMTD']?.toString() ?? '')),
-                    DataCell(Text(row['Pending Act']?.toString() ?? '')),
-                    DataCell(Text(row['ADS Activation']?.toString() ?? '')),
+                    DataCell(Center(
+                        child: Text(row['Segment Wise']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Target Vol']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Mtd Vol']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Lmtd Vol']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Pending Vol']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Req. ADS']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['% Gwth Vol']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Target SO']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Activation MTD']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Activation LMTD']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Pending Act']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['ADS Activation']?.toString() ?? ''))),
                     DataCell(
                         Text(row['Req. ADS Activation']?.toString() ?? '')),
-                    DataCell(Text(row['% Gwth Val']?.toString() ?? '')),
-                    DataCell(Text(row['FTD']?.toString() ?? '')),
-                    DataCell(Text(row['Contribution %']?.toString() ?? '')),
+                    DataCell(Center(
+                        child: Text(row['% Gwth Val']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['FTD']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Contribution %']?.toString() ?? ''))),
                   ],
                 );
               }),

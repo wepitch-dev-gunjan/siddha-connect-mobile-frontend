@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
-
 import 'connectivity/connectivity_widget.dart';
 
 Future<void> main() async {

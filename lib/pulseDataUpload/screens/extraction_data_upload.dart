@@ -8,7 +8,6 @@ import '../../utils/sizes.dart';
 import '../components/floating_add_button.dart';
 import '../components/table.dart';
 
-
 class ExtractionDataScreen extends StatelessWidget {
   const ExtractionDataScreen({super.key});
 
@@ -24,7 +23,9 @@ class ExtractionDataScreen extends StatelessWidget {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-              const Expanded(child: ShowTable()),
+              const Expanded(
+                child: ShowTable(),
+              ),
             ],
           ),
         ],
@@ -33,7 +34,6 @@ class ExtractionDataScreen extends StatelessWidget {
     );
   }
 }
-
 
 class AddButton extends ConsumerWidget {
   const AddButton({super.key});

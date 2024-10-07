@@ -64,24 +64,22 @@ class ModelTable extends ConsumerWidget {
               dividerThickness: 2.5,
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
-              // fixedLeftColumns: 1,
-              // fixedColumnsColor: Colors.green,
-              // fixedCornerColor: Colors.red,
               showBottomBorder: true,
-              minWidth: 2200.w,
-
-              // columnSpacing: 40,
+              minWidth: 2200,
+              horizontalMargin: 0,
+              bottomMargin: 5,
               headingRowColor: WidgetStateColor.resolveWith(
                 (states) => const Color(0xffD9D9D9),
               ),
-
               columns: [
                 for (var column in columns)
                   DataColumn(
-                    label: Text(
-                      column ?? 'Unknown',
-                      textAlign: TextAlign.center,
-                      style: topStyle,
+                    label: Center(
+                      child: Text(
+                        column ?? 'Unknown',
+                        textAlign: TextAlign.center,
+                        style: topStyle,
+                      ),
                     ),
                   ),
               ],
@@ -93,20 +91,34 @@ class ModelTable extends ConsumerWidget {
                     (states) => const Color(0xffEEEEEE),
                   ),
                   cells: [
-                    DataCell(Text(row['Price Band']?.toString() ?? '')),
-                    DataCell(Text(row['Market Name']?.toString() ?? '')),
-                    DataCell(Text(row['MODEL NAME']?.toString() ?? '')),
-                    DataCell(Text(row['Model Target']?.toString() ?? '')),
-                    DataCell(Text(row['LMTD']?.toString() ?? '')),
-                    DataCell(Text(row['MTD']?.toString() ?? '')),
-                    DataCell(Text(row['FTD Vol']?.toString() ?? '')),
-                    DataCell(Text(row['% Gwth']?.toString() ?? '')),
-                    DataCell(Text(row['ADS']?.toString() ?? '')),
-                    DataCell(Text(row['DP']?.toString() ?? '')),
-                    DataCell(Text(row['Mkt Stk']?.toString() ?? '')),
-                    DataCell(Text(row['Dmdd Stk']?.toString() ?? '')),
-                    DataCell(Text(row['M+S']?.toString() ?? '')),
-                    DataCell(Text(row['DOS']?.toString() ?? '')),
+                    DataCell(Center(
+                        child: Text(row['Price Band']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(
+                      row['Market Name']?.toString() ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ))),
+                    DataCell(Center(
+                        child: Text(row['MODEL NAME']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Model Target']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['LMTD']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['MTD']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['FTD Vol']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['% Gwth']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['DP']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Mkt Stk']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Dmdd Stk']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['M+S']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['DOS']?.toString() ?? ''))),
                   ],
                 );
               }),
@@ -190,23 +202,22 @@ class ModelTablePositionWise extends ConsumerWidget {
               dividerThickness: 2.5,
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
-              // fixedLeftColumns: 1,
-              // fixedColumnsColor: Colors.green,
-              // fixedCornerColor: Colors.red,
               showBottomBorder: true,
               minWidth: 2000,
-              // columnSpacing: 40,
+              horizontalMargin: 0,
+              bottomMargin: 5,
               headingRowColor: WidgetStateColor.resolveWith(
                 (states) => const Color(0xffD9D9D9),
               ),
-
               columns: [
                 for (var column in columns)
                   DataColumn(
-                    label: Text(
-                      column ?? 'Unknown',
-                      textAlign: TextAlign.center,
-                      style: topStyle,
+                    label: Center(
+                      child: Text(
+                        column ?? 'Unknown',
+                        textAlign: TextAlign.center,
+                        style: topStyle,
+                      ),
                     ),
                   ),
               ],
@@ -218,20 +229,29 @@ class ModelTablePositionWise extends ConsumerWidget {
                     (states) => const Color(0xffEEEEEE),
                   ),
                   cells: [
-                    DataCell(Text(row['Price Band']?.toString() ?? '')),
-                    DataCell(Text(row['Market Name']?.toString() ?? '')),
-                    DataCell(Text(row['MODEL NAME']?.toString() ?? '')),
-                    DataCell(Text(row['Model Target']?.toString() ?? '')),
-                    DataCell(Text(row['LMTD']?.toString() ?? '')),
-                    DataCell(Text(row['MTD']?.toString() ?? '')),
-                    DataCell(Text(row['FTD Vol']?.toString() ?? '')),
-                    DataCell(Text(row['% Gwth']?.toString() ?? '')),
-                    DataCell(Text(row['ADS']?.toString() ?? '')),
-                    DataCell(Text(row['DP']?.toString() ?? '')),
-                    DataCell(Text(row['Mkt Stk']?.toString() ?? '')),
-                    DataCell(Text(row['Dmdd Stk']?.toString() ?? '')),
-                    DataCell(Text(row['M+S']?.toString() ?? '')),
-                    DataCell(Text(row['DOS']?.toString() ?? '')),
+                    DataCell(Center(
+                        child: Text(row['Price Band']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Market Name']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['MODEL NAME']?.toString() ?? ''))),
+                    DataCell(Center(
+                        child: Text(row['Model Target']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['LMTD']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['MTD']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['FTD Vol']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['% Gwth']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['DP']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Mkt Stk']?.toString() ?? ''))),
+                    DataCell(
+                        Center(child: Text(row['Dmdd Stk']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['M+S']?.toString() ?? ''))),
+                    DataCell(Center(child: Text(row['DOS']?.toString() ?? ''))),
                   ],
                 );
               }),

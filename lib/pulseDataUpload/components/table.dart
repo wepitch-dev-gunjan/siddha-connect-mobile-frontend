@@ -7,6 +7,7 @@ import '../repo/product_repo.dart';
 final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
   final data = await productRepo.getExtractionRecord();
+  ref.keepAlive();
   return data;
 });
 
@@ -57,13 +58,10 @@ class ShowTable extends ConsumerWidget {
               final row = rows[index];
               return DataRow(
                 cells: [
-                  DataCell(SizedBox(
-                    width: 500,
-                    child: Center(
-                      child: Text(
-                        row['dealerCode']?.toString() ?? '',
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  DataCell(Center(
+                    child: Text(
+                      row['dealerCode']?.toString() ?? '',
+                      overflow: TextOverflow.ellipsis,
                     ),
                   )),
                   DataCell(Center(

@@ -57,7 +57,9 @@ class FullSizeBtn extends ConsumerWidget {
               ? const ChannelTable()
               : const ChannelTablePositionWise()
         else if (selectedButtonIndex == 2)
-          selectedBtn == 0 ? const ModelTable() : const ModelTablePositionWise()
+          selectedBtn == 0
+              ? const ModelTable()
+              : const ModelTablePositionWise(),
       ],
     );
   }
