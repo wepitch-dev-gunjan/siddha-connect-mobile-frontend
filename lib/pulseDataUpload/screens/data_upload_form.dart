@@ -637,7 +637,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                     ),
                   ],
                 );
-              }).toList(),
+              }),
             ],
           ),
         );

@@ -21,7 +21,7 @@ class PulseDataScreen extends StatelessWidget {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-                Expanded(child: ShowTable()),
+               const  Expanded(child: ShowTable()),
             ],
           ),
         ],

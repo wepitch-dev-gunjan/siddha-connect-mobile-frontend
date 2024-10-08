@@ -57,9 +57,7 @@ class TopNames extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
-      ),
+      loading: () => const SizedBox(),
       error: (error, stackTrace) => const Center(
         child: Text("Something went wrong"),
       ),

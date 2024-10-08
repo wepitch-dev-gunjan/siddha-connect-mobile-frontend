@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -134,43 +136,100 @@ class ShowTable extends ConsumerWidget {
       ),
       loading: () => const Center(
         child: CircularProgressIndicator(
-          color: Colors.blue,
+          color: AppColor.primaryColor,
           strokeWidth: 3,
         ),
       ),
     );
   }
 
+  // void deleteRow(WidgetRef ref, int index, Map<String, dynamic> row) {
+  //   showDialog(
+  //     context: ref.context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         backgroundColor: Colors.white,
+  //         title: const Text('Confirm Deletion'),
+  //         content: const Text('Are you sure you want to delete this item?'),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.pop(context);
+  //             },
+  //             child: const Text(
+  //               'Cancel',
+  //               style: TextStyle(color: AppColor.primaryColor),
+  //             ),
+  //           ),
+  //           TextButton(
+  //             onPressed: () {
+  //               // log('Deleting row with ID: ${row['Id']}');
+  //               Navigator.pop(context);
+  //             },
+  //             child: const Text(
+  //               'OK',
+  //               style: TextStyle(color: AppColor.primaryColor),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   void deleteRow(WidgetRef ref, int index, Map<String, dynamic> row) {
     showDialog(
       context: ref.context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this item?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: AppColor.primaryColor),
-              ),
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(11),
             ),
-            TextButton(
-              onPressed: () {
-                // log('Deleting row with ID: ${row['Id']}');
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'OK',
-                style: TextStyle(color: AppColor.primaryColor),
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Confirm Deletion',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text('Are you sure you want to delete this item?'),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: AppColor.primaryColor),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    TextButton(
+                      onPressed: () {
+                        log('Deleting row with ID: ${row['Id']}');
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'OK',
+                        style: TextStyle(color: AppColor.primaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
