@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/utils/common_style.dart';
-import 'package:siddha_connect/utils/fields.dart';
-import 'package:siddha_connect/utils/sizes.dart';
 import '../repo/product_repo.dart';
 
 final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
@@ -18,7 +14,7 @@ final getExtractionRecordProvider = FutureProvider.autoDispose((ref) async {
 
 // Example widget to show table with Edit and Delete functionality
 class ShowTable extends ConsumerWidget {
-  ShowTable({super.key});
+  const ShowTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -145,74 +141,6 @@ class ShowTable extends ConsumerWidget {
     );
   }
 
-  // void editRow(BuildContext context, Map<String, dynamic> row) {
-  //   // Log the row ID
-  //   log('Editing row with ID: ${row['Id']}');
-
-  //   // Open dialog or screen to edit the row data
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         backgroundColor: Colors.white,
-  //         title: const Text('Edit Row'),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             TxtField(
-  //               contentPadding: contentPadding,
-  //               capitalization: TextCapitalization.characters,
-  //               labelText: "Code",
-  //               maxLines: 1,
-  //               controller: TextEditingController(text: row['dealerCode']),
-  //               keyboardType: TextInputType.text,
-  //               validator: validateCode,
-  //             ),
-  //             heightSizedBox(8.0),
-  //             TxtField(
-  //               contentPadding: contentPadding,
-  //               capitalization: TextCapitalization.characters,
-  //               labelText: "Code",
-  //               maxLines: 1,
-  //               controller: TextEditingController(text: row['dealerCode']),
-  //               keyboardType: TextInputType.text,
-  //               validator: validateCode,
-  //             ),
-  //             heightSizedBox(8.0),
-  //             TxtField(
-  //               contentPadding: contentPadding,
-  //               capitalization: TextCapitalization.characters,
-  //               labelText: "Code",
-  //               maxLines: 1,
-  //               controller: TextEditingController(text: row['dealerCode']),
-  //               keyboardType: TextInputType.text,
-  //               validator: validateCode,
-  //             ),
-  //             heightSizedBox(8.0),
-  //             TxtField(
-  //               contentPadding: contentPadding,
-  //               capitalization: TextCapitalization.characters,
-  //               labelText: "Code",
-  //               maxLines: 1,
-  //               controller: TextEditingController(text: row['dealerCode']),
-  //               keyboardType: TextInputType.text,
-  //               validator: validateCode,
-  //             ),
-  //           ],
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               // Handle save
-  //               Navigator.pop(context);
-  //             },
-  //             child: const Text('Save'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   void deleteRow(WidgetRef ref, int index, Map<String, dynamic> row) {
     showDialog(
@@ -248,6 +176,20 @@ class ShowTable extends ConsumerWidget {
     );
   }
 }
+
+var tableTitleStyle = GoogleFonts.lato(
+  textStyle: const TextStyle(
+      fontSize: 11.5, fontWeight: FontWeight.w600, color: Colors.white),
+);
+
+
+
+
+
+
+
+
+//=====================! WithOut delete Table !================================
 
 // class ShowTable extends ConsumerWidget {
 //   const ShowTable({super.key});
@@ -363,18 +305,3 @@ class ShowTable extends ConsumerWidget {
 //   }
 // }
 
-DataColumn titleColumn({required String label}) {
-  return DataColumn(
-    label: Center(
-      child: Text(
-        label,
-        style: tableTitleStyle,
-      ),
-    ),
-  );
-}
-
-var tableTitleStyle = GoogleFonts.lato(
-  textStyle: const TextStyle(
-      fontSize: 11.5, fontWeight: FontWeight.w600, color: Colors.white),
-);
