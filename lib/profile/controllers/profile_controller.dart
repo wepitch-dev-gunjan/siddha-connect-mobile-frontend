@@ -23,7 +23,7 @@ class ProfileController {
     try {
       final res = await profileRepo.dealerProfileUpdateRepo(data: data);
       if (res['message'] == "Dealer profile updated successfully.") {
-        ref.refresh(getDealerProfileProvider);
+       var refreshdData= ref.refresh(getDealerProfileProvider);
         navigatePushReplacement(const ProfileScreen());
         showSnackBarMsg("${res['message']}", color: Colors.green);
       }

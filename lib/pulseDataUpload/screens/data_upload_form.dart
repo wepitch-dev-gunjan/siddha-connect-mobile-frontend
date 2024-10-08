@@ -93,7 +93,7 @@ class UploadForm extends ConsumerWidget {
                   .read(productRepoProvider)
                   .extractionDataUpload(data: dataToSend)
                   .then((_) {
-                ref.refresh(getExtractionRecordProvider);
+                var refreshedData = ref.refresh(getExtractionRecordProvider);
                 ref.read(modelQuantityProvider.notifier).state = {};
                 ref.read(selectedDealerProvider.notifier).state = null;
                 ref.read(selectedBrandProvider.notifier).state = null;
