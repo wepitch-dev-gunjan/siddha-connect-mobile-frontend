@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/profile/repo/profileRepo.dart';
 import 'package:siddha_connect/pulseDataUpload/screens/extraction_data_upload.dart';
-import 'package:siddha_connect/uploadSalesData/screens/upload_channel-target.dart';
+import 'package:siddha_connect/uploadSalesData/screens/upload_channel_targets.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_sales_data.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_segment_target.dart';
 import 'package:siddha_connect/uploadSalesData/screens/upload_model_data.dart';
