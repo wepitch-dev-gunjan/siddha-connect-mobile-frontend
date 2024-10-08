@@ -244,7 +244,9 @@ class SalesDashboardRepo {
           endDate, dataFormat, dealerCode, tdFormat);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+       log(e.toString());
+    }
   }
 
 //=============================! Get Dealer Dashboard Data !=====================================
@@ -261,7 +263,9 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+       log(e.toString());
+    }
   }
 
   //=============================! Get Dealer Channel Data !=====================================
@@ -279,7 +283,9 @@ class SalesDashboardRepo {
           endDate, dataFormat, dealerCode, tdFormat);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+       log(e.toString());
+    }
   }
 
   //=============================! Get DealerListData !=====================================
@@ -297,7 +303,9 @@ class SalesDashboardRepo {
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+       log(e.toString());
+    }
   }
 
   getSalesDataSegmetWiseForEmployes(

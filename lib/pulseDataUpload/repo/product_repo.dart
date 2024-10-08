@@ -51,7 +51,9 @@ class ProductRepo {
           await ApiMethod(url: ApiUrl.getExtractionRecord, token: token)
               .getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   pulseDataUpload({required Map data}) async {

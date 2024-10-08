@@ -11,7 +11,7 @@ import '../../../salesDashboard/component/date_picker.dart';
 import '../../../utils/buttons.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
-import 'getDealer_profile.dart';
+import 'get_dealer_profile.dart';
 
 class DelarProfileEditScreen extends ConsumerWidget {
   DelarProfileEditScreen({super.key});

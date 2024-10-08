@@ -21,7 +21,6 @@ class AuthController {
   registerController({required Map data}) async {
     try {
       final res = await authRepo.userRegisterRepo(data: data);
-      log("res$res");
       if (res['user']['verified'] == false) {
         ref
             .watch(secureStoargeProvider)
@@ -33,15 +32,15 @@ class AuthController {
             .writeData(key: 'authToken', value: res['token']);
         navigateTo(const SalesDashboard());
       }
-
       return res;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   userLogin({required Map data}) async {
     try {
       final res = await authRepo.userLoginRepo(data: data);
-      log("RespLogin$res");
       if (res['message'] == 'User logged in successfully' &&
           res['verified'] == true) {
         await ref
@@ -56,13 +55,14 @@ class AuthController {
         navigateTo(const StatusScreen());
       }
       return res;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   dealerRegisterController({required Map data}) async {
     try {
       final res = await authRepo.dealerRegisterRepo(data: data);
-      log("resDealer$res");
       if (res['data']['verified'] == false) {
         await ref
             .read(secureStoargeProvider)
@@ -72,11 +72,9 @@ class AuthController {
       } else {
         navigatePushReplacement(const SalesDashboard());
       }
-
       return res;
     } catch (e) {
-      print('Error in dealerRegisterController: $e');
-      throw e;
+      log(e.toString());
     }
   }
 }

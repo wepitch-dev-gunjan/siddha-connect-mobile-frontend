@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/profile/repo/profileRepo.dart';
+import 'package:siddha_connect/profile/repo/profile_repo.dart';
 import 'package:siddha_connect/utils/fields.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../../utils/common_style.dart';
-import 'updateDealer_profile.dart';
+import 'update_dealer_profile.dart';
 
 final getDealerProfileProvider = FutureProvider.autoDispose((ref) async {
   final getDealerVerified =
@@ -483,7 +483,7 @@ class GetChildrensInfo extends ConsumerWidget {
                     heightSizedBox(10.0),
                   ],
                 );
-              }).toList(),
+              }),
             ],
           );
   }
@@ -537,7 +537,7 @@ class GetOtherFamilyMember extends ConsumerWidget {
                     heightSizedBox(8.0),
                   ],
                 );
-              }).toList(),
+              }),
             ],
           );
   }
@@ -594,7 +594,7 @@ class GetOtherImportantDates extends ConsumerWidget {
                     heightSizedBox(8.0),
                   ],
                 );
-              }).toList(),
+              }),
             ],
           );
   }

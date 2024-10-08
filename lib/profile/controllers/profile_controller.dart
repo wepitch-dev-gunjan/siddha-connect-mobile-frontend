@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/profile/repo/profileRepo.dart';
-import 'package:siddha_connect/profile/screen/dealerProfile/getDealer_profile.dart';
+import 'package:siddha_connect/profile/repo/profile_repo.dart';
+import 'package:siddha_connect/profile/screen/dealerProfile/get_dealer_profile.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 
@@ -27,8 +29,7 @@ class ProfileController {
       }
       return res;
     } catch (e) {
-      print('Error in dealerRegisterController: $e');
-      throw e;
+      log('Error in dealerRegisterController: $e');
     }
   }
 }

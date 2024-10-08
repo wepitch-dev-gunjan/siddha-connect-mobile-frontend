@@ -1,9 +1,9 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/utils/api_method.dart';
 import 'package:siddha_connect/utils/secure_storage.dart';
-
 import '../../utils/message.dart';
 
 final profileRepoProvider =
@@ -22,7 +22,9 @@ class ProfileRepo {
 
       // log("Profile=====>>>>>>>$response");
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   getDealerProfile() async {
@@ -35,7 +37,9 @@ class ProfileRepo {
 
       // log("Profile=====>>>>>>>$response");
       return response;
-    } catch (e) {}
+    } catch (e) {
+       log(e.toString());
+    }
   }
 
   dealerProfileUpdateRepo({required Map data}) async {
@@ -51,7 +55,6 @@ class ProfileRepo {
       return null;
     }
   }
-  
 }
 
 final profileStatusControllerProvider = StateProvider.autoDispose((ref) async {
@@ -59,12 +62,4 @@ final profileStatusControllerProvider = StateProvider.autoDispose((ref) async {
   return getprofileStatus;
 });
 
-// final getNameProvider = StateProvider.autoDispose((ref) async {
-//   final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
-//   return getprofileStatus['name'];
-// });
 
-// final getRoleProvider = StateProvider.autoDispose((ref) async {
-//   final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
-//   return getprofileStatus['role'];
-// });

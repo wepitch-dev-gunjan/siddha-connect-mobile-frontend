@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,6 +54,8 @@ class AuthRepo {
           await ApiMethod(url: ApiUrl.isDealerVerified, token: token)
               .getDioRequest();
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

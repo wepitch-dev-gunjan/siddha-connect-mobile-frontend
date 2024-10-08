@@ -35,7 +35,6 @@ class SalesDataUploadRepo {
         );
         navigatePushReplacement(const SalesDashboard());
       }
-    
 
       return response;
     } catch (e) {
@@ -60,7 +59,9 @@ class SalesDataUploadRepo {
         navigatePushReplacement(const SalesDashboard());
       }
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   channelTargetUpload({required File file}) async {
@@ -81,7 +82,9 @@ class SalesDataUploadRepo {
         navigatePushReplacement(const SalesDashboard());
       }
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   segmentTargetUpload({required File file}) async {
@@ -102,6 +105,8 @@ class SalesDataUploadRepo {
         navigatePushReplacement(const SalesDashboard());
       }
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

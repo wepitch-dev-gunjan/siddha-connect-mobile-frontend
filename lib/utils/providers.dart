@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/profile/repo/profileRepo.dart';
+import 'package:siddha_connect/profile/repo/profile_repo.dart';
 import '../auth/repo/auth_repo.dart';
 import '../salesDashboard/repo/sales_dashboard_repo.dart';
 
