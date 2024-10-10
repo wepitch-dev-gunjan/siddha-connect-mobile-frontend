@@ -30,15 +30,15 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       designSize: ScreenUtil.defaultSize,
       child: MaterialApp(
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: snackbarKey,
-          debugShowCheckedModeBanner: false,
-          title: 'Siddha Connect',
-          home: SplashScreen()
-          // home: const ConnectivityNotifier(
-          //   child: SplashScreen(),
-          // ),
-          ),
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: snackbarKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Siddha Connect',
+        // home: SplashScreen()
+        home: const ConnectivityNotifier(
+          child: SplashScreen(),
+        ),
+      ),
       // home:const  SplashScreen(),
     );
   }

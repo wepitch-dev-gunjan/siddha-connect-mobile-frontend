@@ -110,8 +110,7 @@ Future<DateTime?> selectDate(BuildContext context) async {
             onPrimary: Colors.white,
             onSurface: Colors.black,
           ),
-          dialogBackgroundColor:
-              Colors.white, // Background color of the date picker
+          dialogBackgroundColor: Colors.white,
         ),
         child: child!,
       );
