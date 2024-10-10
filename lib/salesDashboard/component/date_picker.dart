@@ -101,6 +101,7 @@ Future<DateTime?> selectDate(BuildContext context) async {
     initialDate: DateTime.now(),
     firstDate: DateTime(1970),
     lastDate: DateTime.now(),
+    barrierDismissible: false,
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
