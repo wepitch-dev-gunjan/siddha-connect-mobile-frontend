@@ -1,12 +1,14 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:siddha_connect/utils/responsive.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
 import '../component/dashboard_small_btn.dart';
 import '../repo/sales_dashboard_repo.dart';
+import 'segment_position_wise.dart';
 
 final modelWiseDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
@@ -64,7 +66,7 @@ class ModelTable extends ConsumerWidget {
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
               showBottomBorder: true,
-              minWidth: 2200,
+              minWidth: Responsive.isTablet(context) ? 1200.w : 2200.w,
               horizontalMargin: 0,
               bottomMargin: 5,
               headingRowColor: WidgetStateColor.resolveWith(
@@ -77,7 +79,7 @@ class ModelTable extends ConsumerWidget {
                       child: Text(
                         column ?? 'Unknown',
                         textAlign: TextAlign.center,
-                        style: topStyle,
+                        style: tableTitleStyle(context),
                       ),
                     ),
                   ),
@@ -91,33 +93,52 @@ class ModelTable extends ConsumerWidget {
                   ),
                   cells: [
                     DataCell(Center(
-                        child: Text(row['Price Band']?.toString() ?? ''))),
+                        child: Text(row['Price Band']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                     DataCell(Center(
                         child: Text(
                       row['Market Name']?.toString() ?? '',
+                      style: tableRowStyle(context),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       textAlign: TextAlign.center,
                     ))),
                     DataCell(Center(
-                        child: Text(row['MODEL NAME']?.toString() ?? ''))),
+                        child: Text(row['MODEL NAME']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                     DataCell(Center(
-                        child: Text(row['Model Target']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['LMTD']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['MTD']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['FTD Vol']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['% Gwth']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['DP']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['Mkt Stk']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['Dmdd Stk']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['M+S']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['DOS']?.toString() ?? ''))),
+                        child: Text(row['Model Target']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['LMTD']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['MTD']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['FTD Vol']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['% Gwth']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['ADS']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['DP']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['Mkt Stk']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['Dmdd Stk']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['M+S']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['DOS']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                   ],
                 );
               }),
@@ -202,7 +223,7 @@ class ModelTablePositionWise extends ConsumerWidget {
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
               showBottomBorder: true,
-              minWidth: 2000,
+              minWidth: Responsive.isTablet(context) ? 1200.w : 2000.w,
               horizontalMargin: 0,
               bottomMargin: 5,
               headingRowColor: WidgetStateColor.resolveWith(
@@ -215,7 +236,7 @@ class ModelTablePositionWise extends ConsumerWidget {
                       child: Text(
                         column ?? 'Unknown',
                         textAlign: TextAlign.center,
-                        style: topStyle,
+                        style: tableTitleStyle(context),
                       ),
                     ),
                   ),
@@ -229,33 +250,52 @@ class ModelTablePositionWise extends ConsumerWidget {
                   ),
                   cells: [
                     DataCell(Center(
-                        child: Text(row['Price Band']?.toString() ?? ''))),
+                        child: Text(row['Price Band']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                     DataCell(Center(
                         child: Text(
                       row['Market Name']?.toString() ?? '',
+                      style: tableRowStyle(context),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                     ))),
                     DataCell(Center(
-                        child: Text(row['MODEL NAME']?.toString() ?? ''))),
+                        child: Text(row['MODEL NAME']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                     DataCell(Center(
-                        child: Text(row['Model Target']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['LMTD']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['MTD']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['FTD Vol']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['% Gwth']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['ADS']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['DP']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['Mkt Stk']?.toString() ?? ''))),
-                    DataCell(
-                        Center(child: Text(row['Dmdd Stk']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['M+S']?.toString() ?? ''))),
-                    DataCell(Center(child: Text(row['DOS']?.toString() ?? ''))),
+                        child: Text(row['Model Target']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['LMTD']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['MTD']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['FTD Vol']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['% Gwth']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['ADS']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['DP']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['Mkt Stk']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['Dmdd Stk']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['M+S']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
+                    DataCell(Center(
+                        child: Text(row['DOS']?.toString() ?? '',
+                            style: tableRowStyle(context)))),
                   ],
                 );
               }),
@@ -277,7 +317,3 @@ class ModelTablePositionWise extends ConsumerWidget {
     );
   }
 }
-
-var topStyle = GoogleFonts.lato(
-  textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
-);

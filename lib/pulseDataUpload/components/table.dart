@@ -58,14 +58,14 @@ class ShowTable extends ConsumerWidget {
                     label: Center(
                         child: Text(
                   column ?? "N/A",
-                  style: tableTitleStyle,
+                  style: tableTitleStyleExtraction,
                 ))),
               // Add an extra column for actions (Edit/Delete)
               DataColumn(
                   label: Center(
                       child: Text(
                 'Actions',
-                style: tableTitleStyle,
+                style: tableTitleStyleExtraction,
               ))),
             ],
             rows: List.generate(rows.length, (index) {
@@ -236,7 +236,7 @@ class ShowTable extends ConsumerWidget {
   }
 }
 
-var tableTitleStyle = GoogleFonts.lato(
+var tableTitleStyleExtraction = GoogleFonts.lato(
   textStyle: const TextStyle(
       fontSize: 11.5, fontWeight: FontWeight.w600, color: Colors.white),
 );

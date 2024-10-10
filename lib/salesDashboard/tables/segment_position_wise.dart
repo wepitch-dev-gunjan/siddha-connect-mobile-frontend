@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
+import '../../utils/responsive.dart';
 import '../component/dashboard_small_btn.dart';
 import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
@@ -87,7 +88,7 @@ class SegmentTablePositionWise extends ConsumerWidget {
                         child: Text(
                           column ?? 'Unknown', // Add a fallback label
                           textAlign: TextAlign.center,
-                          style: topStyle,
+                          style: tableTitleStyle(context),
                         ),
                       ),
                     ),
@@ -102,7 +103,10 @@ class SegmentTablePositionWise extends ConsumerWidget {
                   ),
                   cells: [
                     DataCell(Center(
-                        child: Text(row['Segment Wise']?.toString() ?? ''))),
+                        child: Text(
+                      row['Segment Wise']?.toString() ?? '',
+                      style: tableRowStyle(context),
+                    ))),
                     DataCell(Center(
                         child: Text(row['Target Vol']?.toString() ?? ''))),
                     DataCell(
@@ -155,6 +159,16 @@ class SegmentTablePositionWise extends ConsumerWidget {
   }
 }
 
-var topStyle = GoogleFonts.lato(
-  textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
-);
+tableTitleStyle(BuildContext context) {
+  return GoogleFonts.lato(
+      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold));
+}
+
+tableRowStyle(BuildContext context) {
+  return GoogleFonts.lato(
+    textStyle: TextStyle(
+        fontSize: 14,
+        fontWeight:
+            Responsive.isMobile(context) ? FontWeight.w400 : FontWeight.w500),
+  );
+}
