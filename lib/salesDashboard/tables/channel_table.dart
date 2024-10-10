@@ -233,7 +233,7 @@ class ChannelTablePositionWise extends ConsumerWidget {
               horizontalMargin: 0,
               bottomMargin: 5,
               showBottomBorder: true,
-              minWidth: 2000,
+              minWidth: Responsive.isTablet(context) ? 1200.w : 2000.w,
               headingRowColor: WidgetStateColor.resolveWith(
                 (states) => const Color(0xffD9D9D9),
               ),

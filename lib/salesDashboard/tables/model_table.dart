@@ -93,7 +93,7 @@ class ModelTable extends ConsumerWidget {
                   ),
                   cells: [
                     DataCell(Center(
-                        child: Text(row['Price Band']?.toString() ?? '',
+                        child: Text(row['Price Band']?.toString() ?? 'N/A',
                             style: tableRowStyle(context)))),
                     DataCell(Center(
                         child: Text(
