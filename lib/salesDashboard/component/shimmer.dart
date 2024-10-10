@@ -95,12 +95,14 @@ class DashboardComp extends StatelessWidget {
   final String title, value;
   final Color? valueColor;
   final double? titleSize;
+  final TextOverflow? overflow;
   const DashboardComp(
       {super.key,
       required this.title,
       required this.value,
       this.valueColor,
-      this.titleSize});
+      this.titleSize,
+      this.overflow});
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +130,7 @@ class DashboardComp extends StatelessWidget {
               ),
               Text(
                 value,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.leagueSpartan(
                   textStyle: TextStyle(
                     fontSize: 25.sp,

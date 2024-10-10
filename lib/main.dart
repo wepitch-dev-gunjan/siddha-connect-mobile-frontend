@@ -8,7 +8,6 @@ import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'connectivity/connectivity_widget.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -35,9 +34,11 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: snackbarKey,
           debugShowCheckedModeBanner: false,
           title: 'Siddha Connect',
+          // home: SplashScreen()
           home: const ConnectivityNotifier(
             child: SplashScreen(),
-          )),
+          ),
+          ),
       // home:const  SplashScreen(),
     );
   }

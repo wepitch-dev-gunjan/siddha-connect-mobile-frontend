@@ -30,7 +30,7 @@ class TopRadioButtons extends ConsumerWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 15.w),
                     margin: EdgeInsets.only(right: 5.w),
-                    height: 40.h,
+                    // height: 40.h,
                     width: width(context),
                     decoration: BoxDecoration(
                         border: Border.all(width: .8),
@@ -67,7 +67,7 @@ class TopRadioButtons extends ConsumerWidget {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    height: 40.h,
+                    // height: 40.h,
                     width: width(context),
                     decoration: BoxDecoration(
                         border: Border.all(width: .8),
@@ -159,7 +159,7 @@ class CustomRadioButton extends StatelessWidget {
             Text(
               displayValue,
               style: GoogleFonts.lato(
-                  textStyle:  TextStyle(
+                  textStyle: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w500,
                       color: Colors.black)),
@@ -171,7 +171,3 @@ class CustomRadioButton extends StatelessWidget {
     );
   }
 }
-
-
-
-
