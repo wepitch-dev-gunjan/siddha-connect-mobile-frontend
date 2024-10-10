@@ -84,12 +84,37 @@ class DatePickerContainer extends ConsumerWidget {
   }
 }
 
+// Future<DateTime?> selectDate(BuildContext context) async {
+//   final DateTime? pickedDate = await showDatePicker(
+//     context: context,
+//     initialDate: DateTime.now(),
+//     firstDate: DateTime(1970),
+//     lastDate: DateTime.now(),
+//   );
+
+//   return pickedDate;
+// }
+
 Future<DateTime?> selectDate(BuildContext context) async {
   final DateTime? pickedDate = await showDatePicker(
     context: context,
     initialDate: DateTime.now(),
     firstDate: DateTime(1970),
     lastDate: DateTime.now(),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: const ColorScheme.light(
+            primary: AppColor.primaryColor,
+            onPrimary: Colors.white,
+            onSurface: Colors.black,
+          ),
+          dialogBackgroundColor:
+              Colors.white, // Background color of the date picker
+        ),
+        child: child!,
+      );
+    },
   );
 
   return pickedDate;
