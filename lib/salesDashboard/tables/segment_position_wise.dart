@@ -90,7 +90,9 @@ class SegmentTablePositionWise extends ConsumerWidget {
                       },
                       child: Center(
                         child: Text(
-                          column ?? 'Unknown', // Add a fallback label
+                          column ?? 'Unknown',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                           textAlign: TextAlign.center,
                           style: tableTitleStyle(context),
                         ),

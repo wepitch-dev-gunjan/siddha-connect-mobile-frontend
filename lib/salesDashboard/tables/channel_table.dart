@@ -85,6 +85,8 @@ class ChannelTable extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
+                           overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),
@@ -249,6 +251,8 @@ class ChannelTablePositionWise extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
+                           overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),

@@ -81,6 +81,8 @@ class ModelTable extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),
@@ -241,6 +243,8 @@ class ModelTablePositionWise extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),
