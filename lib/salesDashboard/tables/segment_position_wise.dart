@@ -73,6 +73,9 @@ class SegmentTablePositionWise extends ConsumerWidget {
               fixedTopRows: 2,
               horizontalMargin: 0,
               bottomMargin: 5,
+              fixedLeftColumns: 1,
+              fixedColumnsColor: const Color(0xffEEEEEE),
+              fixedCornerColor: const Color(0xffD9D9D9),
               showBottomBorder: true,
               minWidth: Responsive.isTablet(context) ? 1200.w : 2000.w,
               headingRowColor: WidgetStateColor.resolveWith(
