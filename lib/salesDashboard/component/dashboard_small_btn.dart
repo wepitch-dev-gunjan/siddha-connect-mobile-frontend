@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -288,7 +289,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
     final selectedDealer = ref.watch(selectedDealerProvider);
     final dealerListData = ref.watch(getDealerListDataProvider);
 
-    List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
+    // List<String> dealers = ["Dealer 1", "Dealer 2", "Dealer 3"];
 
     String dropdownLabel = selectedDealer.isEmpty
         ? dealerCategory
@@ -398,6 +399,7 @@ class DealerSelectionDropdown extends ConsumerWidget {
 
               return dealerDataProvider.when(
                 data: (dealerData) {
+                  log("DealerData$dealerData");
                   if (dealerData == null || dealerData.isEmpty) {
                     return const Center(
                       child: Text("No dealers available"),

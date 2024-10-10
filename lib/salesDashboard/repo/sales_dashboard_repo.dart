@@ -10,6 +10,8 @@ class SalesDashboardRepo {
   final AutoDisposeProviderRef<Object?> ref;
   SalesDashboardRepo({required this.ref});
 
+//=============================! Get Sales Dashboard Data !==================================
+
   getSalesDashboardData(
       {String? tdFormat,
       String? dataFormat,
@@ -27,6 +29,7 @@ class SalesDashboardRepo {
       // log(e.toString());
     }
   }
+//=============================! Get Sales Dashboard Data BY Employee !==================================
 
   getSalesDashboardDataByEmployeeName(
       {String? tdFormat,
@@ -46,6 +49,7 @@ class SalesDashboardRepo {
       // log(e.toString());
     }
   }
+//=============================! Get Sales Dashboard Data By DealerCode !==================================
 
   getSalesDashboardDataByDealerCode(
       {String? tdFormat,
@@ -70,24 +74,7 @@ class SalesDashboardRepo {
     }
   }
 
-  getChannelWiseData(
-      {String? tdFormat,
-      String? dataFormat,
-      String? firstDate,
-      String? lastDate,
-      String? position,
-      String? name}) async {
-    try {
-      final token = await ref.read(secureStoargeProvider).readData('authToken');
-      String url = urlFormat(ApiUrl.getChannelData, tdFormat, dataFormat,
-          firstDate, lastDate, position, name);
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
-      return response;
-    } catch (e) {
-      // log(e.toString());
-    }
-  }
-
+//=============================! Get Segment Wise Data !==================================
   getSegmentAllData(
       {String? tdFormat,
       String? dataFormat,
@@ -105,6 +92,7 @@ class SalesDashboardRepo {
       // log(e.toString());
     }
   }
+//=============================! Get Segment Position Wise Data !==================================
 
   getSegmentPositionWiseData(
       {String? tdFormat,
@@ -132,6 +120,26 @@ class SalesDashboardRepo {
     }
   }
 
+//=============================! Get Channel Wise Data !==================================
+  getChannelWiseData(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? position,
+      String? name}) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = urlFormat(ApiUrl.getChannelData, tdFormat, dataFormat,
+          firstDate, lastDate, position, name);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      return response;
+    } catch (e) {
+      // log(e.toString());
+    }
+  }
+
+//=============================! Get Channel Position Wise Data !==================================
   getChannelPositionWiseData(
       {String? tdFormat,
       String? dataFormat,
@@ -157,6 +165,29 @@ class SalesDashboardRepo {
     }
   }
 
+//=============================! Get Model Wise Data !===========================
+
+  getModelWiseData(
+      {String? tdFormat,
+      String? dataFormat,
+      String? firstDate,
+      String? lastDate,
+      String? name,
+      String? position}) async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
+          firstDate, lastDate, position, name);
+      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      return response;
+    } catch (e) {
+      // log(e.toString());
+      return null;
+    }
+  }
+
+//=============================! Get Model Position Wise Data !===========================
+
   getModelPositionWiseData(
       {String? tdFormat,
       String? dataFormat,
@@ -178,25 +209,8 @@ class SalesDashboardRepo {
     }
   }
 
-  getModelWiseData(
-      {String? tdFormat,
-      String? dataFormat,
-      String? firstDate,
-      String? lastDate,
-      String? name,
-      String? position}) async {
-    try {
-      final token = await ref.read(secureStoargeProvider).readData('authToken');
-      String url = urlFormatTse(ApiUrl.getModelData, tdFormat, dataFormat,
-          firstDate, lastDate, position, name);
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
-      return response;
-    } catch (e) {
-      // log(e.toString());
-      return null;
-    }
-  }
 
+//=============================! Get Dealer Model Wise Data !===========================
   getDealerModelWiseData(
       {String? tdFormat,
       String? dataFormat,
@@ -215,6 +229,8 @@ class SalesDashboardRepo {
       return null;
     }
   }
+
+//=============================! Get All Subordinates !===========================
 
   getAllSubordinates() async {
     try {
@@ -245,7 +261,7 @@ class SalesDashboardRepo {
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-       log(e.toString());
+      log(e.toString());
     }
   }
 
@@ -264,7 +280,7 @@ class SalesDashboardRepo {
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-       log(e.toString());
+      log(e.toString());
     }
   }
 
@@ -284,7 +300,7 @@ class SalesDashboardRepo {
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-       log(e.toString());
+      log(e.toString());
     }
   }
 
@@ -298,13 +314,15 @@ class SalesDashboardRepo {
     String? tdFormat,
   }) async {
     try {
+      log("StartDate$startDate, EndDate$endDate, DataFormat$dataFormat, DealerCategory$dealerCategory, TD Foramat$tdFormat");
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
+      log("URl:$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
-       log(e.toString());
+      log(e.toString());
     }
   }
 
@@ -374,7 +392,6 @@ class SalesDashboardRepo {
     }
   }
 }
-
 
 //================================! URL Format !==============================
 

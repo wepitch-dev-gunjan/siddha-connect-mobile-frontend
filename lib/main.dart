@@ -8,6 +8,7 @@ import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'connectivity/connectivity_widget.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
