@@ -2,7 +2,6 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:siddha_connect/main.dart';
 import 'package:siddha_connect/utils/responsive.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
@@ -75,6 +74,9 @@ class SegmentTable extends ConsumerWidget {
               bottomMargin: 5,
               columnSpacing: columnSpacing,
               fixedTopRows: 2,
+              fixedLeftColumns: 1,
+              fixedColumnsColor: const Color(0xffEEEEEE),
+              fixedCornerColor: const Color(0xffD9D9D9),
               showBottomBorder: true,
               minWidth: Responsive.isTablet(context) ? 1200.w : 2000.w,
               headingRowColor: WidgetStateColor.resolveWith(
