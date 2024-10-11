@@ -43,7 +43,6 @@ class SalesDashboardRepo {
       String url = urlFormat(ApiUrl.getEmployeeSalesDashboardDataByName,
           tdFormat, dataFormat, firstDate, lastDate, position, name);
       final response = await ApiMethod(url: url, token: token).getDioRequest();
-
       return response;
     } catch (e) {
       // log(e.toString());
@@ -103,6 +102,7 @@ class SalesDashboardRepo {
       String? position}) async {
     try {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
+
       String url = name == "All"
           ? urlFormatTse(ApiUrl.getSegmentPositionWise, tdFormat, dataFormat,
               firstDate, lastDate, position, name)
@@ -112,6 +112,8 @@ class SalesDashboardRepo {
               dataFormat,
               firstDate,
               lastDate);
+
+      log("Url=<<<<<<<<$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {
@@ -209,7 +211,6 @@ class SalesDashboardRepo {
     }
   }
 
-
 //=============================! Get Dealer Model Wise Data !===========================
   getDealerModelWiseData(
       {String? tdFormat,
@@ -284,7 +285,7 @@ class SalesDashboardRepo {
     }
   }
 
-  //=============================! Get Dealer Channel Data !=====================================
+//=============================! Get Dealer Channel Data !=====================================
 
   getDealerChannelData({
     String? startDate,
@@ -304,7 +305,7 @@ class SalesDashboardRepo {
     }
   }
 
-  //=============================! Get DealerListData !=====================================
+//=============================! Get DealerListData !=====================================
 
   getDealerListForEmployeeData({
     String? startDate,
