@@ -26,8 +26,8 @@ final getDealerListProvider = FutureProvider.autoDispose((ref) async {
   return getDealerList;
 });
 
-class UploadForm extends ConsumerWidget {
-  const UploadForm({super.key});
+class ExtractionUploadForm extends ConsumerWidget {
+  const ExtractionUploadForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../utils/common_style.dart';
 import '../../utils/drawer.dart';
+import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
+import '../screens/data_upload_form.dart';
 
 class TopNames extends ConsumerWidget {
   const TopNames({super.key});
@@ -60,6 +63,24 @@ class TopNames extends ConsumerWidget {
       loading: () => const SizedBox(),
       error: (error, stackTrace) => const Center(
         child: Text("Something went wrong"),
+      ),
+    );
+  }
+}
+class AddButton extends ConsumerWidget {
+  const AddButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FloatingActionButton(
+      onPressed: () {
+        navigateTo(const ExtractionUploadForm());
+      },
+      shape: const CircleBorder(),
+      backgroundColor: AppColor.primaryColor,
+      child: const Icon(
+        Icons.add,
+        color: Colors.white,
       ),
     );
   }
