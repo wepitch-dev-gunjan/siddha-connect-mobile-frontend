@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/sizes.dart';
 import '../components/floating_add_button.dart';
-import '../components/table.dart';
 
 class PulseDataScreen extends StatelessWidget {
   const PulseDataScreen({super.key});
@@ -21,21 +18,16 @@ class PulseDataScreen extends StatelessWidget {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-               const  Expanded(child: ShowTable()),
+              //  const  Expanded(child: ExtractionDataTable()),
             ],
           ),
         ],
       ),
-      floatingActionButton: const AddButton(),
+      floatingActionButton: AddButton(
+        onPressed: () {
+          // navigateTo(const PulseUploadForm());
+        },
+      ),
     );
   }
 }
-
-
-
-
-
-
-
-
-

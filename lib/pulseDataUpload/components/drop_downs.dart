@@ -50,6 +50,7 @@ class BrandDropDown extends ConsumerWidget {
   }
 }
 
+// ==============================! Model DropDown !=====================
 final selectedModelIdProvider = StateProvider<String?>((ref) => null);
 final getModelsProvider =
     FutureProvider.autoDispose.family((ref, String? brand) async {
@@ -128,42 +129,44 @@ class ModelDropDawn extends ConsumerWidget {
   }
 }
 
-// class PaymentModeDropDawn extends ConsumerWidget {
-//   final List<String> items;
 
-//   const PaymentModeDropDawn({super.key, required this.items});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final paymentMode = ref.watch(paymentModeProvider);
-//     return DropdownButtonFormField<String>(
-//       value: paymentMode,
-//       style: const TextStyle(
-//         fontSize: 16.0,
-//         height: 1.5,
-//         color: Colors.black87,
-//       ),
-//       dropdownColor: Colors.white,
-//       decoration: inputDecoration(label: "Payment Mode"),
-//       onChanged: (newValue) {
-//         ref.read(paymentModeProvider.notifier).state = newValue;
-//       },
-//       hint: const Text("Payment Mode"),
-//       items: items.map<DropdownMenuItem<String>>((value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//       validator: (value) {
-//         if (value == null || value.isEmpty) {
-//           return 'Please select Payment Mode';
-//         }
-//         return null; // No error
-//       },
-//     );
-//   }
-// }
+class PaymentModeDropDawn extends ConsumerWidget {
+  final List<String> items;
+
+  const PaymentModeDropDawn({super.key, required this.items});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final paymentMode = ref.watch(paymentModeProvider);
+    return DropdownButtonFormField<String>(
+      value: paymentMode,
+      style: const TextStyle(
+        fontSize: 16.0,
+        height: 1.5,
+        color: Colors.black87,
+      ),
+      dropdownColor: Colors.white,
+      decoration: inputDecoration(label: "Payment Mode"),
+      onChanged: (newValue) {
+        ref.read(paymentModeProvider.notifier).state = newValue;
+      },
+      hint: const Text("Payment Mode"),
+      items: items.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select Payment Mode';
+        }
+        return null; // No error
+      },
+    );
+  }
+}
 
 
 InputDecoration inputDecoration({required String label, String? hintText}) {

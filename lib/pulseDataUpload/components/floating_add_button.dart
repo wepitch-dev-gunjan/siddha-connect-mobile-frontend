@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/common_style.dart';
 import '../../utils/drawer.dart';
-import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
-import '../screens/data_upload_form.dart';
 
 class TopNames extends ConsumerWidget {
   const TopNames({super.key});
@@ -67,15 +65,18 @@ class TopNames extends ConsumerWidget {
     );
   }
 }
+
 class AddButton extends ConsumerWidget {
-  const AddButton({super.key});
+  final Function() onPressed;
+  const AddButton({
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
-      onPressed: () {
-        navigateTo(const ExtractionUploadForm());
-      },
+      onPressed: onPressed,
       shape: const CircleBorder(),
       backgroundColor: AppColor.primaryColor,
       child: const Icon(

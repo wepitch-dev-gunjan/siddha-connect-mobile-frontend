@@ -56,6 +56,19 @@ class ProductRepo {
     }
   }
 
+
+   getPulseRecord() async {
+    try {
+      final token = await ref.read(secureStoargeProvider).readData('authToken');
+      final response =
+          await ApiMethod(url: ApiUrl.getPulseRecord, token: token)
+              .getDioRequest();
+      return response;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   pulseDataUpload({required Map data}) async {
     try {
       final token = await ref.read(secureStoargeProvider).readData('authToken');

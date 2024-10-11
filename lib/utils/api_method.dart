@@ -169,4 +169,5 @@ class ApiUrl {
   static String pulseDataUpload = "$baseUrl/record/add";
   static String extractionDataUpload = "$baseUrl/record/extraction/add";
   static String getExtractionRecord = "$baseUrl/record/extraction/for-employee";
+  static String getPulseRecord = "$baseUrl/record/for-employee";
 }

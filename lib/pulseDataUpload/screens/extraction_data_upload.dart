@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../utils/cus_appbar.dart';
+import '../../utils/navigation.dart';
 import '../../utils/sizes.dart';
 import '../components/floating_add_button.dart';
 import '../components/table.dart';
+import 'data_upload_form.dart';
 
 class ExtractionDataScreen extends StatelessWidget {
   const ExtractionDataScreen({super.key});
@@ -20,13 +22,18 @@ class ExtractionDataScreen extends StatelessWidget {
               const TopNames(),
               heightSizedBox(10.0),
               const   Expanded(
-                child: ShowTable(),
+                child: ExtractionDataTable(),
               ),
             ],
           ),
         ],
       ),
-      floatingActionButton: const AddButton(),
+      floatingActionButton:  AddButton(
+        onPressed: (){
+           navigateTo(const ExtractionUploadForm());
+        }  
+        
+      ),
     );
   }
 }
