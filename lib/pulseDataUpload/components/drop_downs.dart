@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repo/product_repo.dart';
 
-
 final selectedModelProvider = StateProvider<String?>((ref) => null);
+final selectedCategoryProvider = StateProvider<String?>((ref) => null);
 final selectedPriceProvider = StateProvider<String?>((ref) => null);
 final paymentModeProvider = StateProvider<String?>((ref) => null);
 final quantityProvider = StateProvider<int>((ref) => 1);
 final selectedBrandProvider = StateProvider<String?>((ref) => null);
-
 
 class BrandDropDown extends ConsumerWidget {
   final List<String> items;
@@ -44,7 +43,7 @@ class BrandDropDown extends ConsumerWidget {
         if (value == null || value.isEmpty) {
           return 'Please select a brand';
         }
-        return null; 
+        return null;
       },
     );
   }
@@ -129,8 +128,6 @@ class ModelDropDawn extends ConsumerWidget {
   }
 }
 
-
-
 class PaymentModeDropDawn extends ConsumerWidget {
   final List<String> items;
 
@@ -168,6 +165,45 @@ class PaymentModeDropDawn extends ConsumerWidget {
   }
 }
 
+class CategoryDropDown extends ConsumerWidget {
+  final List<String> items;
+  const CategoryDropDown({
+    super.key,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCategory = ref.watch(selectedCategoryProvider);
+    return DropdownButtonFormField<String>(
+      value: selectedCategory,
+      style: const TextStyle(
+        fontSize: 16.0,
+        height: 1.5,
+        color: Colors.black87,
+      ),
+      dropdownColor: Colors.white,
+      decoration: inputDecoration(label: "Select Category"),
+      onChanged: (newValue) {
+        ref.read(selectedCategoryProvider.notifier).state = newValue;
+      },
+      hint: const Text("Select Category"),
+      items: items.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      menuMaxHeight: MediaQuery.of(context).size.height / 2,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select a brand';
+        }
+        return null;
+      },
+    );
+  }
+}
 
 InputDecoration inputDecoration({required String label, String? hintText}) {
   return InputDecoration(

@@ -16,3 +16,5 @@ final brandList = [
   "Others (10-15K)",
   "Others (6-10K)"
 ];
+
+final categoryList = ["SmartPhone", "Tablet", "Wearables"];
