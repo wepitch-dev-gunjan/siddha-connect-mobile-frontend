@@ -10,6 +10,7 @@ import '../component/radio.dart';
 import '../repo/sales_dashboard_repo.dart';
 import 'segment_position_wise.dart';
 
+//======================== ! Get Segment Data ! =========================
 final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final getSegmentData = await ref.watch(salesRepoProvider).getSegmentAllData(
@@ -20,6 +21,7 @@ final getSegmentDataProvider = FutureProvider.autoDispose((ref) async {
   return getSegmentData;
 });
 
+//======================== ! Get Dealer Data ! =========================
 final getDealerDataProvider = FutureProvider.autoDispose((ref) async {
   final options = ref.watch(selectedOptionsProvider);
   final dealerCode = ref.watch(dealerCodeProvider);
