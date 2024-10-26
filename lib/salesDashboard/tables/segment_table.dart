@@ -57,7 +57,6 @@ class SegmentTable extends ConsumerWidget {
         if (data == null || data['columns'] == null || data['data'] == null) {
           return const Center(child: Text('No data available.'));
         }
-
         final columns = data['columns'] ?? [];
         final rows = data['data'] ?? [];
         return Theme(

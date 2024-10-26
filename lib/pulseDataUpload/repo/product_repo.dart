@@ -56,13 +56,11 @@ class ProductRepo {
     }
   }
 
-
-   getPulseRecord() async {
+  getPulseRecord() async {
     try {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-      final response =
-          await ApiMethod(url: ApiUrl.getPulseRecord, token: token)
-              .getDioRequest();
+      final response = await ApiMethod(url: ApiUrl.getPulseRecord, token: token)
+          .getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
@@ -105,5 +103,14 @@ class ProductRepo {
     } catch (e) {
       log("Error submitting data: $e");
     }
+  }
+
+  getExtractionReportForAdmin() async {
+    try {
+      final response = await ApiMethod(url: ApiUrl.getExtractionReportForAdmin)
+          .getDioRequest();
+      log("ExtracionReport$response");
+      return response;
+    } catch (e) {}
   }
 }
