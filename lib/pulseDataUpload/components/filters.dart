@@ -21,8 +21,8 @@ class Filters extends ConsumerWidget {
 
     // Define the customLabels list with only keys
     final List<String> customLabels = [
-      'Code',
-      'Tse',
+      'CODE',
+      'TSE',
       'TYPE',
       'AREA',
       'TL NAME',
