@@ -1,11 +1,12 @@
 import 'package:data_table_2/data_table_2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../utils/common_style.dart';
+import 'package:siddha_connect/salesDashboard/component/dashboard_small_btn.dart';
+import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
+import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/cus_appbar.dart';
-import '../components/table.dart';
+import '../components/filters.dart';
 import '../repo/product_repo.dart';
 
 final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
@@ -26,8 +27,17 @@ class ExtractionReport extends ConsumerWidget {
       appBar: const CustomAppBar(),
       body: data.when(
         data: (data) {
-          return const Column(
-            children: [Expanded(child: ExtractionDataTable())],
+          return Column(
+            children: [
+              heightSizedBox(10.0),
+              const DatePickerContainer(),
+              heightSizedBox(10.0),
+              const Filters(),
+              heightSizedBox(10.0),
+              const Expanded(
+                child: ExtractionDataTable(),
+              )
+            ],
           );
         },
         error: (error, stackTrace) => const Center(

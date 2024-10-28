@@ -13,7 +13,6 @@ import 'package:siddha_connect/uploadSalesData/screens/upload_model_data.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/providers.dart';
 import '../auth/repo/auth_repo.dart';
-import '../pulseDataUpload/screens/pulse_data_upload.dart';
 import '../salesDashboard/screen/sales_dashboard.dart';
 import 'common_style.dart';
 import 'secure_storage.dart';
@@ -244,11 +243,28 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                   title: "Attendance",
                   onTap: () {},
                 ),
+                // dealer == "dealer"
+                //     ? const SizedBox()
+                //     : ListTile(
+                //         title: Text(
+                //           "Pulse Data Upload",
+                //           style: GoogleFonts.lato(
+                //             textStyle: const TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 20,
+                //             ),
+                //           ),
+                //         ),
+                //         onTap: () {
+                //           // navigationPush(context, const PulseDataScreen());
+                //           navigationPush(context, const ExtractionReport());
+                //         },
+                //       ),
                 dealer == "dealer"
                     ? const SizedBox()
                     : ListTile(
                         title: Text(
-                          "Pulse Data Upload",
+                          "Extraction Report",
                           style: GoogleFonts.lato(
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -261,6 +277,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           navigationPush(context, const ExtractionReport());
                         },
                       ),
+
                 dealer == "dealer"
                     ? const SizedBox()
                     : ListTile(
