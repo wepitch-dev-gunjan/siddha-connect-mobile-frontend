@@ -1,9 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:siddha_connect/pulseDataUpload/repo/product_repo.dart';
 import '../../salesDashboard/component/dashboard_small_btn.dart';
 import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
@@ -79,97 +78,42 @@ class Filters extends ConsumerWidget {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children:
-                              List.generate(customLabels.length + 1, (index) {
-                            if (index == customLabels.length) {
-                              // Static DEALER button after all custom labels
-                              return GestureDetector(
-                                onTap: () {
-                                  ref
-                                      .read(selectedIndexProvider.notifier)
-                                      .state = customLabels.length + 1;
-                                  ref
-                                      .read(selectedPositionProvider.notifier)
-                                      .state = 'DEALER';
-                                  ref
-                                      .read(selectedItemProvider.notifier)
-                                      .state = null;
-                                },
-                                child: Container(
-                                  width: 70,
-                                  height: 30,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        selectedIndex == customLabels.length + 1
-                                            ? AppColor.primaryColor
-                                            : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    border: Border.all(
-                                        color: AppColor.primaryColor,
-                                        width: 1.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'DEALER',
-                                      style: GoogleFonts.lato(
-                                        color: selectedIndex ==
-                                                customLabels.length + 1
-                                            ? Colors.white
-                                            : const Color(0xff999292),
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
+                          children: List.generate(customLabels.length, (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                ref.read(selectedIndexProvider.notifier).state =
+                                    index + 1;
+                                ref.read(selectedPositionProvider.notifier).state =
+                                    customLabels[index];
+                                ref.read(selectedItemProvider.notifier).state = null;
+                              },
+                              child: Container(
+                                width: 70,
+                                height: 30,
+                                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                                decoration: BoxDecoration(
+                                  color: selectedIndex == index + 1
+                                      ? AppColor.primaryColor
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                      color: AppColor.primaryColor, width: 1.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    customLabels[index],
+                                    style: GoogleFonts.lato(
+                                      color: selectedIndex == index + 1
+                                          ? Colors.white
+                                          : const Color(0xff999292),
+                                      textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12),
                                     ),
                                   ),
                                 ),
-                              );
-                            } else {
-                              // Dynamic buttons from customLabels
-                              return GestureDetector(
-                                onTap: () {
-                                  ref
-                                      .read(selectedIndexProvider.notifier)
-                                      .state = index + 1;
-                                  ref
-                                      .read(selectedPositionProvider.notifier)
-                                      .state = customLabels[index];
-                                  ref
-                                      .read(selectedItemProvider.notifier)
-                                      .state = null;
-                                },
-                                child: Container(
-                                  width: 70,
-                                  height: 30,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: selectedIndex == index + 1
-                                        ? AppColor.primaryColor
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    border: Border.all(
-                                        color: AppColor.primaryColor,
-                                        width: 1.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      customLabels[index],
-                                      style: GoogleFonts.lato(
-                                        color: selectedIndex == index + 1
-                                            ? Colors.white
-                                            : const Color(0xff999292),
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                              ),
+                            );
                           }),
                         ),
                       ),
@@ -185,6 +129,13 @@ class Filters extends ConsumerWidget {
   }
 }
 
+
+final filtersColumnProvider =
+    FutureProvider.family.autoDispose((ref, String type) async {
+  final getFilters = await ref.watch(productRepoProvider).getFilters(type);
+  return getFilters;
+});
+
 class FiltersDropdown extends ConsumerWidget {
   final String selectedPosition;
 
@@ -193,19 +144,16 @@ class FiltersDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItem = ref.watch(selectedItemProvider);
-    final subOrdinates = ref.watch(subordinateProvider);
+    final filters = ref.watch(filtersColumnProvider(selectedPosition));
 
-    log("SelectedItems$selectedItem");
-
-    return subOrdinates.when(
+    return filters.when(
       data: (data) {
-        final subordinates = data[selectedPosition] ?? [];
+        final subordinates = data['uniqueValues'] ?? [];
         if (selectedItem == null && subordinates.isNotEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ref.read(selectedItemProvider.notifier).state = subordinates[0];
           });
         }
-
         return DropdownButtonFormField<String>(
           dropdownColor: Colors.white,
           value: selectedItem,
@@ -221,10 +169,9 @@ class FiltersDropdown extends ConsumerWidget {
                   color: Colors.black54,
                   fontWeight: FontWeight.w500),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.black12,
-                  )),
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: Colors.black12),
+              ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(
@@ -234,13 +181,17 @@ class FiltersDropdown extends ConsumerWidget {
               ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide:
-                      const BorderSide(color: Color(0xff1F0A68), width: 1)),
+                  borderSide: const BorderSide(
+                    color: Color(0xff1F0A68),
+                    width: 1,
+                  )),
               labelText: selectedPosition,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide:
-                      const BorderSide(color: Colors.amber, width: 0.5))),
+                  borderSide: const BorderSide(
+                    color: Colors.amber,
+                    width: 0.5,
+                  ))),
           onChanged: (newValue) {
             ref.read(selectedItemProvider.notifier).state = newValue!;
           },
@@ -254,7 +205,12 @@ class FiltersDropdown extends ConsumerWidget {
       },
       error: (error, stackTrace) => const Text("Something went wrong"),
       loading: () => const Center(
-        child: CircularProgressIndicator(),
+        child: SizedBox(
+            height: 10,
+            width: 10,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            )),
       ),
     );
   }

@@ -17,6 +17,7 @@ class ApiMethod {
 
   Future getDioRequest() async {
     try {
+  
       if (token != null) {
         headers['Authorization'] = "$token";
       }
@@ -172,4 +173,6 @@ class ApiUrl {
   static String getPulseRecord = "$baseUrl/record/for-employee";
   static String getExtractionReportForAdmin =
       "$baseUrl/extraction/overview-for-admins";
+
+  static String filters = "$baseUrl/extraction/unique-column-values?column=";
 }

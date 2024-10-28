@@ -113,4 +113,27 @@ class ProductRepo {
       return response;
     } catch (e) {}
   }
+
+  // getFilters(String type) async {
+  //   try {
+  //     final response =
+  //         await ApiMethod(url: "${ApiUrl.filters}$type").getDioRequest();
+
+  //           log("Resp==>>$response");
+  //     return response;
+  //   } catch (e) {
+  //     log("Error in getAllSubordinates: $e");
+  //     return null;
+  //   }
+  // }
+  getFilters(String type) async {
+    final modifiedType = (type == "CODE")
+        ? "dealerCode"
+        : (type == "AREA")
+            ? "Area"
+            : type;
+    final response =
+        await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
+    return response;
+  }
 }
