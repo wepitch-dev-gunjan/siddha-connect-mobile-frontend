@@ -131,7 +131,9 @@ class ProductRepo {
         ? "dealerCode"
         : (type == "AREA")
             ? "Area"
-            : type;
+            : (type == "SEGMENT")
+                ? "productId.Segment"
+                : type;
     final response =
         await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
     return response;

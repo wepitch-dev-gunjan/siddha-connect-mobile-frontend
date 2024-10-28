@@ -17,7 +17,6 @@ class ApiMethod {
 
   Future getDioRequest() async {
     try {
-  
       if (token != null) {
         headers['Authorization'] = "$token";
       }

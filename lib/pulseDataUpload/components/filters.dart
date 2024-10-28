@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +19,7 @@ class Filters extends ConsumerWidget {
 
     // Define the customLabels list with only keys
     final List<String> customLabels = [
+      'SEGMENT',
       'CODE',
       'TSE',
       'TYPE',
@@ -83,14 +83,17 @@ class Filters extends ConsumerWidget {
                               onTap: () {
                                 ref.read(selectedIndexProvider.notifier).state =
                                     index + 1;
-                                ref.read(selectedPositionProvider.notifier).state =
-                                    customLabels[index];
-                                ref.read(selectedItemProvider.notifier).state = null;
+                                ref
+                                    .read(selectedPositionProvider.notifier)
+                                    .state = customLabels[index];
+                                ref.read(selectedItemProvider.notifier).state =
+                                    null;
                               },
                               child: Container(
                                 width: 70,
                                 height: 30,
-                                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 decoration: BoxDecoration(
                                   color: selectedIndex == index + 1
                                       ? AppColor.primaryColor
@@ -129,7 +132,6 @@ class Filters extends ConsumerWidget {
   }
 }
 
-
 final filtersColumnProvider =
     FutureProvider.family.autoDispose((ref, String type) async {
   final getFilters = await ref.watch(productRepoProvider).getFilters(type);
@@ -154,44 +156,46 @@ class FiltersDropdown extends ConsumerWidget {
             ref.read(selectedItemProvider.notifier).state = subordinates[0];
           });
         }
-        return DropdownButtonFormField<String>(
+        return DropdownButtonFormField(
           dropdownColor: Colors.white,
           value: selectedItem,
           style: const TextStyle(
               fontSize: 16.0, height: 1.5, color: Colors.black87),
           decoration: InputDecoration(
-              fillColor: const Color(0XFFfafafa),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-              errorStyle: const TextStyle(color: Colors.red),
-              labelStyle: const TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.black12),
+            fillColor: const Color(0XFFfafafa),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            errorStyle: const TextStyle(color: Colors.red),
+            labelStyle: const TextStyle(
+                fontSize: 15.0,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black12),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: Colors.red, // Error border color
+                width: 1,
               ),
-              errorBorder: OutlineInputBorder(
+            ),
+            focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(
-                  color: Colors.red, // Error border color
+                  color: Color(0xff1F0A68),
                   width: 1,
-                ),
+                )),
+            labelText: selectedPosition,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: const BorderSide(
+                color: Colors.amber,
+                width: 0.5,
               ),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Color(0xff1F0A68),
-                    width: 1,
-                  )),
-              labelText: selectedPosition,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(
-                    color: Colors.amber,
-                    width: 0.5,
-                  ))),
+            ),
+          ),
           onChanged: (newValue) {
             ref.read(selectedItemProvider.notifier).state = newValue!;
           },

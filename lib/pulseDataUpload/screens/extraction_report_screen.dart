@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
+import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
@@ -143,7 +144,7 @@ class ExtractionDataTable extends ConsumerWidget {
       ),
       loading: () => const Center(
         child: CircularProgressIndicator(
-          color: Colors.blue, // Replace with your app's primary color
+          color: AppColor.primaryColor,
           strokeWidth: 3,
         ),
       ),
