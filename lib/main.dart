@@ -35,10 +35,10 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: snackbarKey,
           debugShowCheckedModeBanner: false,
           title: 'Siddha Connect',
-          home: const SplashScreen()
-          // home: const ConnectivityNotifier(
-          //   child: SplashScreen(),
-          // ),
+          // home: const SplashScreen()
+          home: const ConnectivityNotifier(
+            child: SplashScreen(),
+          ),
           ),
     );
   }
