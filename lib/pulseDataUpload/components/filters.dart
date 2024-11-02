@@ -135,9 +135,7 @@ class FiltersDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItem = ref.watch(newSelectedItemProvider);
     final filters = ref.watch(filtersColumnProvider(selectedPosition));
-
-    log("SelectedItem==>>$selectedItem");
-
+    
     return filters.when(
       data: (data) {
         final subordinates = data['uniqueValues'] ?? [];
