@@ -260,23 +260,23 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 //           navigationPush(context, const ExtractionReport());
                 //         },
                 //       ),
-                dealer == "dealer"
-                    ? const SizedBox()
-                    : ListTile(
-                        title: Text(
-                          "Extraction Report",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          // navigationPush(context, const PulseDataScreen());
-                          navigationPush(context, const ExtractionReport());
-                        },
-                      ),
+                // dealer == "dealer"
+                //     ? const SizedBox()
+                //     : ListTile(
+                //         title: Text(
+                //           "Extraction Report",
+                //           style: GoogleFonts.lato(
+                //             textStyle: const TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 20,
+                //             ),
+                //           ),
+                //         ),
+                //         onTap: () {
+                //           // navigationPush(context, const PulseDataScreen());
+                //           navigationPush(context, const ExtractionReport());
+                //         },
+                //       ),
 
                 dealer == "dealer"
                     ? const SizedBox()

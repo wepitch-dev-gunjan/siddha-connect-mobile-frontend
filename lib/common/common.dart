@@ -7,6 +7,7 @@ final brandList = [
   "Realme",
   "Xiaomi",
   "Motorola",
+  "Lenovo",
   "Others (>100K)",
   "Others (70-100K)",
   "Others (40-70K)",

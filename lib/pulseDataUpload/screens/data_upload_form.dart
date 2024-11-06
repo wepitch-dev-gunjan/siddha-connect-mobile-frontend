@@ -47,13 +47,12 @@ class ExtractionUploadForm extends ConsumerWidget {
                   const TopProfileName(),
                   heightSizedBox(15.0),
                   DealerDropDown(data: data),
-                  heightSizedBox(15.0),
-                  CategoryDropDown(items: categoryList),
+                  // heightSizedBox(15.0),
+                  // CategoryDropDown(items: categoryList),
                   heightSizedBox(15.0),
                   if (selectedDealer != null) ...[
                     BrandDropDown(items: brandList),
                     heightSizedBox(15.0),
-                 
                   ],
                   if (selectedBrand != null) const ModelDropDawnTest(),
                 ],
