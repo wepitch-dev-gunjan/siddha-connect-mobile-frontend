@@ -29,6 +29,7 @@ dependencies:
   geolocator: ^13.0.1
   geocoding: ^3.0.0
   pagination_view: ^2.0.0
+  flutter_spinkit: ^5.2.1
 
   
 dev_dependencies:

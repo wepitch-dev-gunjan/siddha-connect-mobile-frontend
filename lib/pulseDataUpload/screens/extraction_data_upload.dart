@@ -21,20 +21,16 @@ class ExtractionDataScreen extends StatelessWidget {
             children: [
               const TopNames(),
               heightSizedBox(10.0),
-              const   Expanded(
+              const Expanded(
                 child: ExtractionDataTable(),
               ),
             ],
           ),
         ],
       ),
-      floatingActionButton:  AddButton(
-        onPressed: (){
-           navigateTo(const ExtractionUploadForm());
-        }  
-        
-      ),
+      floatingActionButton: AddButton(onPressed: () {
+        navigateTo(const ExtractionUploadForm());
+      }),
     );
   }
 }
-

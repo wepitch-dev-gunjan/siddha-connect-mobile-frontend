@@ -12,7 +12,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
   );
   runApp(
     const ProviderScope(
@@ -31,15 +34,15 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       designSize: ScreenUtil.defaultSize,
       child: MaterialApp(
-          navigatorKey: navigatorKey,
-          scaffoldMessengerKey: snackbarKey,
-          debugShowCheckedModeBanner: false,
-          title: 'Siddha Connect',
-          // home: const SplashScreen()
-          home: const ConnectivityNotifier(
-            child: SplashScreen(),
-          ),
-          ),
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: snackbarKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Siddha Connect',
+        // home: const SplashScreen()
+        home: const ConnectivityNotifier(
+          child: SplashScreen(),
+        ),
+      ),
     );
   }
 }

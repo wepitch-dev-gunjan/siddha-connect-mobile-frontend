@@ -1,6 +1,7 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
@@ -43,8 +44,10 @@ class ExtractionReport extends ConsumerWidget {
           child: Text("Something Went Wrong"),
         ),
         loading: () => const Center(
-          child: SingleChildScrollView(),
-        ),
+            child: SpinKitCircle(
+          color: AppColor.primaryColor,
+          size: 50.0,
+        )),
       ),
     );
   }

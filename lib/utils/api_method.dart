@@ -33,8 +33,8 @@ class ApiMethod {
   }
 
   Future postDioRequest({required Map data}) async {
-    log(url);
-    log(data.toString());
+    // log(url);
+    // log(data.toString());
     try {
       if (token != null) {
         headers['Authorization'] = "$token";
@@ -95,6 +95,8 @@ class ApiMethod {
     }
   }
 }
+
+
 
 class ApiUrl {
   static String baseUrl = dotenv.env['BASEURL'] ?? "";
@@ -170,8 +172,11 @@ class ApiUrl {
   static String extractionDataUpload = "$baseUrl/record/extraction/add";
   static String getExtractionRecord = "$baseUrl/record/extraction/for-employee";
   static String getPulseRecord = "$baseUrl/record/for-employee";
+
+  //======================! Extraction Report URL !===========================
   static String getExtractionReportForAdmin =
       "$baseUrl/extraction/overview-for-admins";
-
   static String filters = "$baseUrl/extraction/unique-column-values?column=";
+
+
 }
