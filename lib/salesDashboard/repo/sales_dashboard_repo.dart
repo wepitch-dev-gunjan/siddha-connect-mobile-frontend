@@ -112,8 +112,6 @@ class SalesDashboardRepo {
               dataFormat,
               firstDate,
               lastDate);
-
-      log("Url=<<<<<<<<$url");
       final response = await ApiMethod(url: url, token: token).getDioRequest();
       return response;
     } catch (e) {

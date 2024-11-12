@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:siddha_connect/pulseDataUpload/components/table.dart';
-import 'package:siddha_connect/pulseDataUpload/repo/product_repo.dart';
+import 'package:siddha_connect/extraction/components/table.dart';
+import 'package:siddha_connect/extraction/repo/product_repo.dart';
 import 'package:siddha_connect/utils/buttons.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
