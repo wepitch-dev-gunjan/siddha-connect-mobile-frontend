@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/pulseDataUpload/repo/product_repo.dart';
 import '../../utils/common_style.dart';
 import '../../utils/sizes.dart';
-
 
 final newSelectedIndexProvider = StateProvider<int>((ref) => 0);
 final newSelectedPositionProvider = StateProvider<String>((ref) => 'All');
@@ -44,7 +44,8 @@ class Filters extends ConsumerWidget {
                 onTap: () {
                   ref.read(newSelectedIndexProvider.notifier).state = 0;
                   ref.read(newSelectedPositionProvider.notifier).state = 'All';
-                  ref.read(newSelectedItemProvider.notifier).state = null; // Reset selected item
+                  ref.read(newSelectedItemProvider.notifier).state =
+                      null; // Reset selected item
                 },
                 child: Container(
                   width: 70,
@@ -55,7 +56,8 @@ class Filters extends ConsumerWidget {
                         ? AppColor.primaryColor
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: AppColor.primaryColor, width: 1.0),
+                    border:
+                        Border.all(color: AppColor.primaryColor, width: 1.0),
                   ),
                   child: Center(
                     child: Text(
@@ -76,9 +78,12 @@ class Filters extends ConsumerWidget {
                     children: List.generate(customLabels.length, (index) {
                       return GestureDetector(
                         onTap: () {
-                          ref.read(newSelectedIndexProvider.notifier).state = index + 1;
-                          ref.read(newSelectedPositionProvider.notifier).state = customLabels[index];
-                          ref.read(newSelectedItemProvider.notifier).state = null; // Reset selected item
+                          ref.read(newSelectedIndexProvider.notifier).state =
+                              index + 1;
+                          ref.read(newSelectedPositionProvider.notifier).state =
+                              customLabels[index];
+                          ref.read(newSelectedItemProvider.notifier).state =
+                              null; // Reset selected item
                         },
                         child: Container(
                           width: 70,
@@ -89,7 +94,8 @@ class Filters extends ConsumerWidget {
                                 ? AppColor.primaryColor
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(color: AppColor.primaryColor, width: 1.0),
+                            border: Border.all(
+                                color: AppColor.primaryColor, width: 1.0),
                           ),
                           child: Center(
                             child: Text(
@@ -120,7 +126,8 @@ class Filters extends ConsumerWidget {
   }
 }
 
-final filtersColumnProvider = FutureProvider.family.autoDispose((ref, String type) async {
+final filtersColumnProvider =
+    FutureProvider.family.autoDispose((ref, String type) async {
   final getFilters = await ref.watch(productRepoProvider).getFilters(type);
   return getFilters;
 });
@@ -134,7 +141,7 @@ class FiltersDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItem = ref.watch(newSelectedItemProvider);
     final filters = ref.watch(filtersColumnProvider(selectedPosition));
-    
+
     return filters.when(
       data: (data) {
         final subordinates = data['uniqueValues'] ?? [];
@@ -149,13 +156,17 @@ class FiltersDropdown extends ConsumerWidget {
         return DropdownButtonFormField(
           dropdownColor: Colors.white,
           value: selectedItem,
-          style: const TextStyle(fontSize: 16.0, height: 1.5, color: Colors.black87),
+          style: const TextStyle(
+              fontSize: 16.0, height: 1.5, color: Colors.black87),
           decoration: InputDecoration(
             fillColor: const Color(0XFFfafafa),
-            contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
             errorStyle: const TextStyle(color: Colors.red),
             labelStyle: const TextStyle(
-                fontSize: 15.0, color: Colors.black54, fontWeight: FontWeight.w500),
+                fontSize: 15.0,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Colors.black12),
@@ -196,13 +207,12 @@ class FiltersDropdown extends ConsumerWidget {
       error: (error, stackTrace) => const Text("Something went wrong"),
       loading: () => const Center(
         child: SizedBox(
-            height: 10,
-            width: 10,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-            )),
+          height: 10,
+          child: SpinKitThreeInOut(
+            color: AppColor.primaryColor,
+          ),
+        ),
       ),
     );
   }
 }
-
