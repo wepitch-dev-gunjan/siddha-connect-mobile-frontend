@@ -49,12 +49,12 @@ class MyApp extends StatelessWidget {
 
 
 
-// String formatTimeWithAdjustment(String dateTime) {
-//   final cleanedDateTime = dateTime.replaceAll('"', '');
+String formatTimeWithAdjustment(String dateTime) {
+  final cleanedDateTime = dateTime.replaceAll('"', '');
   
-//   final date = DateTime.parse(cleanedDateTime).toLocal(); 
-//   // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
-//   final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
+  final date = DateTime.parse(cleanedDateTime).toLocal(); 
+  // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
+  final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
   
-//   return DateFormat('h a').format(adjustedDate);
-// }
+  return DateFormat('h a').format(adjustedDate);
+}
