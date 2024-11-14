@@ -4,8 +4,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
+import 'package:siddha_connect/extraction/components/drop_downs.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
+import 'package:siddha_connect/utils/payment_getway.dart';
 import 'connectivity/connectivity_widget.dart';
 
 Future<void> main() async {
@@ -40,8 +42,30 @@ class MyApp extends StatelessWidget {
         title: 'Siddha Connect',
         // home: const SplashScreen()
         home: const ConnectivityNotifier(
-          child: SplashScreen(),
+          child: PaymentWindow(),
         ),
+      ),
+    );
+  }
+}
+
+class PaymentWindow extends ConsumerWidget {
+  const PaymentWindow({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Testing Payment Getway"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              ref.read(paymentProvider).initialGatway(totalAmmount: 100.0);
+              ref.read(paymentProvider).openPaymentWindow(
+                  ammount: 100.0, phone: "9782209395", email: "Pk@gmail.com");
+            },
+            child: const Text("Pay Now")),
       ),
     );
   }
@@ -49,12 +73,12 @@ class MyApp extends StatelessWidget {
 
 
 
-String formatTimeWithAdjustment(String dateTime) {
-  final cleanedDateTime = dateTime.replaceAll('"', '');
+// String formatTimeWithAdjustment(String dateTime) {
+//   final cleanedDateTime = dateTime.replaceAll('"', '');
   
-  final date = DateTime.parse(cleanedDateTime).toLocal(); 
-  // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
-  final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
+//   final date = DateTime.parse(cleanedDateTime).toLocal(); 
+//   // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
+//   final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
   
-  return DateFormat('h a').format(adjustedDate);
-}
+//   return DateFormat('h a').format(adjustedDate);
+// }
