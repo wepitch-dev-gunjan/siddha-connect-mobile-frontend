@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         title: 'Siddha Connect',
         // home: const SplashScreen()
         home: const ConnectivityNotifier(
-          child: PaymentWindow(),
+          child: SplashScreen(),
         ),
       ),
     );
