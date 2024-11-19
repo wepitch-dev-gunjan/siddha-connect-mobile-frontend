@@ -13,8 +13,10 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   SystemChrome.setPreferredOrientations(
     [
+
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      
     ],
   );
   runApp(
@@ -47,36 +49,36 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class PaymentWindow extends ConsumerWidget {
-//   const PaymentWindow({super.key});
+class PaymentWindow extends ConsumerWidget {
+  const PaymentWindow({super.key});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Testing Payment Getway"),
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//             onPressed: () {
-//               ref.read(paymentProvider).initialGatway(totalAmmount: 100.0);
-//               ref.read(paymentProvider).openPaymentWindow(
-//                   ammount: 100.0, phone: "9782209395", email: "Pk@gmail.com");
-//             },
-//             child: const Text("Pay Now")),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Testing Payment Getway"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              ref.read(paymentProvider).initialGatway(totalAmmount: 100.0);
+              ref.read(paymentProvider).openPaymentWindow(
+                  ammount: 100.0, phone: "9782209395", email: "Pk@gmail.com");
+            },
+            child: const Text("Pay Now")),
+      ),
+    );
+  }
+}
 
 
 
-// String formatTimeWithAdjustment(String dateTime) {
-//   final cleanedDateTime = dateTime.replaceAll('"', '');
+String formatTimeWithAdjustment(String dateTime) {
+  final cleanedDateTime = dateTime.replaceAll('"', '');
   
-//   final date = DateTime.parse(cleanedDateTime).toLocal(); 
-//   // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
-//   final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
+  final date = DateTime.parse(cleanedDateTime).toLocal(); 
+  // Adjust time manually by adding/subtracting hours as needed (e.g., add 5 hours 30 mins)
+  final adjustedDate = date.add(Duration(hours: 5, minutes: 30)); // Example adjustment for IST
   
-//   return DateFormat('h a').format(adjustedDate);
-// }
+  return DateFormat('h a').format(adjustedDate);
+}
