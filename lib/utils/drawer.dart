@@ -56,6 +56,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
         children: [
           Expanded(
             child: ListView(
+              padding: EdgeInsets.zero,
               children: [
                 heightSizedBox(20.0),
                 ClipOval(
@@ -85,12 +86,11 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                     child: Text("Loading..."),
                   ),
                 ),
-                heightSizedBox(20.0),
+
+                heightSizedBox(10.0),
+
                 ListTile(
-                  leading: const Icon(
-                    Icons.home_outlined,
-                    size: 35,
-                  ),
+                  leading: const Icon(Icons.home_outlined, size: 35),
                   onTap: () {
                     navigationPush(context, const SalesDashboard());
                   },
@@ -103,10 +103,6 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                       ),
                     ),
                   ),
-                  shape: Border(
-                      bottom: BorderSide(
-                    color: Colors.black.withOpacity(0.09),
-                  )),
                 ),
                 dealer == 'dealer'
                     ? DrawerElement(
@@ -116,86 +112,39 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           navigationPush(context, const SalesDashboard());
                         },
                       )
-                    : ExpansionTile(
-                        leading:
-                            SvgPicture.asset("assets/images/dashboard.svg"),
-                        title: Text(
-                          "Sales",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
+                    : CusExpensionTile(
+                        title: "Sales",
+                        src: "assets/images/dashboard.svg",
                         children: [
-                          ListTile(
-                            title: Text(
-                              "Sales Dashboard",
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              navigationPush(context, const SalesDashboard());
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Sales Data Upload",
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              navigationPush(context, const UploadSalesData());
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Model Data Upload",
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              navigationPush(context, const UploadModelData());
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Segment Target Upload",
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              navigationPush(
-                                  context, const UploadSegmentTarget());
-                            },
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Channel Target Upload",
-                              style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              navigationPush(
-                                  context, const UploadChannelTarget());
-                            },
-                          ),
+                          CusListTile(
+                              title: "Sales Dashboard",
+                              onTap: () {
+                                navigationPush(context, const SalesDashboard());
+                              }),
+                          CusListTile(
+                              title: "Sales Data Upload",
+                              onTap: () {
+                                navigationPush(
+                                    context, const UploadSalesData());
+                              }),
+                          CusListTile(
+                              title: "Model Data Upload",
+                              onTap: () {
+                                navigationPush(
+                                    context, const UploadModelData());
+                              }),
+                          CusListTile(
+                              title: "Segment Target Upload",
+                              onTap: () {
+                                navigationPush(
+                                    context, const UploadSegmentTarget());
+                              }),
+                          CusListTile(
+                              title: "Channel Target Upload",
+                              onTap: () {
+                                navigationPush(
+                                    context, const UploadChannelTarget());
+                              }),
                         ],
                       ),
                 dealer == 'dealer'
@@ -206,38 +155,16 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           navigationPush(context, const SalesDashboard());
                         },
                       )
-                    : ExpansionTile(
-                        leading: SvgPicture.asset("assets/images/finance.svg"),
-                        title: Text(
-                          "Finance",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
+                    : CusExpensionTile(
+                        src: "assets/images/finance.svg",
+                        title: "Finance",
                         children: [
-                          ListTile(
-                            title: const Text("Finance Dashboard"),
-                            onTap: () {
-                              // navigationPush(context, const UploadSalesData());
-                            },
-                          ),
-                          ListTile(
-                            title: const Text("Upload Finance Data"),
-                            onTap: () {
-                              // navigationPush(context, const UploadSalesData());
-                            },
-                          ),
-                          ListTile(
-                            title: const Text("Payment Calculator"),
-                            onTap: () {
-                              // navigationPush(context, const UploadSalesData());
-                            },
-                          ),
-                        ],
-                      ),
+                            CusListTile(
+                                title: "Finance Dashboard", onTap: () {}),
+                            CusListTile(
+                                title: "Upload Finance Data", onTap: () {})
+                          ]),
+
                 DrawerElement(
                   src: "assets/images/attendance.svg",
                   title: "Attendance",
@@ -260,98 +187,35 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 //           navigationPush(context, const ExtractionReport());
                 //         },
                 //       ),
+
+                const CusExpensionTile(
+                  title: "Extraction",
+                  children: [],
+                  
+                ),
                 dealer == "dealer"
                     ? const SizedBox()
-                    : ListTile(
-                        title: Text(
-                          "Extraction Report",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
+                    : CusListTile(
+                        title: "Extraction Report",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                         onTap: () {
                           // navigationPush(context, const PulseDataScreen());
                           navigationPush(context, const ExtractionReport());
-                        },
-                      ),
+                        }),
 
                 dealer == "dealer"
                     ? const SizedBox()
-                    : ListTile(
-                        title: Text(
-                          "Extraction Data Upload",
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
+                    : CusListTile(
+                        title: "Extraction Data Upload",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                         onTap: () {
                           navigationPush(context, const ExtractionDataScreen());
-                        },
-                      ),
-                Consumer(
-                  builder:
-                      (BuildContext context, WidgetRef ref, Widget? child) {
-                    return ListTile(
-                      leading: const Icon(Icons.logout, color: Colors.red),
-                      title: Text(
-                        "Logout",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      onTap: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              title: const Text('Logout'),
-                              content: const Text(
-                                  'Are you sure you want to logout?'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('No'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text('Yes'),
-                                  onPressed: () async {
-                                    await ref
-                                        .read(secureStoargeProvider)
-                                        .clearData();
-                                    ref.invalidate(userProfileProvider);
-                                    ref.invalidate(dealerProfileProvider);
-                                    ref.invalidate(dealerCodeProvider);
-                                    Navigator.of(context).pop();
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SplashScreen()),
-                                      (route) => false,
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+                        }),
+
+                // ========================= ! Log Out ! ================================
+                const Logout(),
               ],
             ),
           ),
@@ -378,6 +242,175 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
   }
 }
 
+// class CusExpensionTile extends StatelessWidget {
+//   final String? src;
+//   final String title;
+//   final IconData? icon;
+//   final List<Widget> children;
+//   const CusExpensionTile({
+//     super.key,
+//     this.src,
+//     required this.title,
+//     required this.children,
+//     this.icon,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ExpansionTile(
+//       leading: src ? SvgPicture.asset(src!) : Icon(icon),
+//       title: Text(
+//         title,
+//         style: GoogleFonts.lato(
+//           textStyle: const TextStyle(
+//             fontWeight: FontWeight.bold,
+//             fontSize: 20,
+//           ),
+//         ),
+//       ),
+//       children: children,
+//     );
+//   }
+// }
+
+class CusExpensionTile extends StatelessWidget {
+  final String? src;
+  final String title;
+  final IconData? icon;
+  final List<Widget> children;
+  const CusExpensionTile({
+    super.key,
+    this.src,
+    required this.title,
+    required this.children,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      leading: _getLeadingWidget(),
+      title: Text(
+        title,
+        style: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
+      children: children,
+    );
+  }
+
+  Widget _getLeadingWidget() {
+    if (src != null && src!.isNotEmpty) {
+      // Show SVG if `src` is provided
+      return SvgPicture.asset(src!);
+    } else if (icon != null) {
+      // Show icon if `icon` is provided
+      return Icon(icon, size: 30.0);
+    } else {
+      // Default fallback if neither `src` nor `icon` is provided
+      return const SizedBox.shrink();
+    }
+  }
+}
+
+class CusListTile extends StatelessWidget {
+  final String title;
+  final Function() onTap;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  const CusListTile(
+      {super.key,
+      required this.title,
+      required this.onTap,
+      this.fontWeight,
+      this.fontSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(
+          title,
+          style: GoogleFonts.lato(
+            textStyle: TextStyle(
+              fontSize: fontSize ?? 14.0,
+              fontWeight: fontWeight ?? FontWeight.w600,
+            ),
+          ),
+        ),
+        onTap: onTap);
+  }
+}
+
+class Logout extends StatelessWidget {
+  const Logout({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return ListTile(
+          leading: const Icon(Icons.logout, color: Colors.red),
+          title: Text(
+            "Logout",
+            style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.red,
+              ),
+            ),
+          ),
+          onTap: () async {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  title: const Text('Logout'),
+                  content: const Text('Are you sure you want to logout?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('No'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Yes'),
+                      onPressed: () async {
+                        await ref.read(secureStoargeProvider).clearData();
+                        ref.invalidate(userProfileProvider);
+                        ref.invalidate(dealerProfileProvider);
+                        ref.invalidate(dealerCodeProvider);
+                        navigationPop();
+
+                        navigationRemoveUntil(const SplashScreen());
+                        // Navigator.pushAndRemoveUntil(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) =>
+                        //           const SplashScreen()),
+                        //   (route) => false,
+                        // );
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
 class DrawerElement extends StatelessWidget {
   final String src;
   final String title;
@@ -393,6 +426,7 @@ class DrawerElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      // dense: true,
       leading: SvgPicture.asset(src),
       onTap: onTap,
       title: Text(
@@ -404,11 +438,10 @@ class DrawerElement extends StatelessWidget {
           ),
         ),
       ),
-      shape: Border(
-        bottom: BorderSide(
-          color: Colors.black.withOpacity(0.09),
-        ),
-      ),
+      // shape: Border(
+      //     bottom: BorderSide(
+      //   color: Colors.black.withOpacity(0.09),
+      // )),
     );
   }
 }

@@ -7,9 +7,10 @@ Future<dynamic> navigateTo(Widget widget) {
       .push(MaterialPageRoute(builder: (context) => widget));
 }
 
-navigationPop(BuildContext context) {
-  Navigator.of(context).pop();
+void navigationPop() {
+  navigatorKey.currentState!.pop();
 }
+
 
 removeUntilRoute(BuildContext context, String pageName, {Object? arguments}) {
   Navigator.pushNamedAndRemoveUntil(
@@ -25,10 +26,17 @@ pushRoute(BuildContext context, String pageName, {Object? arguments}) {
 }
 
 //  Naviation
-navigationRemoveUntil( Widget widget) {
+// navigationRemoveUntil( Widget widget) {
+//   return navigatorKey.currentState!.pushAndRemoveUntil(
+//       MaterialPageRoute(builder: (context) => widget),
+//       (Route<dynamic> route) => false);
+// }
+
+Future<void> navigationRemoveUntil(Widget widget) {
   return navigatorKey.currentState!.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => widget),
-      (Route<dynamic> route) => false);
+    MaterialPageRoute(builder: (context) => widget),
+    (route) => false,
+  );
 }
 
 // navigationPushReplacement(BuildContext context, Widget widget) {
