@@ -56,7 +56,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
         children: [
           Expanded(
             child: ListView(
-              padding: EdgeInsets.zero,
+              // padding: EdgeInsets.zero,
               children: [
                 heightSizedBox(20.0),
                 ClipOval(
@@ -187,29 +187,27 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 //           navigationPush(context, const ExtractionReport());
                 //         },
                 //       ),
-
-                CusExpensionTile(
-                  title: "Extraction",
-                  icon: Icons.data_exploration_outlined,
-                  children: [
-                    dealer == "dealer"
-                        ? const SizedBox()
-                        : CusListTile(
-                            title: "Extraction Report",
-                            onTap: () {
-                              // navigationPush(context, const PulseDataScreen());
-                              navigationPush(context, const ExtractionReport());
-                            }),
-                    dealer == "dealer"
-                        ? const SizedBox()
-                        : CusListTile(
-                            title: "Extraction Data Upload",
-                            onTap: () {
-                              navigationPush(
-                                  context, const ExtractionDataScreen());
-                            }),
-                  ],
-                ),
+                dealer == "dealer"
+                    ? const SizedBox()
+                    : CusExpensionTile(
+                        title: "Extraction",
+                        icon: Icons.data_exploration_outlined,
+                        children: [
+                          CusListTile(
+                              title: "Extraction Report",
+                              onTap: () {
+                                // navigationPush(context, const PulseDataScreen());
+                                navigationPush(
+                                    context, const ExtractionReport());
+                              }),
+                          CusListTile(
+                              title: "Extraction Data Upload",
+                              onTap: () {
+                                navigationPush(
+                                    context, const ExtractionDataScreen());
+                              }),
+                        ],
+                      ),
 
                 // ========================= ! Log Out ! ================================
                 const Logout(),

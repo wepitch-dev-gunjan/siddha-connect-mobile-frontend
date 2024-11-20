@@ -16,9 +16,9 @@ final getProfileProvider = FutureProvider.autoDispose((ref) async {
 //   return getDealerProfile;
 // });
 
-final dealerRoleProvider = StateProvider<String?>((ref) => "");
-final dealerCodeProvider = StateProvider<String?>((ref) => "");
-final dealerNameProvider = StateProvider<String?>((ref) => "");
+final dealerRoleProvider = StateProvider.autoDispose<String?>((ref) => "");
+final dealerCodeProvider = StateProvider.autoDispose<String?>((ref) => "");
+final dealerNameProvider = StateProvider.autoDispose<String?>((ref) => "");
 
 final userProvider =
     FutureProvider.autoDispose<Map<String, String>>((ref) async {

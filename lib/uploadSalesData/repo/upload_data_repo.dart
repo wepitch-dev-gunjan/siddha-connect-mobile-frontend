@@ -8,7 +8,7 @@ import '../../salesDashboard/screen/sales_dashboard.dart';
 import '../../utils/message.dart';
 import '../../utils/navigation.dart';
 
-final salesDataUploadRepoProvider = Provider((ref) {
+final salesDataUploadRepoProvider = Provider.autoDispose((ref) {
   return SalesDataUploadRepo();
 });
 
