@@ -90,7 +90,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 heightSizedBox(10.0),
 
                 ListTile(
-                  leading: const Icon(Icons.home_outlined, size: 35),
+                  leading: const Icon(Icons.home, size: 35),
                   onTap: () {
                     navigationPush(context, const SalesDashboard());
                   },
@@ -165,11 +165,11 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 title: "Upload Finance Data", onTap: () {})
                           ]),
 
-                DrawerElement(
-                  src: "assets/images/attendance.svg",
-                  title: "Attendance",
-                  onTap: () {},
-                ),
+                // DrawerElement(
+                //   src: "assets/images/attendance.svg",
+                //   title: "Attendance",
+                //   onTap: () {},
+                // ),
                 // dealer == "dealer"
                 //     ? const SizedBox()
                 //     : ListTile(
@@ -188,31 +188,28 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 //         },
                 //       ),
 
-                const CusExpensionTile(
+                CusExpensionTile(
                   title: "Extraction",
-                  children: [],
-                  
+                  icon: Icons.data_exploration_outlined,
+                  children: [
+                    dealer == "dealer"
+                        ? const SizedBox()
+                        : CusListTile(
+                            title: "Extraction Report",
+                            onTap: () {
+                              // navigationPush(context, const PulseDataScreen());
+                              navigationPush(context, const ExtractionReport());
+                            }),
+                    dealer == "dealer"
+                        ? const SizedBox()
+                        : CusListTile(
+                            title: "Extraction Data Upload",
+                            onTap: () {
+                              navigationPush(
+                                  context, const ExtractionDataScreen());
+                            }),
+                  ],
                 ),
-                dealer == "dealer"
-                    ? const SizedBox()
-                    : CusListTile(
-                        title: "Extraction Report",
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        onTap: () {
-                          // navigationPush(context, const PulseDataScreen());
-                          navigationPush(context, const ExtractionReport());
-                        }),
-
-                dealer == "dealer"
-                    ? const SizedBox()
-                    : CusListTile(
-                        title: "Extraction Data Upload",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        onTap: () {
-                          navigationPush(context, const ExtractionDataScreen());
-                        }),
 
                 // ========================= ! Log Out ! ================================
                 const Logout(),
@@ -242,37 +239,6 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
   }
 }
 
-// class CusExpensionTile extends StatelessWidget {
-//   final String? src;
-//   final String title;
-//   final IconData? icon;
-//   final List<Widget> children;
-//   const CusExpensionTile({
-//     super.key,
-//     this.src,
-//     required this.title,
-//     required this.children,
-//     this.icon,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ExpansionTile(
-//       leading: src ? SvgPicture.asset(src!) : Icon(icon),
-//       title: Text(
-//         title,
-//         style: GoogleFonts.lato(
-//           textStyle: const TextStyle(
-//             fontWeight: FontWeight.bold,
-//             fontSize: 20,
-//           ),
-//         ),
-//       ),
-//       children: children,
-//     );
-//   }
-// }
-
 class CusExpensionTile extends StatelessWidget {
   final String? src;
   final String title;
@@ -289,6 +255,7 @@ class CusExpensionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      iconColor: Colors.black,
       leading: _getLeadingWidget(),
       title: Text(
         title,
@@ -309,9 +276,12 @@ class CusExpensionTile extends StatelessWidget {
       return SvgPicture.asset(src!);
     } else if (icon != null) {
       // Show icon if `icon` is provided
-      return Icon(icon, size: 30.0);
+      return Icon(
+        icon,
+        size: 32.0,
+        color: Colors.black,
+      );
     } else {
-      // Default fallback if neither `src` nor `icon` is provided
       return const SizedBox.shrink();
     }
   }
@@ -355,7 +325,11 @@ class Logout extends StatelessWidget {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         return ListTile(
-          leading: const Icon(Icons.logout, color: Colors.red),
+          leading: const Icon(
+            Icons.logout,
+            color: Colors.red,
+            size: 30,
+          ),
           title: Text(
             "Logout",
             style: GoogleFonts.lato(

@@ -333,6 +333,7 @@ class GetFamilyInfo extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        heightSizedBox(5.0),
         const Text('Family Info',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         heightSizedBox(10.0),
@@ -437,6 +438,7 @@ class GetChildrensInfo extends ConsumerWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              heightSizedBox(5.0),
               const Text(
                 'Childrens',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
