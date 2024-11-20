@@ -109,6 +109,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           navigationPush(context, const SalesDashboard());
                         },
                       )
+// =============================! Sales Dashboard !==========================
                     : CusExpensionTile(
                         title: "Sales",
                         src: "assets/images/dashboard.svg",
@@ -144,6 +145,8 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                               }),
                         ],
                       ),
+
+//==================================! Finance Dashboard !=======================                      
                 dealer == 'dealer'
                     ? DrawerElement(
                         src: "assets/images/finance.svg",
@@ -162,22 +165,31 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 title: "Upload Finance Data", onTap: () {})
                           ]),
 
+
+//===============================! Atteneance !====================================
+
+
                 // DrawerElement(
                 //   src: "assets/images/attendance.svg",
                 //   title: "Attendance",
                 //   onTap: () {},
                 // ),
-                CusExpensionTile(
-                  title: "Pulse",
-                  icon: Icons.monitor_heart_outlined,
-                  children: [
-                    CusListTile(
-                        title: "Pulse Data Upload",
-                        onTap: () {
-                          navigationPush(context, const PulseDataScreen());
-                        }),
-                  ],
-                ),
+
+//================================== ! Pulse Dashboard !==============================
+                // CusExpensionTile(
+                //   title: "Pulse",
+                //   icon: Icons.monitor_heart_outlined,
+                //   children: [
+                //     CusListTile(
+                //         title: "Pulse Data Upload",
+                //         onTap: () {
+                //           navigationPush(context, const PulseDataScreen());
+                //         }),
+                //   ],
+                // ),
+
+
+//==================================! Extraction Dashboard !=========================
                 dealer == "dealer"
                     ? const SizedBox()
                     : CusExpensionTile(
@@ -199,8 +211,8 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                               }),
                         ],
                       ),
+// ========================= ! Log Out ! ================================
 
-                // ========================= ! Log Out ! ================================
                 const Logout(),
               ],
             ),
@@ -261,10 +273,8 @@ class CusExpensionTile extends StatelessWidget {
 
   Widget _getLeadingWidget() {
     if (src != null && src!.isNotEmpty) {
-      // Show SVG if `src` is provided
       return SvgPicture.asset(src!);
     } else if (icon != null) {
-      // Show icon if `icon` is provided
       return Icon(
         icon,
         size: 32.0,
