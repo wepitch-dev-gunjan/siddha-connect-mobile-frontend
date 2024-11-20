@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
+import 'package:siddha_connect/extraction/screens/pulse_data_upload.dart';
 import 'package:siddha_connect/profile/repo/profile_repo.dart';
 import 'package:siddha_connect/extraction/screens/extraction_data_upload.dart';
 import 'package:siddha_connect/extraction/screens/extraction_report.dart';
@@ -20,14 +21,12 @@ import 'sizes.dart';
 
 final userProfileProvider = FutureProvider.autoDispose((ref) async {
   final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
-
   return getprofileStatus;
 });
 
 final dealerProfileProvider = FutureProvider.autoDispose((ref) async {
   final getDealerVerified =
       await ref.watch(authRepoProvider).isDealerVerified();
-
   return getDealerVerified;
 });
 
@@ -86,9 +85,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                     child: Text("Loading..."),
                   ),
                 ),
-
                 heightSizedBox(10.0),
-
                 ListTile(
                   leading: const Icon(Icons.home, size: 35),
                   onTap: () {
@@ -170,23 +167,17 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 //   title: "Attendance",
                 //   onTap: () {},
                 // ),
-                // dealer == "dealer"
-                //     ? const SizedBox()
-                //     : ListTile(
-                //         title: Text(
-                //           "Pulse Data Upload",
-                //           style: GoogleFonts.lato(
-                //             textStyle: const TextStyle(
-                //               fontWeight: FontWeight.bold,
-                //               fontSize: 20,
-                //             ),
-                //           ),
-                //         ),
-                //         onTap: () {
-                //           // navigationPush(context, const PulseDataScreen());
-                //           navigationPush(context, const ExtractionReport());
-                //         },
-                //       ),
+                CusExpensionTile(
+                  title: "Pulse",
+                  icon: Icons.monitor_heart_outlined,
+                  children: [
+                    CusListTile(
+                        title: "Pulse Data Upload",
+                        onTap: () {
+                          navigationPush(context, const PulseDataScreen());
+                        }),
+                  ],
+                ),
                 dealer == "dealer"
                     ? const SizedBox()
                     : CusExpensionTile(
