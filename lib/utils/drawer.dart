@@ -166,19 +166,19 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           ]),
 
 //================================== ! Pulse Dashboard !==============================
-                CusExpensionTile(
-                  title: "Pulse",
-                  icon: Icons.monitor_heart_outlined,
-                  children: [
-                    CusListTile(
-                        title: "Pulse Data Upload",
-                        onTap: () {
-                          navigationPush(context, const PulseDataScreen());
-                        }),
-                  ],
-                ),
+//                 CusExpensionTile(
+//                   title: "Pulse",
+//                   icon: Icons.monitor_heart_outlined,
+//                   children: [
+//                     CusListTile(
+//                         title: "Pulse Data Upload",
+//                         onTap: () {
+//                           navigationPush(context, const PulseDataScreen());
+//                         }),
+//                   ],
+//                 ),
 
-//==================================! Extraction Dashboard !=========================
+// //==================================! Extraction Dashboard !=========================
                 dealer == "dealer"
                     ? const SizedBox()
                     : CusExpensionTile(
@@ -201,13 +201,13 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                         ],
                       ),
 
-//===============================! Atteneance !====================================
+// //===============================! Atteneance !====================================
 
-                DrawerElement(
-                  src: "assets/images/attendance.svg",
-                  title: "Attendance",
-                  onTap: () {},
-                ),
+//                 DrawerElement(
+//                   src: "assets/images/attendance.svg",
+//                   title: "Attendance",
+//                   onTap: () {},
+//                 ),
 
 // ========================= ! Log Out ! ================================
 
