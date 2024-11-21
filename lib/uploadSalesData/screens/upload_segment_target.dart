@@ -98,16 +98,18 @@ class UploadSegmentTarget extends ConsumerWidget {
 
 class TopBarHeading extends StatelessWidget {
   final String title;
-  const TopBarHeading({
-    super.key,
-    required this.title,
-  });
+  final String? src;
+  const TopBarHeading({super.key, required this.title, this.src});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SvgPicture.asset("assets/images/dashboard.svg", height: 25, width: 25),
+        SvgPicture.asset(
+          src ?? "assets/images/dashboard.svg",
+          height: 25,
+          width: 25,
+        ),
         widthSizedBox(10.0),
         Text(
           title,

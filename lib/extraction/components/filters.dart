@@ -117,7 +117,7 @@ class Filters extends ConsumerWidget {
               ),
             ],
           ),
-          heightSizedBox(8.0),
+          heightSizedBox(15.0),
           if (selectedIndex != 0)
             FiltersDropdown(selectedPosition: selectedPosition),
         ],

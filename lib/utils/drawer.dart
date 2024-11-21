@@ -146,7 +146,7 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                         ],
                       ),
 
-//==================================! Finance Dashboard !=======================                      
+//==================================! Finance Dashboard !=======================
                 dealer == 'dealer'
                     ? DrawerElement(
                         src: "assets/images/finance.svg",
@@ -165,29 +165,18 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                                 title: "Upload Finance Data", onTap: () {})
                           ]),
 
-
-//===============================! Atteneance !====================================
-
-
-                // DrawerElement(
-                //   src: "assets/images/attendance.svg",
-                //   title: "Attendance",
-                //   onTap: () {},
-                // ),
-
 //================================== ! Pulse Dashboard !==============================
-                // CusExpensionTile(
-                //   title: "Pulse",
-                //   icon: Icons.monitor_heart_outlined,
-                //   children: [
-                //     CusListTile(
-                //         title: "Pulse Data Upload",
-                //         onTap: () {
-                //           navigationPush(context, const PulseDataScreen());
-                //         }),
-                //   ],
-                // ),
-
+                CusExpensionTile(
+                  title: "Pulse",
+                  icon: Icons.monitor_heart_outlined,
+                  children: [
+                    CusListTile(
+                        title: "Pulse Data Upload",
+                        onTap: () {
+                          navigationPush(context, const PulseDataScreen());
+                        }),
+                  ],
+                ),
 
 //==================================! Extraction Dashboard !=========================
                 dealer == "dealer"
@@ -211,6 +200,15 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                               }),
                         ],
                       ),
+
+//===============================! Atteneance !====================================
+
+                DrawerElement(
+                  src: "assets/images/attendance.svg",
+                  title: "Attendance",
+                  onTap: () {},
+                ),
+
 // ========================= ! Log Out ! ================================
 
                 const Logout(),

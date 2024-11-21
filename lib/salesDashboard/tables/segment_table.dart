@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:siddha_connect/utils/responsive.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
@@ -169,7 +170,7 @@ class SegmentTable extends ConsumerWidget {
       loading: () => const Padding(
         padding: EdgeInsets.only(top: 150),
         child: Center(
-          child: CircularProgressIndicator(
+          child: SpinKitCircle(
             color: AppColor.primaryColor,
           ),
         ),

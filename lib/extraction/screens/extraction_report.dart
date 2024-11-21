@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/sizes.dart';
+import '../../uploadSalesData/screens/upload_segment_target.dart';
 import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
 import '../repo/product_repo.dart';
@@ -28,7 +29,9 @@ class ExtractionReport extends ConsumerWidget {
       body: data.when(
         data: (data) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const TopBarHeading(src: "",title: "Channel Target Upload"),
               heightSizedBox(10.0),
               const DatePickerContainer(),
               heightSizedBox(10.0),
