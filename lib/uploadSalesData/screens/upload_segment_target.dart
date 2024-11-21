@@ -99,7 +99,11 @@ class UploadSegmentTarget extends ConsumerWidget {
 class TopBarHeading extends StatelessWidget {
   final String title;
   final String? src;
-  const TopBarHeading({super.key, required this.title, this.src});
+  const TopBarHeading({
+    super.key,
+    required this.title,
+    this.src,
+  });
 
   @override
   Widget build(BuildContext context) {

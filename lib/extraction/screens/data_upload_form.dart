@@ -9,6 +9,7 @@ import 'package:siddha_connect/utils/sizes.dart';
 import '../../common/common.dart';
 import '../../common/dashboard_options.dart';
 import '../../salesDashboard/repo/sales_dashboard_repo.dart';
+import '../../uploadSalesData/screens/upload_segment_target.dart';
 import '../../utils/cus_appbar.dart';
 import '../components/dealer_dropdown.dart';
 import '../components/drop_downs.dart';
@@ -44,6 +45,7 @@ class ExtractionUploadForm extends ConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  // const TopBarHeading(title: "Channel Target Upload"),
                   const TopProfileName(),
                   heightSizedBox(15.0),
                   DealerDropDown(data: data),
@@ -74,6 +76,7 @@ class ExtractionUploadForm extends ConsumerWidget {
         padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
         child: Btn(
           btnName: "Submit",
+          
           onPressed: () {
             final quantity = ref.read(modelQuantityProvider);
             final dealer = ref.read(selectedDealerProvider);

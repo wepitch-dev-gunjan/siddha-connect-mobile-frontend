@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/utils/common_style.dart';
+import 'package:siddha_connect/utils/navigation.dart';
 import '../../utils/sizes.dart';
 import 'drop_downs.dart';
 
@@ -62,6 +66,7 @@ class ModelDropDawnTest extends ConsumerWidget {
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {
+                     
                       String searchText = '';
                       return StatefulBuilder(
                         builder: (context, setState) {
@@ -240,22 +245,50 @@ class ModelDropDawnTest extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
+                                Container(
+                                  height: 0.5,
+                                  width: width(context),
+                                  color: Colors.black,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: ButtonStyle(
+                                          foregroundColor:
+                                              WidgetStateProperty.all<Color>(
+                                                  Colors.black),
+                                          shape: WidgetStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                            ),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Cancel",
+                                        )),
+                                    widthSizedBox(10.0),
                                     TextButton(
-                                      child: const Text(
-                                        'Cancel',
-                                        style: TextStyle(color: Colors.black),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                                AppColor.primaryColor),
+                                        shape: WidgetStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
                                       child: const Text(
                                         'OK',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                       onPressed: () {
                                         Navigator.of(context)
