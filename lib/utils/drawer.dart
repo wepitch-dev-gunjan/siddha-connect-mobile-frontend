@@ -166,17 +166,17 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                           ]),
 
 //================================== ! Pulse Dashboard !==============================
-//                 CusExpensionTile(
-//                   title: "Pulse",
-//                   icon: Icons.monitor_heart_outlined,
-//                   children: [
-//                     CusListTile(
-//                         title: "Pulse Data Upload",
-//                         onTap: () {
-//                           navigationPush(context, const PulseDataScreen());
-//                         }),
-//                   ],
-//                 ),
+                CusExpensionTile(
+                  title: "Pulse",
+                  icon: Icons.monitor_heart_outlined,
+                  children: [
+                    CusListTile(
+                        title: "Pulse Data Upload",
+                        onTap: () {
+                          navigationPush(context, const PulseDataScreen());
+                        }),
+                  ],
+                ),
 
 // //==================================! Extraction Dashboard !=========================
                 dealer == "dealer"

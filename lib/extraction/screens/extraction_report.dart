@@ -38,7 +38,7 @@ class ExtractionReport extends ConsumerWidget {
               const Filters(),
               heightSizedBox(10.0),
               const Expanded(
-                child: ExtractionDataTable(),
+                child: ExtractionReportTable(),
               )
             ],
           );
@@ -56,8 +56,8 @@ class ExtractionReport extends ConsumerWidget {
   }
 }
 
-class ExtractionDataTable extends ConsumerWidget {
-  const ExtractionDataTable({super.key});
+class ExtractionReportTable extends ConsumerWidget {
+  const ExtractionReportTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -76,7 +76,6 @@ class ExtractionUploadForm extends ConsumerWidget {
         padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
         child: Btn(
           btnName: "Submit",
-          
           onPressed: () {
             final quantity = ref.read(modelQuantityProvider);
             final dealer = ref.read(selectedDealerProvider);
