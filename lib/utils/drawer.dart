@@ -89,7 +89,11 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                 ListTile(
                   leading: const Icon(Icons.home, size: 35),
                   onTap: () {
-                    navigationPush(context, const SalesDashboard());
+                    navigationPush(
+                        context,
+                        const SalesDashboard(
+                       
+                        ));
                   },
                   title: Text(
                     "Home",
@@ -106,7 +110,11 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                         src: "assets/images/dashboard.svg",
                         title: "Sales Dashboard",
                         onTap: () {
-                          navigationPush(context, const SalesDashboard());
+                          navigationPush(
+                              context,
+                              const SalesDashboard(
+                         
+                              ));
                         },
                       )
 // =============================! Sales Dashboard !==========================
@@ -115,9 +123,22 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
                         src: "assets/images/dashboard.svg",
                         children: [
                           CusListTile(
-                              title: "Sales Dashboard",
+                              title: " MTD Sales Dashboard ",
                               onTap: () {
-                                navigationPush(context, const SalesDashboard());
+                                navigationPush(
+                                    context,
+                                    const SalesDashboard(
+                               
+                                    ));
+                              }),
+                          CusListTile(
+                              title: " YTD Sales Dashboard ",
+                              onTap: () {
+                                navigationPush(
+                                    context,
+                                    const SalesDashboard(
+                                  
+                                    ));
                               }),
                           CusListTile(
                               title: "Sales Data Upload",

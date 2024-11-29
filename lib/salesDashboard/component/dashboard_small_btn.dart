@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/extraction/components/drop_downs.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../common/dashboard_options.dart';
 import '../../utils/common_style.dart';
@@ -286,86 +287,77 @@ class CusDropdown extends ConsumerWidget {
         return DropdownButtonFormField<String>(
           dropdownColor: Colors.white,
           value: selectedItem,
-          style: const TextStyle(
-              fontSize: 16.0, height: 1.5, color: Colors.black87),
-          decoration: InputDecoration(
-            fillColor: const Color(0XFFfafafa),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-            errorStyle: const TextStyle(color: Colors.red),
-            labelStyle: const TextStyle(
-                fontSize: 15.0,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(
-                  color: Colors.black12,
-                )),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Colors.red, // Error border color
-                width: 1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide:
-                    const BorderSide(color: Color(0xff1F0A68), width: 1)),
-            labelText: selectedPosition,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: const BorderSide(color: Colors.amber, width: 0.5)),
-          ),
+          decoration: inputDecoration(label: selectedPosition),
           onChanged: (newValue) {
             ref.read(selectedItemProvider.notifier).state = newValue!;
           },
           items: subordinates.map<DropdownMenuItem<String>>((value) {
+            final isSelected = value == selectedItem;
             return DropdownMenuItem<String>(
               value: value,
-              child: value == "All"
-                  ? Text(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.only(bottom: 10),
+                width: width(context),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? AppColor.primaryColor
+                      : Colors.grey[100], // Change color when selected
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.blue
+                        : Colors.black12, // Change border color when selected
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       value,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isSelected
+                            ? Colors.white
+                            : Colors.black87, // Change text color when selected
                       ),
-                    )
-                  : Container(
-                      padding: const EdgeInsets.all(8.0),
-                      margin: const EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    const SizedBox(height: 4.0),
+                    if (value != "All")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            value,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
+                          ReportData(
+                            title: "Target",
+                            value: "88812 k",
+                            isSelected: isSelected,
                           ),
-                          const SizedBox(height: 4.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ReportData(title: "Target", value: "88812 k"),
-                              ReportData(title: "MTD", value: "5522 k"),
-                              ReportData(title: "LMTD", value: "2222 k"),
-                              ReportData(title: "GWTH%", value: "9822 %"),
-                              ReportData(title: "REQ.ADS", value: "88800 k"),
-                            ],
+                          ReportData(
+                            title: "MTD",
+                            value: "5522 k",
+                            isSelected: isSelected,
+                          ),
+                          ReportData(
+                            title: "LMTD",
+                            value: "2222 k",
+                            isSelected: isSelected,
+                          ),
+                          ReportData(
+                            title: "GWTH%",
+                            value: "9822 %",
+                            isSelected: isSelected,
+                          ),
+                          ReportData(
+                            title: "REQ.ADS",
+                            value: "88800 k",
+                            isSelected: isSelected,
                           ),
                         ],
                       ),
-                    ),
+                  ],
+                ),
+              ),
             );
           }).toList(),
           selectedItemBuilder: (BuildContext context) {
@@ -392,11 +384,12 @@ class CusDropdown extends ConsumerWidget {
 
 class ReportData extends StatelessWidget {
   final String title, value;
-  const ReportData({
-    super.key,
-    required this.title,
-    required this.value,
-  });
+  final bool isSelected;
+  const ReportData(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.isSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -405,11 +398,13 @@ class ReportData extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+          style: TextStyle(
+              fontSize: 12.0, color: isSelected ? Colors.white : Colors.grey),
         ),
         Text(
           value,
-          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+          style: TextStyle(
+              fontSize: 12.0, color: isSelected ? Colors.white : Colors.grey),
         ),
       ],
     );
