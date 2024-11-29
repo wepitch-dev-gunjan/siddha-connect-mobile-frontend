@@ -401,10 +401,11 @@ class ReportData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style:const  TextStyle(fontSize: 12.0, color: Colors.grey),
+          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
         ),
         Text(
           value,
