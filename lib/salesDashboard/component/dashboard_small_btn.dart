@@ -191,6 +191,79 @@ class SmallCusBtn extends ConsumerWidget {
   }
 }
 
+// class CusDropdown extends ConsumerWidget {
+//   final String selectedPosition;
+
+//   const CusDropdown({super.key, required this.selectedPosition});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final selectedItem = ref.watch(selectedItemProvider);
+//     final subOrdinates = ref.watch(subordinateProvider);
+
+//     return subOrdinates.when(
+//       data: (data) {
+//         final subordinates = data[selectedPosition] ?? [];
+//         if (selectedItem == null && subordinates.isNotEmpty) {
+//           WidgetsBinding.instance.addPostFrameCallback((_) {
+//             ref.read(selectedItemProvider.notifier).state = subordinates[0];
+//           });
+//         }
+
+//         return DropdownButtonFormField<String>(
+//           dropdownColor: Colors.white,
+//           value: selectedItem,
+//           style: const TextStyle(
+//               fontSize: 16.0, height: 1.5, color: Colors.black87),
+//           decoration: InputDecoration(
+//               fillColor: const Color(0XFFfafafa),
+//               contentPadding:
+//                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+//               errorStyle: const TextStyle(color: Colors.red),
+//               labelStyle: const TextStyle(
+//                   fontSize: 15.0,
+//                   color: Colors.black54,
+//                   fontWeight: FontWeight.w500),
+//               enabledBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(8),
+//                   borderSide: const BorderSide(
+//                     color: Colors.black12,
+//                   )),
+//               errorBorder: OutlineInputBorder(
+//                 borderRadius: BorderRadius.circular(8),
+//                 borderSide: const BorderSide(
+//                   color: Colors.red, // Error border color
+//                   width: 1,
+//                 ),
+//               ),
+//               focusedBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(8),
+//                   borderSide:
+//                       const BorderSide(color: Color(0xff1F0A68), width: 1)),
+//               labelText: selectedPosition,
+//               border: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(5),
+//                   borderSide:
+//                       const BorderSide(color: Colors.amber, width: 0.5))),
+//           onChanged: (newValue) {
+//             ref.read(selectedItemProvider.notifier).state = newValue!;
+//           },
+//           items: subordinates.map<DropdownMenuItem<String>>((value) {
+//             return DropdownMenuItem<String>(
+//               value: value,
+//               child: Text(value),
+//             );
+//           }).toList(),
+//         );
+//       },
+//       error: (error, stackTrace) => const Text("Something went wrong"),
+//       loading: () => const Center(
+//         child: CircularProgressIndicator(),
+//       ),
+//     );
+//   }
+// }
+
 class CusDropdown extends ConsumerWidget {
   final String selectedPosition;
 
@@ -216,50 +289,128 @@ class CusDropdown extends ConsumerWidget {
           style: const TextStyle(
               fontSize: 16.0, height: 1.5, color: Colors.black87),
           decoration: InputDecoration(
-              fillColor: const Color(0XFFfafafa),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-              errorStyle: const TextStyle(color: Colors.red),
-              labelStyle: const TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500),
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.black12,
-                  )),
-              errorBorder: OutlineInputBorder(
+            fillColor: const Color(0XFFfafafa),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            errorStyle: const TextStyle(color: Colors.red),
+            labelStyle: const TextStyle(
+                fontSize: 15.0,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
+            enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(
-                  color: Colors.red, // Error border color
-                  width: 1,
-                ),
+                  color: Colors.black12,
+                )),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(
+                color: Colors.red, // Error border color
+                width: 1,
               ),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide:
-                      const BorderSide(color: Color(0xff1F0A68), width: 1)),
-              labelText: selectedPosition,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide:
-                      const BorderSide(color: Colors.amber, width: 0.5))),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide:
+                    const BorderSide(color: Color(0xff1F0A68), width: 1)),
+            labelText: selectedPosition,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: const BorderSide(color: Colors.amber, width: 0.5)),
+          ),
           onChanged: (newValue) {
             ref.read(selectedItemProvider.notifier).state = newValue!;
           },
           items: subordinates.map<DropdownMenuItem<String>>((value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: value == "All"
+                  ? Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    )
+                  : Container(
+                      padding: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.black12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 4.0),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ReportData(title: "Target", value: "88812 k"),
+                              ReportData(title: "MTD", value: "5522 k"),
+                              ReportData(title: "LMTD", value: "2222 k"),
+                              ReportData(title: "GWTH%", value: "9822 %"),
+                              ReportData(title: "REQ.ADS", value: "88800 k"),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
             );
           }).toList(),
+          selectedItemBuilder: (BuildContext context) {
+            return subordinates.map<Widget>((value) {
+              return Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              );
+            }).toList(); // Explicitly cast to List<Widget>
+          },
         );
       },
       error: (error, stackTrace) => const Text("Something went wrong"),
       loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
+    );
+  }
+}
+
+class ReportData extends StatelessWidget {
+  final String title, value;
+  const ReportData({
+    super.key,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style:const  TextStyle(fontSize: 12.0, color: Colors.grey),
+        ),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+        ),
+      ],
     );
   }
 }
