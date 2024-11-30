@@ -31,7 +31,47 @@ class ExtractionReport extends ConsumerWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const TopBarHeading(src: "",title: "Channel Target Upload"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text("Value", style: TextStyle(fontSize: 14)),
+                      Transform.scale(
+                        scale:
+                            0.6, // Adjust the scale factor to resize the switch
+                        child: Switch(
+                          activeTrackColor: Colors.grey,
+                          inactiveTrackColor: Colors.grey,
+                          activeThumbImage: AssetImage('assets/thumb.png'),
+                          inactiveThumbImage: AssetImage('assets/thumb.png'),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          value: true, // Add logic to control this value
+                          onChanged: (bool newValue) {
+                            // Add logic to handle value switch change
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Show Shares (%)", style: TextStyle(fontSize: 14)),
+                      Transform.scale(
+                        scale:
+                            0.8, // Adjust the scale factor to resize the switch
+                        child: Switch(
+                          value: false, // Add logic to control this value
+                          onChanged: (bool newValue) {
+                            // Add logic to handle Show Shares (%) switch change
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               heightSizedBox(10.0),
               const DatePickerContainer(),
               heightSizedBox(10.0),
@@ -55,6 +95,45 @@ class ExtractionReport extends ConsumerWidget {
     );
   }
 }
+
+// class ExtractionReport extends ConsumerWidget {
+//   const ExtractionReport({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final data = ref.watch(getExtractionReportForAdmin);
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: const CustomAppBar(),
+//       body: data.when(
+//         data: (data) {
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+
+//               heightSizedBox(10.0),
+//               const DatePickerContainer(),
+//               heightSizedBox(10.0),
+//               const Filters(),
+//               heightSizedBox(10.0),
+//               const Expanded(
+//                 child: ExtractionReportTable(),
+//               )
+//             ],
+//           );
+//         },
+//         error: (error, stackTrace) => const Center(
+//           child: Text("Something Went Wrong"),
+//         ),
+//         loading: () =>const  Center(
+//             child: SpinKitCircle(
+//           color: AppColor.primaryColor,
+//           size: 50.0,
+//         )),
+//       ),
+//     );
+//   }
+// }
 
 class ExtractionReportTable extends ConsumerWidget {
   const ExtractionReportTable({super.key});

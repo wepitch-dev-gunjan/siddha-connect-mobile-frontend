@@ -139,19 +139,42 @@ class ProductRepo {
   //   return response;
   // }
 
-  getFilters(String type) async {
-  final modifiedType = (type == "CODE")
-      ? "dealerCode"
-      : (type == "AREA")
-          ? "Area"
-          : (type == "SEGMENT")
-              ? "productId.Segment"
-              : (type == "TSE")
-                  ? "uploadedBy"
-                  : type;
-  final response =
-      await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
-  return response;
-}
+  // getFilters(String type) async {
+  //   final modifiedType = (type == "OUTLATE CODE")
+  //       ? "dealerCode"
+  //       : (type == "AREA")
+  //           ? "Area"
+  //           : (type == "SEGMENT")
+  //               ? "productId.Segment"
+  //               : (type == "TSE")
+  //                   ? "uploadedBy"
+  //                   : type;
+  //   final response =
+  //       await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
+  //   return response;
+  // }
 
+  getFilters(String type) async {
+    final modifiedType = (type == "OUTLATE CODE")
+        ? "CODE" // OUTLATE CODE will map to CODE
+        : (type == "OUTLATE TYPE")
+            ? "TYPE" // OUTLATE TYPE will map to TYPE
+            : (type == "AREA")
+                ? "Area"
+                : (type == "SEGMENT")
+                    ? "productId.Segment"
+                    : (type == "TSE")
+                        ? "uploadedBy"
+                        : (type == "STATE")
+                            ? "state"
+                            : (type == "DISTRICT")
+                                ? "district"
+                                : (type == "TOWN")
+                                    ? "town"
+                                    : type;
+
+    final response =
+        await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
+    return response;
+  }
 }
