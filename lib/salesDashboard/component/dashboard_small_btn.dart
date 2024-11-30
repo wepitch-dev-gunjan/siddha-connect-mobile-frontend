@@ -324,33 +324,33 @@ class CusDropdown extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 4.0),
-                    if (value != "All")
+                    if (value != "ALL")
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ReportData(
                             title: "Target",
-                            value: "88812 k",
+                            value: "N/A",
                             isSelected: isSelected,
                           ),
                           ReportData(
                             title: "MTD",
-                            value: "5522 k",
+                            value: "N/A",
                             isSelected: isSelected,
                           ),
                           ReportData(
                             title: "LMTD",
-                            value: "2222 k",
+                            value: "N/A",
                             isSelected: isSelected,
                           ),
                           ReportData(
                             title: "GWTH%",
-                            value: "9822 %",
+                            value: "N/A %",
                             isSelected: isSelected,
                           ),
                           ReportData(
                             title: "REQ.ADS",
-                            value: "88800 k",
+                            value: "N/A",
                             isSelected: isSelected,
                           ),
                         ],
