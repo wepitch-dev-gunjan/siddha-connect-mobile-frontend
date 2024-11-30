@@ -126,16 +126,32 @@ class ProductRepo {
   //     return null;
   //   }
   // }
+  // getFilters(String type) async {
+  //   final modifiedType = (type == "CODE")
+  //       ? "dealerCode"
+  //       : (type == "AREA")
+  //           ? "Area"
+  //           : (type == "SEGMENT")
+  //               ? "productId.Segment"
+  //               : type;
+  //   final response =
+  //       await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
+  //   return response;
+  // }
+
   getFilters(String type) async {
-    final modifiedType = (type == "CODE")
-        ? "dealerCode"
-        : (type == "AREA")
-            ? "Area"
-            : (type == "SEGMENT")
-                ? "productId.Segment"
-                : type;
-    final response =
-        await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
-    return response;
-  }
+  final modifiedType = (type == "CODE")
+      ? "dealerCode"
+      : (type == "AREA")
+          ? "Area"
+          : (type == "SEGMENT")
+              ? "productId.Segment"
+              : (type == "TSE")
+                  ? "uploadedBy"
+                  : type;
+  final response =
+      await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
+  return response;
+}
+
 }

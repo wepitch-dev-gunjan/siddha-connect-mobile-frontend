@@ -11,6 +11,45 @@ import '../component/date_picker.dart';
 import '../component/sales_data_show.dart';
 import '../component/dashboard_full_btn.dart';
 
+// class SalesDashboard extends ConsumerWidget {
+//   final String initialOption;
+//   const SalesDashboard({
+//     super.key,
+//     this.initialOption = 'MTD',
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       ref.read(selectedOption1Provider.notifier).state = initialOption;
+//     });
+//     // this provider call for dealer info
+//     final dealerInfo = ref.watch(dealerProvider);
+//     return PopScope(
+//       canPop: false,
+//       onPopInvoked: (didPop) {
+//         SystemNavigator.pop();
+//       },
+//       child: const Scaffold(
+//         backgroundColor: AppColor.whiteColor,
+//         drawer: CusDrawer(),
+//         appBar: CustomAppBar(),
+//         body: SingleChildScrollView(
+//           child: Column(
+//             children: [
+//               TopRadioButtons(),
+//               DatePickerContainer(),
+//               SalesDashboardCard(),
+//               SmallCusBtn(),
+//               FullSizeBtn()
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class SalesDashboard extends ConsumerWidget {
   final String initialOption;
   const SalesDashboard({
@@ -20,15 +59,30 @@ class SalesDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    DateTime? lastBackPressTime;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(selectedOption1Provider.notifier).state = initialOption;
     });
+
     // this provider call for dealer info
     final dealerInfo = ref.watch(dealerProvider);
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        SystemNavigator.pop();
+
+    return WillPopScope(
+      onWillPop: () async {
+        final now = DateTime.now();
+        if (lastBackPressTime == null ||
+            now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
+          lastBackPressTime = now;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Press back again to exit'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          return false; // Prevent immediate exit
+        }
+        return true; // Exit app on second press within 2 seconds
       },
       child: const Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -49,6 +103,7 @@ class SalesDashboard extends ConsumerWidget {
     );
   }
 }
+
 
 
 
