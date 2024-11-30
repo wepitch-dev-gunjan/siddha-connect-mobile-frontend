@@ -25,7 +25,6 @@ class Filters extends ConsumerWidget {
       'TSE',
       'TYPE',
       'AREA',
-      'TL NAME',
       'ABM',
       'ASE',
       'ASM',

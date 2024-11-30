@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import 'package:siddha_connect/utils/common_style.dart';
+import 'package:siddha_connect/utils/message.dart';
 import '../../utils/cus_appbar.dart';
 import '../../utils/drawer.dart';
 import '../../utils/providers.dart';
@@ -50,6 +51,8 @@ import '../component/dashboard_full_btn.dart';
 //   }
 // }
 
+import 'dart:io'; // Import required for exit(0)
+
 class SalesDashboard extends ConsumerWidget {
   final String initialOption;
   const SalesDashboard({
@@ -74,15 +77,12 @@ class SalesDashboard extends ConsumerWidget {
         if (lastBackPressTime == null ||
             now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
           lastBackPressTime = now;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Press back again to exit'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-          return false; // Prevent immediate exit
+
+          showSnackBarMsg("Press back again to exit",
+              duration: const Duration(seconds: 2));
+          return false;
         }
-        return true; // Exit app on second press within 2 seconds
+        exit(0);
       },
       child: const Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -103,9 +103,6 @@ class SalesDashboard extends ConsumerWidget {
     );
   }
 }
-
-
-
 
 class YTDSalesDashboard extends ConsumerWidget {
   final String initialOption;
