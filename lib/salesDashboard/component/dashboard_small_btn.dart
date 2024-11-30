@@ -10,9 +10,9 @@ import '../../utils/common_style.dart';
 import '../../utils/providers.dart';
 import '../repo/sales_dashboard_repo.dart';
 
-final selectedIndexProvider = StateProvider<int>((ref) => 0);
-final selectedPositionProvider = StateProvider<String>((ref) => 'All');
-final selectedItemProvider = StateProvider<String?>((ref) => null);
+final selectedIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
+final selectedPositionProvider = StateProvider.autoDispose<String>((ref) => 'All');
+final selectedItemProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 class SmallCusBtn extends ConsumerWidget {
   const SmallCusBtn({super.key});

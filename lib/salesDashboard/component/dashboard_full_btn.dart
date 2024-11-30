@@ -8,7 +8,7 @@ import '../../utils/common_style.dart';
 import '../tables/segment_table.dart';
 import 'dashboard_small_btn.dart';
 
-final selectedButtonProvider = StateProvider<int>((ref) => 0);
+final selectedButtonProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 class FullSizeBtn extends ConsumerWidget {
   const FullSizeBtn({super.key});
