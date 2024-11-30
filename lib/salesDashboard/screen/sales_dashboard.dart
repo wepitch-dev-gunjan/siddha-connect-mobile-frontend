@@ -12,11 +12,17 @@ import '../component/sales_data_show.dart';
 import '../component/dashboard_full_btn.dart';
 
 class SalesDashboard extends ConsumerWidget {
-
-  const SalesDashboard({super.key});
+  final String initialOption;
+  const SalesDashboard({
+    super.key,
+    this.initialOption = 'MTD',
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(selectedOption1Provider.notifier).state = initialOption;
+    });
     // this provider call for dealer info
     final dealerInfo = ref.watch(dealerProvider);
     return PopScope(
@@ -24,16 +30,55 @@ class SalesDashboard extends ConsumerWidget {
       onPopInvoked: (didPop) {
         SystemNavigator.pop();
       },
-      child:  Scaffold(
+      child: const Scaffold(
         backgroundColor: AppColor.whiteColor,
         drawer: CusDrawer(),
         appBar: CustomAppBar(),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopRadioButtons(
-               
-              ),
+              TopRadioButtons(),
+              DatePickerContainer(),
+              SalesDashboardCard(),
+              SmallCusBtn(),
+              FullSizeBtn()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class YTDSalesDashboard extends ConsumerWidget {
+  final String initialOption;
+  const YTDSalesDashboard({
+    super.key,
+    this.initialOption = 'MTD',
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(selectedOption1Provider.notifier).state = initialOption;
+    });
+    // this provider call for dealer info
+    final dealerInfo = ref.watch(dealerProvider);
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        SystemNavigator.pop();
+      },
+      child: const Scaffold(
+        backgroundColor: AppColor.whiteColor,
+        drawer: CusDrawer(),
+        appBar: CustomAppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              YTDTopRadioButtons(),
               DatePickerContainer(),
               SalesDashboardCard(),
               SmallCusBtn(),
