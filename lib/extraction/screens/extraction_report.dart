@@ -12,41 +12,23 @@ import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
 import '../repo/product_repo.dart';
 
-// final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
-//   final productRepo = ref.watch(productRepoProvider);
-//   final filters = ref.watch(newSelectedItemsProvider);
-//   final data = await productRepo.getExtractionReportForAdmin(filters: filters);
-//   ref.keepAlive();
-//   return data;
-// });
-
 final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
   final filters = ref.watch(newSelectedItemsProvider);
-
-  // Read toggle values from providers
   final valueToggle = ref.watch(valueToggleProvider);
   final showShare = ref.watch(showShareToggleProvider);
-
-  // Add toggle values to filters
   final updatedFilters = {
     ...filters,
     "valueToggle": valueToggle,
-    "showShare": showShare,
+    "showShare": showShare
   };
 
   final data =
       await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
+  ref.keepAlive();
 
   return data;
 });
-
-// final getExtractionReportForAdminProvider = FutureProvider.autoDispose.family((ref, Map<String, dynamic> filters) async {
-//   final productRepo = ref.watch(productRepoProvider);
-//   final data = await productRepo.getExtractionReportForAdmin(filters);
-//   ref.keepAlive();
-//   return data;
-// });
 
 final valueToggleProvider = StateProvider<bool>((ref) => true);
 final showShareToggleProvider = StateProvider<bool>((ref) => false);
@@ -56,88 +38,74 @@ class ExtractionReport extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(getExtractionReportForAdmin);
     final isValueToggled = ref.watch(valueToggleProvider);
     final isShowShareToggled = ref.watch(showShareToggleProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const CustomAppBar(),
-      body: data.when(
-        data: (data) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Toggle Buttons Row
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // First Toggle Button
-                    Row(
-                      children: [
-                        Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            activeColor: Colors.white,
-                            activeTrackColor: AppColor.primaryColor,
-                            value: isValueToggled,
-                            onChanged: (value) {
-                              ref.read(valueToggleProvider.notifier).state =
-                                  value;
-                            },
-                          ),
+        backgroundColor: Colors.white,
+        appBar: const CustomAppBar(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Toggle Buttons Row
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // First Toggle Button
+                  Row(
+                    children: [
+                      Transform.scale(
+                        scale: 0.8,
+                        child: Switch(
+                          activeColor: Colors.white,
+                          activeTrackColor: AppColor.primaryColor,
+                          value: isValueToggled,
+                          onChanged: (value) {
+                            ref.read(valueToggleProvider.notifier).state =
+                                value;
+                          },
                         ),
-                        Text(isValueToggled ? "Value" : "Volume"),
-                      ],
-                    ),
+                      ),
+                      Text(isValueToggled ? "Value" : "Volume"),
+                    ],
+                  ),
 
-                    // Second Toggle Button
-                    Row(
-                      children: [
-                        Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            activeColor: Colors.white,
-                            activeTrackColor: AppColor.primaryColor,
-                            value: isShowShareToggled,
-                            onChanged: (value) {
-                              ref.read(showShareToggleProvider.notifier).state =
-                                  value;
-                            },
-                          ),
+                  // Second Toggle Button
+                  Row(
+                    children: [
+                      Transform.scale(
+                        scale: 0.8,
+                        child: Switch(
+                          activeColor: Colors.white,
+                          activeTrackColor: AppColor.primaryColor,
+                          value: isShowShareToggled,
+                          onChanged: (value) {
+                            ref.read(showShareToggleProvider.notifier).state =
+                                value;
+                          },
                         ),
-                        Text(isShowShareToggled
-                            ? "Show Actual Values"
-                            : "Show Share %"),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      Text(isShowShareToggled
+                          ? "Show Actual Values"
+                          : "Show Share %"),
+                    ],
+                  ),
+                ],
               ),
+            ),
 
-              const SizedBox(height: 10.0),
-              const DatePickerContainer(),
-              const SizedBox(height: 10.0),
-              const Filters(),
-              const SizedBox(height: 10.0),
-              const Expanded(
-                child: ExtractionReportTable(),
-              ),
-            ],
-          );
-        },
-        error: (error, stackTrace) => const Center(
-          child: Text("Something Went Wrong"),
-        ),
-        loading: () => const Center(
-            child: SpinKitCircle(
-          color: AppColor.primaryColor,
-          size: 50.0,
-        )),
-      ),
-    );
+            const SizedBox(height: 10.0),
+            const DatePickerContainer(),
+            const SizedBox(height: 10.0),
+            const Filters(),
+            const SizedBox(height: 10.0),
+            const Expanded(
+              child: ExtractionReportTable(),
+            ),
+          ],
+        ));
   }
 }
 
@@ -232,92 +200,90 @@ class ExtractionReportTable extends ConsumerWidget {
     double maxValue = 100;
 
     return extractionData.when(
-      data: (data) {
-        if (data == null || data['data'] == null) {
-          return const Center(child: Text('No data available.'));
-        }
+        data: (data) {
+          if (data == null || data['data'] == null) {
+            return const Center(child: Text('No data available.'));
+          }
 
-        final columns = [
-          "Price Class",
-          "Samsung",
-          "Vivo",
-          "Oppo",
-          "Xiaomi",
-          "Apple",
-          "One Plus",
-          "Real Me",
-          "Motorola",
-          "Others",
-          "Rank of Samsung"
-        ];
-        final rows = data['data'] ?? [];
+          final columns = [
+            "Price Class",
+            "Samsung",
+            "Vivo",
+            "Oppo",
+            "Xiaomi",
+            "Apple",
+            "One Plus",
+            "Real Me",
+            "Motorola",
+            "Others",
+            "Rank of Samsung"
+          ];
+          final rows = data['data'] ?? [];
 
-        return Theme(
-          data: Theme.of(context).copyWith(
-            dividerTheme: const DividerThemeData(
-              color: Colors.white,
+          return Theme(
+            data: Theme.of(context).copyWith(
+              dividerTheme: const DividerThemeData(
+                color: Colors.white,
+              ),
             ),
-          ),
-          child: DataTable2(
-            headingRowHeight: 50,
-            columnSpacing: 0,
-            border: TableBorder.all(color: Colors.black45, width: 0.5),
-            bottomMargin: 5,
-            horizontalMargin: 0,
-            minWidth: 1200,
-            showBottomBorder: true,
-            headingRowColor: WidgetStateColor.resolveWith(
-              (states) => const Color(0xff005BFF),
-            ),
-            columns: [
-              for (var column in columns)
-                DataColumn(
-                  label: Center(
-                    child: Text(
-                      column,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                  ),
-                ),
-            ],
-            rows: List.generate(rows.length, (index) {
-              final row = rows[index];
-
-              return DataRow(
-                cells: [
-                  for (var column in columns)
-                    DataCell(
-                      Container(
-                        color: getHeatmapColor(
-                          row[column] is num ? row[column].toDouble() : 0.0,
-                          minValue,
-                          maxValue,
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          row[column]?.toString() ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black),
-                        ),
+            child: DataTable2(
+              headingRowHeight: 50,
+              columnSpacing: 0,
+              border: TableBorder.all(color: Colors.black45, width: 0.5),
+              bottomMargin: 5,
+              horizontalMargin: 0,
+              minWidth: 1200,
+              showBottomBorder: true,
+              headingRowColor: WidgetStateColor.resolveWith(
+                (states) => const Color(0xff005BFF),
+              ),
+              columns: [
+                for (var column in columns)
+                  DataColumn(
+                    label: Center(
+                      child: Text(
+                        column,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
-                ],
-              );
-            }),
-          ),
-        );
-      },
-      error: (error, stackTrace) => const Center(
-        child: Text("Something Went Wrong"),
-      ),
-      loading: () => const Center(
-        child: CircularProgressIndicator(
-          color: AppColor.primaryColor,
-          strokeWidth: 3,
-        ),
-      ),
-    );
+                  ),
+              ],
+              rows: List.generate(rows.length, (index) {
+                final row = rows[index];
+
+                return DataRow(
+                  cells: [
+                    for (var column in columns)
+                      DataCell(
+                        Container(
+                          color: getHeatmapColor(
+                            row[column] is num ? row[column].toDouble() : 0.0,
+                            minValue,
+                            maxValue,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            row[column]?.toString() ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }),
+            ),
+          );
+        },
+        error: (error, stackTrace) => const Center(
+              child: Text("Something Went Wrong"),
+            ),
+        loading: () => const Center(
+                child: SpinKitCircle(
+              color: AppColor.primaryColor,
+              size: 50.0,
+            )));
   }
 }
 

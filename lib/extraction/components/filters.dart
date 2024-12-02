@@ -375,10 +375,13 @@ class FiltersDropdown extends ConsumerWidget {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               builder: (context) {
-                return MultiSelectItems(
-                  selectedItems: selectedItems,
-                  subordinates: subordinates,
-                  selectedPosition: selectedPosition,
+                return FractionallySizedBox(
+                  heightFactor: 0.80,
+                  child: MultiSelectItems(
+                    selectedItems: selectedItems,
+                    subordinates: subordinates,
+                    selectedPosition: selectedPosition,
+                  ),
                 );
               },
             );
@@ -386,7 +389,7 @@ class FiltersDropdown extends ConsumerWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black12),
+              border: Border.all(color: AppColor.primaryColor, width: 0.8),
               borderRadius: BorderRadius.circular(8),
               color: const Color(0XFFfafafa),
             ),
@@ -409,7 +412,10 @@ class FiltersDropdown extends ConsumerWidget {
       },
       error: (error, stackTrace) => const Text("Something went wrong"),
       loading: () => const Center(
-        child: CircularProgressIndicator(),
+        child: SpinKitThreeBounce(
+          size: 25,
+          color: AppColor.primaryColor,
+        ),
       ),
     );
   }
@@ -457,6 +463,7 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
               children: widget.subordinates.map((item) {
                 final isSelected = selected.contains(item);
                 return CheckboxListTile(
+                  activeColor: AppColor.primaryColor,
                   title: Text(item),
                   value: isSelected,
                   onChanged: (checked) {
@@ -480,17 +487,6 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
                 onPressed: () => Navigator.pop(context),
                 child: const Text("Cancel"),
               ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     // Update the provider state directly via ref
-              //     ref.read(newSelectedItemsProvider.notifier).state = {
-              //       ...ref.read(newSelectedItemsProvider.notifier).state,
-              //       widget.selectedPosition: selected,
-              //     };
-              //     Navigator.pop(context);
-              //   },
-              //   child: const Text("Apply"),
-              // ),
               ElevatedButton(
                 onPressed: () {
                   ref.read(newSelectedItemsProvider.notifier).state = {
