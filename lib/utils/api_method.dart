@@ -33,31 +33,8 @@ class ApiMethod {
     }
   }
 
-  Future getDioRequestWithParams(Map<String, dynamic> queryParams) async {
-    try {
-      if (token != null) {
-        headers['Authorization'] = "$token";
-      }
-
-      log("Query Params: $queryParams");
-      Response response = await dio.get(
-        url,
-        queryParameters: queryParams,
-        options: Options(headers: headers),
-      );
-      if (response.statusCode == 200) {
-        return response.data;
-      }
-    } on DioException catch (err) {
-      log("GET Request Error: ${err.response?.statusCode}");
-      log("Error Data: ${err.response?.data}");
-      rethrow;
-    }
-  }
-
   Future postDioRequest({required Map data}) async {
-    // log(url);
-    // log(data.toString());
+
     try {
       if (token != null) {
         headers['Authorization'] = "$token";

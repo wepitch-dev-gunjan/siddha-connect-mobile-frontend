@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:siddha_connect/salesDashboard/component/radio.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/message.dart';
@@ -78,8 +79,7 @@ class SalesDashboard extends ConsumerWidget {
             now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
           lastBackPressTime = now;
 
-          showSnackBarMsg("Press back again to exit",
-              duration: const Duration(seconds: 2));
+          Fluttertoast.showToast(msg: "Press back again to exit");
           return false;
         }
         exit(0);
