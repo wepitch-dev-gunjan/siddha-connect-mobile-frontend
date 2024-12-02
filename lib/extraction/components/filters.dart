@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -231,6 +229,7 @@ final newSelectedItemsProvider =
 final filtersColumnProvider =
     FutureProvider.family.autoDispose((ref, String type) async {
   final getFilters = await ref.watch(productRepoProvider).getFilters(type);
+  ref.keepAlive();
   return getFilters;
 });
 
@@ -311,8 +310,9 @@ class Filters extends ConsumerWidget {
                               customLabels[index];
                         },
                         child: Container(
-                          width: 70,
+                          // width: 70,
                           height: 30,
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           margin: const EdgeInsets.symmetric(horizontal: 8.0),
                           decoration: BoxDecoration(
                             color: selectedIndex == index + 1
@@ -493,10 +493,6 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
               // ),
               ElevatedButton(
                 onPressed: () {
-                  // Print selected items
-                  // log("Selected items for ${widget.selectedPosition}: $selected");
-
-                  // Update the provider state directly via ref
                   ref.read(newSelectedItemsProvider.notifier).state = {
                     ...ref.read(newSelectedItemsProvider.notifier).state,
                     widget.selectedPosition: selected,
@@ -505,34 +501,6 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
                 },
                 child: const Text("Apply"),
               ),
-
-              // ElevatedButton(
-              //   onPressed: () {
-              //     // Print selected items
-              //     log("Selected items for ${widget.selectedPosition}: $selected");
-
-              //     // Transform keys to lowercase and modify names as needed
-              //     String transformKey(String key) {
-              //       switch (key) {
-              //         case 'OUTLATE TYPE':
-              //           return 'type';
-              //         default:
-              //           return key.toLowerCase();
-              //       }
-              //     }
-
-              //     // Update the provider state directly via ref
-              //     ref.read(newSelectedItemsProvider.notifier).state = {
-              //       ...ref.read(newSelectedItemsProvider.notifier).state.map(
-              //             (key, value) => MapEntry(transformKey(key), value),
-              //           ),
-              //       transformKey(widget.selectedPosition): selected,
-              //     };
-
-              //     Navigator.pop(context);
-              //   },
-              //   child: const Text("Apply"),
-              // ),
             ],
           ),
         ],

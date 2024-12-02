@@ -77,12 +77,17 @@ class ExtractionReport extends ConsumerWidget {
                     // First Toggle Button
                     Row(
                       children: [
-                        Switch(
-                          value: isValueToggled,
-                          onChanged: (value) {
-                            ref.read(valueToggleProvider.notifier).state =
-                                value;
-                          },
+                        Transform.scale(
+                          scale: 0.8,
+                          child: Switch(
+                            activeColor: Colors.white,
+                            activeTrackColor: AppColor.primaryColor,
+                            value: isValueToggled,
+                            onChanged: (value) {
+                              ref.read(valueToggleProvider.notifier).state =
+                                  value;
+                            },
+                          ),
                         ),
                         Text(isValueToggled ? "Value" : "Volume"),
                       ],
@@ -91,14 +96,21 @@ class ExtractionReport extends ConsumerWidget {
                     // Second Toggle Button
                     Row(
                       children: [
-                        Switch(
-                          value: isShowShareToggled,
-                          onChanged: (value) {
-                            ref.read(showShareToggleProvider.notifier).state =
-                                value;
-                          },
+                        Transform.scale(
+                          scale: 0.8,
+                          child: Switch(
+                            activeColor: Colors.white,
+                            activeTrackColor: AppColor.primaryColor,
+                            value: isShowShareToggled,
+                            onChanged: (value) {
+                              ref.read(showShareToggleProvider.notifier).state =
+                                  value;
+                            },
+                          ),
                         ),
-                        const Text("Show Share"),
+                        Text(isShowShareToggled
+                            ? "Show Actual Values"
+                            : "Show Share %"),
                       ],
                     ),
                   ],
