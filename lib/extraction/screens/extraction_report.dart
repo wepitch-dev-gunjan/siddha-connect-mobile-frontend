@@ -1,3 +1,5 @@
+// import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,12 +12,44 @@ import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
 import '../repo/product_repo.dart';
 
+// final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
+//   final productRepo = ref.watch(productRepoProvider);
+//   final filters = ref.watch(newSelectedItemsProvider);
+//   final data = await productRepo.getExtractionReportForAdmin(filters: filters);
+//   ref.keepAlive();
+//   return data;
+// });
+
 final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
-  final data = await productRepo.getExtractionReportForAdmin();
-  ref.keepAlive();
+  final filters = ref.watch(newSelectedItemsProvider);
+
+  // Read toggle values from providers
+  final valueToggle = ref.watch(valueToggleProvider);
+  final showShare = ref.watch(showShareToggleProvider);
+
+  // Add toggle values to filters
+  final updatedFilters = {
+    ...filters,
+    "valueToggle": valueToggle,
+    "showShare": showShare,
+  };
+
+  final data =
+      await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
+
   return data;
 });
+
+// final getExtractionReportForAdminProvider = FutureProvider.autoDispose.family((ref, Map<String, dynamic> filters) async {
+//   final productRepo = ref.watch(productRepoProvider);
+//   final data = await productRepo.getExtractionReportForAdmin(filters);
+//   ref.keepAlive();
+//   return data;
+// });
+
+final valueToggleProvider = StateProvider<bool>((ref) => true);
+final showShareToggleProvider = StateProvider<bool>((ref) => false);
 
 class ExtractionReport extends ConsumerWidget {
   const ExtractionReport({super.key});
@@ -23,6 +57,9 @@ class ExtractionReport extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(getExtractionReportForAdmin);
+    final isValueToggled = ref.watch(valueToggleProvider);
+    final isShowShareToggled = ref.watch(showShareToggleProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
@@ -31,55 +68,51 @@ class ExtractionReport extends ConsumerWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text("Value", style: TextStyle(fontSize: 14)),
-                      Transform.scale(
-                        scale:
-                            0.6, // Adjust the scale factor to resize the switch
-                        child: Switch(
-                          activeTrackColor: Colors.grey,
-                          inactiveTrackColor: Colors.grey,
-                          activeThumbImage: AssetImage('assets/thumb.png'),
-                          inactiveThumbImage: AssetImage('assets/thumb.png'),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          value: true, // Add logic to control this value
-                          onChanged: (bool newValue) {
-                            // Add logic to handle value switch change
+              // Toggle Buttons Row
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // First Toggle Button
+                    Row(
+                      children: [
+                        Switch(
+                          value: isValueToggled,
+                          onChanged: (value) {
+                            ref.read(valueToggleProvider.notifier).state =
+                                value;
                           },
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text("Show Shares (%)", style: TextStyle(fontSize: 14)),
-                      Transform.scale(
-                        scale:
-                            0.8, // Adjust the scale factor to resize the switch
-                        child: Switch(
-                          value: false, // Add logic to control this value
-                          onChanged: (bool newValue) {
-                            // Add logic to handle Show Shares (%) switch change
+                        Text(isValueToggled ? "Value" : "Volume"),
+                      ],
+                    ),
+
+                    // Second Toggle Button
+                    Row(
+                      children: [
+                        Switch(
+                          value: isShowShareToggled,
+                          onChanged: (value) {
+                            ref.read(showShareToggleProvider.notifier).state =
+                                value;
                           },
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const Text("Show Share"),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              heightSizedBox(10.0),
+
+              const SizedBox(height: 10.0),
               const DatePickerContainer(),
-              heightSizedBox(10.0),
+              const SizedBox(height: 10.0),
               const Filters(),
-              heightSizedBox(10.0),
+              const SizedBox(height: 10.0),
               const Expanded(
                 child: ExtractionReportTable(),
-              )
+              ),
             ],
           );
         },
@@ -95,6 +128,45 @@ class ExtractionReport extends ConsumerWidget {
     );
   }
 }
+
+// class ExtractionReport extends ConsumerWidget {
+//   const ExtractionReport({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final data = ref.watch(getExtractionReportForAdmin);
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: const CustomAppBar(),
+//       body: data.when(
+//         data: (data) {
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+
+//               heightSizedBox(10.0),
+//               const DatePickerContainer(),
+//               heightSizedBox(10.0),
+//               const Filters(),
+//               heightSizedBox(10.0),
+//               const Expanded(
+//                 child: ExtractionReportTable(),
+//               )
+//             ],
+//           );
+//         },
+//         error: (error, stackTrace) => const Center(
+//           child: Text("Something Went Wrong"),
+//         ),
+//         loading: () => const Center(
+//             child: SpinKitCircle(
+//           color: AppColor.primaryColor,
+//           size: 50.0,
+//         )),
+//       ),
+//     );
+//   }
+// }
 
 // class ExtractionReport extends ConsumerWidget {
 //   const ExtractionReport({super.key});

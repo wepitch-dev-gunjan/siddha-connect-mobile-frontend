@@ -105,54 +105,30 @@ class ProductRepo {
     }
   }
 
-  getExtractionReportForAdmin() async {
+  getExtractionReportForAdmin({required Map filters}) async {
     try {
+      // Modify keys in the filters map
+      final modifiedFilters = filters.map((key, value) {
+        String newKey =
+            key.toString().toLowerCase(); // Convert key to lowercase
+        // Specific key modifications
+        if (newKey == 'valuetoggle') {
+          newKey = 'valueToggle'; // Rename back to original case
+        } else if (newKey == 'showshare') {
+          newKey = 'showShare'; // Rename back to original case
+        } else if (newKey == 'outlate type') {
+          newKey = 'type'; // Rename "OUTLATE TYPE" to "type"
+        }
+        return MapEntry(newKey, value);
+      });
+
       final response = await ApiMethod(url: ApiUrl.getExtractionReportForAdmin)
-          .getDioRequest();
-      log("ExtracionReport$response");
+          .getDioRequest(queryParams: modifiedFilters);
       return response;
-    } catch (e) {}
+    } catch (e) {
+      log("Error fetching report: $e");
+    }
   }
-
-  // getFilters(String type) async {
-  //   try {
-  //     final response =
-  //         await ApiMethod(url: "${ApiUrl.filters}$type").getDioRequest();
-
-  //           log("Resp==>>$response");
-  //     return response;
-  //   } catch (e) {
-  //     log("Error in getAllSubordinates: $e");
-  //     return null;
-  //   }
-  // }
-  // getFilters(String type) async {
-  //   final modifiedType = (type == "CODE")
-  //       ? "dealerCode"
-  //       : (type == "AREA")
-  //           ? "Area"
-  //           : (type == "SEGMENT")
-  //               ? "productId.Segment"
-  //               : type;
-  //   final response =
-  //       await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
-  //   return response;
-  // }
-
-  // getFilters(String type) async {
-  //   final modifiedType = (type == "OUTLATE CODE")
-  //       ? "dealerCode"
-  //       : (type == "AREA")
-  //           ? "Area"
-  //           : (type == "SEGMENT")
-  //               ? "productId.Segment"
-  //               : (type == "TSE")
-  //                   ? "uploadedBy"
-  //                   : type;
-  //   final response =
-  //       await ApiMethod(url: "${ApiUrl.filters}$modifiedType").getDioRequest();
-  //   return response;
-  // }
 
   getFilters(String type) async {
     final modifiedType = (type == "OUTLATE CODE")

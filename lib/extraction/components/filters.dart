@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -239,6 +239,9 @@ class Filters extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedItems = ref.watch(newSelectedItemsProvider);
+    // log("Current newSelectedItemsProvider state: $selectedItems");
+
     final selectedIndex = ref.watch(newSelectedIndexProvider);
     final selectedPosition = ref.watch(newSelectedPositionProvider);
 
@@ -477,8 +480,22 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
                 onPressed: () => Navigator.pop(context),
                 child: const Text("Cancel"),
               ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     // Update the provider state directly via ref
+              //     ref.read(newSelectedItemsProvider.notifier).state = {
+              //       ...ref.read(newSelectedItemsProvider.notifier).state,
+              //       widget.selectedPosition: selected,
+              //     };
+              //     Navigator.pop(context);
+              //   },
+              //   child: const Text("Apply"),
+              // ),
               ElevatedButton(
                 onPressed: () {
+                  // Print selected items
+                  // log("Selected items for ${widget.selectedPosition}: $selected");
+
                   // Update the provider state directly via ref
                   ref.read(newSelectedItemsProvider.notifier).state = {
                     ...ref.read(newSelectedItemsProvider.notifier).state,
@@ -488,6 +505,34 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
                 },
                 child: const Text("Apply"),
               ),
+
+              // ElevatedButton(
+              //   onPressed: () {
+              //     // Print selected items
+              //     log("Selected items for ${widget.selectedPosition}: $selected");
+
+              //     // Transform keys to lowercase and modify names as needed
+              //     String transformKey(String key) {
+              //       switch (key) {
+              //         case 'OUTLATE TYPE':
+              //           return 'type';
+              //         default:
+              //           return key.toLowerCase();
+              //       }
+              //     }
+
+              //     // Update the provider state directly via ref
+              //     ref.read(newSelectedItemsProvider.notifier).state = {
+              //       ...ref.read(newSelectedItemsProvider.notifier).state.map(
+              //             (key, value) => MapEntry(transformKey(key), value),
+              //           ),
+              //       transformKey(widget.selectedPosition): selected,
+              //     };
+
+              //     Navigator.pop(context);
+              //   },
+              //   child: const Text("Apply"),
+              // ),
             ],
           ),
         ],
