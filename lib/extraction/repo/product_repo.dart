@@ -122,8 +122,6 @@ class ProductRepo {
         return MapEntry(newKey, value);
       });
 
-      
-
       final response = await ApiMethod(url: ApiUrl.getExtractionReportForAdmin)
           .getDioRequest(queryParams: modifiedFilters);
       return response;
@@ -134,9 +132,9 @@ class ProductRepo {
 
   getFilters(String type) async {
     final modifiedType = (type == "OUTLATE CODE")
-        ? "CODE" // OUTLATE CODE will map to CODE
+        ? "dealerCode"
         : (type == "OUTLATE TYPE")
-            ? "TYPE" // OUTLATE TYPE will map to TYPE
+            ? "TYPE"
             : (type == "AREA")
                 ? "Area"
                 : (type == "SEGMENT")

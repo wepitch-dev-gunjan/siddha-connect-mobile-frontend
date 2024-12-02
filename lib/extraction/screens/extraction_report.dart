@@ -1,13 +1,9 @@
-// import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:siddha_connect/salesDashboard/component/date_picker.dart';
 import 'package:siddha_connect/utils/common_style.dart';
-import 'package:siddha_connect/utils/sizes.dart';
-import '../../uploadSalesData/screens/upload_segment_target.dart';
 import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
 import '../repo/product_repo.dart';
@@ -22,11 +18,9 @@ final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
     "valueToggle": valueToggle,
     "showShare": showShare
   };
-
   final data =
       await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
   ref.keepAlive();
-
   return data;
 });
 
@@ -49,7 +43,7 @@ class ExtractionReport extends ConsumerWidget {
           children: [
             // Toggle Buttons Row
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(right: 10.0, left: 5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
