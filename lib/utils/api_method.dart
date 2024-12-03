@@ -22,19 +22,16 @@ class ApiMethod {
       }
       log("Filters$queryParams");
       Response response = await dio.get(url,
-          options: Options(headers: headers), queryParameters: queryParams);
+          options: Options(headers: headers), data: queryParams);
       if (response.statusCode == 200) {
         return response.data;
       }
     } on DioException {
       rethrow;
-      // log("get statusCode: ${err.response?.statusCode.toString()}");
-      // log("get type: ${err.response?.data.toString()}");
     }
   }
 
   Future postDioRequest({required Map data}) async {
-
     try {
       if (token != null) {
         headers['Authorization'] = "$token";

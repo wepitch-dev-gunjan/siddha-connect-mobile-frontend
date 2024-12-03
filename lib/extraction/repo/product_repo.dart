@@ -107,18 +107,22 @@ class ProductRepo {
 
   getExtractionReportForAdmin({required Map filters}) async {
     try {
-      // Modify keys in the filters map
       final modifiedFilters = filters.map((key, value) {
-        String newKey =
-            key.toString().toLowerCase(); // Convert key to lowercase
-        // Specific key modifications
-        if (newKey == 'valuetoggle') {
-          newKey = 'valueToggle'; // Rename back to original case
+        String newKey = key.toString().toLowerCase();
+        if (newKey == 'outlate type') {
+          newKey = 'type';
+        } else if (newKey == 'outlate code') {
+          newKey = 'dealerCode';
+        } else if (newKey == 'valuevolume') {
+          newKey = 'valueVolume';
         } else if (newKey == 'showshare') {
-          newKey = 'showShare'; // Rename back to original case
-        } else if (newKey == 'outlate type') {
-          newKey = 'type'; // Rename "OUTLATE TYPE" to "type"
+          newKey = 'showShare';
+        } else if (newKey == 'startdate') {
+          newKey = 'startDate';
+        } else if (newKey == 'enddate') {
+          newKey = 'endDate';
         }
+
         return MapEntry(newKey, value);
       });
 
@@ -126,7 +130,7 @@ class ProductRepo {
           .getDioRequest(queryParams: modifiedFilters);
       return response;
     } catch (e) {
-      log("Error fetching report: $e");
+      log("Error in getExtractionReportForAdmin: $e");
     }
   }
 

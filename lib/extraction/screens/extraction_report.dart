@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,33 +9,71 @@ import 'package:siddha_connect/utils/common_style.dart';
 import '../../utils/cus_appbar.dart';
 import '../components/filters.dart';
 import '../repo/product_repo.dart';
+import 'package:intl/intl.dart';
+
+// final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
+//   final productRepo = ref.watch(productRepoProvider);
+//   final filters = ref.watch(newSelectedItemsProvider);
+//   final valueToggle = ref.watch(valueToggleProvider);
+//   final showShare = ref.watch(showShareToggleProvider);
+//   final startDate = ref.watch(firstDateProvider);
+//   final endDate = ref.watch(lastDateProvider);
+
+//   log("StartDate $startDate");
+//   log("EndDate $endDate");
+//   final updatedFilters = {
+//     ...filters,
+//     "valueVolume": valueToggle,
+//     "showShare": showShare
+//   };
+//   final data =
+//       await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
+//   ref.keepAlive();
+//   return data;
+// });
 
 final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
   final productRepo = ref.watch(productRepoProvider);
   final filters = ref.watch(newSelectedItemsProvider);
   final valueToggle = ref.watch(valueToggleProvider);
   final showShare = ref.watch(showShareToggleProvider);
+  final startDate = ref.watch(firstDateProvider);
+  final endDate = ref.watch(lastDateProvider);
+
+  // Formatting the dates
+  final dateFormat = DateFormat('yyyy-MM-dd');
+  final formattedStartDate = dateFormat.format(startDate);
+  final formattedEndDate = dateFormat.format(endDate);
+
+  // Logging the dates
+  log("StartDate $formattedStartDate");
+  log("EndDate $formattedEndDate");
+
+  // Updating filters with startDate and endDate
   final updatedFilters = {
     ...filters,
-    "valueToggle": valueToggle,
-    "showShare": showShare
+    "valueVolume": valueToggle.toString().toLowerCase(),
+    "showShare": showShare.toString().toLowerCase(),
+    "startDate": formattedStartDate.toString(),
+    "endDate": formattedEndDate.toString(),
   };
+
   final data =
       await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
   ref.keepAlive();
   return data;
 });
 
-final valueToggleProvider = StateProvider<bool>((ref) => true);
-final showShareToggleProvider = StateProvider<bool>((ref) => false);
+final valueToggleProvider = StateProvider<String>((ref) => "Value");
+final showShareToggleProvider = StateProvider<String>((ref) => "false");
 
 class ExtractionReport extends ConsumerWidget {
   const ExtractionReport({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isValueToggled = ref.watch(valueToggleProvider);
-    final isShowShareToggled = ref.watch(showShareToggleProvider);
+    final valueToggleState = ref.watch(valueToggleProvider);
+    final showShareToggleState = ref.watch(showShareToggleProvider);
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -55,14 +95,15 @@ class ExtractionReport extends ConsumerWidget {
                         child: Switch(
                           activeColor: Colors.white,
                           activeTrackColor: AppColor.primaryColor,
-                          value: isValueToggled,
+                          value: valueToggleState == "Value",
                           onChanged: (value) {
                             ref.read(valueToggleProvider.notifier).state =
-                                value;
+                                value ? "Value" : "Volume";
                           },
                         ),
                       ),
-                      Text(isValueToggled ? "Value" : "Volume"),
+                      Text(
+                          valueToggleState), // Will display "Value" or "Volume"
                     ],
                   ),
 
@@ -74,14 +115,14 @@ class ExtractionReport extends ConsumerWidget {
                         child: Switch(
                           activeColor: Colors.white,
                           activeTrackColor: AppColor.primaryColor,
-                          value: isShowShareToggled,
+                          value: showShareToggleState == "true",
                           onChanged: (value) {
                             ref.read(showShareToggleProvider.notifier).state =
-                                value;
+                                value ? "true" : "false";
                           },
                         ),
                       ),
-                      Text(isShowShareToggled
+                      Text(showShareToggleState == "true"
                           ? "Show Actual Values"
                           : "Show Share %"),
                     ],
