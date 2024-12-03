@@ -135,9 +135,9 @@ class ProductRepo {
   }
 
   getFilters(String type) async {
-    final modifiedType = (type == "OUTLATE CODE")
+    final modifiedType = (type == "OUTLET CODE")
         ? "dealerCode"
-        : (type == "OUTLATE TYPE")
+        : (type == "OUTLET TYPE")
             ? "TYPE"
             : (type == "AREA")
                 ? "Area"

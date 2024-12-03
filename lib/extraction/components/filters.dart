@@ -29,7 +29,7 @@ class Filters extends ConsumerWidget {
 
     final List<String> customLabels = [
       'SEGMENT',
-      'OUTLATE TYPE',
+      'OUTLET TYPE',
       'AREA',
       'ZSM',
       'ABM',
@@ -37,7 +37,7 @@ class Filters extends ConsumerWidget {
       'ASE',
       'ASM',
       'TSE',
-      'OUTLATE CODE',
+      'OUTLET CODE',
       "STATE",
       "DISTRICT",
       "TOWN"
