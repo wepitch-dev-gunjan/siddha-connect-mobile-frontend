@@ -241,6 +241,8 @@ class ExtractionReportTable extends ConsumerWidget {
               border: TableBorder.all(color: Colors.black45, width: 0.5),
               bottomMargin: 5,
               horizontalMargin: 0,
+              fixedLeftColumns: 1,
+              // fixedColumnsColor: AppColor.primaryColor,
               minWidth: 1200,
               showBottomBorder: true,
               headingRowColor: WidgetStateColor.resolveWith(
@@ -296,16 +298,16 @@ class ExtractionReportTable extends ConsumerWidget {
   }
 }
 
-Color getRankColor(int rank) {
-  if (rank == 1) return const Color.fromRGBO(255, 8, 8, 0.6); // Red for rank 1
-  if (rank == 2) {
-    return const Color.fromARGB(153, 63, 60, 54); // Orange for rank 2
-  }
-  if (rank == 3) {
-    return const Color.fromRGBO(255, 255, 102, 0.6); // Light yellow for rank 3
-  }
-  return const Color.fromRGBO(102, 255, 10, 0.5); // Light green for other ranks
-}
+// Color getRankColor(int rank) {
+//   if (rank == 1) return const Color.fromRGBO(255, 8, 8, 0.6); // Red for rank 1
+//   if (rank == 2) {
+//     return const Color.fromARGB(153, 63, 60, 54); // Orange for rank 2
+//   }
+//   if (rank == 3) {
+//     return const Color.fromRGBO(255, 255, 102, 0.6); // Light yellow for rank 3
+//   }
+//   return const Color.fromRGBO(102, 255, 10, 0.5); // Light green for other ranks
+// }
 
 Color getHeatmapColor(double value, double minValue, double maxValue) {
   if (maxValue == minValue) {
