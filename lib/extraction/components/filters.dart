@@ -152,6 +152,7 @@ class FiltersDropdown extends ConsumerWidget {
         return GestureDetector(
           onTap: () {
             showModalBottomSheet(
+              backgroundColor: Colors.white,
               context: context,
               isScrollControlled: true,
               shape: const RoundedRectangleBorder(
@@ -268,9 +269,15 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
             children: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text("Cancel"),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor:
+                        WidgetStatePropertyAll(AppColor.primaryColor)),
                 onPressed: () {
                   ref.read(newSelectedItemsProvider.notifier).state = {
                     ...ref.read(newSelectedItemsProvider.notifier).state,
@@ -278,7 +285,10 @@ class _MultiSelectItemsState extends ConsumerState<MultiSelectItems> {
                   };
                   Navigator.pop(context);
                 },
-                child: const Text("Apply"),
+                child: const Text(
+                  "Apply",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
