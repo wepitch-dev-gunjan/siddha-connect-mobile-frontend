@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +30,6 @@ final getExtractionReportForAdmin = FutureProvider.autoDispose((ref) async {
     "startDate": formattedStartDate.toString(),
     "endDate": formattedEndDate.toString(),
   };
-
   final data =
       await productRepo.getExtractionReportForAdmin(filters: updatedFilters);
   ref.keepAlive();
