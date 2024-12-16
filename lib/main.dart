@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
+import 'connectivity/connectivity_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,14 +36,16 @@ class MyApp extends StatelessWidget {
         scaffoldMessengerKey: snackbarKey,
         debugShowCheckedModeBanner: false,
         title: 'Siddha Connect',
-        home: const SplashScreen(),
-        // home: const ConnectivityNotifier(
-        //   child: SplashScreen(),
-        // ),
+        // home: const SplashScreen(),
+        home: const ConnectivityNotifier(
+          child: SplashScreen(),
+        ),
       ),
     );
   }
 }
+
+
 
 
 

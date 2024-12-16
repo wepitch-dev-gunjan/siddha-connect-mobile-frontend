@@ -35,8 +35,8 @@ class SalesDashboard extends ConsumerWidget {
             now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
           lastBackPressTime = now;
           Fluttertoast.showToast(
-            msg: "Press back again to exit",
-          );
+              msg: "Press back again to exit",
+              backgroundColor: AppColor.primaryColor);
           return false;
         }
         exit(0);
@@ -60,8 +60,6 @@ class SalesDashboard extends ConsumerWidget {
     );
   }
 }
-
-
 
 class YTDSalesDashboard extends ConsumerWidget {
   final String initialOption;

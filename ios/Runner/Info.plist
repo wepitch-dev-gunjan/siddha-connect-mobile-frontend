@@ -6,6 +6,8 @@
     <string>We need access to your photo library to select files</string>
     <key>NSDocumentsFolderUsageDescription</key>
     <string>We need access to your documents folder to select files</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>

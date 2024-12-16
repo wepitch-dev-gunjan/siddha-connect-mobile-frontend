@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:siddha_connect/utils/common_style.dart';
@@ -29,6 +30,7 @@ class ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
         if (status == InternetConnectionStatus.disconnected) {
           if (isFirstRun) {
             return const Scaffold(
+              backgroundColor: Colors.white,
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -51,14 +53,12 @@ class ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(Icons.wifi_off,
-                          size: 25, color: Colors.white),
+                      const Icon(Icons.wifi_off, size: 25, color: Colors.white),
                       const SizedBox(width: 10),
                       Text(
                         'No Internet Connection',
                         style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600),
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -82,8 +82,7 @@ class ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
         return widget.child;
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) =>
-          const Text('Error in connectivity status'),
+      error: (err, stack) => const Text('Error in connectivity status'),
     );
   }
 }

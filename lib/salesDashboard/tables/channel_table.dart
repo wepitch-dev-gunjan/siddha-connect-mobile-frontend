@@ -85,8 +85,8 @@ class ChannelTable extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
-                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),
@@ -100,58 +100,71 @@ class ChannelTable extends ConsumerWidget {
                   color: WidgetStateColor.resolveWith(
                     (states) => const Color(0xffEEEEEE),
                   ),
+
                   cells: [
-                    DataCell(Center(
-                        child: Text(row['Category Wise']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Target Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Mtd Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Lmtd Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Pending Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['ADS']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Req. ADS']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['% Gwth Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Target SO']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Activation MTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Activation LMTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Pending Act']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['ADS Activation']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Text(row['Req. ADS Activation']?.toString() ?? '',
-                        style: tableRowStyle(context))),
-                    DataCell(Center(
-                        child: Text(row['% Gwth Val']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['FTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Contribution %']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
+                    for (var column in columns)
+                      DataCell(
+                        Center(
+                          child: Text(
+                            row[column]?.toString() ?? '',
+                            style: tableRowStyle(context),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                   ],
+                  // cells: [
+                  //   DataCell(Center(
+                  //       child: Text(row['Category Wise']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Target Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Mtd Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Lmtd Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Pending Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['ADS']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Req. ADS']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['% Gwth Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Target SO']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Activation MTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Activation LMTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Pending Act']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['ADS Activation']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Text(row['Req. ADS Activation']?.toString() ?? '',
+                  //       style: tableRowStyle(context))),
+                  //   DataCell(Center(
+                  //       child: Text(row['% Gwth Val']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['FTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Contribution %']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  // ],
                 );
               }),
             ),
@@ -251,8 +264,8 @@ class ChannelTablePositionWise extends ConsumerWidget {
                     label: Center(
                       child: Text(
                         column ?? 'Unknown',
-                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         textAlign: TextAlign.center,
                         style: tableTitleStyle(context),
                       ),
@@ -266,60 +279,73 @@ class ChannelTablePositionWise extends ConsumerWidget {
                   color: WidgetStateColor.resolveWith(
                     (states) => const Color(0xffEEEEEE),
                   ),
+
                   cells: [
-                    DataCell(Center(
-                        child: Text(row['Category Wise']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Target Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Mtd Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Lmtd Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Pending Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['ADS']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Req. ADS']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['% Gwth Vol']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Target SO']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Activation MTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Activation LMTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Pending Act']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['ADS Activation']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(
-                            row['Req. ADS Activation']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['% Gwth Val']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['FTD']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
-                    DataCell(Center(
-                        child: Text(row['Contribution %']?.toString() ?? '',
-                            style: tableRowStyle(context)))),
+                    for (var column in columns)
+                      DataCell(
+                        Center(
+                          child: Text(
+                            row[column]?.toString() ?? '',
+                            style: tableRowStyle(context),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                   ],
+                  // cells: [
+                  //   DataCell(Center(
+                  //       child: Text(row['Category Wise']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Target Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Mtd Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Lmtd Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Pending Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['ADS']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Req. ADS']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['% Gwth Vol']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Target SO']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Activation MTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Activation LMTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Pending Act']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['ADS Activation']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(
+                  //           row['Req. ADS Activation']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['% Gwth Val']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['FTD']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  //   DataCell(Center(
+                  //       child: Text(row['Contribution %']?.toString() ?? '',
+                  //           style: tableRowStyle(context)))),
+                  // ],
                 );
               }),
             ),

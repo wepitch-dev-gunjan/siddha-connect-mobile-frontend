@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/attendence/attendence_screen.dart';
 import 'package:siddha_connect/auth/screens/splash_screen.dart';
 import 'package:siddha_connect/extraction/screens/pulse_data_upload.dart';
 import 'package:siddha_connect/profile/repo/profile_repo.dart';
@@ -212,11 +213,13 @@ class _CusDrawerState extends ConsumerState<CusDrawer> {
 
 // //===============================! Atteneance !====================================
 
-//                 DrawerElement(
-//                   src: "assets/images/attendance.svg",
-//                   title: "Attendance",
-//                   onTap: () {},
-//                 ),
+                DrawerElement(
+                  src: "assets/images/attendance.svg",
+                  title: "Attendance",
+                  onTap: () {
+                    navigationPush(context, const AttendenceScreen());
+                  },
+                ),
 
 // ========================= ! Log Out ! ================================
 
