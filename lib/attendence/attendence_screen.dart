@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:siddha_connect/utils/buttons.dart';
@@ -8,7 +9,7 @@ import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/cus_appbar.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 
-import '../utils/location.dart';
+import '../utils/location_service.dart';
 
 class AttendenceScreen extends ConsumerWidget {
   const AttendenceScreen({super.key});
@@ -17,6 +18,7 @@ class AttendenceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locationMessage = ref.watch(locationMessageProvider);
     final address = ref.watch(addressProvider);
+    final isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
@@ -32,14 +34,30 @@ class AttendenceScreen extends ConsumerWidget {
             ),
             heightSizedBox(10.0),
             const MonthSelector(),
-            Text(
-              locationMessage,
-              textAlign: TextAlign.center,
-            ),
+            // Text(
+            //   locationMessage,
+            //   textAlign: TextAlign.center,
+            // ),
             const SizedBox(height: 20),
-            Text(
-              address,
-              textAlign: TextAlign.center,
+            Row(
+              children: [
+                SizedBox(
+                  width: width(context) * 0.8,
+                  child: Text(
+                    address,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Spacer(),
+                isLoading
+                    ? SpinKitCircle(
+                        size: 30,
+                        color: AppColor.primaryColor,
+                      )
+                    : SizedBox()
+              ],
             ),
           ],
         ),
