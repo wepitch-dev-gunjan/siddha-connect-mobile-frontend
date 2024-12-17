@@ -22,7 +22,7 @@ class AttendenceScreen extends ConsumerWidget {
     final address = ref.watch(addressProvider);
     final isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
@@ -48,7 +48,7 @@ class AttendenceScreen extends ConsumerWidget {
                   child: Text(
                     address,
                     textAlign: TextAlign.center,
-                    maxLines: 3,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -97,9 +97,7 @@ class PunchInButton extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.login,
-            ),
+            const Icon(Icons.login),
             widthSizedBox(8.0),
             Text(
               'Punch In',

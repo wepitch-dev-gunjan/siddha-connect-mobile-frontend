@@ -36,7 +36,7 @@ class LocationService {
     return await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.best,
-        distanceFilter: 100,
+        distanceFilter: 10,
       ),
     );
   }
@@ -83,8 +83,7 @@ class LocationService {
     }
   }
 
-
-    Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
+  Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latitude, longitude);
