@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,17 +48,17 @@ class AttendenceScreen extends ConsumerWidget {
                   child: Text(
                     address,
                     textAlign: TextAlign.center,
-                    maxLines: 2,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 isLoading
-                    ? SpinKitCircle(
+                    ? const SpinKitCircle(
                         size: 30,
                         color: AppColor.primaryColor,
                       )
-                    : SizedBox()
+                    : const SizedBox()
               ],
             ),
           ],

@@ -35,25 +35,27 @@ class LocationService {
 
     return await Geolocator.getCurrentPosition(
       locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.bestForNavigation,
-        distanceFilter: 10,
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 100,
       ),
     );
   }
 
-  Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
-    try {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(latitude, longitude);
-      log("Placemark: ${placemarks[1]}");
-      Placemark place = placemarks[1];
+  // Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
+  //   try {
+  //     List<Placemark> placemarks =
+  //         await placemarkFromCoordinates(latitude, longitude);
+  //     log("Placemark: ${placemarks}");
+  //     Placemark place = placemarks[0];
+  //     Placemark place1 = placemarks[1];
+  //     Placemark place2 = placemarks[2];
 
-      ref.read(addressProvider.notifier).state =
-          "${place.street}, ${place.subThoroughfare}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}, ${place.country}";
-    } catch (e) {
-      ref.read(addressProvider.notifier).state = "Failed to get address: $e";
-    }
-  }
+  //     ref.read(addressProvider.notifier).state =
+  //         "${place.street} ${place1.street}, ${place1.subThoroughfare}, ${place1.thoroughfare}, ${place2.street}, ${place.thoroughfare}, ${place1.subLocality}, ${place1.locality}, ${place1.administrativeArea}, ${place1.postalCode}, ${place1.country}";
+  //   } catch (e) {
+  //     ref.read(addressProvider.notifier).state = "Failed to get address: $e";
+  //   }
+  // }
 
   Future<void> getLocation() async {
     ref.read(isLoadingProvider.notifier).state = true;
@@ -78,6 +80,48 @@ class LocationService {
       ref.read(addressProvider.notifier).state = "Failed to get location.";
     } finally {
       ref.read(isLoadingProvider.notifier).state = false;
+    }
+  }
+
+
+    Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      log("Placemark: $placemarks");
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        Placemark place1 =
+            placemarks.length > 1 ? placemarks[1] : const Placemark();
+        Placemark place2 =
+            placemarks.length > 2 ? placemarks[2] : const Placemark();
+
+        // Helper function to check and add non-empty fields
+        String formatAddress(List<String?> fields) {
+          return fields
+              .where((field) => field != null && field.trim().isNotEmpty)
+              .join(", ");
+        }
+
+        ref.read(addressProvider.notifier).state = formatAddress([
+          place.street,
+          place1.street,
+          place1.subThoroughfare,
+          place1.thoroughfare,
+          place2.street,
+          place.thoroughfare,
+          place1.subLocality,
+          place1.locality,
+          place1.administrativeArea,
+          place1.postalCode,
+          place1.country,
+        ]);
+      } else {
+        ref.read(addressProvider.notifier).state = "No placemarks found.";
+      }
+    } catch (e) {
+      ref.read(addressProvider.notifier).state = "Failed to get address: $e";
     }
   }
 }
