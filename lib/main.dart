@@ -49,27 +49,27 @@ class MyApp extends StatelessWidget {
 
 
 
-// class PaymentWindow extends ConsumerWidget {
-//   const PaymentWindow({super.key});
+class PaymentWindow extends ConsumerWidget {
+  const PaymentWindow({super.key});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Testing Payment Getway"),
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//             onPressed: () {
-//               ref.read(paymentProvider).initialGatway(totalAmmount: 100.0);
-//               ref.read(paymentProvider).openPaymentWindow(
-//                   ammount: 100.0, phone: "9782209395", email: "Pk@gmail.com");
-//             },
-//             child: const Text("Pay Now")),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Testing Payment Getway"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              ref.read(paymentProvider).initialGatway(totalAmmount: 100.0);
+              ref.read(paymentProvider).openPaymentWindow(
+                  ammount: 100.0, phone: "9782209395", email: "Pk@gmail.com");
+            },
+            child: const Text("Pay Now")),
+      ),
+    );
+  }
+}
 
 
 
