@@ -7,8 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/cus_appbar.dart';
 import 'package:siddha_connect/utils/sizes.dart';
-
-import '../utils/location_service.dart';
+import 'location_service.dart';
 
 class AttendenceScreen extends ConsumerWidget {
   const AttendenceScreen({super.key});
@@ -44,8 +43,8 @@ class AttendenceScreen extends ConsumerWidget {
                   width: width(context) * 0.8,
                   child: Text(
                     address,
+                    maxLines: 3,
                     textAlign: TextAlign.center,
-                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

@@ -90,11 +90,11 @@ class LocationService {
       log("Placemark: $placemarks");
 
       if (placemarks.isNotEmpty) {
-        Placemark place = placemarks[0];
+        // Placemark place = placemarks[0];
         Placemark place1 =
             placemarks.length > 1 ? placemarks[1] : const Placemark();
-        Placemark place2 =
-            placemarks.length > 2 ? placemarks[2] : const Placemark();
+        // Placemark place2 =
+        //     placemarks.length > 2 ? placemarks[2] : const Placemark();
 
         // Helper function to check and add non-empty fields
         String formatAddress(List<String?> fields) {
@@ -104,12 +104,12 @@ class LocationService {
         }
 
         ref.read(addressProvider.notifier).state = formatAddress([
-          place.street,
+          // place.street,
           place1.street,
           place1.subThoroughfare,
           place1.thoroughfare,
-          place2.street,
-          place.thoroughfare,
+          // place2.street,
+          // place.thoroughfare,
           place1.subLocality,
           place1.locality,
           place1.administrativeArea,
