@@ -7,7 +7,7 @@ final salesRepoProvider =
     Provider.autoDispose((ref) => SalesDashboardRepo(ref: ref));
 
 class SalesDashboardRepo {
-  final AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   SalesDashboardRepo({required this.ref});
 
 //=============================! Get Sales Dashboard Data !==================================
@@ -257,7 +257,8 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerSegmentUrl(ApiUrl.getDealerSegmentData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      final response =
+          await ApiMethod(url: url, token: "Bearer $token").getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
@@ -276,7 +277,8 @@ class SalesDashboardRepo {
       String url = dealerSegmentUrl(ApiUrl.getDealerDashboardData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      final response =
+          await ApiMethod(url: url, token: "Bearer $token").getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
@@ -296,7 +298,8 @@ class SalesDashboardRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
       String url = dealerSegmentUrl(ApiUrl.getDealerChannelData, startDate,
           endDate, dataFormat, dealerCode, tdFormat);
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      final response =
+          await ApiMethod(url: url, token: "Bearer $token").getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());
@@ -318,7 +321,8 @@ class SalesDashboardRepo {
       String url = dealerForEmployeeUrl(ApiUrl.getDealerListForEmployeesData,
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
       log("URl:$url");
-      final response = await ApiMethod(url: url, token: token).getDioRequest();
+      final response =
+          await ApiMethod(url: url, token: "Bearer $token").getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());

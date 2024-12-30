@@ -13,7 +13,7 @@ final authControllerProvider = Provider.autoDispose((ref) {
 });
 
 class AuthController {
-  AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   final AuthRepo authRepo;
 
   AuthController({required this.authRepo, required this.ref});
@@ -43,6 +43,7 @@ class AuthController {
       final res = await authRepo.userLoginRepo(data: data);
       if (res['message'] == 'User logged in successfully' &&
           res['verified'] == true) {
+        log("Token=====${res['token']}");
         await ref
             .read(secureStoargeProvider)
             .writeData(key: 'authToken', value: "${res['token']}");

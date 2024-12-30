@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:siddha_connect/attendence/attendence_screen.dart';
 import 'package:siddha_connect/profile/repo/profile_repo.dart';
 import 'package:siddha_connect/utils/fields.dart';
+import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
+import '../../../attendence/location_service.dart';
 import '../../../utils/common_style.dart';
+import '../../controllers/profile_controller.dart';
+import 'components/dealer_profile_comp.dart';
 import 'update_dealer_profile.dart';
 
 final getDealerProfileProvider = FutureProvider.autoDispose((ref) async {
   final getDealerVerified =
       await ref.watch(profileRepoProvider).getDealerProfile();
+  ref.keepAlive();
   return getDealerVerified;
 });
 
@@ -22,614 +30,288 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userData = ref.watch(getDealerProfileProvider);
+    final address = ref.watch(addressProvider);
+    final coordinates = ref.watch(coordinatesProvider);
+    final isLoading = ref.watch(isLoadingProvider);
+    final dialogShown = ValueNotifier<bool>(false); // Track dialog state
 
     return Scaffold(
-        backgroundColor: AppColor.whiteColor,
-        appBar: AppBar(
-          foregroundColor: AppColor.whiteColor,
-          backgroundColor: AppColor.primaryColor,
-          titleSpacing: 0,
-          centerTitle: false,
-          title: SvgPicture.asset("assets/images/logo.svg"),
-        ),
-        body: userData.when(
-          data: (data) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  heightSizedBox(10.0),
-                  const CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Colors.white,
-                    backgroundImage: AssetImage("assets/images/profilepic.png"),
-                  ),
-                  Text(
-                    data['data']['owner']['name'],
-                    style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                      fontSize: 22.sp,
-                    )),
-                  ),
-                  heightSizedBox(10.0),
-                  GestureDetector(
-                    onTap: () {
-                      navigateTo(DelarProfileEditScreen());
-                    },
-                    child: Container(
-                        height: 30.h,
-                        width: 130.w,
-                        decoration: BoxDecoration(
-                            color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Center(
-                          child: Text(
-                            "Edit Profile",
-                            style: GoogleFonts.lato(
-                                textStyle: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white)),
-                          ),
-                        )),
-                  ),
-                  heightSizedBox(20.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    child: Column(
-                      children: [
-                        DelarInfoGet(
-                            delerCode: TextEditingController(
-                                text: data['data']['dealerCode']),
-                            shopName: TextEditingController(
-                                text: data['data']['shopName']),
-                            shopArea: TextEditingController(
-                                text: data['data']['shopArea']),
-                            shopAddress: TextEditingController(
-                                text: data['data']['shopAddress'])),
-                        GetOwnerInfo(
-                          name: TextEditingController(
-                              text: data['data']['owner']['name']),
-                          position: TextEditingController(
-                              text: data['data']['owner']['position']),
-                          contactNumber: TextEditingController(
-                              text: data['data']['owner']['contactNumber']),
-                          email: TextEditingController(
-                              text: data['data']['owner']['email']),
-                          homeAddress: TextEditingController(
-                              text: data['data']['owner']['homeAddress']),
-                          birthDay: TextEditingController(
-                              text: (data['data']['owner']['birthday'])
-                                  .split('T')[0]),
-                        ),
-                        GetFamilyInfo(
-                          wifeName: TextEditingController(
-                              text: data['data']['owner']['wife']['name']),
-                          wifeBirthday: TextEditingController(
-                              text: (data['data']['owner']['wife']
-                                          ['birthday'] !=
-                                      null)
-                                  ? data['data']['owner']['wife']['birthday']
-                                      .split('T')[0]
-                                  : ''),
-                        ),
-                        GetChildrensInfo(
-                            children: data['data']['owner']['children']),
-                        GetOtherFamilyMember(
-                          familyMembers: data['data']['owner']
-                              ['otherFamilyMembers'],
-                        ),
-                        GetOtherImportantDates(
-                          importantDates: data['data']
-                              ['otherImportantFamilyDates'],
-                        ),
-                        GetAnniversaryInfo(
-                          shopAnniversary: TextEditingController(
-                              text: (data['data']['anniversaryDate'] != null)
-                                  ? data['data']['anniversaryDate']
-                                      .split('T')[0]
-                                  : ''),
-                        ),
-                        GetBusinessInfo(
-                          businessType: TextEditingController(
-                              text: data['data']['businessDetails']
-                                  ['typeOfBusiness']),
-                          businessYears: TextEditingController(
-                              text: data['data']['businessDetails']
-                                      ['yearsInBusiness']
-                                  .toString()),
-                          comunationController: TextEditingController(
-                              text: data['data']['businessDetails']
-                                  ['preferredCommunicationMethod']),
-                          specialNotes: TextEditingController(
-                              text: data['data']['specialNotes']),
-                        )
-                      ],
+      backgroundColor: AppColor.whiteColor,
+      appBar: AppBar(
+        foregroundColor: AppColor.whiteColor,
+        backgroundColor: AppColor.primaryColor,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: SvgPicture.asset("assets/images/logo.svg"),
+      ),
+      body: userData.when(
+        data: (data) {
+          if (data == null || data['data'] == null || data['data'].isEmpty) {
+            return const Center(
+              child: Text("No Data Found"),
+            );
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                heightSizedBox(10.0),
+                const CircleAvatar(
+                  radius: 45,
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage("assets/images/profilepic.png"),
+                ),
+                Text(
+                  data['data']['owner']['name'],
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                    fontSize: 22.sp,
+                  )),
+                ),
+                heightSizedBox(10.0),
+                GestureDetector(
+                  onTap: () {
+                    navigateTo(DelarProfileEditScreen());
+                  },
+                  child: Container(
+                    height: 30.h,
+                    width: 130.w,
+                    decoration: BoxDecoration(
+                      color: AppColor.primaryColor,
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                  )
-                ],
+                    child: Center(
+                      child: Text(
+                        "Edit Profile",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                heightSizedBox(20.0),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Column(
+                    children: [
+                      DelarInfoGet(
+                          delerCode: TextEditingController(
+                              text: data['data']['dealerCode']),
+                          shopName: TextEditingController(
+                              text: data['data']['shopName']),
+                          shopArea: TextEditingController(
+                              text: data['data']['shopArea']),
+                          shopAddress: TextEditingController(
+                              text: data['data']['shopAddress'])),
+                      GetOwnerInfo(
+                        name: TextEditingController(
+                            text: data['data']['owner']['name']),
+                        position: TextEditingController(
+                            text: data['data']['owner']['position']),
+                        contactNumber: TextEditingController(
+                            text: data['data']['owner']['contactNumber']),
+                        email: TextEditingController(
+                            text: data['data']['owner']['email']),
+                        homeAddress: TextEditingController(
+                            text: data['data']['owner']['homeAddress']),
+                        birthDay: TextEditingController(
+                            text: (data['data']['owner']['birthday'])
+                                .split('T')[0]),
+                      ),
+                      GetFamilyInfo(
+                        wifeName: TextEditingController(
+                            text: data['data']['owner']['wife']['name']),
+                        wifeBirthday: TextEditingController(
+                            text: (data['data']['owner']['wife']['birthday'] !=
+                                    null)
+                                ? data['data']['owner']['wife']['birthday']
+                                    .split('T')[0]
+                                : ''),
+                      ),
+                      GetChildrensInfo(
+                          children: data['data']['owner']['children']),
+                      GetOtherFamilyMember(
+                        familyMembers: data['data']['owner']
+                            ['otherFamilyMembers'],
+                      ),
+                      GetOtherImportantDates(
+                        importantDates: data['data']
+                            ['otherImportantFamilyDates'],
+                      ),
+                      GetAnniversaryInfo(
+                        shopAnniversary: TextEditingController(
+                            text: (data['data']['anniversaryDate'] != null)
+                                ? data['data']['anniversaryDate'].split('T')[0]
+                                : ''),
+                      ),
+                      GetBusinessInfo(
+                        businessType: TextEditingController(
+                            text: data['data']['businessDetails']
+                                ['typeOfBusiness']),
+                        businessYears: TextEditingController(
+                            text: data['data']['businessDetails']
+                                    ['yearsInBusiness']
+                                .toString()),
+                        comunationController: TextEditingController(
+                            text: data['data']['businessDetails']
+                                ['preferredCommunicationMethod']),
+                        specialNotes: TextEditingController(
+                            text: data['data']['specialNotes']),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+        error: (error, stackTrace) => const Text("Something went wrong"),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _showGeotagDialog(context);
+        },
+        label: const Text(
+          "Geotag Me!",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        icon: const Icon(
+          Icons.location_on,
+          color: Colors.white,
+        ),
+        backgroundColor: AppColor.primaryColor,
+        elevation: 8.0,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+Future<void> _showGeotagDialog(BuildContext context) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Prevent closing by tapping outside
+    builder: (BuildContext context) {
+      return FutureBuilder<Position>(
+        future: _determinePosition(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(11)),
+              title: const Text("Fetching Location"),
+              content: const SizedBox(
+                height: 50,
+                child: Center(
+                    child: SpinKitCircle(
+                  color: AppColor.primaryColor,
+                )),
               ),
             );
-          },
-          error: (error, stackTrace) => const Text("Something went wrong"),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ));
-  }
-}
-
-class DelarInfoGet extends StatelessWidget {
-  final TextEditingController delerCode;
-  final TextEditingController shopName;
-  final TextEditingController shopArea;
-  final TextEditingController shopAddress;
-
-  const DelarInfoGet({
-    super.key,
-    required this.delerCode,
-    required this.shopName,
-    required this.shopArea,
-    required this.shopAddress,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Dealer Information',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        heightSizedBox(10.0),
-        TxtField(
-          enabled: false,
-          contentPadding: contentPadding,
-          labelText: "Dealer Code",
-          maxLines: 1,
-          controller: delerCode,
-          keyboardType: TextInputType.text,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          enabled: false,
-          contentPadding: contentPadding,
-          labelText: "Shop Name",
-          maxLines: 1,
-          controller: shopName,
-          keyboardType: TextInputType.text,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          enabled: false,
-          contentPadding: contentPadding,
-          labelText: "Shop Area",
-          maxLines: 1,
-          controller: shopArea,
-          keyboardType: TextInputType.text,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          enabled: false,
-          contentPadding: contentPadding,
-          labelText: "Shop Address",
-          maxLines: 1,
-          controller: shopAddress,
-          keyboardType: TextInputType.streetAddress,
-          validator: validateField,
-        ),
-      ],
-    );
-  }
-}
-
-class GetOwnerInfo extends ConsumerWidget {
-  final TextEditingController name;
-  final TextEditingController position;
-  final TextEditingController contactNumber;
-  final TextEditingController email;
-  final TextEditingController homeAddress;
-  final TextEditingController birthDay;
-
-  const GetOwnerInfo({
-    super.key,
-    required this.name,
-    required this.position,
-    required this.contactNumber,
-    required this.email,
-    required this.homeAddress,
-    required this.birthDay,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Owner Information',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        heightSizedBox(10.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Name",
-          maxLines: 1,
-          enabled: false,
-          controller: name,
-          keyboardType: TextInputType.name,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Position",
-          maxLines: 1,
-          enabled: false,
-          controller: position,
-          keyboardType: TextInputType.text,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Contact Number",
-          maxLines: 1,
-          maxLength: 10,
-          enabled: false,
-          controller: contactNumber,
-          keyboardType: TextInputType.number,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Email",
-          maxLines: 1,
-          enabled: false,
-          controller: email,
-          keyboardType: TextInputType.emailAddress,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Home Address",
-          maxLines: 1,
-          enabled: false,
-          controller: homeAddress,
-          keyboardType: TextInputType.streetAddress,
-          validator: validateField,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Birthday",
-          maxLines: 1,
-          controller: birthDay,
-          keyboardType: TextInputType.text,
-          validator: validateField,
-          enabled: false,
-        ),
-      ],
-    );
-  }
-}
-
-class GetFamilyInfo extends ConsumerWidget {
-  final TextEditingController wifeName;
-  final TextEditingController wifeBirthday;
-
-  const GetFamilyInfo({
-    super.key,
-    required this.wifeName,
-    required this.wifeBirthday,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        heightSizedBox(5.0),
-        const Text('Family Info',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        heightSizedBox(10.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Wife's Name",
-          maxLines: 1,
-          controller: wifeName,
-          enabled: false,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Wife's Birthday",
-          maxLines: 1,
-          maxLength: 2,
-          controller: wifeBirthday,
-          enabled: false,
-        ),
-      ],
-    );
-  }
-}
-
-class GetBusinessInfo extends ConsumerWidget {
-  final TextEditingController businessType;
-  final TextEditingController businessYears;
-  final TextEditingController comunationController;
-  final TextEditingController specialNotes;
-  const GetBusinessInfo(
-      {super.key,
-      required this.businessType,
-      required this.businessYears,
-      required this.comunationController,
-      required this.specialNotes});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Business Details',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        heightSizedBox(10.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Type of Business",
-          maxLines: 1,
-          enabled: false,
-          controller: businessType,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Years in Business",
-          maxLines: 1,
-          enabled: false,
-          maxLength: 2,
-          controller: businessYears,
-        ),
-        heightSizedBox(8.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Comunation Method",
-          maxLines: 1,
-          enabled: false,
-          maxLength: 2,
-          controller: comunationController,
-        ),
-        heightSizedBox(8.0),
-        const Text('Special Notes',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
-        heightSizedBox(10.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Special Notes",
-          maxLines: 3,
-          enabled: false,
-          keyboardType: TextInputType.text,
-          controller: specialNotes,
-        ),
-      ],
-    );
-  }
-}
-
-class GetChildrensInfo extends ConsumerWidget {
-  final List<dynamic> children;
-
-  const GetChildrensInfo({
-    super.key,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return children.isEmpty
-        ? const SizedBox()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              heightSizedBox(5.0),
-              const Text(
-                'Childrens',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          } else if (snapshot.hasError) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: Text("Failed to get location: ${snapshot.error}"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Close"),
+                ),
+              ],
+            );
+          } else if (snapshot.hasData) {
+            final position = snapshot.data!;
+            return AlertDialog(
+              title: const Text("Your Location"),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(11)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Latitude: ${position.latitude}",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    "Longitude: ${position.longitude}",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
               ),
-              heightSizedBox(10.0),
-              ...children.map((child) {
-                // Create a TextEditingController for each child
-                final nameController =
-                    TextEditingController(text: child['name']);
-                final ageController =
-                    TextEditingController(text: child['age'].toString());
-                final birthDayController = TextEditingController(
-                  text: child['birthday'] != null
-                      ? (child['birthday'] as String).split('T')[0]
-                      : '',
-                );
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Name",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: nameController,
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      navigationPop();
+                    },
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.black),
+                    )),
+                Consumer(builder: (context, ref, child) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(profileControllerProvider)
+                          .dealerProfileUpdateController(data: {
+                        "latitude": position.latitude,
+                        "longitude": position.longitude
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.primaryColor),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    heightSizedBox(8.0),
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Age",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: ageController,
-                    ),
-                    heightSizedBox(8.0),
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Birthday",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: birthDayController,
-                    ),
-                    heightSizedBox(10.0),
-                  ],
-                );
-              }),
-            ],
-          );
-  }
+                  );
+                }),
+              ],
+            );
+          } else {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("Unexpected error occurred."),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Close"),
+                ),
+              ],
+            );
+          }
+        },
+      );
+    },
+  );
 }
 
-class GetOtherFamilyMember extends ConsumerWidget {
-  final List<dynamic> familyMembers;
+Future<Position> _determinePosition() async {
+  LocationPermission permission;
 
-  const GetOtherFamilyMember({
-    super.key,
-    required this.familyMembers,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return familyMembers.isEmpty
-        ? const SizedBox()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Other Family Members',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              heightSizedBox(10.0),
-              ...familyMembers.map((child) {
-                // Create a TextEditingController for each child
-                final nameController =
-                    TextEditingController(text: child['name']);
-                final relationController =
-                    TextEditingController(text: child['relation'].toString());
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Name",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: nameController,
-                    ),
-                    heightSizedBox(8.0),
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Relation",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: relationController,
-                    ),
-                    heightSizedBox(8.0),
-                  ],
-                );
-              }),
-            ],
-          );
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      throw Exception('Location permissions are denied.');
+    }
   }
-}
 
-class GetOtherImportantDates extends ConsumerWidget {
-  final List<dynamic> importantDates;
-
-  const GetOtherImportantDates({
-    super.key,
-    required this.importantDates,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return importantDates.isEmpty
-        ? const SizedBox()
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Other Important Family Dates',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              heightSizedBox(10.0),
-              ...importantDates.map((child) {
-                String formattedDate = child['date'] != null
-                    ? (child['date'] as String).split('T')[0]
-                    : '';
-
-                final descriptionController =
-                    TextEditingController(text: child['description']);
-                final dateController =
-                    TextEditingController(text: formattedDate);
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Description",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: descriptionController,
-                    ),
-                    heightSizedBox(8.0),
-                    TxtField(
-                      contentPadding: contentPadding,
-                      labelText: "Date",
-                      maxLines: 1,
-                      enabled: false,
-                      controller: dateController,
-                    ),
-                    heightSizedBox(8.0),
-                  ],
-                );
-              }),
-            ],
-          );
+  if (permission == LocationPermission.deniedForever) {
+    throw Exception('Location permissions are permanently denied.');
   }
-}
 
-class GetAnniversaryInfo extends ConsumerWidget {
-  final TextEditingController shopAnniversary;
-
-  const GetAnniversaryInfo({
-    super.key,
-    required this.shopAnniversary,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Anniversary Information',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        heightSizedBox(10.0),
-        TxtField(
-          contentPadding: contentPadding,
-          labelText: "Shop Anniversary",
-          maxLines: 1,
-          enabled: false,
-          controller: shopAnniversary,
-          keyboardType: TextInputType.name,
-          validator: validateField,
-        ),
-      ],
-    );
-  }
+  return await Geolocator.getCurrentPosition(
+    locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.best,
+      distanceFilter: 10,
+    ),
+  );
 }

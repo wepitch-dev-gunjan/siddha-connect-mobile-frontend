@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,11 +15,14 @@ class AttendenceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locationMessage = ref.watch(locationMessageProvider);
-    final address = ref.watch(addressProvider);
-    final isLoading = ref.watch(isLoadingProvider);
+   final getLetLong=ref.watch(coordinatesProvider);
+   final locationMessage = ref.watch(locationMessageProvider);
+   final address = ref.watch(addressProvider);
+   final isLoading = ref.watch(isLoadingProvider);
+
+    log("Latitude and Longitude $getLetLong");
     return Scaffold(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 10),

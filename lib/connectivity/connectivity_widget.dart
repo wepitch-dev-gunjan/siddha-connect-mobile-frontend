@@ -34,12 +34,18 @@ class ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.wifi_off,
-                        size: 80, color: AppColor.primaryColor),
+                    Icon(
+                      Icons.wifi_off,
+                      size: 80,
+                      color: AppColor.primaryColor,
+                    ),
                     SizedBox(height: 20),
                     Text(
                       'No Internet Connection',
-                      style: TextStyle(fontSize: 24, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -52,12 +58,18 @@ class ConnectivityNotifierState extends ConsumerState<ConnectivityNotifier> {
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(Icons.wifi_off, size: 25, color: Colors.white),
+                      const Icon(
+                        Icons.wifi_off,
+                        size: 25,
+                        color: Colors.white,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         'No Internet Connection',
                         style: GoogleFonts.lato(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),

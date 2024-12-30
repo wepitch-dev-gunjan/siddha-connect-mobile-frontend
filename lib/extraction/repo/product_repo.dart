@@ -9,7 +9,7 @@ final productRepoProvider =
     Provider.autoDispose((ref) => ProductRepo(ref: ref));
 
 class ProductRepo {
-  final AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   ProductRepo({required this.ref});
 
   getAllProducts({

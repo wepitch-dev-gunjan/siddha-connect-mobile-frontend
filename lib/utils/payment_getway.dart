@@ -10,7 +10,7 @@ final paymentProvider =
     Provider.autoDispose<PaymentGatway>((ref) => PaymentGatway(ref: ref));
 
 class PaymentGatway {
-  final AutoDisposeProviderRef<PaymentGatway> ref;
+  final Ref<PaymentGatway> ref;
   late Razorpay _razorpay;
   late BuildContext buildContext;
   double? totalAmmount;

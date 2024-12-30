@@ -14,7 +14,7 @@ final profileControllerProvider = Provider.autoDispose((ref) {
 });
 
 class ProfileController {
-  AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   final ProfileRepo profileRepo;
 
   ProfileController({required this.profileRepo, required this.ref});

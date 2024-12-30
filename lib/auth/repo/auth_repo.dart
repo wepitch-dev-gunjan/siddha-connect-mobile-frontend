@@ -11,7 +11,7 @@ import '../../utils/secure_storage.dart';
 final authRepoProvider = Provider.autoDispose((ref) => AuthRepo(ref));
 
 class AuthRepo {
-  final AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   AuthRepo(this.ref);
 
   userRegisterRepo({required Map data}) async {
@@ -51,7 +51,7 @@ class AuthRepo {
       final token =
           await ref.watch(secureStoargeProvider).readData('authToken');
       final response =
-          await ApiMethod(url: ApiUrl.isDealerVerified, token: token)
+          await ApiMethod(url: ApiUrl.isDealerVerified, token: "Bearer $token")
               .getDioRequest();
       return response;
     } catch (e) {

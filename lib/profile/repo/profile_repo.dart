@@ -10,7 +10,7 @@ final profileRepoProvider =
     Provider.autoDispose((ref) => ProfileRepo(ref: ref));
 
 class ProfileRepo {
-  final AutoDisposeProviderRef<Object?> ref;
+  final Ref ref;
   ProfileRepo({required this.ref});
 
   getProfile() async {
@@ -32,22 +32,22 @@ class ProfileRepo {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
 
       final response =
-          await ApiMethod(url: ApiUrl.getDealerProfile, token: token)
+          await ApiMethod(url: ApiUrl.getDealerProfile, token: "Bearer $token")
               .getDioRequest();
 
       // log("Profile=====>>>>>>>$response");
       return response;
     } catch (e) {
-       log(e.toString());
+      log(e.toString());
     }
   }
 
   dealerProfileUpdateRepo({required Map data}) async {
     try {
       final token = await ref.read(secureStoargeProvider).readData('authToken');
-      final response =
-          await ApiMethod(url: ApiUrl.dealerProfileUpdate, token: token)
-              .putDioRequest(data: data);
+      final response = await ApiMethod(
+              url: ApiUrl.dealerProfileUpdate, token: "Bearer $token")
+          .putDioRequest(data: data);
       // log("profileUpdateData$response");
       return response;
     } on DioException catch (e) {
@@ -61,5 +61,3 @@ final profileStatusControllerProvider = StateProvider.autoDispose((ref) async {
   final getprofileStatus = await ref.watch(profileRepoProvider).getProfile();
   return getprofileStatus;
 });
-
-
