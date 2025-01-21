@@ -1,24 +1,30 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:siddha_connect/attendence/geotag.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/cus_appbar.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import 'location_service.dart';
+
+final imageProvider = StateProvider<XFile?>((ref) => null);
 
 class AttendenceScreen extends ConsumerWidget {
   const AttendenceScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   final getLetLong=ref.watch(coordinatesProvider);
-   final locationMessage = ref.watch(locationMessageProvider);
-   final address = ref.watch(addressProvider);
-   final isLoading = ref.watch(isLoadingProvider);
+    final getLetLong = ref.watch(coordinatesProvider);
+    final locationMessage = ref.watch(locationMessageProvider);
+    final address = ref.watch(addressProvider);
+    final isLoading = ref.watch(isLoadingProvider);
+    final capturedImage = ref.watch(imageProvider);
 
     log("Latitude and Longitude $getLetLong");
     return Scaffold(
@@ -61,6 +67,7 @@ class AttendenceScreen extends ConsumerWidget {
                     : const SizedBox()
               ],
             ),
+           
           ],
         ),
       ),
@@ -70,16 +77,17 @@ class AttendenceScreen extends ConsumerWidget {
 }
 
 class PunchInButton extends ConsumerWidget {
-  const PunchInButton({
-    super.key,
-  });
+  const PunchInButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final capturedImage = ref.watch(imageProvider);
     return BottomAppBar(
       color: Colors.white,
       child: ElevatedButton(
         onPressed: () {
+          CameraHelper cameraHelper = CameraHelper();
+          cameraHelper.pickImage(context, ref);
           final locationService = LocationService(ref);
           locationService.getLocation();
         },
@@ -168,3 +176,56 @@ class MonthSelector extends ConsumerWidget {
     );
   }
 }
+
+
+
+// final pickedImageProvider = StateProvider<File?>((ref) => null);
+// class CameraHelper {
+//   final ImagePicker _picker = ImagePicker();
+
+//   Future<void> pickImage(BuildContext context, WidgetRef ref) async {
+//     try {
+//       final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+
+//       if (photo != null) {
+//         ref.read(imageProvider.notifier).state = photo;
+//         ref.read(pickedImageProvider.notifier).state = photo.path;
+//         log("Photo captured: ${photo.path}");
+//       } else {
+//         log("No photo was taken.");
+//       }
+//     } catch (e) {
+//       log("Error while picking image: $e");
+//     }
+//   }
+// }
+
+
+
+
+final pickedImageProvider = StateProvider<File?>((ref) => null);
+
+class CameraHelper {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> pickImage(BuildContext context, WidgetRef ref) async {
+    try {
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+
+      if (photo != null) {
+        // Store the XFile object in imageProvider
+        ref.read(imageProvider.notifier).state = photo;
+
+        // Convert photo.path (String) to File and store it in pickedImageProvider
+        ref.read(pickedImageProvider.notifier).state = File(photo.path);
+
+        log("Photo captured: ${photo.path}");
+      } else {
+        log("No photo was taken.");
+      }
+    } catch (e) {
+      log("Error while picking image: $e");
+    }
+  }
+}
+

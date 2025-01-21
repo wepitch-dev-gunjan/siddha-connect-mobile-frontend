@@ -172,4 +172,11 @@ class ApiUrl {
   static String getExtractionReportForAdmin =
       "$baseUrl/extraction/overview-for-admins";
   static String filters = "$baseUrl/extraction/unique-column-values?column=";
+
+  //======================! GeoTagging URL !===========================
+
+  static String updateDealerGeoTagForEmployee =
+      "$baseUrl/updateDealerGeoTagForEmployee";
+      static String getUpdatedGeoTagForEmployee =
+      "$baseUrl/getUpdatedGeoTagForEmployee";
 }

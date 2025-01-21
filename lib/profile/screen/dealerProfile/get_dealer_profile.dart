@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:siddha_connect/attendence/attendence_screen.dart';
 import 'package:siddha_connect/profile/repo/profile_repo.dart';
-import 'package:siddha_connect/utils/fields.dart';
-import 'package:siddha_connect/utils/message.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import 'package:siddha_connect/utils/sizes.dart';
 import '../../../attendence/location_service.dart';
@@ -176,7 +174,7 @@ class ProfileScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _showGeotagDialog(context);
+          showGeotagDialog(context);
         },
         label: const Text(
           "Geotag Me!",
@@ -194,7 +192,106 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-Future<void> _showGeotagDialog(BuildContext context) async {
+// Future<void> _showGeotagDialog(BuildContext context) async {
+//   showDialog(
+//     context: context,
+//     barrierDismissible: false, // Prevent closing by tapping outside
+//     builder: (BuildContext context) {
+//       return FutureBuilder<Position>(
+//         future: _determinePosition(),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return AlertDialog(
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(11)),
+//               title: const Text("Fetching Location"),
+//               content: const SizedBox(
+//                 height: 50,
+//                 child: Center(
+//                     child: SpinKitCircle(
+//                   color: AppColor.primaryColor,
+//                 )),
+//               ),
+//             );
+//           } else if (snapshot.hasError) {
+//             return AlertDialog(
+//               title: const Text("Error"),
+//               content: Text("Failed to get location: ${snapshot.error}"),
+//               actions: [
+//                 TextButton(
+//                   onPressed: () => Navigator.pop(context),
+//                   child: const Text("Close"),
+//                 ),
+//               ],
+//             );
+//           } else if (snapshot.hasData) {
+//             final position = snapshot.data!;
+//             return AlertDialog(
+//               title: const Text("Your Location"),
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(11)),
+//               content: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     "Latitude: ${position.latitude}",
+//                     style: const TextStyle(fontSize: 16),
+//                   ),
+//                   Text(
+//                     "Longitude: ${position.longitude}",
+//                     style: const TextStyle(fontSize: 16),
+//                   ),
+//                 ],
+//               ),
+//               actions: [
+//                 TextButton(
+//                     onPressed: () {
+//                       navigationPop();
+//                     },
+//                     child: const Text(
+//                       "Cancel",
+//                       style: TextStyle(color: Colors.black),
+//                     )),
+//                 Consumer(builder: (context, ref, child) {
+//                   return ElevatedButton(
+//                     onPressed: () {
+//                       ref
+//                           .read(profileControllerProvider)
+//                           .dealerProfileUpdateController(data: {
+//                         "latitude": position.latitude,
+//                         "longitude": position.longitude
+//                       });
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                         backgroundColor: AppColor.primaryColor),
+//                     child: const Text(
+//                       "Submit",
+//                       style: TextStyle(color: Colors.white),
+//                     ),
+//                   );
+//                 }),
+//               ],
+//             );
+//           } else {
+//             return AlertDialog(
+//               title: const Text("Error"),
+//               content: const Text("Unexpected error occurred."),
+//               actions: [
+//                 TextButton(
+//                   onPressed: () => Navigator.pop(context),
+//                   child: const Text("Close"),
+//                 ),
+//               ],
+//             );
+//           }
+//         },
+//       );
+//     },
+//   );
+// }
+
+Future<void> showGeotagDialog(BuildContext context) async {
   showDialog(
     context: context,
     barrierDismissible: false, // Prevent closing by tapping outside
@@ -218,6 +315,8 @@ Future<void> _showGeotagDialog(BuildContext context) async {
           } else if (snapshot.hasError) {
             return AlertDialog(
               title: const Text("Error"),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(11)),
               content: Text("Failed to get location: ${snapshot.error}"),
               actions: [
                 TextButton(
@@ -228,52 +327,101 @@ Future<void> _showGeotagDialog(BuildContext context) async {
             );
           } else if (snapshot.hasData) {
             final position = snapshot.data!;
-            return AlertDialog(
-              title: const Text("Your Location"),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(11)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Latitude: ${position.latitude}",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    "Longitude: ${position.longitude}",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      navigationPop();
-                    },
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.black),
+            return FutureBuilder<List>(
+              future: placemarkFromCoordinates(
+                  position.latitude, position.longitude),
+              builder: (context, placeSnapshot) {
+                if (placeSnapshot.connectionState == ConnectionState.waiting) {
+                  return AlertDialog(
+                    title: const Text("Fetching Address"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(11)),
+                    content: const Center(
+                        child: SpinKitCircle(
+                      color: AppColor.primaryColor,
                     )),
-                Consumer(builder: (context, ref, child) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      ref
-                          .read(profileControllerProvider)
-                          .dealerProfileUpdateController(data: {
-                        "latitude": position.latitude,
-                        "longitude": position.longitude
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.primaryColor),
-                    child: const Text(
-                      "Submit",
-                      style: TextStyle(color: Colors.white),
-                    ),
                   );
-                }),
-              ],
+                } else if (placeSnapshot.hasError) {
+                  return AlertDialog(
+                    title: const Text("Error"),
+                    content:
+                        Text("Failed to get address: ${placeSnapshot.error}"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Close"),
+                      ),
+                    ],
+                  );
+                } else if (placeSnapshot.hasData) {
+                  final placemarks = placeSnapshot.data!;
+                  final address =
+                      "${placemarks[1].name}, ${placemarks[1].subThoroughfare}, ${placemarks[1].thoroughfare}, ${placemarks[1].subLocality}, ${placemarks[1].locality}, ${placemarks[1].administrativeArea}, ${placemarks[1].postalCode}, ${placemarks[1].country}";
+                  return AlertDialog(
+                    title: const Text("Your Location"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(11)),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(
+                        //   "Latitude: ${position.latitude}",
+                        //   style: const TextStyle(fontSize: 16),
+                        // ),
+                        // Text(
+                        //   "Longitude: ${position.longitude}",
+                        //   style: const TextStyle(fontSize: 16),
+                        // ),
+                        // const SizedBox(height: 8),
+                        Text(
+                          "Address: $address",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      Consumer(builder: (context, ref, child) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            ref
+                                .read(profileControllerProvider)
+                                .dealerProfileUpdateController(data: {
+                              "latitude": position.latitude,
+                              "longitude": position.longitude,
+                              "address": address,
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.primaryColor),
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      }),
+                    ],
+                  );
+                } else {
+                  return AlertDialog(
+                    title: const Text("Error"),
+                    content: const Text("Unexpected error occurred."),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Close"),
+                      ),
+                    ],
+                  );
+                }
+              },
             );
           } else {
             return AlertDialog(

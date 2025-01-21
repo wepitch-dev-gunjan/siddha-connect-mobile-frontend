@@ -31,6 +31,7 @@ class AuthRepo {
 
       return response;
     } on DioException catch (e) {
+      log("Error ${e.toString}");
       showSnackBarMsg("${e.response!.data['error']}", color: Colors.red);
     }
   }

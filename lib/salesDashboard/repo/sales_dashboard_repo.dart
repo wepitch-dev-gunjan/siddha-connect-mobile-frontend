@@ -322,7 +322,7 @@ class SalesDashboardRepo {
           startDate, endDate, dataFormat, dealerCategory, tdFormat);
       log("URl:$url");
       final response =
-          await ApiMethod(url: url, token: "Bearer $token").getDioRequest();
+          await ApiMethod(url: url, token: "$token").getDioRequest();
       return response;
     } catch (e) {
       log(e.toString());

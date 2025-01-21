@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -206,8 +207,6 @@ class LocationService {
     }
   }
 
-
-
   Future<void> _getAddressFromLatLng(double latitude, double longitude) async {
     try {
       List<Placemark> placemarks =
@@ -215,7 +214,7 @@ class LocationService {
       if (placemarks.isNotEmpty) {
         Placemark place1 =
             placemarks.length > 1 ? placemarks[1] : const Placemark();
-
+        log("placemark${placemarks[0]}");
         // Helper function to check and add non-empty fields
         String formatAddress(List<String?> fields) {
           return fields

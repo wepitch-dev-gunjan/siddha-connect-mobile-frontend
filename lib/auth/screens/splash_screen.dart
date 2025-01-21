@@ -54,12 +54,10 @@ final checkAuthorizeProvider = FutureProvider.autoDispose((ref) async {
     log("Welcome To SIDDHA");
     String? isLogin = await secureStorage.readData('authToken');
     log("Chack isLogin");
-
     if (isLogin != null && isLogin.isNotEmpty) {
       try {
         final profileStatus = await ref.watch(profileStatusControllerProvider);
         log("Run Profile Status");
-
         if (profileStatus.containsKey('error') &&
             profileStatus['error'] == 'User not authorized') {
           final dealerStatus = await ref.watch(isDealerVerifiedProvider);
