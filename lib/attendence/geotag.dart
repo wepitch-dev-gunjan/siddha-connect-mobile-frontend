@@ -249,8 +249,6 @@ final isImageLoadingProvider = StateProvider<bool>((ref) => false);
 //   }
 // }
 
-
-
 class SubmitButton extends ConsumerWidget {
   final double latitude, longitude;
 
@@ -320,7 +318,11 @@ class SubmitButton extends ConsumerWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.camera_alt),
+                  const Icon(
+                    Icons.camera_alt,
+                    size: 22,
+                    color: Colors.white,
+                  ),
                   widthSizedBox(8.0),
                   Text(
                     capturedImage == null ? 'Take a Picture' : 'Submit',

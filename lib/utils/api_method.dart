@@ -20,7 +20,7 @@ class ApiMethod {
       if (token != null) {
         headers['Authorization'] = "$token";
       }
-      log("Filters$queryParams");
+     
       Response response = await dio.get(url,
           options: Options(headers: headers), data: queryParams);
       if (response.statusCode == 200) {

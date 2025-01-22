@@ -25,7 +25,6 @@ class AttendenceRepo {
                   "${ApiUrl.getUpdatedGeoTagForEmployee}?dealerCode=$dealerCode")
           .getDioRequest();
 
-      log("getGeoTagInfomation=====>>>>>>>$response");
       return response;
     } catch (e) {
       log(e.toString());
@@ -53,13 +52,9 @@ class AttendenceRepo {
   // }
 
   Future<void> dealerGeoTag({required Map<String, dynamic> data}) async {
-    log("Data123====>>>>!!!!!!!!!$data");
 
     try {
-      // Extract the image file path
       final String? imagePath = data['geotag_picture'];
-
-      // Create FormData and include the image if the path is not null
       FormData formData = FormData.fromMap({
         ...data,
         if (imagePath != null && imagePath.isNotEmpty)
@@ -84,8 +79,6 @@ class AttendenceRepo {
       } else {
         showSnackBarMsg("Something went wrong");
       }
-
-      log("Profile123456=====>>>>>>>$response");
       return response;
     } catch (e) {
       log("Error: $e");
