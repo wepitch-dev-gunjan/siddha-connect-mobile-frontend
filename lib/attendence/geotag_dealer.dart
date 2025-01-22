@@ -26,7 +26,6 @@ class GeoTagDealerScreen extends ConsumerWidget {
     final selectedDealer = ref.watch(selectedDealerProvider);
     final capturedImage = ref.watch(imageProvider);
 
-    log("Latitude and Longitude ${getLetLong['latitude'].runtimeType}");
     return dealerList.when(
       data: (data) {
         return Scaffold(

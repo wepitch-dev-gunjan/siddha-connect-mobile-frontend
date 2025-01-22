@@ -25,7 +25,6 @@ class AttendenceScreen extends ConsumerWidget {
     final isLoading = ref.watch(isLoadingProvider);
     final capturedImage = ref.watch(imageProvider);
 
-    log("Latitude and Longitude $getLetLong");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
@@ -41,10 +40,6 @@ class AttendenceScreen extends ConsumerWidget {
             ),
             heightSizedBox(10.0),
             const MonthSelector(),
-            // Text(
-            //   locationMessage,
-            //   textAlign: TextAlign.center,
-            // ),
             const SizedBox(height: 20),
             Row(
               children: [

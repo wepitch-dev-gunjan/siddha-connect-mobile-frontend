@@ -69,7 +69,7 @@ class AttendenceRepo {
       final response =
           await ApiMethod(url: ApiUrl.updateDealerGeoTagForEmployee)
               .putDioFormData(data: formData);
-
+      log("ImageUpload$response");
       // Handle response
       if (response['success'] == true) {
         ref.read(isImageLoadingProvider.notifier).state = false;

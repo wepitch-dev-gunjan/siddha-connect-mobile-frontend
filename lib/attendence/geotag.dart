@@ -75,11 +75,13 @@ class GeoTagScreen extends ConsumerWidget {
                         ],
                       ),
                 capturedImage != null
-                    ? Image.file(
-                        File(capturedImage.path),
-                        height: 200,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                    ? Expanded(
+                        child: Image.file(
+                          File(capturedImage.path),
+                          // height: 200,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       )
                     : const Center(
                         child: Text(
