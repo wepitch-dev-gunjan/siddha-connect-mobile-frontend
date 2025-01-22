@@ -61,7 +61,6 @@ class AttendenceScreen extends ConsumerWidget {
                     : const SizedBox()
               ],
             ),
-           
           ],
         ),
       ),
@@ -80,8 +79,8 @@ class PunchInButton extends ConsumerWidget {
       color: Colors.white,
       child: ElevatedButton(
         onPressed: () {
-          CameraHelper cameraHelper = CameraHelper();
-          cameraHelper.pickImage(context, ref);
+          // CameraHelper cameraHelper = CameraHelper();
+          // cameraHelper.pickImage(context, ref);
           final locationService = LocationService(ref);
           locationService.getLocation();
         },
@@ -171,32 +170,6 @@ class MonthSelector extends ConsumerWidget {
   }
 }
 
-
-
-// final pickedImageProvider = StateProvider<File?>((ref) => null);
-// class CameraHelper {
-//   final ImagePicker _picker = ImagePicker();
-
-//   Future<void> pickImage(BuildContext context, WidgetRef ref) async {
-//     try {
-//       final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
-
-//       if (photo != null) {
-//         ref.read(imageProvider.notifier).state = photo;
-//         ref.read(pickedImageProvider.notifier).state = photo.path;
-//         log("Photo captured: ${photo.path}");
-//       } else {
-//         log("No photo was taken.");
-//       }
-//     } catch (e) {
-//       log("Error while picking image: $e");
-//     }
-//   }
-// }
-
-
-
-
 final pickedImageProvider = StateProvider<File?>((ref) => null);
 
 class CameraHelper {
@@ -222,4 +195,3 @@ class CameraHelper {
     }
   }
 }
-
