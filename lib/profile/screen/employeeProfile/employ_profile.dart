@@ -4,14 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siddha_connect/attendence/geotag.dart';
-import 'package:siddha_connect/extraction/screens/data_upload_form.dart';
 import 'package:siddha_connect/utils/common_style.dart';
 import 'package:siddha_connect/utils/navigation.dart';
 import '../../../attendence/location_service.dart';
 import '../../../utils/drawer.dart';
 import '../../../utils/fields.dart';
 import '../../../utils/sizes.dart';
-import '../dealerProfile/get_dealer_profile.dart';
 
 class EmployProfile extends ConsumerWidget {
   const EmployProfile({super.key});

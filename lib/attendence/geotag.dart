@@ -1,12 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:siddha_connect/attendence/repo/attendence_repo.dart';
 import '../extraction/components/dealer_dropdown.dart';
 import '../extraction/screens/data_upload_form.dart';
